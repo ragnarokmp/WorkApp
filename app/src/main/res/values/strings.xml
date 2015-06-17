@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">WorkApp</string>
+
+    <!-- Navigation drawer element-->
+    <string name="workout">Workout</string>
+    <string name="exercises">Exercises</string>
+    <string name="about">About</string>
+    <string name="settings">Settings</string>
+    <string name="info">Info</string>
+
+</resources>

@@ -1,0 +1,36 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/first_menu"
+        android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/drawer_workout"
+            android:checked="true"
+            android:icon="@drawable/ic_action_home"
+            android:title="@string/workout"/>
+
+        <item
+            android:id="@+id/drawer_exercises"
+            android:checked="true"
+            android:icon="@drawable/ic_action_home"
+            android:title="@string/exercises"/>
+    </group>
+    <group
+        android:id="@+id/second_menu">
+        <item
+            android:id="@+id/drawer_about"
+            android:icon="@drawable/ic_action_help"
+            android:title="@string/about"/>
+
+        <item
+            android:id="@+id/drawer_settings"
+            android:icon="@drawable/ic_action_settings"
+            android:title="@string/settings"/>
+
+        <item
+            android:id="@+id/drawer_info"
+            android:icon="@drawable/ic_action_info_outline"
+            android:title="@string/info"/>
+    </group>
+</menu>
