@@ -98,4 +98,5 @@ public class Exercise {
         return usedWeight;
     }
 
+    //TODO create user exercise from this one
 }
