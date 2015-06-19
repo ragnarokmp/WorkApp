@@ -1,24 +1,23 @@
 package it.mobileprogramming.ragnarok.workapp;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBar;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.support.v4.widget.DrawerLayout;
 
-import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
+import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
 
-public class MainActivity extends BaseActivity implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener {
 
-    private ActionBar actionBar;
-    private DrawerLayout drawerLayout;
-    private View content;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 
     @Override
     protected int getLayoutResourceId() {
@@ -26,31 +25,18 @@ public class MainActivity extends BaseActivity implements WorkoutFragment.OnFrag
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        initToolbar();
-        setupDrawerLayout();
-
-        content = findViewById(R.id.content);
+    protected int getNavigationMenu() {
+        return R.menu.drawer;
     }
 
-    private void initToolbar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
-
-        if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_action_menu);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+    @Override
+    protected int getHeaderView() {
+        return R.layout.drawer_header;
     }
 
-    private void setupDrawerLayout() {
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        NavigationView view = (NavigationView) findViewById(R.id.navigation_view);
-        view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+    @Override
+    protected NavigationView.OnNavigationItemSelectedListener getNavigationListener() {
+        return new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
                 Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show();
@@ -98,13 +84,17 @@ public class MainActivity extends BaseActivity implements WorkoutFragment.OnFrag
                         transaction.commit();
                         break;
                     case R.id.drawer_about:
-                        //TODO: open new activity
+                        Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.drawer_settings:
-                        //TODO: open new activity
+                        //TODO not working
+                        //intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                        //startActivity(intent);
                         break;
                     case R.id.drawer_info:
-                        //TODO: open new activity
+                        intent = new Intent(getApplicationContext(), InfoActivity.class);
+                        startActivity(intent);
                         break;
                     default:
                         break;
@@ -112,18 +102,7 @@ public class MainActivity extends BaseActivity implements WorkoutFragment.OnFrag
 
                 return true;
             }
-        });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        };
     }
 
     @Override

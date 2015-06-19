@@ -10,6 +10,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:text="@string/workout" />
+        android:text="@string/workout"
+        android:id="@+id/textView"
+        android:layout_centerInParent="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/workout"
+        android:id="@+id/workout_button"
+        android:layout_below="@+id/textView"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

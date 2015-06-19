@@ -1,19 +1,25 @@
 package it.mobileprogramming.ragnarok.workapp.util;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import it.mobileprogramming.ragnarok.workapp.BuildConfig;
+import it.mobileprogramming.ragnarok.workapp.R;
 
 /**
- * Base actionbar activity with logging.
+ * Base App Compact Activity with logging and Action Bar from Toolbar.
  * @author pincopallino93
- * @version 1.1
+ * @version 1.2
  */
 public abstract class BaseActivity extends AppCompatActivity {
 
-    public final String TAG = getTagLog();
+    protected final String TAG = getTagLog();
+    protected ActionBar actionBar;
+    protected View content;
 
     public String getTagLog() {
         return getClass().getCanonicalName();
@@ -30,7 +36,21 @@ public abstract class BaseActivity extends AppCompatActivity {
         // Set context for usage in generic class outside Android
         Util.setContext(this);
 
+        initToolbar();
+
+        content = findViewById(R.id.content);
+
         if (BuildConfig.DEBUG) Log.v(TAG, "onCreate");
+    }
+
+    private void initToolbar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     @Override

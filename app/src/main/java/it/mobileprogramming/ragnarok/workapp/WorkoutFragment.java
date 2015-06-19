@@ -1,9 +1,14 @@
 package it.mobileprogramming.ragnarok.workapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 
 import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
 
@@ -53,6 +58,21 @@ public class WorkoutFragment extends BaseFragment {
     @Override
     protected int getLayoutResourceId() {
         return R.layout.fragment_workout;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+
+        Button workoutButton = (Button) view.findViewById(R.id.workout_button);
+        workoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
+                startActivity(intent);
+            }
+        });
+        return view;
     }
 
     @Override
