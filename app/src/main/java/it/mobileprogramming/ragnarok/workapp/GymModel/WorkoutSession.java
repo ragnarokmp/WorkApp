@@ -36,5 +36,15 @@ public class WorkoutSession {
         this.workoutSessionSerializer = workoutSessionSerializer;
     }
 
-    //TODO create user workout session from this session
+    @Override
+    public String toString() {
+        return "WorkoutSession{" +
+                "exercisesOfSession=" + exercisesOfSession +
+                ", id=" + id +
+                ", progressive=" + progressive +
+                ", filepath='" + filepath + '\'' +
+                ", workoutSessionSerializer=" + workoutSessionSerializer +
+                '}';
+    }
+//TODO create user workout session from this session
 }
