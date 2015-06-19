@@ -35,4 +35,6 @@ public class WorkoutSession {
         this.progressive = progressive;
         this.workoutSessionSerializer = workoutSessionSerializer;
     }
+
+    //TODO create user workout session from this session
 }

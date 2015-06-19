@@ -8,7 +8,7 @@ public class User {
     private String strPwdHash;
     private String strName;
     private String strSurname;
-    private int    intSex;
+    private int    intGender;
     private Date dateBirth;
     private ArrayList<WeightItem>   weightHistory;
     private ArrayList<Workout>      workoutHistory;
@@ -17,7 +17,7 @@ public class User {
     public User(String name,String surname,int sex,Date birthDate,String password,UserSerializer aSerializer){
         this.strName        =   name;
         this.strSurname     =   surname;
-        this.intSex         =   sex;
+        this.intGender         =   sex;
         this.dateBirth      =   birthDate;
         this.strPwdHash     =   hashAndSalt(password);
         this.usSerializer   =   aSerializer;
@@ -31,10 +31,10 @@ public class User {
         return "example";
     }
 
-    public User(int uId, String name,String surname,int sex,Date birthDate,String pwdHash,UserSerializer aSerializer){
+    public User(int uId, String name,String surname,int gender,Date birthDate,String pwdHash,UserSerializer aSerializer){
         this.strName        =   name;
         this.strSurname     =   surname;
-        this.intSex         =   sex;
+        this.intGender      =   gender;
         this.dateBirth      =   birthDate;
         this.usSerializer   =   aSerializer;
         this.weightHistory  =   new ArrayList<WeightItem>();
@@ -49,7 +49,7 @@ public class User {
     }
 
     public int getIntSex() {
-        return intSex;
+        return intGender;
     }
 
     public int getIntUserID() {

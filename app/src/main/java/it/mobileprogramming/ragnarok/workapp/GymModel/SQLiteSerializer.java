@@ -1,11 +1,13 @@
 package it.mobileprogramming.ragnarok.workapp.GymModel;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by paride on 18/06/15.
  */
 public class SQLiteSerializer implements ExerciseSerializer,UserSerializer,WorkoutSerializer,WorkoutSessionSerializer {
+
     @Override
     public int createNewExercise(String usedWeight, int series, int repetition, int frequency, int recovery, String name) {
         return 0;
@@ -19,6 +21,11 @@ public class SQLiteSerializer implements ExerciseSerializer,UserSerializer,Worko
     @Override
     public void updateExercise(int id, String usedWeight, int series, int repetition, int frequency, int recovery, String name) {
 
+    }
+
+    @Override
+    public ArrayList<Exercise> loadAll() {
+        return null;
     }
 
     @Override
@@ -79,5 +86,35 @@ public class SQLiteSerializer implements ExerciseSerializer,UserSerializer,Worko
     @Override
     public Workout updateWorkout(int id, String name, String type, String difficulty) {
         return null;
+    }
+
+    @Override
+    public ArrayList<Workout> loadAllWorkouts() {
+        return null;
+    }
+
+    @Override
+    public int createNewWorkoutSession(int id, int progressive, String filepath) {
+        return 0;
+    }
+
+    @Override
+    public WorkoutSession loadWorkoutSession(int id) {
+        return null;
+    }
+
+    @Override
+    public void deleteWorkoutSession(int id) {
+
+    }
+
+    @Override
+    public void updateWorkout(int id, int progressive, String photopath) {
+
+    }
+
+    @Override
+    public void addExerciseForWorkoutSession(int intIDSession, int intIDExercise) {
+
     }
 }

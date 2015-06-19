@@ -8,4 +8,5 @@ public interface WorkoutSessionSerializer {
     public WorkoutSession loadWorkoutSession(int id);
     public void deleteWorkoutSession (int id);
     public void updateWorkout(int id,int progressive,String photopath);
+    public void addExerciseForWorkoutSession(int intIDSession, int intIDExercise);
 }
