@@ -54,4 +54,14 @@ public class UserWorkoutSession extends WorkoutSession{
         return wsaSession;
     }
 
+    @Override
+    public String toString() {
+        return "UserWorkoutSession{" +
+                "dateSessionDate=" + dateSessionDate +
+                ", wsaSession=" + wsaSession +
+                ", strComment='" + strComment + '\'' +
+                ", usrSessionUser=" + usrSessionUser +
+                ", sessionID=" + sessionID +
+                '}';
+    }
 }

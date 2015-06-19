@@ -99,4 +99,19 @@ public class User {
         this.usSerializer.removeWorkoutForUser(this.intUserID, anItem.getIntWOID());
         this.weightHistory.remove(anItem);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "dateBirth=" + dateBirth +
+                ", intUserID=" + intUserID +
+                ", strPwdHash='" + strPwdHash + '\'' +
+                ", strName='" + strName + '\'' +
+                ", strSurname='" + strSurname + '\'' +
+                ", intGender=" + intGender +
+                ", weightHistory=" + weightHistory +
+                ", workoutHistory=" + workoutHistory +
+                ", usSerializer=" + usSerializer +
+                '}';
+    }
 }

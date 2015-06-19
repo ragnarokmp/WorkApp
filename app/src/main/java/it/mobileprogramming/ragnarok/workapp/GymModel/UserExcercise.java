@@ -48,4 +48,14 @@ public class UserExcercise extends Exercise{
     public void setDone(boolean done) {
         this.done = done;
     }
+
+    @Override
+    public String toString() {
+        return "UserExcercise{" +
+                "anExercise=" + anExercise +
+                ", mySession=" + mySession +
+                ", done=" + done +
+                ", comment='" + comment + '\'' +
+                '}';
+    }
 }

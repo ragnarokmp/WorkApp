@@ -33,4 +33,16 @@ public class Workout {
     public String getType() {
         return type+"";
     }
+
+    @Override
+    public String toString() {
+        return "Workout{" +
+                "difficulty='" + difficulty + '\'' +
+                ", intWOID=" + intWOID +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", woSerializer=" + woSerializer +
+                ", woSessions=" + woSessions +
+                '}';
+    }
 }

@@ -98,5 +98,20 @@ public class Exercise {
         return usedWeight;
     }
 
+    @Override
+    public String toString() {
+        return "Exercise{" +
+                "aSerializer=" + aSerializer +
+                ", intExId=" + intExId +
+                ", usedWeight='" + usedWeight + '\'' +
+                ", series=" + series +
+                ", repetition=" + repetition +
+                ", frequency=" + frequency +
+                ", recovery=" + recovery +
+                ", name='" + name + '\'' +
+                ", completed=" + completed +
+                '}';
+    }
+
     //TODO create user exercise from this one
 }
