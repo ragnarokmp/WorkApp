@@ -19,9 +19,15 @@ public class TestTask extends AsyncTask {
         System.out.println("Hello, i'm a testing Asynctask!");
         SQLiteSerializer    sqLiteSerializer    =   new SQLiteSerializer(this.myContext,"workapp.db");
         sqLiteSerializer.open();
+        System.out.println("LOADING USERS");
         sqLiteSerializer.getAllUsers();
-        sqLiteSerializer.createNewUser("Francesco","Totti","AS Roma",0,Singletons.formatFromString("27/09/1976"));
+        System.out.println("NEW USER");
+        sqLiteSerializer.createNewUser("Francesco", "Totti", "AS Roma", 0, Singletons.formatFromString("27/09/1976"));
         sqLiteSerializer.getAllUsers();
+        for(int i=2;i<129;i++){
+            sqLiteSerializer.deleteWorkout(i);
+        }
+        sqLiteSerializer.loadAllWorkouts(false);
         return null;
     }
 }

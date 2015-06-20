@@ -10,6 +10,7 @@ public class Exercise {
     private String  name;
     private ExerciseSerializer aSerializer;
     private boolean completed   =   false;
+    private String  muscles;
 
     /**
      * constructor for a new User, saves also to DB don't use this for DB loaded users
@@ -21,7 +22,7 @@ public class Exercise {
      * @param series        number of series
      * @param usedWeight    value of the weight used
      */
-    public Exercise(ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight) {
+    public Exercise(ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight,String muscles) {
         this.aSerializer = aSerializer;
         this.frequency = frequency;
         this.name = name;
@@ -29,8 +30,9 @@ public class Exercise {
         this.repetition = repetition;
         this.series = series;
         this.usedWeight = usedWeight;
-        this.intExId    =   this.aSerializer.createNewExercise(usedWeight,series,repetition,frequency,recovery,name);
+        this.intExId    =   this.aSerializer.createNewExercise(series,repetition,frequency,recovery,name,muscles);
         this.completed  =   false;
+        this.muscles    =   muscles;
     }
 
     /**
@@ -44,7 +46,7 @@ public class Exercise {
      * @param series
      * @param usedWeight
      */
-    public Exercise(int eid,ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight,boolean completed) {
+    public Exercise(int eid,ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight,boolean completed,String muscles) {
         this.aSerializer = aSerializer;
         this.frequency = frequency;
         this.name = name;
@@ -54,6 +56,7 @@ public class Exercise {
         this.usedWeight = usedWeight;
         this.intExId    =  eid;
         this.completed  =   completed;
+        this.muscles    =   muscles;
     }
 
     /**

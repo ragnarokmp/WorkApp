@@ -18,6 +18,14 @@ public class Workout {
         this.intWOID        =   aserializer.createNewWorkout(name,type,difficulty);
     }
 
+    public Workout(int id, String name,String type,String difficulty,WorkoutSerializer aserializer){
+        this.name           =   name;
+        this.type           =   type;
+        this.difficulty     =   difficulty;
+        this.woSerializer   =   aserializer;
+        this.intWOID        =   id;
+    }
+
     public int getIntWOID() {
         return intWOID;
     }
