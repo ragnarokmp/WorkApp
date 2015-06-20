@@ -23,7 +23,7 @@ public class User {
         this.usSerializer   =   aSerializer;
         this.weightHistory  =   new ArrayList<WeightItem>();
         this.workoutHistory =   new ArrayList<Workout>();
-        this.intUserID  =   aSerializer.createNewUser(name,surname,sex,birthDate);
+        this.intUserID  =   aSerializer.createNewUser(name,surname,this.strPwdHash,sex,birthDate);
     }
 
     //TODO hash and salt password

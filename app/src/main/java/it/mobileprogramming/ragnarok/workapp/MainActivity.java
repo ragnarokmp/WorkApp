@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.widget.DrawerLayout;
 
+import it.mobileprogramming.ragnarok.workapp.GymModel.TestTask;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
 
 public class MainActivity extends BaseActivity implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener {
@@ -28,6 +29,12 @@ public class MainActivity extends BaseActivity implements WorkoutFragment.OnFrag
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //TODO remove in final commit
+        //testing task
+        TestTask testing    =   new TestTask(this.getApplicationContext());
+        testing.execute();
+        //end testing task
 
         initToolbar();
         setupDrawerLayout();

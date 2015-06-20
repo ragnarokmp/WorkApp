@@ -13,13 +13,13 @@ public class Exercise {
 
     /**
      * constructor for a new User, saves also to DB don't use this for DB loaded users
-     * @param aSerializer
-     * @param frequency
-     * @param name
-     * @param recovery
-     * @param repetition
-     * @param series
-     * @param usedWeight
+     * @param aSerializer   object saving with persistence an exercise
+     * @param frequency     frequency of the exercise (hz)
+     * @param name          name of the exercise
+     * @param recovery      recovery time
+     * @param repetition    number of repetitions
+     * @param series        number of series
+     * @param usedWeight    value of the weight used
      */
     public Exercise(ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight) {
         this.aSerializer = aSerializer;
@@ -58,7 +58,7 @@ public class Exercise {
 
     /**
      * returns the execise frequency in hz
-     * @return
+     * @return frequency
      */
     public int getFrequency() {
         return frequency;
@@ -76,7 +76,7 @@ public class Exercise {
 
     /**
      * returns the exercise name
-     * @return
+     * @return returns the name of the exercise
      */
     public String getName() {
         return name;
