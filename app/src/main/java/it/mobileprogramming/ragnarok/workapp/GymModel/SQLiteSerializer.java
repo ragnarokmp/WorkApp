@@ -125,6 +125,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         Date    ubirth      =   Singletons.formatFromString(result.getString(result.getColumnIndex(this.User_BirthDate_column)));
         User    anUser      =   new User(uid,uname,usurname,ugender,ubirth,upassword,this);
         //TODO load data for lists
+        
         return  anUser;
     }
 
