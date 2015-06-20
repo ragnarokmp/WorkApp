@@ -10,7 +10,8 @@ import android.support.v4.view.GravityCompat;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.TestTask;
+import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
 
 public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener {
 
@@ -20,6 +21,11 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
 
         // Set the WorkoutFragment
         setFragment(TypeFragment.Workout);
+        //TODO remove in final commit
+        //testing task
+        TestTask testing    =   new TestTask(this.getApplicationContext());
+        testing.execute();
+        //end testing task
     }
 
     @Override
