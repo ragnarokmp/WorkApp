@@ -17,15 +17,25 @@ import it.mobileprogramming.ragnarok.workapp.BuildConfig;
  * @version 1.1
  */
 public abstract class BaseFragment extends Fragment {
+    /**
+     * The TAG used for logging.
+     */
+    public final String TAG = getClass().getCanonicalName();
 
-    public final String TAG = getTagLog();
+    /**
+     * The context fetched form the Activity.
+     */
     public Context context;
+
+    /**
+     * The main content.
+     */
     public View view;
 
-    public String getTagLog() {
-        return getClass().getCanonicalName();
-    }
-
+    /**
+     * Abstract method used in order to return the layout of the Activity.
+     * @return the resource ID of the layout to set.
+     */
     protected abstract int getLayoutResourceId();
 
     @Override
@@ -42,6 +52,7 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
+        // Inflate layout passed through the abstract method
         view = inflater.inflate(getLayoutResourceId(), container, false);
 
         if (BuildConfig.DEBUG) Log.v(TAG, "onCreateView");

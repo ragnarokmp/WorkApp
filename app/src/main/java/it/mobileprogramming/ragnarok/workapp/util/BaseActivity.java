@@ -16,39 +16,58 @@ import it.mobileprogramming.ragnarok.workapp.R;
  * @version 1.2
  */
 public abstract class BaseActivity extends AppCompatActivity {
+    /**
+     * The TAG used for logging.
+     */
+    protected final String TAG = getClass().getCanonicalName();
 
-    protected final String TAG = getTagLog();
+    /**
+     * The Action Bar.
+     */
     protected ActionBar actionBar;
+
+    /**
+     * The main content.
+     */
     protected View content;
 
-    public String getTagLog() {
-        return getClass().getCanonicalName();
-    }
-
+    /**
+     * Abstract method used in order to return the layout of the Activity.
+     * @return the resource ID of the layout to set.
+     */
     protected abstract int getLayoutResourceId();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set content view using the view passed from abstract method
         setContentView(getLayoutResourceId());
 
         // Set context for usage in generic class outside Android
         Util.setContext(this);
 
+        // Init toolbar
         initToolbar();
 
+        // Get content in order to make easier use after
         content = findViewById(R.id.content);
 
         if (BuildConfig.DEBUG) Log.v(TAG, "onCreate");
     }
 
+    /**
+     * This method initializes a Toolbar in order to use such a ActionBar.
+     */
     private void initToolbar() {
+        // Get toolbar
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        // Set as Action Bar and get it
         setSupportActionBar(toolbar);
         actionBar = getSupportActionBar();
 
         if (actionBar != null) {
+            // Set the Up arrow in Action Bar
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
