@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.TestTask;
-import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
+import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
 
 public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener {
 

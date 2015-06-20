@@ -22,7 +22,7 @@ public class Exercise {
      * @param series        number of series
      * @param usedWeight    value of the weight used
      */
-    public Exercise(ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight,String muscles) {
+    public Exercise(ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight) {
         this.aSerializer = aSerializer;
         this.frequency = frequency;
         this.name = name;
@@ -45,8 +45,9 @@ public class Exercise {
      * @param repetition
      * @param series
      * @param usedWeight
+     * @param completed
      */
-    public Exercise(int eid,ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight,boolean completed,String muscles) {
+    public Exercise(int eid, ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, boolean completed) {
         this.aSerializer = aSerializer;
         this.frequency = frequency;
         this.name = name;
@@ -55,7 +56,7 @@ public class Exercise {
         this.series = series;
         this.usedWeight = usedWeight;
         this.intExId    =  eid;
-        this.completed  =   completed;
+        this.completed  = this.completed;
         this.muscles    =   muscles;
     }
 
