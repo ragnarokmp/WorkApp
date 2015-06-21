@@ -19,7 +19,7 @@ public class WorkoutSession {
         this.filepath = filepath;
         this.progressive = progressive;
         this.workoutSessionSerializer = workoutSessionSerializer;
-        this.id =   workoutSessionSerializer.createNewWorkoutSession(id,progressive,filepath);
+        this.id =   workoutSessionSerializer.createNewWorkoutSession(progressive,filepath);
     }
 
     /**

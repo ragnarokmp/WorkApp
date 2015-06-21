@@ -2,9 +2,6 @@ package it.mobileprogramming.ragnarok.workapp.GymModel;
 
 import android.content.Context;
 import android.os.AsyncTask;
-
-import java.util.Collection;
-
 /**
  * Created by paride on 20/06/15.
  * testing task for all classes in data model
@@ -28,6 +25,7 @@ public class TestTask extends AsyncTask {
             sqLiteSerializer.deleteWorkout(i);
         }
         sqLiteSerializer.loadAllWorkouts(false);
+        sqLiteSerializer.close();
         return null;
     }
 }

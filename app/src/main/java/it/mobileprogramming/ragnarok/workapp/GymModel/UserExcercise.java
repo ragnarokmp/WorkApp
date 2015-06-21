@@ -4,13 +4,13 @@ package it.mobileprogramming.ragnarok.workapp.GymModel;
  * Created by paride on 18/06/15.
  */
 public class UserExcercise extends Exercise{
-    UserWorkoutSession mySession;
-    boolean done;
-    String comment;
-    Exercise anExercise;
+    private UserWorkoutSession mySession;
+    private boolean done;
+    private String comment;
+    private Exercise anExercise;
 
     public UserExcercise(ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, Exercise anExercise, String comment, boolean done, UserWorkoutSession mySession) {
-        super(aSerializer, frequency, name, recovery, repetition, series, usedWeight);
+        super(aSerializer, frequency, name, recovery, repetition, series, usedWeight,null);
         this.anExercise = anExercise;
         this.comment = comment;
         this.done = done;
@@ -18,7 +18,7 @@ public class UserExcercise extends Exercise{
     }
 
     public UserExcercise(int eid, ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, boolean completed, Exercise anExercise, String comment, boolean done, UserWorkoutSession mySession) {
-        super(eid, aSerializer, frequency, name, recovery, repetition, series, usedWeight, completed);
+        super(eid, aSerializer, frequency, name, recovery, repetition, series, usedWeight, completed,null);
         this.anExercise = anExercise;
         this.comment = comment;
         this.done = done;

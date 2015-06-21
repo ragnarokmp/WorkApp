@@ -7,11 +7,11 @@ import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
+
 
 /**
  * Created by paride on 18/06/15.
+ * this class manages the persistence implementing all the interfaces declared in the model
  */
 public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializer,UserSerializer,WorkoutSerializer,WorkoutSessionSerializer,UserWorkoutSessionSerializer {
     private String          strdbName;
@@ -22,7 +22,6 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     private final static String User_USERID_column          =   "UserID";
     private final static String User_Password_column        =   "Password";
     private final static String User_Name_column            =   "Name";
-    private final static String UsermakesWorkout_tablename  =   "UserMakesWorkout";
     private final static String User_Surname_column         =   "Surname";
     private final static String User_Gender_column          =   "Gender";
     private final static String User_BirthDate_column       =   "Birthdate";
@@ -39,6 +38,19 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     private final static String Exercise_pause              =   "Pause";
     private final static String Exercise_muscles            =   "Muscles";
     private final static String Exercise_frequency          =   "Frequency";
+    private final static String Exercise_usedWeights        =   "UsedWeight";
+    private final static String UserWeight_tablename        =   "UserWeight";
+    private final static String UserWeight_userid           =   "UserID";
+    private final static String UserWeight_date             =   "Date";
+    private final static String UserWeight_value            =   "Weight";
+    private final static String UserMakesWorkout_tablename  =   "UserMakesWorkout";
+    private final static String UserMakesWorkoutUserID      =   "UserID";
+    private final static String UserMakesWorkoutWorkoutID   =   "WorkoutID";
+    private final static String WorkoutSession_tablename    =   "WorkoutSession";
+    private final static String WorkoutSession_photopath    =   "Photopath";
+    private final static String WorkoutSession_ID           =   "WorkoutSessionID";
+    private final static String WorkoutSession_Progressive  =   "Progressive";
+
     public SQLiteSerializer (Context aContext,String dbName){
         this.strdbName  =   dbName;
         this.appContext =   aContext;
@@ -55,175 +67,268 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     @Override
     public int createNewExercise(int series, int repetition, int frequency, int recovery, String name,String muscle) {
         ContentValues   values  = new ContentValues();
-        values.put(this.Exercise_label,name);
-        values.put(this.Exercise_series,series);
-        values.put(this.Exercise_repetitions,repetition);
-        values.put(this.Exercise_frequency,frequency);
-        values.put(this.Exercise_pause,recovery);
-        values.put(this.Exercise_muscles,muscle);
-        return  (int)this.sqlGymDatabase.insert(this.Exercise_tablename,null,values);
+        values.put(Exercise_label,name);
+        values.put(Exercise_series,series);
+        values.put(Exercise_repetitions,repetition);
+        values.put(Exercise_frequency,frequency);
+        values.put(Exercise_pause, recovery);
+        values.put(Exercise_muscles, muscle);
+        return  (int)this.sqlGymDatabase.insert(Exercise_tablename,null,values);
     }
 
     @Override
     public Exercise loadExercise(int id) {
-        return null;
+        String field        =       Exercise_ID+"=?";
+        String filter   []  =       {String.valueOf(id)};
+        Cursor result       =       this.sqlGymDatabase.query(User_USER_tablename, null, field, filter, null, null, null);
+        result.moveToFirst();
+        int     eid             =   result.getInt(result.getColumnIndex(Exercise_ID));
+        String  ename           =   result.getString(result.getColumnIndex(Exercise_label));
+        int     frequency       =   result.getInt(result.getColumnIndex(Exercise_frequency));
+        int     recovery        =   result.getInt(result.getColumnIndex(Exercise_pause));
+        int     repetition      =   result.getInt(result.getColumnIndex(Exercise_repetitions));
+        int     series          =   result.getInt(result.getColumnIndex(Exercise_series));
+        String  weights         =   result.getString(result.getColumnIndex(Exercise_usedWeights));
+        String  muscles         =   result.getString(result.getColumnIndex(Exercise_muscles));
+        result.close();
+        return  new Exercise(eid,this,frequency,ename,recovery,repetition,series,weights,false,muscles);
     }
 
     @Override
-    public void updateExercise(int id, String usedWeight, int series, int repetition, int frequency, int recovery, String name) {
-
+    public void updateExercise(int id, String usedWeight, int series, int repetition, int frequency, int recovery, String name,String muscle) {
+        ContentValues   values  = new ContentValues();
+        values.put(Exercise_label,name);
+        values.put(Exercise_usedWeights, usedWeight);
+        values.put(Exercise_series,series);
+        values.put(Exercise_repetitions,repetition);
+        values.put(Exercise_frequency,frequency);
+        values.put(Exercise_pause,recovery);
+        values.put(Exercise_muscles,muscle);
+        String field        =       Exercise_ID;
+        String filter   []  =       {String.valueOf(id)};
+        int rows    =   this.sqlGymDatabase.update(Exercise_tablename, values, field, filter);
+        System.out.println("updated rows: " + rows);
     }
 
     @Override
     public ArrayList<Exercise> loadAll() {
-        return null;
+        Cursor result   =   this.sqlGymDatabase.query(Exercise_tablename,null,null,null,null,null,null);
+        ArrayList<Exercise>returnList   =   new ArrayList<>();
+        result.moveToFirst();
+            for(int i=0;i<result.getCount();i++){
+                int     eid         =   result.getInt(result.getColumnIndex(Exercise_ID));
+                Exercise loaded         =   loadExercise(eid);
+                //System.out.println("Loaded "+loaded.toString());
+                returnList.add(loaded);
+                result.moveToNext();
+            }
+        result.close();
+        return returnList;
     }
 
     @Override
     public int createNewUser(String strName, String strSurname, String pwd, int intSex, Date dateBirth) {
         ContentValues   values  = new ContentValues();
-        values.put(this.User_Name_column,strName);
-        values.put(this.User_Surname_column,strSurname);
-        values.put(this.User_Gender_column,intSex);
-        values.put(this.User_Password_column,pwd);
-        values.put(this.User_BirthDate_column,Singletons.getStringFromDate(dateBirth));
-        return  (int)this.sqlGymDatabase.insert(this.User_USER_tablename,null,values);
+        values.put(User_Name_column,strName);
+        values.put(User_Surname_column,strSurname);
+        values.put(User_Gender_column,intSex);
+        values.put(User_Password_column,pwd);
+        values.put(User_BirthDate_column, Singletons.getStringFromDate(dateBirth));
+        return  (int)this.sqlGymDatabase.insert(User_USER_tablename,null,values);
+
     }
 
     @Override
     public ArrayList<User> getAllUsers() {
-        Cursor result   =   this.sqlGymDatabase.query(this.User_USER_tablename,null,null,null,null,null,null);
+        Cursor result   =   this.sqlGymDatabase.query(User_USER_tablename,null,null,null,null,null,null);
         //System.out.println("found users "+result.getCount());
-        if(result.getCount()==0){
-            return null;
+        ArrayList<User>returnList   =   new ArrayList<>();
+        result.moveToFirst();
+        for(int i=0;i<result.getCount();i++){
+            int     uid         =   result.getInt(result.getColumnIndex(User_USERID_column));
+            User loaded         =   loadUser(uid);
+            //System.out.println("Loaded "+loaded.toString());
+            returnList.add(loaded);
+            result.moveToNext();
         }
-        else{
-            ArrayList<User>returnList   =   new ArrayList<User>();
-            result.moveToFirst();
-            for(int i=0;i<result.getCount();i++){
-                int     uid         =   result.getInt(result.getColumnIndex(this.User_USERID_column));
-                User loaded         =   loadUser(uid);
-                //System.out.println("Loaded "+loaded.toString());
-                returnList.add(loaded);
-                result.moveToNext();
-            }
-            return returnList;
-        }
+        result.close();
+        return returnList;
     }
 
     @Override
     public User loadUser(int id) {
-        String field        =       this.User_USERID_column+"=?";
+        String field        =       User_USERID_column+"=?";
         String filter   []  =       {String.valueOf(id)};
-        Cursor result       =       this.sqlGymDatabase.query(this.User_USER_tablename,null,field,filter,null,null,null);
+        Cursor result       =       this.sqlGymDatabase.query(User_USER_tablename,null,field,filter,null,null,null);
         result.moveToFirst();
-        int     uid         =   result.getInt(result.getColumnIndex(this.User_USERID_column));
-        String  uname       =   result.getString(result.getColumnIndex(this.User_Name_column));
-        String  usurname    =   result.getString(result.getColumnIndex(this.User_Surname_column));
-        String  upassword   =   result.getString(result.getColumnIndex(this.User_Password_column));
-        int     ugender     =   result.getInt(result.getColumnIndex(this.User_Gender_column));
-        Date    ubirth      =   Singletons.formatFromString(result.getString(result.getColumnIndex(this.User_BirthDate_column)));
+        int     uid         =   result.getInt(result.getColumnIndex(User_USERID_column));
+        String  uname       =   result.getString(result.getColumnIndex(User_Name_column));
+        String  usurname    =   result.getString(result.getColumnIndex(User_Surname_column));
+        String  upassword   =   result.getString(result.getColumnIndex(User_Password_column));
+        int     ugender     =   result.getInt(result.getColumnIndex(User_Gender_column));
+        Date    ubirth      =   Singletons.formatFromString(result.getString(result.getColumnIndex(User_BirthDate_column)));
         User    anUser      =   new User(uid,uname,usurname,ugender,ubirth,upassword,this);
         //TODO load data for lists
-        
+
+        result.close();
         return  anUser;
     }
 
     @Override
     public void updateUser(int id, String strName, String strSurname, int intSex, Date dateBirth) {
         ContentValues   values  = new ContentValues();
-        values.put(this.User_Name_column,strName);
-        values.put(this.User_Surname_column,strSurname);
-        values.put(this.User_Gender_column,intSex);
-        values.put(this.User_BirthDate_column,Singletons.getStringFromDate(dateBirth));
-        String field        =       this.User_USERID_column+"=?";
+        values.put(User_Name_column, strName);
+        values.put(User_Surname_column,strSurname);
+        values.put(User_Gender_column,intSex);
+        values.put(User_BirthDate_column,Singletons.getStringFromDate(dateBirth));
+        String field        =       User_USERID_column+"=?";
         String filter   []  =       {String.valueOf(id)};
-        int rows    =   this.sqlGymDatabase.update(this.User_USER_tablename, values, field, filter);
+        int rows    =   this.sqlGymDatabase.update(User_USER_tablename, values, field, filter);
         System.out.println("updated rows: " + rows);
     }
 
     @Override
     public void deleteUser(int id) {
-        String field        =       this.User_USERID_column+"=?";
+        String field        =       User_USERID_column+"=?";
         String filter   []  =       {String.valueOf(id)};
-        int rows    =   this.sqlGymDatabase.delete(this.User_USER_tablename,field,filter);
+        int rows    =   this.sqlGymDatabase.delete(User_USER_tablename, field, filter);
         System.out.println("updated rows: " + rows);
     }
 
     @Override
     public ArrayList<WeightItem> loadWeightHistory(int id) {
-        return null;
+        String field = UserWeight_userid + "=?";
+        String filter[] = {String.valueOf(id)};
+        Cursor result = this.sqlGymDatabase.query(UserWeight_tablename, null, field, filter, null, null, null);
+        result.moveToFirst();
+        ArrayList<WeightItem>   returnList  =   new ArrayList<>();
+        for(int i=0;i<result.getCount();i++){
+            Date date   =   Singletons.formatFromString(result.getString(result.getColumnIndex(UserWeight_date)));
+            float weight  =   result.getFloat(result.getColumnIndex(UserWeight_value));
+            WeightItem  anItem  =   new WeightItem();
+            anItem.date     =   date;
+            anItem.value    =   weight;
+            returnList.add(anItem);
+            result.moveToNext();
+        }
+        result.close();
+        return returnList;
     }
-
 
     @Override
     public void removeFromWeightHistory(int userId, Date date) {
-
+        String field        =   UserWeight_userid+"=? AND "+UserWeight_date+"=?";
+        String filter   []  =   new String[2];
+        filter[0]           =   String.valueOf(userId);
+        filter[1]           =   String.valueOf(Singletons.getStringFromDate(date));
+        int rows    =   this.sqlGymDatabase.delete(UserWeight_tablename,field,filter);
+        System.out.println("updated rows: " + rows);
     }
 
     @Override
     public void addToWeightHistory(int intUserID, WeightItem anItem) {
-
+        ContentValues   values  = new ContentValues();
+        values.put(UserWeight_userid,intUserID);
+        values.put(UserWeight_value,anItem.value);
+        values.put(UserWeight_date, Singletons.getStringFromDate(anItem.date));
+        this.sqlGymDatabase.insert(UserWeight_tablename, null, values);
     }
 
     @Override
-    public ArrayList<Workout> loadWorkoutsForUser(int id) {
-        return null;
+    public ArrayList<UserWorkout> loadWorkoutsForUser(int id) {
+        ArrayList<UserWorkout> userWorkouts = new ArrayList<>();
+        String field = UserMakesWorkoutUserID + "=?";
+        String filter[] = {String.valueOf(id)};
+        Cursor result = this.sqlGymDatabase.query(UserMakesWorkout_tablename, null, field, filter, null, null, null);
+        result.moveToFirst();
+        for(int i=0;i<result.getCount();i++){
+            userWorkouts.add(loadUserWorkout(result.getInt(result.getColumnIndex(UserMakesWorkoutWorkoutID)), id));
+            result.moveToNext();
+        }
+        result.close();
+        return userWorkouts;
+    }
+
+    @Override
+    public UserWorkout loadUserWorkout(int woId,int userID) {
+        //TODO check if there is THAT workout in the user workout DV
+        String field        =       Workout_ID+"=?";
+        String filter   []  =       {String.valueOf(woId)};
+        Cursor result       =       this.sqlGymDatabase.query(Workout_tablename, null, field, filter, null, null, null);
+        result.moveToFirst();
+        int     uid         =   result.getInt(result.getColumnIndex(Workout_ID));
+        String  label       =   result.getString(result.getColumnIndex(Workout_label));
+        String  level       =   result.getString(result.getColumnIndex(Workout_Level));
+        String  kind        =   result.getString(result.getColumnIndex(Workout_kind));
+        UserWorkout aWorkout    =   new UserWorkout(uid,label,kind,level,this);
+        //TODO load data for lists
+        result.close();
+        return  aWorkout;
     }
 
     @Override
     public void addWorkoutForUser(int userID, int WorkoutID) {
-
+        ContentValues   values  = new ContentValues();
+        values.put(UserMakesWorkoutUserID,userID);
+        values.put(UserMakesWorkoutWorkoutID,WorkoutID);
+        this.sqlGymDatabase.insert(UserMakesWorkout_tablename, null, values);
     }
 
     @Override
-    public void removeWorkoutForUser(int UserID, int WorkoutID) {
+    public void removeWorkoutForUser(int userID, int workoutID) {
+        String field        =   UserMakesWorkoutUserID+"=? AND "+UserMakesWorkoutWorkoutID+"=?";
+        String filter   []  =   new String[2];
+        filter[0]           =   String.valueOf(userID);
+        filter[1]           =   String.valueOf(workoutID);
+        int rows    =   this.sqlGymDatabase.delete(UserMakesWorkout_tablename,field,filter);
+        System.out.println("updated rows: " + rows);
 
     }
 
     @Override
     public int createNewWorkout(String name, String type, String difficulty) {
         ContentValues   values  = new ContentValues();
-        values.put(this.Workout_label,name);
-        values.put(this.Workout_kind,type);
-        values.put(this.Workout_Level,difficulty);
-        return  (int)this.sqlGymDatabase.insert(this.Workout_tablename,null,values);
+        values.put(Workout_label,name);
+        values.put(Workout_kind,type);
+        values.put(Workout_Level,difficulty);
+        return  (int)this.sqlGymDatabase.insert(Workout_tablename,null,values);
     }
 
     @Override
-    public void addExercisetoWorkout(int idWorkout, int idExercise) {
+    public void addSessiontoWorkout(int idWorkout, int idSession) {
 
     }
 
     @Override
     public Workout loadWorkout(int id) {
-        String field        =       this.Workout_ID+"=?";
+        String field        =       Workout_ID+"=?";
         String filter   []  =       {String.valueOf(id)};
-        Cursor result       =       this.sqlGymDatabase.query(this.Workout_tablename, null, field, filter, null, null, null);
+        Cursor result       =       this.sqlGymDatabase.query(Workout_tablename, null, field, filter, null, null, null);
         result.moveToFirst();
-        int     uid         =   result.getInt(result.getColumnIndex(this.Workout_ID));
-        String  label       =   result.getString(result.getColumnIndex(this.Workout_label));
-        String  level       =   result.getString(result.getColumnIndex(this.Workout_Level));
-        String  kind        =   result.getString(result.getColumnIndex(this.Workout_kind));
+        int     uid         =   result.getInt(result.getColumnIndex(Workout_ID));
+        String  label       =   result.getString(result.getColumnIndex(Workout_label));
+        String  level       =   result.getString(result.getColumnIndex(Workout_Level));
+        String  kind        =   result.getString(result.getColumnIndex(Workout_kind));
         Workout aWorkout    =   new Workout(uid,label,kind,level,this);
         //TODO load data for lists
+        result.close();
         return  aWorkout;
     }
 
     @Override
     public void deleteWorkout(int id) {
-        String field        =       this.Workout_ID+"=?";
+        String field        =       Workout_ID+"=?";
         String filter   []  =       {String.valueOf(id)};
-        int rows    =   this.sqlGymDatabase.delete(this.Workout_tablename,field,filter);
+        int rows    =   this.sqlGymDatabase.delete(Workout_tablename, field, filter);
         System.out.println("updated rows: " + rows);
     }
 
     @Override
     public void updateWorkout(int id, String name, String type, String difficulty) {
         ContentValues   values  = new ContentValues();
-        values.put(this.Workout_label,name);
-        values.put(this.Workout_kind,type);
-        values.put(this.Workout_Level,difficulty);
+        values.put(Workout_label,name);
+        values.put(Workout_kind,type);
+        values.put(Workout_Level,difficulty);
         String field        =       Workout_ID+"=?";
         String filter   []  =       {String.valueOf(id)};
         int rows    =   this.sqlGymDatabase.update(Workout_tablename, values, field, filter);
@@ -231,46 +336,61 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     }
 
     @Override
-    public void removeExerciseFromWorkout(int id, int exId) {
+    public void removeSessionFromWorkout(int id, int seId) {
 
     }
 
     @Override
     public ArrayList<Workout> loadAllWorkouts(boolean includeCustom) {
         Cursor result   =   this.sqlGymDatabase.query(Workout_tablename,null,null,null,null,null,null);
-        if(result.getCount()==0){
-            return null;
-        }
-        else{
-            ArrayList<Workout>returnList   =   new ArrayList<Workout>();
-            result.moveToFirst();
-            for(int i=0;i<result.getCount();i++){
-                int     uid         =   result.getInt(result.getColumnIndex(this.Workout_ID));
-                Workout aWorkout    =   loadWorkout(uid);
-                System.out.println(aWorkout);
-                String custom       =   "custom";
-                if(!((aWorkout.getType().equals(custom))&&includeCustom==false)){
-                    returnList.add(aWorkout);
-                }
-                result.moveToNext();
+        ArrayList<Workout>returnList   =   new ArrayList<>();
+        result.moveToFirst();
+        for(int i=0;i<result.getCount();i++){
+            int     uid         =   result.getInt(result.getColumnIndex(Workout_ID));
+            Workout aWorkout    =   loadWorkout(uid);
+            System.out.println(aWorkout);
+            String custom       =   Singletons.customString;
+            if(!((aWorkout.getType().equals(custom))&&(!includeCustom))){
+                returnList.add(aWorkout);
             }
-            return returnList;
+            result.moveToNext();
         }
+        result.close();
+        return returnList;
     }
 
     @Override
-    public int createNewWorkoutSession(int id, int progressive, String filepath) {
-        return 0;
+    public int createNewWorkoutSession(int progressive, String filepath) {
+        ContentValues   values  = new ContentValues();
+        values.put(WorkoutSession_photopath,filepath);
+        values.put(WorkoutSession_Progressive,progressive);
+        return  (int)this.sqlGymDatabase.insert(Workout_tablename,null,values);
     }
 
     @Override
     public WorkoutSession loadWorkoutSession(int id) {
+        String field            =       WorkoutSession_ID+"=?";
+        String filter   []      =       {String.valueOf(id)};
+        Cursor result           =       this.sqlGymDatabase.query(WorkoutSession_tablename, null, field, filter, null, null, null);
+        result.moveToFirst();
+        if(result.getCount()>0){
+            int     sid             =   result.getInt(result.getColumnIndex(WorkoutSession_ID));
+            String  path            =   result.getString(result.getColumnIndex(WorkoutSession_photopath));
+            int     progressive     =   result.getInt(result.getColumnIndex(WorkoutSession_Progressive));
+            WorkoutSession aSession =   new WorkoutSession(path,sid,progressive,this);
+            result.close();
+            return aSession;
+        }
+        result.close();
         return null;
     }
 
     @Override
     public void deleteWorkoutSession(int id) {
-
+        String field        =       WorkoutSession_ID+"=?";
+        String filter   []  =       {String.valueOf(id)};
+        int rows    =   this.sqlGymDatabase.delete(Workout_tablename, field, filter);
+        System.out.println("updated rows: " + rows);
     }
 
     @Override
