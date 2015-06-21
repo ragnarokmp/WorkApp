@@ -10,6 +10,6 @@ public interface UserWorkoutSessionSerializer {
     UserWorkoutSession          loadSession(int intUserSessionID);
     void                        deleteSession(int intUserSessionID);
     void                        updateSession(int intUserSessionID,Date sessionDate,String strComment,int intIDUser,int idWorkout);
-    int                         createSession(Date sessionDate,String strComment,int intIDUser,int idWorkout);
-    ArrayList<WorkoutSession>   loadAllSessionsForUser(int intIDUser);
+    int                         createSession(Date sessionDate,String strComment,int intIDUser,int idWorkoutS);
+    ArrayList<UserWorkoutSession>   loadAllSessionsForUserWorkout(User myUser,int workoutID);
 }

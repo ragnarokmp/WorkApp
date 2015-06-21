@@ -9,12 +9,13 @@ public class UserExcercise extends Exercise{
     private String comment;
     private Exercise anExercise;
 
-    public UserExcercise(ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, Exercise anExercise, String comment, boolean done, UserWorkoutSession mySession) {
+    public UserExcercise(UserExerciseSerializer uSerializer,ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, Exercise anExercise, String comment, boolean done, UserWorkoutSession mySession) {
         super(aSerializer, frequency, name, recovery, repetition, series, usedWeight,null);
         this.anExercise = anExercise;
         this.comment = comment;
         this.done = done;
         this.mySession = mySession;
+        //TODO do this constructor like the others...
     }
 
     public UserExcercise(int eid, ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, boolean completed, Exercise anExercise, String comment, boolean done, UserWorkoutSession mySession) {

@@ -6,7 +6,6 @@ import java.util.Date;
  *
  */
 public class UserWorkoutSession extends WorkoutSession{
-    private WorkoutSession wsaSession;
     private String  strComment;
     private Date    dateSessionDate;
     private User    usrSessionUser;
@@ -14,24 +13,27 @@ public class UserWorkoutSession extends WorkoutSession{
 
 
     /**
-     * this constructor is used if loading from DB
+     *
+     * if loadedFrom db is set to false creates a new entry in DB
      * @param filepath
-     * @param id
+     * @param user
      * @param progressive
      * @param workoutSessionSerializer
+     * @param userWorkoutSessionSerializer
      * @param dateSessionDate
      * @param sessionID
      * @param strComment
-     * @param usrSessionUser
-     * @param wsaSession
+     * @param loadedFromDB
      */
-    public UserWorkoutSession(String filepath, int id, int progressive, WorkoutSessionSerializer workoutSessionSerializer, Date dateSessionDate, int sessionID, String strComment, User usrSessionUser, WorkoutSession wsaSession) {
-        super(filepath, id, progressive, workoutSessionSerializer);
+    public UserWorkoutSession(String filepath, User user, int progressive, WorkoutSessionSerializer workoutSessionSerializer, UserWorkoutSessionSerializer userWorkoutSessionSerializer, Date dateSessionDate, int sessionID, String strComment, boolean loadedFromDB) {
+        super(filepath, sessionID, progressive, workoutSessionSerializer);
         this.dateSessionDate = dateSessionDate;
-        this.sessionID = sessionID;
-        this.strComment = strComment;
-        this.usrSessionUser = usrSessionUser;
-        this.wsaSession = wsaSession;
+        this.sessionID      = sessionID;
+        this.strComment     = strComment;
+        this.usrSessionUser =   user;
+        if(loadedFromDB == false) {
+            userWorkoutSessionSerializer.createSession(dateSessionDate, strComment, usrSessionUser.getIntUserID(), sessionID);
+        }
     }
 
     public Date getDateSessionDate() {
@@ -50,15 +52,11 @@ public class UserWorkoutSession extends WorkoutSession{
         return usrSessionUser;
     }
 
-    public WorkoutSession getWsaSession() {
-        return wsaSession;
-    }
 
     @Override
     public String toString() {
         return "UserWorkoutSession{" +
                 "dateSessionDate=" + dateSessionDate +
-                ", wsaSession=" + wsaSession +
                 ", strComment='" + strComment + '\'' +
                 ", usrSessionUser=" + usrSessionUser +
                 ", sessionID=" + sessionID +

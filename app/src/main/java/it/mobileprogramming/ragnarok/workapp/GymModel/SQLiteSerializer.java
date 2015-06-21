@@ -50,7 +50,16 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     private final static String WorkoutSession_photopath    =   "Photopath";
     private final static String WorkoutSession_ID           =   "WorkoutSessionID";
     private final static String WorkoutSession_Progressive  =   "Progressive";
-
+    private final static String UserMakesSession_tablename  =   "UserMakesSession";
+    private final static String UserMakesSession_WorkoutSID =   "WorkoutSessionID";
+    private final static String UserMakesSession_Comment    =   "Comment";
+    private final static String UserMakesSession_ExecutionD =   "ExecutionDate";
+    private final static String UserMakesSession_UserID     =   "UserID";
+    private final static String SessionMadeByExercises_tablename        =   "SessionMadeByExercises";
+    private final static String SessionMadeByExercises_WorkoutSessionID =   "WorkoutSessionID";
+    private final static String SessionMadeByExercises_ExerciseID       =   "ExerciseID";
+    private final static String SessionMadeByExercises_Completed        =   "Completed";
+    private final static String SessionMadeByExercises_Comment          =   "Comment";
     public SQLiteSerializer (Context aContext,String dbName){
         this.strdbName  =   dbName;
         this.appContext =   aContext;
@@ -167,10 +176,10 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         String  upassword   =   result.getString(result.getColumnIndex(User_Password_column));
         int     ugender     =   result.getInt(result.getColumnIndex(User_Gender_column));
         Date    ubirth      =   Singletons.formatFromString(result.getString(result.getColumnIndex(User_BirthDate_column)));
-        User    anUser      =   new User(uid,uname,usurname,ugender,ubirth,upassword,this);
-        //TODO load data for lists
-
-        result.close();
+        ArrayList<UserWorkout>  workoutArrayList    =   loadWorkoutsForUser(id);
+        ArrayList<WeightItem>   story   =   loadWeightHistory(id);
+        User    anUser      =   new User(uid,uname,usurname,ugender,ubirth,upassword,this,workoutArrayList,story);
+         result.close();
         return  anUser;
     }
 
@@ -378,6 +387,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
             String  path            =   result.getString(result.getColumnIndex(WorkoutSession_photopath));
             int     progressive     =   result.getInt(result.getColumnIndex(WorkoutSession_Progressive));
             WorkoutSession aSession =   new WorkoutSession(path,sid,progressive,this);
+            //TODO load exercises
             result.close();
             return aSession;
         }
@@ -419,18 +429,43 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     }
 
     @Override
-    public int createSession(Date sessionDate, String strComment, int intIDUser, int idWorkout) {
-        return 0;
+    public int createSession(Date sessionDate, String strComment, int intIDUser, int idSWorkout) {
+        ContentValues   values  = new ContentValues();
+        values.put(UserMakesSession_WorkoutSID,idSWorkout);
+        values.put(UserMakesSession_UserID,intIDUser);
+        values.put(UserMakesSession_Comment,strComment);
+        values.put(UserMakesSession_ExecutionD,Singletons.getStringFromDate(sessionDate));
+        return  (int)this.sqlGymDatabase.insert(UserMakesSession_tablename,null,values);
     }
 
     @Override
-    public ArrayList<WorkoutSession> loadAllSessionsForUser(int intIDUser) {
-        return null;
+    public ArrayList<UserWorkoutSession> loadAllSessionsForUserWorkout(User myUser,int workoutID){
+        String MY_QUERY = "SELECT * "+UserMakesSession_tablename+" NATURAL JOIN "+WorkoutSession_tablename+" WHERE "+UserMakesSession_UserID+"=? AND "+UserMakesWorkoutWorkoutID+"=?";
+        Cursor result   =   this.sqlGymDatabase.rawQuery(MY_QUERY, new String[]{String.valueOf(myUser),String.valueOf(workoutID)});
+        ArrayList<UserWorkoutSession> userWorkoutSessionArrayList   =   new ArrayList<>();
+        for(int i=0;i<result.getCount();i++){
+            int     progressive  =   result.getInt(result.getColumnIndex(WorkoutSession_Progressive));
+            String  photopath    =   result.getString(result.getColumnIndex(WorkoutSession_photopath));
+            Date    sessionDate  =   Singletons.formatFromString(result.getString(result.getColumnIndex(UserMakesSession_ExecutionD)));
+            int     sessionID    =   result.getInt(result.getColumnIndex(UserMakesSession_WorkoutSID));
+            String  comment      =   result.getString(result.getColumnIndex(UserMakesSession_Comment));
+            userWorkoutSessionArrayList.add(new UserWorkoutSession(photopath,myUser,progressive,this,this,sessionDate,sessionID,comment,true));
+            result.moveToNext();
+        }
+        result.close();
+        return userWorkoutSessionArrayList;
+
+
     }
 
     @Override
     public int createUserExercise(int intIDExercise, int intIDUserWorkoutSession, boolean boolIsDone, String strComment) {
-        return 0;
+        ContentValues   values  = new ContentValues();
+        values.put(SessionMadeByExercises_ExerciseID,intIDExercise);
+        values.put(SessionMadeByExercises_WorkoutSessionID,intIDUserWorkoutSession);
+        values.put(SessionMadeByExercises_Completed,boolIsDone);
+        values.put(SessionMadeByExercises_Comment, strComment);
+        return (int) this.sqlGymDatabase.insert(SessionMadeByExercises_tablename, null, values);
     }
 
     @Override

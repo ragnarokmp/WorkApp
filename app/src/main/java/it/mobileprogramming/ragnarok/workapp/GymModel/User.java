@@ -11,7 +11,7 @@ public class User {
     private int    intGender;
     private Date dateBirth;
     private ArrayList<WeightItem>   weightHistory;
-    private ArrayList<Workout>      workoutHistory;
+    private ArrayList<UserWorkout>      workoutHistory;
     private UserSerializer  usSerializer;
 
     public User(String name,String surname,int sex,Date birthDate,String password,UserSerializer aSerializer){
@@ -22,7 +22,7 @@ public class User {
         this.strPwdHash     =   hashAndSalt(password);
         this.usSerializer   =   aSerializer;
         this.weightHistory  =   new ArrayList<WeightItem>();
-        this.workoutHistory =   new ArrayList<Workout>();
+        this.workoutHistory =   new ArrayList<UserWorkout>();
         this.intUserID  =   aSerializer.createNewUser(name,surname,this.strPwdHash,sex,birthDate);
     }
 
@@ -31,14 +31,14 @@ public class User {
         return "example";
     }
 
-    public User(int uId, String name,String surname,int gender,Date birthDate,String pwdHash,UserSerializer aSerializer){
+    public User(int uId, String name,String surname,int gender,Date birthDate,String pwdHash,UserSerializer aSerializer,ArrayList workouts,ArrayList<WeightItem> weightStory){
         this.strName        =   name;
         this.strSurname     =   surname;
         this.intGender      =   gender;
         this.dateBirth      =   birthDate;
         this.usSerializer   =   aSerializer;
-        this.weightHistory  =   new ArrayList<WeightItem>();
-        this.workoutHistory =   new ArrayList<Workout>();
+        this.weightHistory  =   weightStory;
+        this.workoutHistory =   workouts;
         this.strPwdHash     =   pwdHash;
         this.intUserID      =   uId;
     }
@@ -90,7 +90,7 @@ public class User {
         this.weightHistory.remove(anItem);
     }
 
-    public void addToWorkouts(Workout anItem){
+    public void addToWorkouts(UserWorkout anItem){
         this.workoutHistory.add(anItem);
         this.usSerializer.addWorkoutForUser(this.intUserID, anItem.getIntWOID());
     }
@@ -98,6 +98,12 @@ public class User {
     public void removeFromWorkouts(Workout anItem){
         this.usSerializer.removeWorkoutForUser(this.intUserID, anItem.getIntWOID());
         this.weightHistory.remove(anItem);
+    }
+
+    public static User loadUserfromDatabase(SQLiteSerializer serializer,int intID){
+        User myUser                                 =   serializer.loadUser(intID);
+        //TODO complete
+        return null;
     }
 
     @Override
