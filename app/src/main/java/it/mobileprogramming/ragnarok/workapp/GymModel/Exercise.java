@@ -29,8 +29,8 @@ public class Exercise {
         this.repetition = repetition;
         this.series = series;
         this.usedWeight = usedWeight;
-        this.intExId    =   this.aSerializer.createNewExercise(series,repetition,frequency,recovery,name,muscles);
         this.muscles    =   muscles;
+        this.intExId    =   this.aSerializer.createNewExercise(series,repetition,frequency,recovery,name,muscles);
     }
 
     /**
@@ -56,6 +56,10 @@ public class Exercise {
         this.muscles    =   muscles;
     }
 
+    public Exercise clone(){
+        Exercise newExercise    =   new Exercise(this.intExId,this.aSerializer,this.frequency,this.name,this.recovery,this.repetition,this.series,this.usedWeight,this.muscles);
+        return newExercise;
+    }
     /**
      * returns the execise frequency in hz
      * @return frequency

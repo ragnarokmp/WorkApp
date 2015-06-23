@@ -26,6 +26,20 @@ public class Workout {
         this.intWOID        =   id;
     }
 
+    public void addWorkoutSession(WorkoutSession aSession,boolean saveonDB){
+        this.woSessions.add(aSession);
+        if(saveonDB==true){
+            this.woSerializer.addSessiontoWorkout(this.intWOID,aSession.getId());
+        }
+    }
+
+    public ArrayList<WorkoutSession> getWorkoutSessions(){
+        ArrayList<WorkoutSession> returnList    =   new ArrayList<>();
+        for(int i=0;i<this.woSessions.size();i++){
+            returnList.add(this.woSessions.get(i).clone());
+        }
+        return returnList;
+    }
     public int getIntWOID() {
         return intWOID;
     }

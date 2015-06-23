@@ -8,15 +8,15 @@ import java.util.Date;
 public class UserWorkoutSession extends WorkoutSession{
     private String  strComment;
     private Date    dateSessionDate;
-    private User    usrSessionUser;
+    private int     usrSessionUserId;
     private int     sessionID;
-
+    private WorkoutSessionSerializer        workoutSessionSerializer;
+    private UserWorkoutSessionSerializer    userWorkoutSessionSerializer;
 
     /**
      *
      * if loadedFrom db is set to false creates a new entry in DB
      * @param filepath
-     * @param user
      * @param progressive
      * @param workoutSessionSerializer
      * @param userWorkoutSessionSerializer
@@ -25,14 +25,16 @@ public class UserWorkoutSession extends WorkoutSession{
      * @param strComment
      * @param loadedFromDB
      */
-    public UserWorkoutSession(String filepath, User user, int progressive, WorkoutSessionSerializer workoutSessionSerializer, UserWorkoutSessionSerializer userWorkoutSessionSerializer, Date dateSessionDate, int sessionID, String strComment, boolean loadedFromDB) {
+    public UserWorkoutSession(String filepath, int userID, int progressive, WorkoutSessionSerializer workoutSessionSerializer, UserWorkoutSessionSerializer userWorkoutSessionSerializer, Date dateSessionDate, int sessionID, String strComment, boolean loadedFromDB) {
         super(filepath, sessionID, progressive, workoutSessionSerializer);
         this.dateSessionDate = dateSessionDate;
         this.sessionID      = sessionID;
         this.strComment     = strComment;
-        this.usrSessionUser =   user;
+        this.usrSessionUserId =   userID;
+        this.workoutSessionSerializer       =   workoutSessionSerializer;
+        this.userWorkoutSessionSerializer   =   userWorkoutSessionSerializer;
         if(loadedFromDB == false) {
-            userWorkoutSessionSerializer.createSession(dateSessionDate, strComment, usrSessionUser.getIntUserID(), sessionID);
+            userWorkoutSessionSerializer.createSession(dateSessionDate, strComment, this.usrSessionUserId, sessionID);
         }
     }
 
@@ -48,18 +50,18 @@ public class UserWorkoutSession extends WorkoutSession{
         return strComment;
     }
 
-    public User getUsrSessionUser() {
-        return usrSessionUser;
-    }
-
 
     @Override
     public String toString() {
         return "UserWorkoutSession{" +
                 "dateSessionDate=" + dateSessionDate +
                 ", strComment='" + strComment + '\'' +
-                ", usrSessionUser=" + usrSessionUser +
+                ", usrSessionUser=" + usrSessionUserId +
                 ", sessionID=" + sessionID +
                 '}';
+    }
+
+    public UserWorkoutSession clone(){
+        return new UserWorkoutSession(this.getFilepath(),this.usrSessionUserId,this.getProgressive(),this.workoutSessionSerializer,this.userWorkoutSessionSerializer,this.dateSessionDate,this.sessionID,this.strComment,true);
     }
 }

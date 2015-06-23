@@ -11,5 +11,5 @@ public interface UserWorkoutSessionSerializer {
     void                        deleteSession(int intUserSessionID,User anUser);
     void                        updateSession(int intUserSessionID,Date sessionDate,String strComment,int intIDUser,int idWorkout);
     int                         createSession(Date sessionDate,String strComment,int intIDUser,int idWorkoutS);
-    ArrayList<UserWorkoutSession>   loadAllSessionsForUserWorkout(User myUser,int workoutID);
+    ArrayList<UserWorkoutSession>   loadAllSessionsForUserWorkout(int myUserID,int workoutID);
 }
