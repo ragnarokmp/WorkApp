@@ -8,5 +8,5 @@ import java.util.ArrayList;
 public interface UserExerciseSerializer {
     int createUserExercise(int intIDExercise,int intIDUserWorkoutSession,boolean boolIsDone,String strComment);
     ArrayList<UserExcercise> getExercisesOfASession(int intIDUserWorkoutSession);
-    void updateUserExercise(int intIDUserWorkoutSession,boolean boolIsDone,String strComment);
+    void updateUserExercise(int intIDUserWorkoutSession,int intIDExercise ,boolean boolIsDone,String strComment);
 }
