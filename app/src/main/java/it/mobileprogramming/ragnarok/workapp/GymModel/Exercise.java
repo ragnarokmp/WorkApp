@@ -92,6 +92,10 @@ public class Exercise {
         return usedWeight;
     }
 
+    public int getId() {
+        return intExId;
+    }
+
     @Override
     public String toString() {
         return "Exercise{" +

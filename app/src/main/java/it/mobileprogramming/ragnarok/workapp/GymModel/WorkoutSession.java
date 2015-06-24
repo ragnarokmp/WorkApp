@@ -36,8 +36,11 @@ public class WorkoutSession {
         this.workoutSessionSerializer = workoutSessionSerializer;
     }
 
-    public void addExerciseToWorkoutSession(Exercise e){
+    public void addExerciseToWorkoutSession(Exercise e,boolean saveOnDB){
         this.exercisesOfSession.add(e);
+        if(saveOnDB==true){
+            this.workoutSessionSerializer.addExerciseForWorkoutSession(this.id,e.getId());
+        }
         System.out.println("Added exercise " + e.toString() + " session made with " + this.exercisesOfSession.size() + " exercises");
     }
 
@@ -67,7 +70,7 @@ public class WorkoutSession {
     public WorkoutSession clone(){
         WorkoutSession aSession =   new WorkoutSession(this.filepath,this.id,this.progressive,this.workoutSessionSerializer);
         for(int i=0;i<this.exercisesOfSession.size();i++){
-            aSession.addExerciseToWorkoutSession(this.exercisesOfSession.get(i).clone());
+            aSession.addExerciseToWorkoutSession(this.exercisesOfSession.get(i).clone(),false);
         }
         return aSession;
     }

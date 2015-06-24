@@ -9,7 +9,6 @@ public class UserWorkoutSession extends WorkoutSession{
     private String  strComment;
     private Date    dateSessionDate;
     private int     usrSessionUserId;
-    private int     sessionID;
     private WorkoutSessionSerializer        workoutSessionSerializer;
     private UserWorkoutSessionSerializer    userWorkoutSessionSerializer;
 
@@ -28,7 +27,6 @@ public class UserWorkoutSession extends WorkoutSession{
     public UserWorkoutSession(String filepath, int userID, int progressive, WorkoutSessionSerializer workoutSessionSerializer, UserWorkoutSessionSerializer userWorkoutSessionSerializer, Date dateSessionDate, int sessionID, String strComment, boolean loadedFromDB) {
         super(filepath, sessionID, progressive, workoutSessionSerializer);
         this.dateSessionDate = dateSessionDate;
-        this.sessionID      = sessionID;
         this.strComment     = strComment;
         this.usrSessionUserId =   userID;
         this.workoutSessionSerializer       =   workoutSessionSerializer;
@@ -42,9 +40,6 @@ public class UserWorkoutSession extends WorkoutSession{
         return dateSessionDate;
     }
 
-    public int getSessionID() {
-        return sessionID;
-    }
 
     public String getStrComment() {
         return strComment;
@@ -57,11 +52,10 @@ public class UserWorkoutSession extends WorkoutSession{
                 "dateSessionDate=" + dateSessionDate +
                 ", strComment='" + strComment + '\'' +
                 ", usrSessionUser=" + usrSessionUserId +
-                ", sessionID=" + sessionID +
-                '}';
+                '}'+super.toString();
     }
 
     public UserWorkoutSession clone(){
-        return new UserWorkoutSession(this.getFilepath(),this.usrSessionUserId,this.getProgressive(),this.workoutSessionSerializer,this.userWorkoutSessionSerializer,this.dateSessionDate,this.sessionID,this.strComment,true);
+        return new UserWorkoutSession(this.getFilepath(),this.usrSessionUserId,this.getProgressive(),this.workoutSessionSerializer,this.userWorkoutSessionSerializer,this.dateSessionDate,this.getId(),this.strComment,true);
     }
 }

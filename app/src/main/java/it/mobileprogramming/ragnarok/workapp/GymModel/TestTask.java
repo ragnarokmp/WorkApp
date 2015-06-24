@@ -43,6 +43,10 @@ public class TestTask extends AsyncTask {
             System.out.println("User "+allUsers.get(i).getIntUserID()+" has "+wouts.size()+" workouts");
             for(int j=0;j<wouts.size();j++){
                 System.out.println(wouts.get(j).toString());
+                ArrayList<UserWorkoutSession> userWorkoutSessions   =   wouts.get(j).getWoSessions();
+                for (int k=0;k<userWorkoutSessions.size();k++){
+                    System.out.println("UserWorkoutSession: "+userWorkoutSessions.get(k).toString());
+                }
             }
             ArrayList<WeightItem> wHistory  =   sqLiteSerializer.loadWeightHistory(allUsers.get(i).getIntUserID());
             for(int j=0;j<wHistory.size();j++){

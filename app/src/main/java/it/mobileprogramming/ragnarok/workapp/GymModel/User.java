@@ -80,9 +80,11 @@ public class User {
         return templist;
     }
 
-    public void addToWeightHistory(WeightItem anItem){
+    public void addToWeightHistory(WeightItem anItem, boolean saveToDb){
         this.weightHistory.add(anItem);
-        this.usSerializer.addToWeightHistory(this.intUserID,anItem);
+        if(saveToDb==true){
+            this.usSerializer.addToWeightHistory(this.intUserID,anItem);
+        }
     }
 
     public void removeFromWeightHistory(WeightItem anItem){
@@ -90,9 +92,13 @@ public class User {
         this.weightHistory.remove(anItem);
     }
 
-    public void addToWorkouts(UserWorkout anItem){
+    public void addToWorkouts(UserWorkout anItem, boolean saveToDb){
         this.workoutHistory.add(anItem);
-        this.usSerializer.addWorkoutForUser(this.intUserID, anItem.getIntWOID());
+        System.out.println("aggiungo ad history");
+        if(saveToDb==true){
+            System.out.println("vedo se salvare "+saveToDb+" true");
+            this.usSerializer.addWorkoutForUser(this.intUserID, anItem.getIntWOID());
+        }
     }
 
     public void removeFromWorkouts(Workout anItem){
@@ -102,8 +108,7 @@ public class User {
 
     public static User loadUserfromDatabase(SQLiteSerializer serializer,int intID){
         User myUser                                 =   serializer.loadUser(intID);
-        //TODO complete
-        return null;
+        return myUser;
     }
 
     @Override
