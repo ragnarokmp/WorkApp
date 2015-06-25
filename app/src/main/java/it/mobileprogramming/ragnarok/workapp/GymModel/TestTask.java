@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by paride on 20/06/15.
@@ -53,6 +54,19 @@ public class TestTask extends AsyncTask {
                 System.out.println(wHistory.get(j).toString());
             }
         }
+        Exercise anExercise =   new Exercise(sqLiteSerializer,10,"nuovo",3,4,3,"pippo","schiena");
+        System.out.println("ID nuovo esercizio " + anExercise.getId());
+        Exercise load   =   sqLiteSerializer.loadExercise(anExercise.getId());
+        System.out.println("Risultato caricamento ");
+        System.out.println(load.toString());
+        User aUser  =   sqLiteSerializer.loadUser(1);
+        Date    d=   new Date();
+        UserExcercise userExcercise    =   new UserExcercise(aUser,d,load,false,"stocazzo",sqLiteSerializer,sqLiteSerializer);
+        WorkoutSession aSession =   new WorkoutSession("pippo",sqLiteSerializer);
+        System.out.println("Created new WO Session " + aSession.getId());
+        WorkoutSession loaded   =   sqLiteSerializer.loadWorkoutSession(aSession.getId());
+        System.out.println("CARICATO " + loaded.getFilepath() + " " + loaded.getId());
+        //UserWorkoutSession  aSession    =   new UserWorkoutSession()
         sqLiteSerializer.close();
         return null;
     }

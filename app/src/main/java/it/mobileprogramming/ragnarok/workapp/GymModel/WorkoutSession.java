@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class WorkoutSession {
     private int id;
-    private int progressive;
     private String filepath;
     private WorkoutSessionSerializer workoutSessionSerializer;
     private ArrayList<Exercise> exercisesOfSession  =   new ArrayList<Exercise>();
@@ -12,27 +11,23 @@ public class WorkoutSession {
     /**
      * use this constructor to create a new workout session and save it to DB
      * @param filepath
-     * @param progressive
      * @param workoutSessionSerializer
      */
-    public WorkoutSession(String filepath, int progressive, WorkoutSessionSerializer workoutSessionSerializer) {
+    public WorkoutSession(String filepath, WorkoutSessionSerializer workoutSessionSerializer) {
         this.filepath = filepath;
-        this.progressive = progressive;
         this.workoutSessionSerializer = workoutSessionSerializer;
-        this.id =   workoutSessionSerializer.createNewWorkoutSession(progressive,filepath);
+        this.id =   workoutSessionSerializer.createNewWorkoutSession(filepath);
     }
 
     /**
      * use this constructor only for loading from database
      * @param filepath
      * @param id
-     * @param progressive
      * @param workoutSessionSerializer
      */
-    public WorkoutSession(String filepath, int id, int progressive, WorkoutSessionSerializer workoutSessionSerializer) {
+    public WorkoutSession(String filepath, int id, WorkoutSessionSerializer workoutSessionSerializer) {
         this.filepath = filepath;
         this.id = id;
-        this.progressive = progressive;
         this.workoutSessionSerializer = workoutSessionSerializer;
     }
 
@@ -61,14 +56,13 @@ public class WorkoutSession {
         return "WorkoutSession{" +
                 "exercisesOfSession=" + exercisesOfSession.size() +
                 ", id=" + id +
-                ", progressive=" + progressive +
                 ", filepath='" + filepath + '\'' +
                 ", workoutSessionSerializer=" + workoutSessionSerializer +
                 '}';
     }
 
     public WorkoutSession clone(){
-        WorkoutSession aSession =   new WorkoutSession(this.filepath,this.id,this.progressive,this.workoutSessionSerializer);
+        WorkoutSession aSession =   new WorkoutSession(this.filepath,this.id,this.workoutSessionSerializer);
         for(int i=0;i<this.exercisesOfSession.size();i++){
             aSession.addExerciseToWorkoutSession(this.exercisesOfSession.get(i).clone(),false);
         }
@@ -80,7 +74,5 @@ public class WorkoutSession {
         return filepath;
     }
 
-    public int getProgressive() {
-        return progressive;
-    }
+
 }

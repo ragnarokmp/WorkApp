@@ -30,7 +30,7 @@ public class Exercise {
         this.series = series;
         this.usedWeight = usedWeight;
         this.muscles    =   muscles;
-        this.intExId    =   this.aSerializer.createNewExercise(series,repetition,frequency,recovery,name,muscles);
+        this.intExId    =   this.aSerializer.createNewExercise(series,repetition,frequency,recovery,name,muscles,usedWeight);
     }
 
     /**
@@ -108,6 +108,10 @@ public class Exercise {
                 ", recovery=" + recovery +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public String getMuscles() {
+        return muscles+"";
     }
 
     //TODO create user exercise from this one
