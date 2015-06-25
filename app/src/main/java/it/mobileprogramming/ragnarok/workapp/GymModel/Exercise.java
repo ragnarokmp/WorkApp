@@ -9,7 +9,6 @@ public class Exercise {
     private int     recovery;
     private String  name;
     private ExerciseSerializer aSerializer;
-    private boolean completed   =   false;
     private String  muscles;
 
     /**
@@ -22,7 +21,7 @@ public class Exercise {
      * @param series        number of series
      * @param usedWeight    value of the weight used
      */
-    public Exercise(ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight) {
+    public Exercise(ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight,String muscles) {
         this.aSerializer = aSerializer;
         this.frequency = frequency;
         this.name = name;
@@ -30,9 +29,8 @@ public class Exercise {
         this.repetition = repetition;
         this.series = series;
         this.usedWeight = usedWeight;
-        this.intExId    =   this.aSerializer.createNewExercise(series,repetition,frequency,recovery,name,muscles);
-        this.completed  =   false;
         this.muscles    =   muscles;
+        this.intExId    =   this.aSerializer.createNewExercise(series,repetition,frequency,recovery,name,muscles);
     }
 
     /**
@@ -45,9 +43,8 @@ public class Exercise {
      * @param repetition
      * @param series
      * @param usedWeight
-     * @param completed
      */
-    public Exercise(int eid, ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, boolean completed) {
+    public Exercise(int eid, ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, String muscles) {
         this.aSerializer = aSerializer;
         this.frequency = frequency;
         this.name = name;
@@ -56,26 +53,19 @@ public class Exercise {
         this.series = series;
         this.usedWeight = usedWeight;
         this.intExId    =  eid;
-        this.completed  = this.completed;
         this.muscles    =   muscles;
     }
 
+    public Exercise clone(){
+        Exercise newExercise    =   new Exercise(this.intExId,this.aSerializer,this.frequency,this.name,this.recovery,this.repetition,this.series,this.usedWeight,this.muscles);
+        return newExercise;
+    }
     /**
      * returns the execise frequency in hz
      * @return frequency
      */
     public int getFrequency() {
         return frequency;
-    }
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(boolean completed) {
-        if(this.completed==false&&completed==true){
-            this.completed = completed;
-        }
     }
 
     /**
@@ -102,6 +92,10 @@ public class Exercise {
         return usedWeight;
     }
 
+    public int getId() {
+        return intExId;
+    }
+
     @Override
     public String toString() {
         return "Exercise{" +
@@ -113,7 +107,6 @@ public class Exercise {
                 ", frequency=" + frequency +
                 ", recovery=" + recovery +
                 ", name='" + name + '\'' +
-                ", completed=" + completed +
                 '}';
     }
 

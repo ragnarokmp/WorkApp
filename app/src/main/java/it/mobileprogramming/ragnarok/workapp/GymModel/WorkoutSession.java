@@ -19,7 +19,7 @@ public class WorkoutSession {
         this.filepath = filepath;
         this.progressive = progressive;
         this.workoutSessionSerializer = workoutSessionSerializer;
-        this.id =   workoutSessionSerializer.createNewWorkoutSession(id,progressive,filepath);
+        this.id =   workoutSessionSerializer.createNewWorkoutSession(progressive,filepath);
     }
 
     /**
@@ -36,15 +36,51 @@ public class WorkoutSession {
         this.workoutSessionSerializer = workoutSessionSerializer;
     }
 
+    public void addExerciseToWorkoutSession(Exercise e,boolean saveOnDB){
+        this.exercisesOfSession.add(e);
+        if(saveOnDB==true){
+            this.workoutSessionSerializer.addExerciseForWorkoutSession(this.id,e.getId());
+        }
+        System.out.println("Added exercise " + e.toString() + " session made with " + this.exercisesOfSession.size() + " exercises");
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public ArrayList<Exercise> getExercisesOfSession(){
+        ArrayList<Exercise> returnList  =   new ArrayList<>();
+        for(int i=0;i<this.exercisesOfSession.size();i++){
+            Exercise temp   =   exercisesOfSession.get(i).clone();
+            returnList.add(temp);
+        }
+        return returnList;
+    }
     @Override
     public String toString() {
         return "WorkoutSession{" +
-                "exercisesOfSession=" + exercisesOfSession +
+                "exercisesOfSession=" + exercisesOfSession.size() +
                 ", id=" + id +
                 ", progressive=" + progressive +
                 ", filepath='" + filepath + '\'' +
                 ", workoutSessionSerializer=" + workoutSessionSerializer +
                 '}';
     }
+
+    public WorkoutSession clone(){
+        WorkoutSession aSession =   new WorkoutSession(this.filepath,this.id,this.progressive,this.workoutSessionSerializer);
+        for(int i=0;i<this.exercisesOfSession.size();i++){
+            aSession.addExerciseToWorkoutSession(this.exercisesOfSession.get(i).clone(),false);
+        }
+        return aSession;
+    }
 //TODO create user workout session from this session
+
+    public String getFilepath() {
+        return filepath;
+    }
+
+    public int getProgressive() {
+        return progressive;
+    }
 }

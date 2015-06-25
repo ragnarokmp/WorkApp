@@ -4,29 +4,20 @@ package it.mobileprogramming.ragnarok.workapp.GymModel;
  * Created by paride on 18/06/15.
  */
 public class UserExcercise extends Exercise{
-    UserWorkoutSession mySession;
-    boolean done;
-    String comment;
-    Exercise anExercise;
+    private boolean done;
+    private String comment;
 
-    public UserExcercise(ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, Exercise anExercise, String comment, boolean done, UserWorkoutSession mySession) {
-        super(aSerializer, frequency, name, recovery, repetition, series, usedWeight);
-        this.anExercise = anExercise;
+    public UserExcercise(UserExerciseSerializer uSerializer,ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, String comment, boolean done,String muscles) {
+        super(aSerializer, frequency, name, recovery, repetition, series, usedWeight,muscles);
         this.comment = comment;
         this.done = done;
-        this.mySession = mySession;
+        //TODO do this constructor like the others...
     }
 
-    public UserExcercise(int eid, ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, boolean completed, Exercise anExercise, String comment, boolean done, UserWorkoutSession mySession) {
-        super(eid, aSerializer, frequency, name, recovery, repetition, series, usedWeight, completed);
-        this.anExercise = anExercise;
+    public UserExcercise(int eid, ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, boolean completed, String comment,String muscles) {
+        super(eid, aSerializer, frequency, name, recovery, repetition, series, usedWeight, muscles);
         this.comment = comment;
-        this.done = done;
-        this.mySession = mySession;
-    }
-
-    public Exercise getAnExercise() {
-        return anExercise;
+        this.done = completed;
     }
 
     public String getComment() {
@@ -37,10 +28,6 @@ public class UserExcercise extends Exercise{
         return done;
     }
 
-    public UserWorkoutSession getMySession() {
-        return mySession;
-    }
-
     public void setComment(String comment) {
         this.comment = comment;
     }
@@ -49,13 +36,12 @@ public class UserExcercise extends Exercise{
         this.done = done;
     }
 
+
     @Override
     public String toString() {
         return "UserExcercise{" +
-                "anExercise=" + anExercise +
-                ", mySession=" + mySession +
+                "comment='" + comment + '\'' +
                 ", done=" + done +
-                ", comment='" + comment + '\'' +
                 '}';
     }
 }
