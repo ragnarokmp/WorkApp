@@ -2,7 +2,9 @@ package it.mobileprogramming.ragnarok.workapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.dexafree.materialList.cards.OnButtonPressListener;
+import com.dexafree.materialList.model.Card;
+import com.dexafree.materialList.view.MaterialListView;
+
+import it.mobileprogramming.ragnarok.workapp.cards.SessionCard;
 import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
 
 
@@ -64,14 +71,33 @@ public class WorkoutFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        Button workoutButton = (Button) view.findViewById(R.id.workout_button);
-        workoutButton.setOnClickListener(new View.OnClickListener() {
+        MaterialListView workoutListView = (MaterialListView) view.findViewById(R.id.workout_list_view);
+
+        Drawable drawable;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            drawable = getActivity().getDrawable(R.drawable.divider);
+        } else {
+            drawable = getActivity().getResources().getDrawable(R.drawable.divider);
+        }
+        workoutListView.addItemDecoration(new DividerItemDecoration(drawable, true, true));
+
+        SessionCard card = new SessionCard(context);
+        card.setTitle("Session #1");
+        card.setDescription("Today your work is based on: \n* Piegamenti\n*Addominali\n*Non ho fantasia");
+        card.setDrawable(R.drawable.ic_launcher);
+
+        card.setOnRightButtonPressedListener(new OnButtonPressListener() {
             @Override
-            public void onClick(View v) {
+            public void onButtonPressedListener(View view, Card card) {
                 Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
                 startActivity(intent);
             }
         });
+
+        workoutListView.add(card);
+        workoutListView.add(card);
+        workoutListView.add(card);
+
         return view;
     }
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SessionCardTitle" parent="CardTitle">
+        <item name="android:paddingTop">@dimen/small_padding</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+    <style name="SessionCardSubTitle" parent="CardTitle">
+        <item name="android:textSize">@dimen/abc_text_size_subhead_material</item>
+    </style>
+</resources>
