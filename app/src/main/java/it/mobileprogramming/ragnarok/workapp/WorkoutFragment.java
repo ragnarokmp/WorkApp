@@ -10,13 +10,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.model.Card;
-import com.dexafree.materialList.view.MaterialListView;
 
-import it.mobileprogramming.ragnarok.workapp.cards.SessionCard;
+import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCard;
 import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
 
 
@@ -71,7 +69,7 @@ public class WorkoutFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        MaterialListView workoutListView = (MaterialListView) view.findViewById(R.id.workout_list_view);
+        MyMaterialListView workoutListView = (MyMaterialListView) view.findViewById(R.id.workout_list_view);
 
         Drawable drawable;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -79,21 +77,9 @@ public class WorkoutFragment extends BaseFragment {
         } else {
             drawable = getActivity().getResources().getDrawable(R.drawable.divider);
         }
-        workoutListView.addItemDecoration(new DividerItemDecoration(drawable, true, true));
+        workoutListView.setDivider(drawable);
 
-        SessionCard card = new SessionCard(context);
-        card.setTitle("Session #1");
-        card.setDescription("Today your work is based on: \n* Piegamenti\n*Addominali\n*Non ho fantasia");
-        card.setDrawable(R.drawable.ic_launcher);
-
-        card.setOnRightButtonPressedListener(new OnButtonPressListener() {
-            @Override
-            public void onButtonPressedListener(View view, Card card) {
-                Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
-                startActivity(intent);
-            }
-        });
-
+        WorkoutSessionCard card = new WorkoutSessionCard(context);
         workoutListView.add(card);
         workoutListView.add(card);
         workoutListView.add(card);

@@ -7,7 +7,7 @@
     android:gravity="center"
     tools:context="it.mobileprogramming.ragnarok.workapp.WorkoutFragment">
 
-    <com.dexafree.materialList.view.MaterialListView
+    <it.mobileprogramming.ragnarok.workapp.MyMaterialListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:column_count_portrait="1"
@@ -16,7 +16,6 @@
         android:paddingBottom="@dimen/small_padding"
         android:paddingTop="@dimen/small_padding"
         android:clipToPadding="false"
-        android:clipChildren="false"
-        android:background="?android:attr/listDivider" />
+        android:clipChildren="false" />
 
 </RelativeLayout>

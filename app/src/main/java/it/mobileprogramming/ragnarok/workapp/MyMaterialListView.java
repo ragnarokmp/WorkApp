@@ -3,6 +3,8 @@ package it.mobileprogramming.ragnarok.workapp;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -227,13 +229,8 @@ public class MyMaterialListView extends RecyclerView {
         itemClickListener.setRecyclerView(this);
         super.addOnItemTouchListener(itemClickListener);
     }
-/*
+
     public void setDivider(Drawable drawable) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            drawable = context.getDrawable(it.mobileprogramming.ragnarok.workapp.R.drawable.divider);
-        } else {
-            drawable = context.getResources().getDrawable(it.mobileprogramming.ragnarok.workapp.R.drawable.divider);
-        }
         this.addItemDecoration(new DividerItemDecoration(drawable, true, true));
-    }*/
+    }
 }
