@@ -7,23 +7,29 @@ import java.util.Date;
  * Created by paride on 21/06/15.
  */
 public class UserWorkout extends Workout{
+    private int userID;
     private ArrayList<UserWorkoutSession> woSessions = new ArrayList<UserWorkoutSession>();
-    public UserWorkout(String name,String type,String difficulty,WorkoutSerializer aserializer){
+    public UserWorkout(String name,int userID,String type,String difficulty,WorkoutSerializer aserializer){
         super(name,type,difficulty,aserializer);
+        this.userID =    userID;
     }
-    public UserWorkout(int id, String name,String type,String difficulty,WorkoutSerializer aserializer){
+    public UserWorkout(int id, String name,int userID,String type,String difficulty,WorkoutSerializer aserializer){
         super(id, name, type, difficulty, aserializer);
+        this.userID =   userID;
     }
-    public void addWorkoutSession(WorkoutSession aSession,boolean saveToDb){
+    public void addWorkoutSession(WorkoutSession aSession,boolean saveToDb,int progressive){
         if(aSession.getClass()==UserWorkoutSession.class){
-            this.addUserWorkoutSession((UserWorkoutSession)aSession);
+            this.addUserWorkoutSession((UserWorkoutSession)aSession,progressive);
         }
         else{
-            super.addWorkoutSession(aSession,saveToDb);
+            super.addWorkoutSession(aSession,saveToDb,progressive);
         }
     }
-    public void addUserWorkoutSession(UserWorkoutSession aWorkoutSession){
-        this.woSessions.add(aWorkoutSession);
+    public void addUserWorkoutSession(UserWorkoutSession aWorkoutSession,int progressive){
+        if(progressive>woSessions.size()){
+            progressive =   woSessions.size();
+        }
+        this.woSessions.add(progressive,aWorkoutSession);
     }
 
     public ArrayList<UserWorkoutSession> getWoSessions(){
@@ -32,6 +38,10 @@ public class UserWorkout extends Workout{
             userWorkoutSessionArrayList.add(this.woSessions.get(i).clone());
         }
         return userWorkoutSessionArrayList;
+    }
+
+    public int getUserID() {
+        return userID;
     }
 
     @Override

@@ -21,8 +21,8 @@ public class User {
         this.dateBirth      =   birthDate;
         this.strPwdHash     =   hashAndSalt(password);
         this.usSerializer   =   aSerializer;
-        this.weightHistory  =   new ArrayList<WeightItem>();
-        this.workoutHistory =   new ArrayList<UserWorkout>();
+        this.weightHistory  =   new ArrayList<>();
+        this.workoutHistory =   new ArrayList<>();
         this.intUserID  =   aSerializer.createNewUser(name,surname,this.strPwdHash,sex,birthDate);
     }
 
@@ -65,7 +65,7 @@ public class User {
     }
 
     public ArrayList<WeightItem> getWeightHistory() {
-        ArrayList<WeightItem> returnlist    =   new ArrayList<WeightItem>();
+        ArrayList<WeightItem> returnlist    =   new ArrayList<>();
         for(int i=0;i<this.weightHistory.size();i++){
             returnlist.add(this.weightHistory.get(i));
         }
@@ -78,6 +78,10 @@ public class User {
             templist.add(this.workoutHistory.get(i));
         }
         return templist;
+    }
+
+    public int getIntGender() {
+        return intGender;
     }
 
     public void addToWeightHistory(WeightItem anItem, boolean saveToDb){
@@ -96,7 +100,7 @@ public class User {
         this.workoutHistory.add(anItem);
         System.out.println("aggiungo ad history");
         if(saveToDb==true){
-            System.out.println("vedo se salvare "+saveToDb+" true");
+            //System.out.println("vedo se salvare "+saveToDb+" true");
             this.usSerializer.addWorkoutForUser(this.intUserID, anItem.getIntWOID());
         }
     }
@@ -109,6 +113,10 @@ public class User {
     public static User loadUserfromDatabase(SQLiteSerializer serializer,int intID){
         User myUser                                 =   serializer.loadUser(intID);
         return myUser;
+    }
+
+    public static ArrayList<User> loadAllUsersFromDatabase(SQLiteSerializer serializer){
+        return serializer.getAllUsers();
     }
 
     @Override

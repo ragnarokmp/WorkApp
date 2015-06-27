@@ -12,7 +12,7 @@ public class GymSQLiteHelper extends SQLiteAssetHelper {
 
     /**#
      * automatic generation/update of SQLite DB, for further info please refer to https://github.com/jgilfelt/android-sqlite-asset-helper
-     * @param context
+     * @param context context of the application
      */
     public GymSQLiteHelper(Context context,String strDBName) {
         super(context, strDBName, null, DATABASE_VERSION);

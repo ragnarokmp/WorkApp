@@ -10,5 +10,6 @@ public interface UserExerciseSerializer {
     int createUserExercise(int intIDExercise, boolean boolIsDone, String strComment,int userID,Date executionDate) ;
     ArrayList<UserExcercise> getExercisesOfAUserSession(int intIDUserWorkoutSession,int userID,Date executionDate);
     void updateUserExercise(int intIDUser,int intIDExercise ,Date executionDate,boolean boolIsDone,String strComment);
+    void deleteUserExercise(int intIDUser,int intIDExercise ,Date date);
     //UserExcercise loadExercise(int intIDExercise,int intUserID,Date executionDate);
 }

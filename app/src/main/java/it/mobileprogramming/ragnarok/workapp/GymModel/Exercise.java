@@ -2,14 +2,15 @@ package it.mobileprogramming.ragnarok.workapp.GymModel;
 
 public class Exercise {
     private int intExId;
+    private ExerciseSerializer aSerializer;
     private String  usedWeight;
     private int     series;
     private int     repetition;
     private int     frequency;
     private int     recovery;
     private String  name;
-    private ExerciseSerializer aSerializer;
     private String  muscles;
+
 
     /**
      * constructor for a new User, saves also to DB don't use this for DB loaded users
@@ -35,14 +36,14 @@ public class Exercise {
 
     /**
      * constructors with id are used for loading instances from DB
-     * @param eid
-     * @param aSerializer
-     * @param frequency
-     * @param name
-     * @param recovery
-     * @param repetition
-     * @param series
-     * @param usedWeight
+     * @param eid id of exercise
+     * @param aSerializer class serializing
+     * @param frequency frequency of the exercise
+     * @param name exercise name
+     * @param recovery exercise recovery time
+     * @param repetition number of repetitions
+     * @param series number of series
+     * @param usedWeight description of the used weight
      */
     public Exercise(int eid, ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, String muscles) {
         this.aSerializer = aSerializer;
@@ -56,13 +57,16 @@ public class Exercise {
         this.muscles    =   muscles;
     }
 
+    /**
+     * clone the exercise
+     * @return returns a new exercise
+     */
     public Exercise clone(){
-        Exercise newExercise    =   new Exercise(this.intExId,this.aSerializer,this.frequency,this.name,this.recovery,this.repetition,this.series,this.usedWeight,this.muscles);
-        return newExercise;
+        return new Exercise(this.intExId, this.aSerializer, this.frequency, this.name, this.recovery, this.repetition, this.series, this.usedWeight, this.muscles);
     }
     /**
      * returns the execise frequency in hz
-     * @return frequency
+     * @return exercise
      */
     public int getFrequency() {
         return frequency;
@@ -76,24 +80,87 @@ public class Exercise {
         return name;
     }
 
+    /**
+     * get the recovery time of the exercise
+     * @return int with recovery time
+     */
     public int getRecovery() {
         return recovery;
     }
 
+    /**
+     * returns the number of repetition of exercise
+     * @return number of repetitions
+     */
     public int getRepetition() {
         return repetition;
     }
 
+    /**
+     * returns the number of series of exercise
+     * @return number of series
+     */
     public int getSeries() {
         return series;
     }
 
+    /**
+     * returns the description of the used weight
+     * @return description of used weight
+     */
     public String getUsedWeight() {
         return usedWeight;
     }
 
+    /**
+     * returns the description of the muscles involved in this exercise
+     * @return description of the muscles involved in this exercise
+     */
+    public String getMuscles() {
+        return muscles+"";
+    }
+
+    /**
+     * returns the id of the exercise
+     * @return exercise id
+     */
     public int getId() {
         return intExId;
+    }
+
+    public void setFrequency(int frequency) {
+        this.frequency = frequency;
+        aSerializer.updateExercise(this.intExId,this.usedWeight,this.series,this.repetition,this.frequency,this.recovery,this.name,this.muscles);
+    }
+
+    public void setMuscles(String muscles) {
+        this.muscles = muscles;
+        aSerializer.updateExercise(this.intExId,this.usedWeight,this.series,this.repetition,this.frequency,this.recovery,this.name,this.muscles);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+        aSerializer.updateExercise(this.intExId,this.usedWeight,this.series,this.repetition,this.frequency,this.recovery,this.name,this.muscles);
+    }
+
+    public void setRecovery(int recovery) {
+        this.recovery = recovery;
+        aSerializer.updateExercise(this.intExId,this.usedWeight,this.series,this.repetition,this.frequency,this.recovery,this.name,this.muscles);
+    }
+
+    public void setRepetition(int repetition) {
+        this.repetition = repetition;
+        aSerializer.updateExercise(this.intExId,this.usedWeight,this.series,this.repetition,this.frequency,this.recovery,this.name,this.muscles);
+    }
+
+    public void setSeries(int series) {
+        this.series = series;
+        aSerializer.updateExercise(this.intExId,this.usedWeight,this.series,this.repetition,this.frequency,this.recovery,this.name,this.muscles);
+    }
+
+    public void setUsedWeight(String usedWeight) {
+        this.usedWeight = usedWeight;
+        aSerializer.updateExercise(this.intExId,this.usedWeight,this.series,this.repetition,this.frequency,this.recovery,this.name,this.muscles);
     }
 
     @Override
@@ -110,9 +177,6 @@ public class Exercise {
                 '}';
     }
 
-    public String getMuscles() {
-        return muscles+"";
-    }
 
     //TODO create user exercise from this one
 }
