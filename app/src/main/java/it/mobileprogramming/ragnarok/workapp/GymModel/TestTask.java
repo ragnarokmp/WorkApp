@@ -30,7 +30,7 @@ public class TestTask extends AsyncTask implements TextToSpeech.OnInitListener {
     protected Object doInBackground(Object[] params) {
         textToSpeech    =  new TextToSpeech(this.myContext,this);
 
-
+/*
         System.out.println("Hello, i'm a testing Asynctask!");
         SQLiteSerializer    sqLiteSerializer    =   new SQLiteSerializer(this.myContext,"workapp.db");
         sqLiteSerializer.open();
@@ -111,8 +111,8 @@ public class TestTask extends AsyncTask implements TextToSpeech.OnInitListener {
         sqLiteSerializer.updateUser(1, "pippo", "calzetta", 1, new Date());
         User test   =   sqLiteSerializer.loadUser(1);
         System.out.println(test.toString());
-        sqLiteSerializer.deleteUser(1);
-        sqLiteSerializer.close();
+        //sqLiteSerializer.deleteUser(1);
+        sqLiteSerializer.close();*/
         return null;
     }
 
