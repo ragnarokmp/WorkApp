@@ -1,6 +1,6 @@
 // https://gist.github.com/ceskobassman/179a62e1be65c2275baf
 
-package it.mobileprogramming.ragnarok.workapp;
+package it.mobileprogramming.ragnarok.workapp.util;
 
 import android.content.Context;
 import android.content.res.TypedArray;

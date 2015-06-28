@@ -1,12 +1,14 @@
 // Copyright 2012 Square, Inc.
 // https://gist.github.com/JakeWharton/2856179
 
-package it.mobileprogramming.ragnarok.workapp;
+package it.mobileprogramming.ragnarok.workapp.util;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
+import it.mobileprogramming.ragnarok.workapp.R;
 
 /** Maintains an aspect ratio based on either width or height. Disabled by default. */
 public class AspectRatioImageView extends ImageView {

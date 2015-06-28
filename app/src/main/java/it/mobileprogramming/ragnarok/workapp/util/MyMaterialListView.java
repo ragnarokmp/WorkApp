@@ -1,10 +1,9 @@
-package it.mobileprogramming.ragnarok.workapp;
+package it.mobileprogramming.ragnarok.workapp.util;
 
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -25,6 +24,8 @@ import com.dexafree.materialList.model.Card;
 import com.squareup.otto.Subscribe;
 
 import java.util.Collection;
+
+import it.mobileprogramming.ragnarok.workapp.util.DividerItemDecoration;
 
 
 public class MyMaterialListView extends RecyclerView {

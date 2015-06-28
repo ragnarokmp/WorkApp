@@ -1,7 +1,6 @@
 package it.mobileprogramming.ragnarok.workapp;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -11,11 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.dexafree.materialList.cards.OnButtonPressListener;
-import com.dexafree.materialList.model.Card;
-
 import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCard;
 import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
+import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
 
 
 /**
@@ -75,6 +72,7 @@ public class WorkoutFragment extends BaseFragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             drawable = getActivity().getDrawable(R.drawable.divider);
         } else {
+            //noinspection deprecation
             drawable = getActivity().getResources().getDrawable(R.drawable.divider);
         }
         workoutListView.setDivider(drawable);
