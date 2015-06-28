@@ -12,6 +12,7 @@ import java.util.Date;
 /**
  * Created by paride on 18/06/15.
  * this class manages the persistence implementing all the interfaces declared in the model
+ * for further infos about each method please read the comments in the incerface file
  */
 public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializer,UserSerializer,WorkoutSerializer,WorkoutSessionSerializer,UserWorkoutSessionSerializer {
     private String          strdbName;
@@ -238,17 +239,20 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         String filter   []  =       {String.valueOf(id)};
         Cursor result       =       this.sqlGymDatabase.query(User_USER_tablename,null,field,filter,null,null,null);
         result.moveToFirst();
-        int     uid         =   result.getInt(result.getColumnIndex(User_USERID_column));
-        String  uname       =   result.getString(result.getColumnIndex(User_Name_column));
-        String  usurname    =   result.getString(result.getColumnIndex(User_Surname_column));
-        String  upassword   =   result.getString(result.getColumnIndex(User_Password_column));
-        int     ugender     =   result.getInt(result.getColumnIndex(User_Gender_column));
-        Date    ubirth      =   Singletons.formatFromString(result.getString(result.getColumnIndex(User_BirthDate_column)));
-        ArrayList<UserWorkout>  workoutArrayList    =   loadWorkoutsForUser(id);
-        ArrayList<WeightItem>   story   =   loadWeightHistory(id);
-        User    anUser      =   new User(uid,uname,usurname,ugender,ubirth,upassword,this,workoutArrayList,story);
-        result.close();
-        return  anUser;
+        if(result.getCount()>0) {
+            int uid = result.getInt(result.getColumnIndex(User_USERID_column));
+            String uname = result.getString(result.getColumnIndex(User_Name_column));
+            String usurname = result.getString(result.getColumnIndex(User_Surname_column));
+            String upassword = result.getString(result.getColumnIndex(User_Password_column));
+            int ugender = result.getInt(result.getColumnIndex(User_Gender_column));
+            Date ubirth = Singletons.formatFromString(result.getString(result.getColumnIndex(User_BirthDate_column)));
+            ArrayList<UserWorkout> workoutArrayList = loadWorkoutsForUser(id);
+            ArrayList<WeightItem> story = loadWeightHistory(id);
+            User anUser = new User(uid, uname, usurname, ugender, ubirth, upassword, this, workoutArrayList, story);
+            result.close();
+            return anUser;
+        }
+        else return null;
     }
 
     @Override

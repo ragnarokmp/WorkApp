@@ -2,6 +2,9 @@ package it.mobileprogramming.ragnarok.workapp.GymModel;
 
 import java.util.ArrayList;
 
+/**
+ * Serializer class for Exercise, declares all CRUD methods needed
+ */
 public interface ExerciseSerializer {
 
     /**

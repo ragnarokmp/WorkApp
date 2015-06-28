@@ -1,5 +1,8 @@
 package it.mobileprogramming.ragnarok.workapp.GymModel;
 
+/**
+ * model class for Exercise, includes method for CRUD
+ */
 public class Exercise {
     private int intExId;
     private ExerciseSerializer aSerializer;
@@ -128,36 +131,64 @@ public class Exercise {
         return intExId;
     }
 
+    /**
+     * set the frequency of the exercise and update DB
+     * @param frequency exercise frequency
+     */
     public void setFrequency(int frequency) {
         this.frequency = frequency;
         aSerializer.updateExercise(this.intExId,this.usedWeight,this.series,this.repetition,this.frequency,this.recovery,this.name,this.muscles);
     }
 
+    /**
+     * set the muscles involved in this exercise and update DB
+     * @param muscles string describing exercise
+     */
     public void setMuscles(String muscles) {
         this.muscles = muscles;
         aSerializer.updateExercise(this.intExId,this.usedWeight,this.series,this.repetition,this.frequency,this.recovery,this.name,this.muscles);
     }
 
+    /**
+     * set the name of the exercise and update DB
+     * @param name string name
+     */
     public void setName(String name) {
         this.name = name;
         aSerializer.updateExercise(this.intExId,this.usedWeight,this.series,this.repetition,this.frequency,this.recovery,this.name,this.muscles);
     }
 
+    /**
+     * set recovery time of the exercise and update DB
+     * @param recovery int recovery time
+     */
     public void setRecovery(int recovery) {
         this.recovery = recovery;
         aSerializer.updateExercise(this.intExId,this.usedWeight,this.series,this.repetition,this.frequency,this.recovery,this.name,this.muscles);
     }
 
+    /**
+     * set the number of repetitions of the exercise and update DB
+     * @param repetition in repetition number
+     */
     public void setRepetition(int repetition) {
         this.repetition = repetition;
         aSerializer.updateExercise(this.intExId,this.usedWeight,this.series,this.repetition,this.frequency,this.recovery,this.name,this.muscles);
     }
 
+    /**
+     * set the number of series and update DB
+     * @param series number of series
+     */
     public void setSeries(int series) {
         this.series = series;
         aSerializer.updateExercise(this.intExId,this.usedWeight,this.series,this.repetition,this.frequency,this.recovery,this.name,this.muscles);
     }
 
+    /**
+     * set the description of the used weights and update DB
+     * @param usedWeight description of weights
+     */
     public void setUsedWeight(String usedWeight) {
         this.usedWeight = usedWeight;
         aSerializer.updateExercise(this.intExId,this.usedWeight,this.series,this.repetition,this.frequency,this.recovery,this.name,this.muscles);

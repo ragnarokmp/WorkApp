@@ -1,22 +1,36 @@
 package it.mobileprogramming.ragnarok.workapp.GymModel;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.Voice;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Set;
 
+//TODO rimuovere stammerda in fase di consegna
 /**
  * Created by paride on 20/06/15.
  * testing task for all classes in data model
+ * MONNEZZA!!!!
  */
-public class TestTask extends AsyncTask {
+public class TestTask extends AsyncTask implements TextToSpeech.OnInitListener {
+
     Context myContext;
     public TestTask(Context aContext){
         this.myContext  =   aContext;
     }
+    public TextToSpeech textToSpeech;
     @Override
     protected Object doInBackground(Object[] params) {
+        textToSpeech    =  new TextToSpeech(this.myContext,this);
+
+
         System.out.println("Hello, i'm a testing Asynctask!");
         SQLiteSerializer    sqLiteSerializer    =   new SQLiteSerializer(this.myContext,"workapp.db");
         sqLiteSerializer.open();
@@ -87,12 +101,12 @@ public class TestTask extends AsyncTask {
                     exercises.get(k).setComment("cambiato commento");
                     exercises.get(k).setDone(true);
                     System.out.println(exercises.get(k).toString());
-                    sqLiteSerializer.deleteUserExercise(exercises.get(k).getMyUserID(),exercises.get(k).getId(),exercises.get(k).getExerciseDate());
+                   // sqLiteSerializer.deleteUserExercise(exercises.get(k).getMyUserID(),exercises.get(k).getId(),exercises.get(k).getExerciseDate());
                 }
-                sqLiteSerializer.updateSession(mySessions.get(j).getId(),mySessions.get(j).getDateSessionDate(),"stocazzissimo",mySessions.get(j).getUserId());
-                sqLiteSerializer.deleteSession(mySessions.get(j).getId(),mySessions.get(j).getUserId(),mySessions.get(j).getDateSessionDate());
+                sqLiteSerializer.updateSession(mySessions.get(j).getId(), mySessions.get(j).getDateSessionDate(), "stocazzissimo", mySessions.get(j).getUserId());
+                //sqLiteSerializer.deleteSession(mySessions.get(j).getId(),mySessions.get(j).getUserId(),mySessions.get(j).getDateSessionDate());
             }
-            sqLiteSerializer.removeWorkoutForUser(1,allWO.get(i).getIntWOID());
+            //sqLiteSerializer.removeWorkoutForUser(1,allWO.get(i).getIntWOID());
         }
         sqLiteSerializer.updateUser(1, "pippo", "calzetta", 1, new Date());
         User test   =   sqLiteSerializer.loadUser(1);
@@ -101,4 +115,21 @@ public class TestTask extends AsyncTask {
         sqLiteSerializer.close();
         return null;
     }
+
+    @Override
+    public void onInit(int status) {
+        textToSpeech.setLanguage(Locale.ITALIAN);
+        if(Build.VERSION.SDK_INT< Build.VERSION_CODES.LOLLIPOP){
+            textToSpeech.speak("Benvenuto in work app, pronto a muovere le chiappe? Per non fare schifo devi spingere come un maledetto!", TextToSpeech.QUEUE_ADD, null);
+        }
+        else{
+            textToSpeech.speak("Benvenuto in work app, pronto a muovere le chiappe? Per non fare schifo devi spingere come un maledetto!", TextToSpeech.QUEUE_ADD, null,"pippo");
+            /*textToSpeech.setSpeechRate((float) 0.5);
+            textToSpeech.speak("E se mi gira ti posso far andare molto pianoooooooooo", TextToSpeech.QUEUE_ADD, null, "pippo");
+            textToSpeech.setSpeechRate((float) 3);
+            textToSpeech.speak("Oppure molto forte!", TextToSpeech.QUEUE_ADD, null, "pippo");
+            textToSpeech.setSpeechRate(1);
+            textToSpeech.speak("Un solo grido! Un solo allarme! Milano in fiamme! Milano in fiamme!", TextToSpeech.QUEUE_ADD, null, "pippo");
+            */}
+      }
 }
