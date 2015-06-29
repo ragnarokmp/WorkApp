@@ -16,7 +16,6 @@ public class UserWorkoutSession extends WorkoutSession{
      *
      * if loadedFrom db is set to false creates a new entry in DB
      * @param filepath
-     * @param progressive
      * @param workoutSessionSerializer
      * @param userWorkoutSessionSerializer
      * @param dateSessionDate
@@ -24,8 +23,8 @@ public class UserWorkoutSession extends WorkoutSession{
      * @param strComment
      * @param loadedFromDB
      */
-    public UserWorkoutSession(String filepath, int userID, int progressive, WorkoutSessionSerializer workoutSessionSerializer, UserWorkoutSessionSerializer userWorkoutSessionSerializer, Date dateSessionDate, int sessionID, String strComment, boolean loadedFromDB) {
-        super(filepath, sessionID, progressive, workoutSessionSerializer);
+    public UserWorkoutSession(String filepath, int userID, WorkoutSessionSerializer workoutSessionSerializer, UserWorkoutSessionSerializer userWorkoutSessionSerializer, Date dateSessionDate, int sessionID, String strComment, boolean loadedFromDB) {
+        super(filepath, sessionID, workoutSessionSerializer);
         this.dateSessionDate = dateSessionDate;
         this.strComment     = strComment;
         this.usrSessionUserId =   userID;
@@ -45,7 +44,9 @@ public class UserWorkoutSession extends WorkoutSession{
         return strComment;
     }
 
-
+    public int getUserId() {
+        return usrSessionUserId;
+    }
     @Override
     public String toString() {
         return "UserWorkoutSession{" +
@@ -56,6 +57,6 @@ public class UserWorkoutSession extends WorkoutSession{
     }
 
     public UserWorkoutSession clone(){
-        return new UserWorkoutSession(this.getFilepath(),this.usrSessionUserId,this.getProgressive(),this.workoutSessionSerializer,this.userWorkoutSessionSerializer,this.dateSessionDate,this.getId(),this.strComment,true);
+        return new UserWorkoutSession(this.getFilepath(),this.usrSessionUserId,this.workoutSessionSerializer,this.userWorkoutSessionSerializer,this.dateSessionDate,this.getId(),this.strComment,true);
     }
 }

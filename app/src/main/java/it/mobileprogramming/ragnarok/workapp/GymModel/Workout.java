@@ -26,10 +26,13 @@ public class Workout {
         this.intWOID        =   id;
     }
 
-    public void addWorkoutSession(WorkoutSession aSession,boolean saveonDB){
-        this.woSessions.add(aSession);
+    public void addWorkoutSession(WorkoutSession aSession,boolean saveonDB,int progressive){
+        if(progressive>woSessions.size()) {
+            progressive =   woSessions.size();
+        }
+        this.woSessions.add(progressive,aSession);
         if(saveonDB==true){
-            this.woSerializer.addSessiontoWorkout(this.intWOID,aSession.getId());
+            this.woSerializer.addSessiontoWorkout(this.intWOID,aSession.getId(),progressive);
         }
     }
 
