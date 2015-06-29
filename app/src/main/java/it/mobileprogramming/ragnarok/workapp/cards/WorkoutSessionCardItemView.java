@@ -17,6 +17,7 @@ import com.dexafree.materialList.model.CardItemView;
 import it.mobileprogramming.ragnarok.workapp.ExerciseListActivity;
 import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.R;
+import it.mobileprogramming.ragnarok.workapp.StartExerciseActivity;
 
 import static it.mobileprogramming.ragnarok.workapp.util.Util.boldTextBetweenTokens;
 
@@ -136,7 +137,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
                     new OnButtonPressListener() {
                         @Override
                         public void onButtonPressedListener(View view, Card card) {
-                            Intent intent = new Intent(getContext(), ExerciseListActivity.class);
+                            Intent intent = new Intent(getContext(), StartExerciseActivity.class);
                             getContext().startActivity(intent);
                         }
                     }.onButtonPressedListener(startNowTextButton, card);

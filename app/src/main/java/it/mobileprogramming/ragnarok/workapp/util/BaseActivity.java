@@ -11,9 +11,9 @@ import it.mobileprogramming.ragnarok.workapp.BuildConfig;
 import it.mobileprogramming.ragnarok.workapp.R;
 
 /**
- * Base App Compact Activity with logging and Action Bar from Toolbar.
+ * Base App Compact Activity with logging.
  * @author pincopallino93
- * @version 1.2
+ * @version 1.3
  */
 public abstract class BaseActivity extends AppCompatActivity {
     /**
@@ -47,29 +47,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         // Set context for usage in generic class outside Android
         Util.setContext(this);
 
-        // Init toolbar
-        initToolbar();
-
         // Get content in order to make easier use after
         content = findViewById(R.id.content);
 
         if (BuildConfig.DEBUG) Log.v(TAG, "onCreate");
-    }
-
-    /**
-     * This method initializes a Toolbar in order to use such a ActionBar.
-     */
-    private void initToolbar() {
-        // Get toolbar
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // Set as Action Bar and get it
-        setSupportActionBar(toolbar);
-        actionBar = getSupportActionBar();
-
-        if (actionBar != null) {
-            // Set the Up arrow in Action Bar
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
     }
 
     @Override

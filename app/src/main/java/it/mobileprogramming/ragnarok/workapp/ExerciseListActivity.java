@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
+import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 
 /**
  * An activity representing a list of Exercises. This activity
@@ -28,8 +29,7 @@ import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
  * {@link ExerciseListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class ExerciseListActivity extends BaseActivity
-        implements ExerciseListFragment.Callbacks {
+public class ExerciseListActivity extends BaseActivityWithToolbar implements ExerciseListFragment.Callbacks {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet

@@ -4,8 +4,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
+import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 
-public class AboutActivity extends BaseActivity {
+public class AboutActivity extends BaseActivityWithToolbar {
 
     @Override
     protected int getLayoutResourceId() {

@@ -6,6 +6,7 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
+import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 
 /**
  * An activity representing a single Exercise detail screen. This
@@ -16,7 +17,7 @@ import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link ExerciseDetailFragment}.
  */
-public class ExerciseDetailActivity extends BaseActivity {
+public class ExerciseDetailActivity extends BaseActivityWithToolbar {
 
     @Override
     protected int getLayoutResourceId() {

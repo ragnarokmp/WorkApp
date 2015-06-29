@@ -14,7 +14,7 @@ import it.mobileprogramming.ragnarok.workapp.BuildConfig;
  * Base fragment with logging.
  *
  * @author pincopallino93
- * @version 1.1
+ * @version 1.2
  */
 public abstract class BaseFragment extends Fragment {
     /**
@@ -52,8 +52,11 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        // Inflate layout passed through the abstract method
-        view = inflater.inflate(getLayoutResourceId(), container, false);
+        int layoutResoruceId = getLayoutResourceId();
+        if (layoutResoruceId != 0) {
+            // Inflate layout passed through the abstract method
+            view = inflater.inflate(getLayoutResourceId(), container, false);
+        }
 
         if (BuildConfig.DEBUG) Log.v(TAG, "onCreateView");
         return view;

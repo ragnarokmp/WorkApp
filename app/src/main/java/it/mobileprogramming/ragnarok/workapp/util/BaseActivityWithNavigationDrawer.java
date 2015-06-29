@@ -11,9 +11,9 @@ import it.mobileprogramming.ragnarok.workapp.R;
 /**
  * Base App Compact Activity that add also Navigation Drawer.
  * @author pincopallino93
- * @version 1.2
+ * @version 1.3
  */
-public abstract class BaseActivityWithNavigationDrawer extends BaseActivity {
+public abstract class BaseActivityWithNavigationDrawer extends BaseActivityWithToolbar {
     /**
      * The Drawer Layout.
      */

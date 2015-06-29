@@ -19,5 +19,6 @@
     <string name="exercises_title">Exercises</string>
     <string name="duration_title">Duration</string>
     <string name="completion_title">Completion</string>
+    <string name="title_activity_start_exercise">StartExerciseActivity</string>
 
 </resources>
