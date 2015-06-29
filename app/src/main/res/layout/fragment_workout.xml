@@ -29,18 +29,11 @@
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/imageView"
-            android:src="@mipmap/ic_launcher"
-            android:contentDescription="@string/no_workout" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_workout"
-            android:id="@+id/textView"
+            android:drawableTop="@mipmap/ic_launcher"
             android:layout_marginTop="@dimen/big_padding"
             style="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@color/secondary_text"
