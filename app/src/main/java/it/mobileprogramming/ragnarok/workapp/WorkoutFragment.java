@@ -78,9 +78,11 @@ public class WorkoutFragment extends BaseFragment {
         workoutListView.setDivider(drawable);
 
         WorkoutSessionCard card = new WorkoutSessionCard(context);
+/*        workoutListView.add(card);
         workoutListView.add(card);
-        workoutListView.add(card);
-        workoutListView.add(card);
+        workoutListView.add(card);*/
+
+        workoutListView.setEmptyView(view.findViewById(R.id.no_workout));
 
         return view;
     }

@@ -59,7 +59,7 @@
         </activity>
         <activity
             android:name=".StartExerciseActivity"
-            android:label="@string/title_activity_start_exercise"
+            android:label="@string/start_exercise"
             android:parentActivityName=".ExerciseListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
