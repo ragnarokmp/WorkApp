@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="it.mobileprogramming.ragnarok.workapp.StartExerciseActivity">
+    tools:context="it.mobileprogramming.ragnarok.workapp.StartExerciseActivity"
+    android:fitsSystemWindows="true">
 <!--
     &lt;!&ndash; Includes the toolbar &ndash;&gt;
     <include layout="@layout/toolbar"/>-->

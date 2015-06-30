@@ -81,6 +81,8 @@ public class WorkoutFragment extends BaseFragment {
         workoutListView.add(card);
         workoutListView.add(card);
         workoutListView.add(card);
+        workoutListView.add(card);
+        workoutListView.add(card);
 
         workoutListView.setEmptyView(view.findViewById(R.id.no_workout));
 

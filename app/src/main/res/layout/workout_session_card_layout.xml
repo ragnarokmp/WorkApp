@@ -51,9 +51,10 @@
                         android:layout_height="wrap_content"
                         tools:text="DURATION"
                         android:id="@+id/duration_title_text_view"
-                        style="@style/Base.TextAppearance.AppCompat.Subhead"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
                         android:textColor="@color/primary_dark"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:singleLine="true" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -63,7 +64,8 @@
                         android:textColor="@android:color/white"
                         style="@style/Base.TextAppearance.AppCompat.Body1"
                         android:layout_gravity="center_vertical"
-                        android:textStyle="italic" />
+                        android:textStyle="italic"
+                        android:singleLine="true" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -77,9 +79,10 @@
                         android:layout_height="wrap_content"
                         tools:text="EXERCISES"
                         android:id="@+id/exercises_title_text_view"
-                        style="@style/Base.TextAppearance.AppCompat.Subhead"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
                         android:textColor="@color/primary_dark"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:singleLine="true" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -89,7 +92,8 @@
                         android:textColor="@android:color/white"
                         style="@style/Base.TextAppearance.AppCompat.Body1"
                         android:layout_gravity="center_vertical"
-                        android:textStyle="italic" />
+                        android:textStyle="italic"
+                        android:singleLine="true" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -103,9 +107,10 @@
                         android:layout_height="wrap_content"
                         tools:text="COMPLETION"
                         android:id="@+id/completion_title_text_view"
-                        style="@style/Base.TextAppearance.AppCompat.Subhead"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
                         android:textColor="@color/primary_dark"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:singleLine="true" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -115,7 +120,8 @@
                         android:textColor="@android:color/white"
                         style="@style/Base.TextAppearance.AppCompat.Body1"
                         android:layout_gravity="center_vertical"
-                        android:textStyle="italic" />
+                        android:textStyle="italic"
+                        android:singleLine="true" />
                 </LinearLayout>
             </LinearLayout>
 
