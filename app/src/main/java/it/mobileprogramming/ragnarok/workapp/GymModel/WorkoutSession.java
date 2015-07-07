@@ -31,6 +31,12 @@ public class WorkoutSession {
         this.workoutSessionSerializer = workoutSessionSerializer;
     }
 
+    /**
+     * adds an exercise to a workout session
+     * @param e exercise to be added
+     * @param position position (progressive) on exercise list
+     * @param saveOnDB set true if you want to save this item to DB
+     */
     public void addExerciseToWorkoutSession(Exercise e,int position,boolean saveOnDB){
         if(position>exercisesOfSession.size()){ //protection for out of index
             position    =  exercisesOfSession.size();
@@ -42,10 +48,18 @@ public class WorkoutSession {
         System.out.println("Added exercise " + e.toString() + " session made with " + this.exercisesOfSession.size() + " exercises");
     }
 
+    /**
+     * getter id
+     * @return id of workout session
+     */
     public int getId() {
         return id;
     }
 
+    /**
+     * getter of exercises list of this session
+     * @return arraylist with all exercises within
+     */
     public ArrayList<Exercise> getExercisesOfSession(){
         ArrayList<Exercise> returnList  =   new ArrayList<>();
         for(int i=0;i<this.exercisesOfSession.size();i++){
@@ -71,7 +85,7 @@ public class WorkoutSession {
         }
         return aSession;
     }
-//TODO create user workout session from this session
+//TODO create user workout session from this session??
 
     public String getFilepath() {
         return filepath;

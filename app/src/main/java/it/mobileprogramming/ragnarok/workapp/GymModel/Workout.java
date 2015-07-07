@@ -111,6 +111,6 @@ public class Workout {
                 ", woSerializer=" + woSerializer +
                 ", woSessions=" + woSessions +
                 '}';
-        
+
     }
 }
