@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Aspect Ratio ImageView -->
     <declare-styleable name="AspectRatioImageView">
         <attr name="aspectRatio" format="float" />
         <attr name="aspectRatioEnabled" format="boolean" />
@@ -7,5 +8,22 @@
             <enum name="width" value="0"/>
             <enum name="height" value="1"/>
         </attr>
+    </declare-styleable>
+
+    <!-- Circular Progress Bar -->
+    <declare-styleable name="circularProgressBar">
+
+        <!-- our custom attribute -->
+        <attr name="max" format="integer" />
+        <attr name="bgColor" format="color" />
+        <attr name="progressColor" format="color" />
+        <attr name="bgStrokeWidth" format="dimension" />
+        <attr name="progressStrokeWidth" format="dimension" />
+        <attr name="diameter" format="dimension" />
+
+        <!-- Std stuff -->
+        <attr name="android:textSize" />
+        <attr name="android:textColor" />
+        <attr name="android:layout_margin" />
     </declare-styleable>
 </resources>

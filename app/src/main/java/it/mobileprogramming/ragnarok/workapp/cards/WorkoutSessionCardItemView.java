@@ -100,7 +100,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      */
     private void setTitles() {
         TextView durationTitleTextView = (TextView) findViewById(R.id.duration_title_text_view);
-        durationTitleTextView.setText(getResources().getString(R.string.start_now_button).toUpperCase());
+        durationTitleTextView.setText(getResources().getString(R.string.duration_title).toUpperCase());
 
         TextView exercisesTitleTextView = (TextView) findViewById(R.id.exercises_title_text_view);
         exercisesTitleTextView.setText(getResources().getString(R.string.exercises_title).toUpperCase());

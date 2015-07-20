@@ -23,8 +23,8 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
         setFragment(TypeFragment.Workout);
         //TODO remove in final commit
         //testing task
-        TestTask testing    =   new TestTask(this.getApplicationContext());
-        testing.execute();
+        /*TestTask testing    =   new TestTask(this.getApplicationContext());
+        testing.execute();*/
         //end testing task
     }
 

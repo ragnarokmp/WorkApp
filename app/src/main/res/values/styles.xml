@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="WorkApp.Base" parent="Theme.AppCompat.Light.NoActionBar">
@@ -6,15 +6,16 @@
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/accent</item>
         <item name="android:windowNoTitle">true</item>
-<!--
-        TODO: Non ricordo perché l'ho messo...
-        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
--->
 
     </style>
 
     <style name="WorkApp" parent="WorkApp.Base">
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="WorkApp.FullScreen" parent="WorkApp">
+        <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
+    </style>
+
 
 </resources>

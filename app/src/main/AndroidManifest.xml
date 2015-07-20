@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="it.mobileprogramming.ragnarok.workapp" >
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/WorkApp" >
+        android:theme="@style/WorkApp"
+        tools:ignore="UnusedAttribute">
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -60,7 +62,8 @@
         <activity
             android:name=".StartExerciseActivity"
             android:label="@string/start_exercise"
-            android:parentActivityName=".ExerciseListActivity" >
+            android:parentActivityName=".ExerciseListActivity"
+            android:theme="@style/WorkApp.FullScreen">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="it.mobileprogramming.ragnarok.workapp.ExerciseListActivity" />

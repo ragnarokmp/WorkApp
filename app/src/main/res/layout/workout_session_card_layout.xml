@@ -52,7 +52,7 @@
                         tools:text="DURATION"
                         android:id="@+id/duration_title_text_view"
                         style="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@color/primary_dark"
+                        android:textColor="@android:color/white"
                         android:textStyle="bold"
                         android:singleLine="true" />
 
@@ -80,7 +80,7 @@
                         tools:text="EXERCISES"
                         android:id="@+id/exercises_title_text_view"
                         style="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@color/primary_dark"
+                        android:textColor="@android:color/white"
                         android:textStyle="bold"
                         android:singleLine="true" />
 
@@ -108,7 +108,7 @@
                         tools:text="COMPLETION"
                         android:id="@+id/completion_title_text_view"
                         style="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@color/primary_dark"
+                        android:textColor="@android:color/white"
                         android:textStyle="bold"
                         android:singleLine="true" />
 
@@ -168,7 +168,7 @@
                 android:padding="@dimen/small_padding"
                 tools:text="START NOW"
                 style="@style/RightButtonBaseStyle"
-                android:textColor="@color/accent" />
+                android:textColor="@color/primary" />
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

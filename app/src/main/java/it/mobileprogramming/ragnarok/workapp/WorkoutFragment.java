@@ -75,7 +75,7 @@ public class WorkoutFragment extends BaseFragment {
             //noinspection deprecation
             drawable = getActivity().getResources().getDrawable(R.drawable.divider);
         }
-        workoutListView.setDivider(drawable);
+        workoutListView.setDivider(drawable); //TODO doesn't work well in landscape mode..
 
         WorkoutSessionCard card = new WorkoutSessionCard(context);
         workoutListView.add(card);
