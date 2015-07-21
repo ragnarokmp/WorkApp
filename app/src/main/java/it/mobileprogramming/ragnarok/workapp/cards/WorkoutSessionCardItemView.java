@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -56,8 +57,20 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
         setDuration();
         setExercises();
         setCompletion();
-        setDivider(true, true);
-        setButtons(card);
+        setDivider(false, false);
+        setButtons(false, card);
+        /*setDivider(true, true);
+        setButtons(true, card);*/
+
+/*        // Set onClickListener on card
+        CardView cardView = (CardView) findViewById(R.id.card_view);
+        cardView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), ExerciseListActivity.class);
+                getContext().startActivity(intent);
+            }
+        });*/
     }
 
     /**
@@ -126,9 +139,11 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      *
      * @param card
      */
-    private void setButtons(final Card card) {
+    private void setButtons(Boolean ButtonsVisible, final Card card) {
         final TextView startNowTextButton = (TextView) findViewById(R.id.start_now_text_button);
+        startNowTextButton.setVisibility(ButtonsVisible ? VISIBLE : GONE);
         final TextView detailsTextButton = (TextView) findViewById(R.id.details_text_button);
+        detailsTextButton.setVisibility(ButtonsVisible ? VISIBLE : GONE);
 
         startNowTextButton.setText(getResources().getString(R.string.start_now_button).toUpperCase());
         startNowTextButton.setOnClickListener(new OnClickListener() {
@@ -166,7 +181,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      */
     private void setDivider(Boolean dividerVisible, Boolean fullWidthDivider) {
         View divider = findViewById(R.id.card_divider);
-        divider.setVisibility(dividerVisible ? VISIBLE : INVISIBLE);
+        divider.setVisibility(dividerVisible ? VISIBLE : GONE);
 
         // After setting the visibility, we prepare the divider params according to the preferences
         if (dividerVisible) {

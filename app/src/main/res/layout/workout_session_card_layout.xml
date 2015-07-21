@@ -8,9 +8,12 @@
     android:layout_marginEnd="@dimen/small_padding"
     android:layout_marginStart="@dimen/small_padding">
 
+    <!-- Read http://stackoverflow.com/a/30046813/4158374 and http://stackoverflow.com/a/26975714/4158374 for clickable -->
     <android.support.v7.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/card_view"
         style="@style/MainCardView"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
         auto:cardCornerRadius="@dimen/card_corner_radius">
 
         <RelativeLayout
@@ -52,7 +55,7 @@
                         tools:text="DURATION"
                         android:id="@+id/duration_title_text_view"
                         style="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/primary"
                         android:textStyle="bold"
                         android:singleLine="true" />
 
@@ -80,7 +83,7 @@
                         tools:text="EXERCISES"
                         android:id="@+id/exercises_title_text_view"
                         style="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/primary"
                         android:textStyle="bold"
                         android:singleLine="true" />
 
@@ -108,7 +111,7 @@
                         tools:text="COMPLETION"
                         android:id="@+id/completion_title_text_view"
                         style="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/primary"
                         android:textStyle="bold"
                         android:singleLine="true" />
 

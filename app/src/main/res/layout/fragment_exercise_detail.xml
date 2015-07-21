@@ -1,10 +1,162 @@
-<TextView
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/exercise_detail"
-    style="?android:attr/textAppearanceLarge"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context="it.mobileprogramming.ragnarok.workapp.ExerciseDetailFragment" />
+    android:id="@+id/scroll_view"
+    tools:context="it.mobileprogramming.ragnarok.workapp.ExerciseDetailFragment">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        style="@style/MainCardView"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/small_padding"
+        auto:cardCornerRadius="@dimen/card_corner_radius">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <it.mobileprogramming.ragnarok.workapp.util.AspectRatioImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:src="@drawable/ic_launcher"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:id="@+id/session_image_view"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                auto:aspectRatioEnabled="true"
+                auto:aspectRatio="0.5625"
+                tools:ignore="ContentDescription"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/session_image_view"
+                android:background="@drawable/shadow"
+                android:padding="@dimen/small_padding"
+                android:baselineAligned="false"
+                android:id="@+id/linear_layout">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="DURATION"
+                        android:id="@+id/duration_title_text_view"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
+                        android:textColor="@color/primary"
+                        android:textStyle="bold"
+                        android:singleLine="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="40 min"
+                        android:id="@+id/duration_text_view"
+                        android:textColor="@android:color/white"
+                        style="@style/Base.TextAppearance.AppCompat.Body1"
+                        android:layout_gravity="center_vertical"
+                        android:textStyle="italic"
+                        android:singleLine="true" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="EXERCISES"
+                        android:id="@+id/exercises_title_text_view"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
+                        android:textColor="@color/primary"
+                        android:textStyle="bold"
+                        android:singleLine="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="14"
+                        android:id="@+id/exercises_text_view"
+                        android:textColor="@android:color/white"
+                        style="@style/Base.TextAppearance.AppCompat.Body1"
+                        android:layout_gravity="center_vertical"
+                        android:textStyle="italic"
+                        android:singleLine="true" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="COMPLETION"
+                        android:id="@+id/completion_title_text_view"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
+                        android:textColor="@color/primary"
+                        android:textStyle="bold"
+                        android:singleLine="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="60%"
+                        android:id="@+id/completion_text_view"
+                        android:textColor="@android:color/white"
+                        style="@style/Base.TextAppearance.AppCompat.Body1"
+                        android:layout_gravity="center_vertical"
+                        android:textStyle="italic"
+                        android:singleLine="true" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                tools:text="In the session of 25 june we will work on muscle1, muscle2 and muscle3 with 4xexercise1, 10xexercise2 and 5xesercise3."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/exercise_detail"
+                android:textColor="@color/description_color"
+                android:padding="@dimen/big_padding"
+                android:textSize="@dimen/description_size"
+                android:layout_below="@+id/session_image_view"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="@dimen/small_padding" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/start_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_play"
+                android:layout_gravity="bottom|end"
+                auto:elevation="6dp"
+                auto:pressedTranslationZ="12dp"
+                auto:borderWidth="0dp"
+                android:layout_marginRight="@dimen/big_padding"
+                android:layout_marginTop="-28dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/linear_layout" />
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+</ScrollView>

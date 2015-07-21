@@ -1,6 +1,8 @@
 package it.mobileprogramming.ragnarok.workapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +57,15 @@ public class ExerciseDetailFragment extends Fragment {
         if (mItem != null) {
             ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(mItem.content);
         }
+
+        FloatingActionButton startFloatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.start_fab);
+        startFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), StartExerciseActivity.class);
+                getActivity().startActivity(intent);
+            }
+        });
 
         return rootView;
     }

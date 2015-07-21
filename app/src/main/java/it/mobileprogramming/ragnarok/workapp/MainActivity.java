@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import it.mobileprogramming.ragnarok.workapp.GymModel.TestTask;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
 
-public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener, ExerciseListFragment.Callbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +63,11 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
                         // Set the ExercisesFragment
                         setFragment(TypeFragment.Exercises);
                         break;
-                    case R.id.drawer_about:
+/*                    case R.id.drawer_about:
                         // Create new AboutActivity
                         Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
                         startActivity(intent);
-                        break;
+                        break;*/
                     case R.id.drawer_settings:
                         //TODO not working
                         // Create new Settingsctivity
@@ -76,7 +76,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
                         break;
                     case R.id.drawer_info:
                         // Create new InfoActivity
-                        intent = new Intent(getApplicationContext(), InfoActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
                         startActivity(intent);
                         break;
                     default:
@@ -117,7 +117,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
             actionBar.setTitle(R.string.exercises);
 
             // Create fragment and give it an argument specifying the article it should show
-            fragment = new ExercisesFragment();
+            fragment = new ExerciseListFragment();
             Bundle args = new Bundle();
             //args.putInt();
             fragment.setArguments(args);
@@ -128,6 +128,11 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
 
         // Commit the transaction
         transaction.commit();
+    }
+
+    @Override
+    public void onItemSelected(String id) {
+
     }
 
     /**

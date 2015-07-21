@@ -1,6 +1,7 @@
 package it.mobileprogramming.ragnarok.workapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -9,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.dexafree.materialList.controller.RecyclerItemClickListener;
+import com.dexafree.materialList.model.CardItemView;
 
 import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCard;
 import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
@@ -85,6 +89,19 @@ public class WorkoutFragment extends BaseFragment {
         workoutListView.add(card);
 
         workoutListView.setEmptyView(view.findViewById(R.id.no_workout));
+        workoutListView.addOnItemTouchListener(new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(CardItemView cardItemView, int i) {
+                Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
+                getActivity().startActivity(intent);
+            }
+
+            @Override
+            public void onItemLongClick(CardItemView cardItemView, int i) {
+
+            }
+        });
+
 
         return view;
     }

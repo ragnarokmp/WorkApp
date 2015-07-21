@@ -70,11 +70,11 @@ public class ExerciseListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter.
+        // TODO: replace with a real list adapter. @federico
         setListAdapter(new ArrayAdapter<>(
                 getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
+                R.layout.exercise_row,
+                R.id.exercise_title_row,
                 DummyContent.ITEMS));
     }
 
