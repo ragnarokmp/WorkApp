@@ -90,20 +90,6 @@ public class WorkoutFragment extends BaseFragment {
         }
         workoutListView.setDivider(drawable); //TODO doesn't work well in landscape mode..
 
-        SQLiteSerializer sqLiteSerializer = new SQLiteSerializer(this.context,"workapp.db");
-        sqLiteSerializer.open();
-
-        //TODO Federico: the userID will be used here in order to obtain the workouts
-        ArrayList<UserWorkout> usWorkouts = sqLiteSerializer.loadWorkoutsForUser(userID);
-
-        //TODO Federico: I get only the first workout
-        ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
-        for(int j=0; j < firstWorkoutSessions.size(); j++) {
-            WorkoutSessionCard card = new WorkoutSessionCard(context,firstWorkoutSessions.get(j));
-            workoutListView.add(card);
-
-        }
-
 //        WorkoutSessionCard card = new WorkoutSessionCard(context);
 //        workoutListView.add(card);
 //        workoutListView.add(card);
@@ -123,7 +109,21 @@ public class WorkoutFragment extends BaseFragment {
             }
         });
 
+        SQLiteSerializer sqLiteSerializer = new SQLiteSerializer(this.context,"workapp.db");
+        sqLiteSerializer.open();
 
+        //TODO Federico: the userID will be used here in order to obtain the workouts
+        ArrayList<UserWorkout> usWorkouts = sqLiteSerializer.loadWorkoutsForUser(userID);
+
+        if (usWorkouts.size() > 0) {
+            //TODO Federico: I get only the first workout
+            ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
+            for (int j = 0; j < firstWorkoutSessions.size(); j++) {
+                WorkoutSessionCard card = new WorkoutSessionCard(context, firstWorkoutSessions.get(j));
+                workoutListView.add(card);
+
+            }
+        }
         return view;
     }
 
