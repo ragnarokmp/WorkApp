@@ -17,6 +17,8 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Make sure this is before calling super.onCreate
+        setTheme(R.style.WorkApp);
         super.onCreate(savedInstanceState);
 
         // Set the WorkoutFragment

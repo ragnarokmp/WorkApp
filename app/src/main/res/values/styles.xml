@@ -14,8 +14,13 @@
     </style>
 
     <style name="WorkApp.FullScreen" parent="WorkApp">
+        <!-- For Full Screen -->
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">true</item>
     </style>
 
+    <style name="WorkApp.Launcher">
+        <!-- For Splash Screen following this https://plus.google.com/+AndroidDevelopers/posts/Z1Wwainpjhd -->
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
 
 </resources>
