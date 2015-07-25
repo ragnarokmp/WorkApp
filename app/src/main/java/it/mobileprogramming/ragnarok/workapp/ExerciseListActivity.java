@@ -8,6 +8,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -50,7 +51,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        if (intent != null){
+        if (intent.hasExtra(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION)) {
             UserWorkoutSession userWorkoutSession = intent.getParcelableExtra(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION);
             Toast.makeText(this, userWorkoutSession.getStrComment(), Toast.LENGTH_LONG).show();
         }

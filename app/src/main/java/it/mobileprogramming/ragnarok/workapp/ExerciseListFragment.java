@@ -1,12 +1,18 @@
 package it.mobileprogramming.ragnarok.workapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
+import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.dummy.DummyContent;
 
 /**
@@ -70,17 +76,32 @@ public class ExerciseListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter. @federico
-        setListAdapter(new ArrayAdapter<>(
-                getActivity(),
-                R.layout.exercise_row,
-                R.id.exercise_title_row,
-                DummyContent.ITEMS));
+        Intent intent = getActivity().getIntent();
+        if (intent.hasExtra(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION)) {
+            UserWorkoutSession userWorkoutSession = getActivity().getIntent().getParcelableExtra(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION);
+            ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
+
+            exercises.add(new Exercise(((App) getActivity().getApplication()).getDBSerializer(), 10, "Addominali", 5, 5, 5, "", "Addome, Pancia, Fianchi"));
+
+            ExercisesListAdapter exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
+            setListAdapter(exercisesListAdapter);
+        } else {
+
+            // TODO: replace with a real list adapter. @federico
+            setListAdapter(new ArrayAdapter<>(
+                    getActivity(),
+                    R.layout.exercise_row,
+                    R.id.exercise_title_row,
+                    DummyContent.ITEMS));
+        }
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // Set empty text //TODO right message...
+        setEmptyText(getString(R.string.app_name));
 
         // Restore the previously serialized activated item position.
         if (savedInstanceState != null

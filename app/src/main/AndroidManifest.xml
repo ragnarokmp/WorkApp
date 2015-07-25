@@ -4,6 +4,7 @@
     package="it.mobileprogramming.ragnarok.workapp" >
 
     <application
+        android:name="it.mobileprogramming.ragnarok.workapp.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

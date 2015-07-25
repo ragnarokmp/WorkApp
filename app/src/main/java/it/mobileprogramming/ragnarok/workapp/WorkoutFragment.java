@@ -111,11 +111,11 @@ public class WorkoutFragment extends BaseFragment {
             }
         });
 
-        SQLiteSerializer sqLiteSerializer = new SQLiteSerializer(this.context, "workapp.db");
-        sqLiteSerializer.open();
+        SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
+        dbSerializer.open();
 
         //TODO Federico: the userID will be used here in order to obtain the workouts
-        ArrayList<UserWorkout> usWorkouts = sqLiteSerializer.loadWorkoutsForUser(userID);
+        ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(userID);
 
         if (usWorkouts.size() > 0) {
             //TODO Federico: I get only the first workout
