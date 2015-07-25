@@ -21,4 +21,7 @@
 
     <!-- -->
     <dimen name="row_height">72dp</dimen>
+    
+    <!-- Splash Screen -->
+    <dimen name="product_logo_bottom">16dp</dimen>
 </resources>
