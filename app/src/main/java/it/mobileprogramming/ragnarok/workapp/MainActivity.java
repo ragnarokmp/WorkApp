@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import it.mobileprogramming.ragnarok.workapp.GymModel.TestTask;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
 
-public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener, ExerciseListFragment.Callbacks {
+public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +28,13 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
         /*TestTask testing    =   new TestTask(this.getApplicationContext());
         testing.execute();*/
         //end testing task
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Set checked always the only possible item, the Workout one
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 
     @Override
@@ -50,7 +57,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
         return new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show(); // TODO: remove after
+                // Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show(); // TODO: remove after
                 // Checked the Drawer Menu Item
                 menuItem.setChecked(true);
                 // Close Navigation Drawer
@@ -62,8 +69,11 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
                         setFragment(TypeFragment.Workout);
                         break;
                     case R.id.drawer_exercises:
-                        // Set the ExercisesFragment
-                        setFragment(TypeFragment.Exercises);
+/*                        // Set the ExercisesFragment
+                        setFragment(TypeFragment.Exercises);*/
+                        // Create new ExerciseListActivity
+                        Intent intent = new Intent(getApplicationContext(), ExerciseListActivity.class);
+                        startActivity(intent);
                         break;
 /*                    case R.id.drawer_about:
                         // Create new AboutActivity
@@ -78,7 +88,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
                         break;
                     case R.id.drawer_info:
                         // Create new InfoActivity
-                        Intent intent = new Intent(getApplicationContext(), InfoActivity.class);
+                        intent = new Intent(getApplicationContext(), InfoActivity.class);
                         startActivity(intent);
                         break;
                     default:
@@ -114,7 +124,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
             //args.putInt();
             fragment.setArguments(args);
 
-        } else if (type == TypeFragment.Exercises) {
+        } /*else if (type == TypeFragment.Exercises) {
             // Set title to the app
             actionBar.setTitle(R.string.exercises);
 
@@ -123,18 +133,13 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
             Bundle args = new Bundle();
             //args.putInt();
             fragment.setArguments(args);
-        }
+        }*/
 
         // Replace whatever is in the fragment_container view with this fragment
         transaction.replace(R.id.content, fragment);
 
         // Commit the transaction
         transaction.commit();
-    }
-
-    @Override
-    public void onItemSelected(String id) {
-
     }
 
     /**
