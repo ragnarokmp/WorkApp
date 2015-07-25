@@ -10,6 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
+import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
+import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.Singletons;
+import it.mobileprogramming.ragnarok.workapp.GymModel.User;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCard;
 import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
 import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
@@ -32,6 +40,8 @@ public class WorkoutFragment extends BaseFragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private int userID = 1; //TODO Federico: obtained after the successful login by the user
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -77,10 +87,24 @@ public class WorkoutFragment extends BaseFragment {
         }
         workoutListView.setDivider(drawable);
 
-        WorkoutSessionCard card = new WorkoutSessionCard(context);
-        workoutListView.add(card);
-        workoutListView.add(card);
-        workoutListView.add(card);
+        SQLiteSerializer sqLiteSerializer = new SQLiteSerializer(this.context,"workapp.db");
+        sqLiteSerializer.open();
+
+        //TODO Federico: the userID will be used here in order to obtain the workouts
+        ArrayList<UserWorkout> usWorkouts = sqLiteSerializer.loadWorkoutsForUser(userID);
+
+        //TODO Federico: I get only the first workout
+        ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
+        for(int j=0; j < firstWorkoutSessions.size(); j++) {
+            WorkoutSessionCard card = new WorkoutSessionCard(context,firstWorkoutSessions.get(j));
+            workoutListView.add(card);
+
+        }
+
+//        WorkoutSessionCard card = new WorkoutSessionCard(context);
+//        workoutListView.add(card);
+//        workoutListView.add(card);
+//        workoutListView.add(card);
 
         workoutListView.setEmptyView(view.findViewById(R.id.no_workout));
 

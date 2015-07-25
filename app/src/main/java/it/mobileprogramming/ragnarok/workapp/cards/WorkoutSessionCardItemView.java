@@ -14,8 +14,11 @@ import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.model.CardItemView;
 
+import java.util.ArrayList;
+
 import it.mobileprogramming.ragnarok.workapp.ExerciseListActivity;
-import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
+import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.R;
 import it.mobileprogramming.ragnarok.workapp.StartExerciseActivity;
 
@@ -23,6 +26,8 @@ import static it.mobileprogramming.ragnarok.workapp.util.Util.boldTextBetweenTok
 
 public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard> {
     private final static int DIVIDER_MARGIN_DP = 16;
+
+    private UserWorkoutSession workoutSession;
 
     // Default constructors
     public WorkoutSessionCardItemView(Context context) {
@@ -42,7 +47,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
         super.build(card);
 
         // Get workout session from the card
-        WorkoutSession workoutSession = card.getSession();
+        workoutSession = card.getSession();
 
         // Choose session image from assets evaluating the session
         Drawable sessionDrawable = chooseSessionDrawable();
@@ -85,14 +90,28 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      *
      */
     private void setExercises() {
-
+        ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
+        TextView exercisesTextView = (TextView) findViewById(R.id.exercises_text_view);
+        exercisesTextView.setText(String.valueOf(exercises.size()));
     }
 
     /**
      *
      */
     private void setDuration() {
-
+        //TODO FEDERICO: I have included also the reconvery time.
+        int totalTime = 0;
+        ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
+        for(int i = 0; i < exercises.size(); i++) {
+            Exercise exercise = exercises.get(i);
+            int timeForSeries = 0;
+            timeForSeries += exercise.getFrequency()*exercise.getRepetition();
+            int recoveryTime = 0;
+            recoveryTime += exercise.getRecovery();
+            totalTime = (timeForSeries+ recoveryTime)*exercise.getSeries();
+        }
+        TextView durationTextView = (TextView) findViewById(R.id.duration_text_view);
+        durationTextView.setText("~" + totalTime/60 + "min");
     }
 
     /**
@@ -100,7 +119,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      */
     private void setTitles() {
         TextView durationTitleTextView = (TextView) findViewById(R.id.duration_title_text_view);
-        durationTitleTextView.setText(getResources().getString(R.string.start_now_button).toUpperCase());
+        durationTitleTextView.setText(getResources().getString(R.string.duration_title).toUpperCase());
 
         TextView exercisesTitleTextView = (TextView) findViewById(R.id.exercises_title_text_view);
         exercisesTitleTextView.setText(getResources().getString(R.string.exercises_title).toUpperCase());
@@ -119,7 +138,30 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      * @return
      */
     private String generateDescription() {
-        return "Stub %bold%";
+        ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
+        //TODO FEDERICO : We have a problem with WorkoutSession and UserWorkoutSession. RESOLVED
+        String description = "In the session of " + workoutSession.getDateSessionDate() + " we will work on ";
+        int size = exercises.size();
+        for (int i = 0; i < size; i++) {
+            description += exercises.get(i).getMuscles();
+            if (i < size - 2) {
+                description += ", ";
+            }
+            if (i == size - 2) {
+                description += "and";
+            }
+        }
+        for (int i = 0; i < size; i++) {
+            Exercise currentEx = exercises.get(i);
+            description += "with " + currentEx.getSeries() + " series of " + currentEx.getName();
+            if (i < size - 2) {
+                description += ", ";
+            }
+            if (i == size - 2) {
+                description += "and";
+            }
+        }
+        return description + ".";
     }
 
     /**
