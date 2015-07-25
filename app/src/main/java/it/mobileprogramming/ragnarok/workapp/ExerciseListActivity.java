@@ -9,7 +9,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
+import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 
@@ -45,6 +48,12 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+        if (intent != null){
+            UserWorkoutSession userWorkoutSession = intent.getParcelableExtra(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION);
+            Toast.makeText(this, userWorkoutSession.getStrComment(), Toast.LENGTH_LONG).show();
+        }
 
         if (findViewById(R.id.exercise_detail_container) != null) {
             // The detail container view will be present only in the

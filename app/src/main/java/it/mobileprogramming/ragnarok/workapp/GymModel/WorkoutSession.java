@@ -8,6 +8,9 @@ public class WorkoutSession {
     private WorkoutSessionSerializer workoutSessionSerializer;
     private ArrayList<Exercise> exercisesOfSession  =   new ArrayList<Exercise>();
 
+    public WorkoutSession() {
+    }
+
     /**
      * use this constructor to create a new workout session and save it to DB
      * @param filepath

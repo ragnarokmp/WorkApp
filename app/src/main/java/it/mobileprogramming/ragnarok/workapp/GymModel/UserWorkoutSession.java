@@ -1,11 +1,14 @@
 package it.mobileprogramming.ragnarok.workapp.GymModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
 /**
  *
  */
-public class UserWorkoutSession extends WorkoutSession{
+public class UserWorkoutSession extends WorkoutSession implements Parcelable {
     private String  strComment;
     private Date    dateSessionDate;
     private int     usrSessionUserId;
@@ -75,4 +78,33 @@ public class UserWorkoutSession extends WorkoutSession{
     public UserWorkoutSession clone(){
         return new UserWorkoutSession(this.getFilepath(),this.usrSessionUserId,this.workoutSessionSerializer,this.userWorkoutSessionSerializer,this.dateSessionDate,this.getId(),this.strComment,true);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.strComment);
+        dest.writeLong(dateSessionDate != null ? dateSessionDate.getTime() : -1);
+        dest.writeInt(this.usrSessionUserId);
+    }
+
+    protected UserWorkoutSession(Parcel in) {
+        this.strComment = in.readString();
+        long tmpDateSessionDate = in.readLong();
+        this.dateSessionDate = tmpDateSessionDate == -1 ? null : new Date(tmpDateSessionDate);
+        this.usrSessionUserId = in.readInt();
+    }
+
+    public static final Parcelable.Creator<UserWorkoutSession> CREATOR = new Parcelable.Creator<UserWorkoutSession>() {
+        public UserWorkoutSession createFromParcel(Parcel source) {
+            return new UserWorkoutSession(source);
+        }
+
+        public UserWorkoutSession[] newArray(int size) {
+            return new UserWorkoutSession[size];
+        }
+    };
 }

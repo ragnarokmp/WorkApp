@@ -27,6 +27,7 @@ public class WorkoutSessionCard extends SimpleCard {
     public WorkoutSessionCard(Context context, UserWorkoutSession workoutSession) {
         super(context);
         this.workoutSession = workoutSession;
+        this.setTag(workoutSession);
     }
 
     @Override

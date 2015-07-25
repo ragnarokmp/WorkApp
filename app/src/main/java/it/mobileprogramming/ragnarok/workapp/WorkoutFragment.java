@@ -47,6 +47,7 @@ public class WorkoutFragment extends BaseFragment {
     private int userID = 1; //TODO Federico: obtained after the successful login by the user
 
     private OnFragmentInteractionListener mListener;
+    public static String EXTRA_USER_WORKOUT_SESSION = "EXTRA_USER_WORKOUT_SESSION";
 
     /**
      * Use this factory method to create a new instance of
@@ -100,6 +101,7 @@ public class WorkoutFragment extends BaseFragment {
             @Override
             public void onItemClick(CardItemView cardItemView, int i) {
                 Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
+                intent.putExtra(EXTRA_USER_WORKOUT_SESSION, (UserWorkoutSession) cardItemView.getTag());
                 getActivity().startActivity(intent);
             }
 
@@ -109,7 +111,7 @@ public class WorkoutFragment extends BaseFragment {
             }
         });
 
-        SQLiteSerializer sqLiteSerializer = new SQLiteSerializer(this.context,"workapp.db");
+        SQLiteSerializer sqLiteSerializer = new SQLiteSerializer(this.context, "workapp.db");
         sqLiteSerializer.open();
 
         //TODO Federico: the userID will be used here in order to obtain the workouts
@@ -121,7 +123,6 @@ public class WorkoutFragment extends BaseFragment {
             for (int j = 0; j < firstWorkoutSessions.size(); j++) {
                 WorkoutSessionCard card = new WorkoutSessionCard(context, firstWorkoutSessions.get(j));
                 workoutListView.add(card);
-
             }
         }
         return view;
