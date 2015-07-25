@@ -52,8 +52,8 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        int layoutResoruceId = getLayoutResourceId();
-        if (layoutResoruceId != 0) {
+        int layoutResourceId = getLayoutResourceId();
+        if (layoutResourceId != 0) {
             // Inflate layout passed through the abstract method
             view = inflater.inflate(getLayoutResourceId(), container, false);
         }

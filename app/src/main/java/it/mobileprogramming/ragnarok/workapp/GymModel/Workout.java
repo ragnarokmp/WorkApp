@@ -10,6 +10,13 @@ public class Workout {
     private WorkoutSerializer           woSerializer;
     private ArrayList<WorkoutSession>   woSessions = new ArrayList<WorkoutSession>();
 
+    /**
+     * default constructor, saves new entry on DB
+     * @param name workout name
+     * @param type workout type
+     * @param difficulty workout difficulty
+     * @param aserializer instance serializing
+     */
     public Workout(String name,String type,String difficulty,WorkoutSerializer aserializer){
         this.name           =   name;
         this.type           =   type;
@@ -18,6 +25,14 @@ public class Workout {
         this.intWOID        =   aserializer.createNewWorkout(name,type,difficulty);
     }
 
+    /**
+     * constructor for instance loaded from DB
+     * @param id workout ID
+     * @param name workout name
+     * @param type workout type
+     * @param difficulty workout difficulty
+     * @param aserializer instance saving this element
+     */
     public Workout(int id, String name,String type,String difficulty,WorkoutSerializer aserializer){
         this.name           =   name;
         this.type           =   type;
@@ -26,6 +41,12 @@ public class Workout {
         this.intWOID        =   id;
     }
 
+    /**
+     * adds workout session to workout
+     * @param aSession session to be added
+     * @param saveonDB boolean to be checked if want to save to DB
+     * @param progressive progressive order of workout session
+     */
     public void addWorkoutSession(WorkoutSession aSession,boolean saveonDB,int progressive){
         if(progressive>woSessions.size()) {
             progressive =   woSessions.size();
@@ -36,6 +57,10 @@ public class Workout {
         }
     }
 
+    /**
+     * gets sessions of workout
+     * @return arraylist of sessions
+     */
     public ArrayList<WorkoutSession> getWorkoutSessions(){
         ArrayList<WorkoutSession> returnList    =   new ArrayList<>();
         for(int i=0;i<this.woSessions.size();i++){
@@ -43,18 +68,35 @@ public class Workout {
         }
         return returnList;
     }
+
+    /**
+     * getter workout session id
+     * @return id
+     */
     public int getIntWOID() {
         return intWOID;
     }
 
+    /**
+     * getter workout name
+     * @return workout name
+     */
     public String getName() {
         return name+"";
     }
 
+    /**
+     * getter workout difficulty
+     * @return difficulty
+     */
     public String getDifficulty() {
         return difficulty+"";
     }
 
+    /**
+     * getter of workout type
+     * @return
+     */
     public String getType() {
         return type+"";
     }
@@ -69,5 +111,6 @@ public class Workout {
                 ", woSerializer=" + woSerializer +
                 ", woSessions=" + woSessions +
                 '}';
+
     }
 }

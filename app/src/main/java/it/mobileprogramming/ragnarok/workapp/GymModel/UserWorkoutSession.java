@@ -15,13 +15,13 @@ public class UserWorkoutSession extends WorkoutSession{
     /**
      *
      * if loadedFrom db is set to false creates a new entry in DB
-     * @param filepath
-     * @param workoutSessionSerializer
-     * @param userWorkoutSessionSerializer
-     * @param dateSessionDate
-     * @param sessionID
-     * @param strComment
-     * @param loadedFromDB
+     * @param filepath path of the photo file
+     * @param workoutSessionSerializer instance serializing
+     * @param userWorkoutSessionSerializer instance serializing
+     * @param dateSessionDate date of the session
+     * @param sessionID id of the session
+     * @param strComment comment to a session
+     * @param loadedFromDB if set to false saves a new entry on DB
      */
     public UserWorkoutSession(String filepath, int userID, WorkoutSessionSerializer workoutSessionSerializer, UserWorkoutSessionSerializer userWorkoutSessionSerializer, Date dateSessionDate, int sessionID, String strComment, boolean loadedFromDB) {
         super(filepath, sessionID, workoutSessionSerializer);
@@ -35,18 +35,30 @@ public class UserWorkoutSession extends WorkoutSession{
         }
     }
 
+    /**
+     * getter of session date
+     * @return sessiondate
+     */
     public Date getDateSessionDate() {
         return dateSessionDate;
     }
 
-
+    /**
+     * getter of session comment
+     * @return comment of session
+     */
     public String getStrComment() {
         return strComment;
     }
 
+    /**
+     * getter of owner
+     * @return id of the owner
+     */
     public int getUserId() {
         return usrSessionUserId;
     }
+
     @Override
     public String toString() {
         return "UserWorkoutSession{" +
@@ -56,6 +68,10 @@ public class UserWorkoutSession extends WorkoutSession{
                 '}'+super.toString();
     }
 
+    /**
+     * clone function
+     * @return a clone
+     */
     public UserWorkoutSession clone(){
         return new UserWorkoutSession(this.getFilepath(),this.usrSessionUserId,this.workoutSessionSerializer,this.userWorkoutSessionSerializer,this.dateSessionDate,this.getId(),this.strComment,true);
     }

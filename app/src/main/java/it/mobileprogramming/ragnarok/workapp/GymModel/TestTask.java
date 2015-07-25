@@ -120,21 +120,16 @@ public class TestTask extends AsyncTask implements TextToSpeech.OnInitListener {
     public void onInit(int status) {
         textToSpeech.setLanguage(Locale.ITALIAN);
         if(Build.VERSION.SDK_INT< Build.VERSION_CODES.LOLLIPOP){
-            textToSpeech.speak("Benvenuto in work app, pronto a muovere le chiappe? Per non fare schifo devi spingere come un maledetto!", TextToSpeech.QUEUE_ADD, null);
+            //textToSpeech.speak("Benvenuto in work app, pronto a muovere le chiappe? Per non fare schifo devi spingere come un maledetto!", TextToSpeech.QUEUE_ADD, null);
         }
         else{
-            /*textToSpeech.speak("Benvenuto in work app, pronto a muovere le chiappe? Per non fare schifo devi spingere come un maledetto!", TextToSpeech.QUEUE_ADD, null,"pippo");
-            textToSpeech.setSpeechRate((float) 0.5);
+            //textToSpeech.speak("Benvenuto in work app, pronto a muovere le chiappe? Per non fare schifo devi spingere come un maledetto!", TextToSpeech.QUEUE_ADD, null,"pippo");
+            /*textToSpeech.setSpeechRate((float) 0.5);
             textToSpeech.speak("E se mi gira ti posso far andare molto pianoooooooooo", TextToSpeech.QUEUE_ADD, null, "pippo");
             textToSpeech.setSpeechRate((float) 3);
             textToSpeech.speak("Oppure molto forte!", TextToSpeech.QUEUE_ADD, null, "pippo");
             textToSpeech.setSpeechRate(1);
             textToSpeech.speak("Un solo grido! Un solo allarme! Milano in fiamme! Milano in fiamme!", TextToSpeech.QUEUE_ADD, null, "pippo");
-            */
-            for(int i = 0; i <= 10; i++){
-                textToSpeech.setSpeechRate(1);
-                textToSpeech.speak("Ciao Monti", TextToSpeech.QUEUE_ADD, null, "pippo");
-            }
-            }
-}
+            */}
+      }
 }
