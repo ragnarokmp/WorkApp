@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -25,9 +24,18 @@ import it.mobileprogramming.ragnarok.workapp.StartExerciseActivity;
 
 import static it.mobileprogramming.ragnarok.workapp.util.Util.boldTextBetweenTokens;
 
+/**
+ * View for WorkoutSessionCard.
+ */
 public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard> {
+    /**
+     * Divider margin for Android guidelines.
+     */
     private final static int DIVIDER_MARGIN_DP = 16;
 
+    /**
+     * The session bound with the card.
+     */
     private UserWorkoutSession workoutSession;
 
     // Default constructors
@@ -48,7 +56,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
         super.build(card);
 
         // Get workout session from the card
-        workoutSession = card.getSession();
+        workoutSession = (UserWorkoutSession) card.getTag();
 
         // Choose session image from assets evaluating the session
         Drawable sessionDrawable = chooseSessionDrawable();
@@ -64,10 +72,12 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
         setCompletion();
         setDivider(false, false);
         setButtons(false, card);
-        /*setDivider(true, true);
-        setButtons(true, card);*/
-
-/*        // Set onClickListener on card
+/*
+        setDivider(true, true);
+        setButtons(true, card);
+*/
+/*
+        // Set onClickListener on card
         CardView cardView = (CardView) findViewById(R.id.card_view);
         cardView.setOnClickListener(new OnClickListener() {
             @Override
@@ -75,14 +85,16 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
                 Intent intent = new Intent(getContext(), ExerciseListActivity.class);
                 getContext().startActivity(intent);
             }
-        });*/
+        });
+*/
     }
 
     /**
-     *
-     * @return
+     * This method choose an image to show of the session according to exercises.
+     * @return the chosen drawable image.
      */
     private Drawable chooseSessionDrawable() {
+        //TODO: @federico
         Drawable drawable;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             drawable = getContext().getDrawable(R.drawable.ic_launcher);
@@ -93,14 +105,14 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
     }
 
     /**
-     *
+     * This method allows to set the completion of the session.
      */
     private void setCompletion() {
-
+        //TODO: @federico
     }
 
     /**
-     *
+     * This method allows to set the total number of exercise of the session.
      */
     private void setExercises() {
         ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
@@ -109,16 +121,15 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
     }
 
     /**
-     *
+     * This method allows to set session total duration (duration of exercises + recovery time).
      */
     private void setDuration() {
-        //TODO FEDERICO: I have included also the reconvery time.
         int totalTime = 0;
         ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
         for(int i = 0; i < exercises.size(); i++) {
             Exercise exercise = exercises.get(i);
             int timeForSeries = 0;
-            timeForSeries += exercise.getFrequency()*exercise.getRepetition();
+            timeForSeries += exercise.getFrequency() * exercise.getRepetition();
             int recoveryTime = 0;
             recoveryTime += exercise.getRecovery();
             totalTime = (timeForSeries+ recoveryTime)*exercise.getSeries();
@@ -128,7 +139,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
     }
 
     /**
-     *
+     * This method allows to set the overlays titles.
      */
     private void setTitles() {
         TextView durationTitleTextView = (TextView) findViewById(R.id.duration_title_text_view);
@@ -141,18 +152,21 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
         completionTitleTextView.setText(getResources().getString(R.string.completion_title).toUpperCase());
     }
 
-
+    /**
+     * This method allows to set session image.
+     * @param image the image to set.
+     */
     public void setImage(Drawable image) {
-
+        //TODO: @federico
     }
 
     /**
-     *
-     * @return
+     * This method generates description of the session according to exercises.
+     * @return the description in a human readable way.
      */
     private String generateDescription() {
         ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
-        //TODO FEDERICO : We have a problem with WorkoutSession and UserWorkoutSession. RESOLVED
+        //TODO: @federico improve with the recognition of the actual day.. and with the bold..
         String description = "In the session of " + workoutSession.getDateSessionDate() + " we will work on ";
         int size = exercises.size();
         for (int i = 0; i < size; i++) {
@@ -178,8 +192,9 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
     }
 
     /**
-     *
-     * @param card
+     * This method allows to set the buttons.
+     * @param ButtonsVisible true if the buttons have to be visible, false otherwise.
+     * @param card the card.
      */
     private void setButtons(Boolean ButtonsVisible, final Card card) {
         final TextView startNowTextButton = (TextView) findViewById(R.id.start_now_text_button);
@@ -217,9 +232,9 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
     }
 
     /**
-     *
-     * @param dividerVisible
-     * @param fullWidthDivider
+     * This method allows to set the divider.
+     * @param dividerVisible true if the divider has to be visible, false otherwise.
+     * @param fullWidthDivider true if the divider must occupy all width's card, false otherwise.
      */
     private void setDivider(Boolean dividerVisible, Boolean fullWidthDivider) {
         View divider = findViewById(R.id.card_divider);
@@ -239,8 +254,8 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
     }
 
     /**
-     *
-     * @param description
+     * This method allow to set the description text.
+     * @param description the description text to set.
      */
     private void setDescription(String description) {
         TextView descriptionTextView = (TextView) findViewById(R.id.description_text_view);
@@ -248,9 +263,9 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
     }
 
     /**
-     *
-     * @param dp
-     * @return
+     * Utility method that converts dp to px.
+     * @param dp the dp to convert in px.
+     * @return the conversion in px of the dp.
      */
     private float dpToPx(int dp) {
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
@@ -258,9 +273,9 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
     }
 
     /**
-     *
-     * @param sp
-     * @return
+     * Utility method that converts sp to px.
+     * @param sp the sp to convert in px.
+     * @return the conversion in px of the sp.
      */
     private float spToPx(int sp) {
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();

@@ -25,9 +25,6 @@ import com.squareup.otto.Subscribe;
 
 import java.util.Collection;
 
-import it.mobileprogramming.ragnarok.workapp.util.DividerItemDecoration;
-
-
 public class MyMaterialListView extends RecyclerView {
 
     private static final int DEFAULT_COLUMNS_PORTRAIT = 1;

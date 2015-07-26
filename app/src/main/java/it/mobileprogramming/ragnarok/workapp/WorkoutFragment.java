@@ -13,16 +13,14 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
-import it.mobileprogramming.ragnarok.workapp.GymModel.Singletons;
-import it.mobileprogramming.ragnarok.workapp.GymModel.User;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import com.dexafree.materialList.controller.RecyclerItemClickListener;
 import com.dexafree.materialList.model.CardItemView;
 
 import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCard;
+import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
 import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
 

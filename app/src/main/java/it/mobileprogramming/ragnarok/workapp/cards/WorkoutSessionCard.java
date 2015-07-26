@@ -8,52 +8,39 @@ import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.R;
 
+/**
+ * Card for WorkoutSession.
+ */
 public class WorkoutSessionCard extends SimpleCard {
 
     /**
-     *
-     */
-    private UserWorkoutSession workoutSession;
-
-    /**
-     *
+     * Indicates if the Session is complete or not.
      */
     private boolean complete;
 
-    public WorkoutSessionCard(Context context) {
-        super(context);
-    }
-
     public WorkoutSessionCard(Context context, UserWorkoutSession workoutSession) {
         super(context);
-        this.workoutSession = workoutSession;
+        // Set the tag of the card as explained here https://github.com/dexafree/MaterialList/wiki/Recovering-data-from-the-Cards
         this.setTag(workoutSession);
     }
 
     @Override
-    public int getLayout(){
+    public int getLayout() {
+        // Set the right layout of the card
         return R.layout.workout_session_card_layout;
     }
 
     /**
-     *
-     * @return
-     */
-    public UserWorkoutSession getSession() {
-        return this.workoutSession;
-    }
-
-    /**
-     *
-     * @return
+     * Getter for complete attribute
+     * @return true if the session is complete, false otherwise.
      */
     public boolean isComplete() {
         return complete;
     }
 
     /**
-     *
-     * @param complete
+     * Setter for complete attribute.
+     * @param complete true if the session is complete, false otherwise.
      */
     public void setComplete(boolean complete) {
         this.complete = complete;
