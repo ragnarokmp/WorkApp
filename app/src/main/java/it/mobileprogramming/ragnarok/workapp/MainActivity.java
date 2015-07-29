@@ -3,14 +3,12 @@ package it.mobileprogramming.ragnarok.workapp;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import it.mobileprogramming.ragnarok.workapp.GymModel.TestTask;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
 
 public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener {
@@ -81,10 +79,9 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
                         startActivity(intent);
                         break;*/
                     case R.id.drawer_settings:
-                        //TODO not working
-                        // Create new Settingsctivity
-                        //intent = new Intent(getApplicationContext(), SettingsActivity.class);
-                        //startActivity(intent);
+                        // Create new SettingsActivity
+                        intent = new Intent(getApplicationContext(), SettingsActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.drawer_info:
                         // Create new InfoActivity

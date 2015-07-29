@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--suppress ALL -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.jenzz.materialpreference.PreferenceCategory
+        android:title="@string/material_category">
+
+        <com.jenzz.materialpreference.Preference
+            android:title="@string/material_preference"/>
+
+        <com.jenzz.materialpreference.Preference
+            android:title="@string/material_preference"
+            android:summary="@string/material_summary" />
+
+        <com.jenzz.materialpreference.Preference
+            android:title="@string/material_preference"
+            android:summary="@string/material_summary_with_icon"
+            android:icon="@mipmap/ic_launcher"
+            android:dependency="@string/material_checkbox_key" />
+
+        <com.jenzz.materialpreference.CheckBoxPreference
+            android:key="@string/material_checkbox_key"
+            android:title="@string/material_checkbox_preference"
+            android:summaryOn="@string/material_checkbox_summary_on"
+            android:summaryOff="@string/material_checkbox_summary_off"
+            android:disableDependentsState="true" />
+
+        <com.jenzz.materialpreference.SwitchPreference
+            android:title="@string/material_switch_preference"
+            android:summaryOn="@string/material_switch_preference_on"
+            android:summaryOff="@string/material_switch_preference_off" />
+
+    </com.jenzz.materialpreference.PreferenceCategory>
+
+</PreferenceScreen>
