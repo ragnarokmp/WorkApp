@@ -3,6 +3,7 @@ package it.mobileprogramming.ragnarok.workapp.GymModel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.security.spec.ECField;
 import java.util.Date;
 
 /**
@@ -12,6 +13,7 @@ public class UserWorkoutSession extends WorkoutSession implements Parcelable {
     private String  strComment;
     private Date    dateSessionDate;
     private int     usrSessionUserId;
+    private int     rating;
     private WorkoutSessionSerializer        workoutSessionSerializer;
     private UserWorkoutSessionSerializer    userWorkoutSessionSerializer;
 
@@ -26,15 +28,16 @@ public class UserWorkoutSession extends WorkoutSession implements Parcelable {
      * @param strComment comment to a session
      * @param loadedFromDB if set to false saves a new entry on DB
      */
-    public UserWorkoutSession(String filepath, int userID, WorkoutSessionSerializer workoutSessionSerializer, UserWorkoutSessionSerializer userWorkoutSessionSerializer, Date dateSessionDate, int sessionID, String strComment, boolean loadedFromDB) {
+    public UserWorkoutSession(String filepath, int userID, WorkoutSessionSerializer workoutSessionSerializer, UserWorkoutSessionSerializer userWorkoutSessionSerializer, Date dateSessionDate, int sessionID, String strComment, boolean loadedFromDB,int rating) {
         super(filepath, sessionID, workoutSessionSerializer);
         this.dateSessionDate = dateSessionDate;
         this.strComment     = strComment;
         this.usrSessionUserId =   userID;
         this.workoutSessionSerializer       =   workoutSessionSerializer;
         this.userWorkoutSessionSerializer   =   userWorkoutSessionSerializer;
+        this.rating =   rating;
         if(loadedFromDB == false) {
-            userWorkoutSessionSerializer.createSession(dateSessionDate, strComment, this.usrSessionUserId, sessionID);
+            userWorkoutSessionSerializer.createSession(dateSessionDate, strComment, this.usrSessionUserId, sessionID,rating);
         }
     }
 
@@ -76,7 +79,26 @@ public class UserWorkoutSession extends WorkoutSession implements Parcelable {
      * @return a clone
      */
     public UserWorkoutSession clone(){
-        return new UserWorkoutSession(this.getFilepath(),this.usrSessionUserId,this.workoutSessionSerializer,this.userWorkoutSessionSerializer,this.dateSessionDate,this.getId(),this.strComment,true);
+        return new UserWorkoutSession(this.getFilepath(),this.usrSessionUserId,this.workoutSessionSerializer,this.userWorkoutSessionSerializer,this.dateSessionDate,this.getId(),this.strComment,true,rating);
+    }
+
+    /**checks if all the exercises of the session are done
+     *
+     * @return true if all the exercises of this session are completed, false otherwise
+     * @throws Exception if there is a wrong exercise type
+     */
+    public boolean allExerciseDone() throws Exception {
+        boolean result = true;
+        for(int i=0;i<this.exercisesOfSession.size();i++){
+            if(this.exercisesOfSession.get(i) instanceof UserExcercise){
+                UserExcercise anEx  =   (UserExcercise)this.exercisesOfSession.get(i);
+                if(anEx.isDone()==false){
+                    return false;
+                }
+            }
+            else throw new Exception("UserWorkoutSession.java Exercise wrong type exception");
+        }
+        return result;
     }
 
     @Override
@@ -96,6 +118,23 @@ public class UserWorkoutSession extends WorkoutSession implements Parcelable {
         long tmpDateSessionDate = in.readLong();
         this.dateSessionDate = tmpDateSessionDate == -1 ? null : new Date(tmpDateSessionDate);
         this.usrSessionUserId = in.readInt();
+    }
+
+    /**
+     * return the rating given to this workout session
+     * @return rating
+     */
+    public int getRating() {
+        return rating;
+    }
+
+    /**
+     * set the session rating
+     * @param rating
+     */
+    public void setRating(int rating) {
+        this.rating = rating;
+        this.userWorkoutSessionSerializer.updateSession(this.usrSessionUserId,this.dateSessionDate,this.strComment,this.usrSessionUserId,this.rating);
     }
 
     public static final Parcelable.Creator<UserWorkoutSession> CREATOR = new Parcelable.Creator<UserWorkoutSession>() {

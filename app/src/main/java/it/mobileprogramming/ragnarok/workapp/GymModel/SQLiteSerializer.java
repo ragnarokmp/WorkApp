@@ -55,6 +55,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     private final static String UserMakesSession_Comment    =   "Comment";
     private final static String UserMakesSession_ExecutionD =   "ExecutionDate";
     private final static String UserMakesSession_UserID     =   "UserID";
+    private final static String UserMakesSession_rating     =   "Rating";
     private final static String SessionMadeByExercises_tablename        =   "SessionMadeByExercises";
     private final static String SessionMadeByExercises_WorkoutSessionID =   "WorkoutSessionID";
     private final static String SessionMadeByExercises_ExerciseID       =   "ExerciseID";
@@ -68,6 +69,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     private final static String UserMakesExercise_comment               =   "Comment";
     private final static String UserMakesExercise_execution_date        =   "ExecutionDate";
     private final static String UserMakesExercise_done                  =   "Done";
+    private final static String UserMakesExercise_rating                  =   "Rating";
     private final static String UserMakesExercise_exID =   "ExerciseID";
 
     /**
@@ -545,7 +547,8 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         String  photopath    =   result.getString(result.getColumnIndex(WorkoutSession_photopath));
         int     sessionID    =   result.getInt(result.getColumnIndex(UserMakesSession_WorkoutSID));
         String  comment      =   result.getString(result.getColumnIndex(UserMakesSession_Comment));
-        UserWorkoutSession aSession =    new UserWorkoutSession(photopath,intUserSessionID,this,this,sessionDate,sessionID,comment,true);
+        int     rating       =   result.getInt(result.getColumnIndex(UserMakesSession_rating));
+        UserWorkoutSession aSession =    new UserWorkoutSession(photopath,intUserSessionID,this,this,sessionDate,sessionID,comment,true,rating);
         ArrayList<UserExcercise>    userExcercises  =   this.getExercisesOfAUserSession(intUserSessionID,anUser.getIntUserID(),sessionDate);
         for (int j=0;j<userExcercises.size();j++){
             System.out.println("Exercise in workout " + userExcercises.get(j).toString());
@@ -569,9 +572,10 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
 
 
     @Override
-    public void updateSession(int intUserSessionID, Date sessionDate, String strComment, int intIDUser) {
+    public void updateSession(int intUserSessionID, Date sessionDate, String strComment, int intIDUser,int rating) {
         ContentValues   values  =   new ContentValues();
         values.put(UserMakesSession_Comment,strComment);
+        values.put(UserMakesSession_rating,rating);
         String field        =   UserMakesSession_WorkoutSID+"=? AND "+UserMakesSession_UserID+"=? AND "+UserMakesSession_ExecutionD+"=?";
         String filter   []  =   {String.valueOf(intUserSessionID),String.valueOf(intIDUser),Singletons.getStringFromDate(sessionDate)};
         int rows            =   this.sqlGymDatabase.update(UserMakesSession_tablename, values, field, filter);
@@ -579,11 +583,12 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     }
 
     @Override
-    public int createSession(Date sessionDate, String strComment, int intIDUser, int idSWorkout) {
+    public int createSession(Date sessionDate, String strComment, int intIDUser, int idSWorkout,int rating) {
         ContentValues   values  = new ContentValues();
         values.put(UserMakesSession_WorkoutSID,idSWorkout);
         values.put(UserMakesSession_UserID,intIDUser);
         values.put(UserMakesSession_Comment,strComment);
+        values.put(UserMakesSession_rating,rating);
         values.put(UserMakesSession_ExecutionD,Singletons.getStringFromDate(sessionDate));
         return  (int)this.sqlGymDatabase.insert(UserMakesSession_tablename,null,values);
     }
@@ -601,8 +606,9 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
             String  photopath    =   result.getString(result.getColumnIndex(WorkoutSession_photopath));
             Date    sessionDate  =   Singletons.formatFromString(result.getString(result.getColumnIndex(UserMakesSession_ExecutionD)));
             int     sessionID    =   result.getInt(result.getColumnIndex(UserMakesSession_WorkoutSID));
+            int     rating       =   result.getInt(result.getColumnIndex(UserMakesSession_rating));
             String  comment      =   result.getString(result.getColumnIndex(UserMakesSession_Comment));
-            UserWorkoutSession   aSession   =   new UserWorkoutSession(photopath,myUserID,this,this,sessionDate,sessionID,comment,true);
+            UserWorkoutSession   aSession   =   new UserWorkoutSession(photopath,myUserID,this,this,sessionDate,sessionID,comment,true,rating);
             System.out.println("SESSIONE N "+progressive+" ARRAY DIM "+userWorkoutSessionArrayList.size());
             userWorkoutSessionArrayList.add(aSession);
             ArrayList<UserExcercise>    userExcercises  =   this.getExercisesOfAUserSession(sessionID,myUserID,sessionDate);
@@ -618,13 +624,14 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     }
 
     @Override
-    public int createUserExercise(int intIDExercise, boolean boolIsDone, String strComment,int userID,Date executionDate) {
+    public int createUserExercise(int intIDExercise, boolean boolIsDone, String strComment,int userID,Date executionDate,int rating) {
         ContentValues   values  = new ContentValues();
         values.put(UserMakesExercise_exID,intIDExercise);
         values.put(UserMakesExercise_done,boolIsDone);
         values.put(UserMakesExercise_comment, strComment);
         values.put(UserMakesSession_UserID, userID);
         values.put(UserMakesExercise_execution_date,Singletons.getStringFromDate(executionDate));
+        values.put(UserMakesExercise_rating,rating);
         return (int) this.sqlGymDatabase.insert(UserMakesExercise_tablename, null, values);
     }
 
@@ -658,13 +665,14 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     }
 
     @Override
-    public void updateUserExercise(int intIDUser,int intIDExercise,Date adate, boolean boolIsDone, String strComment) {
+    public void updateUserExercise(int intIDUser,int intIDExercise,Date adate, boolean boolIsDone, String strComment,int rating) {
         ContentValues   values  = new ContentValues();
         values.put(UserMakesExercise_done,boolIsDone);
         values.put(UserMakesExercise_comment,strComment);
         String field        =       UserMakesExercise_userID+"=? AND "+ UserMakesExercise_exID +"=? AND "+UserMakesExercise_execution_date+"=?";
         String filter   []  =       {String.valueOf(intIDUser),String.valueOf(intIDExercise),Singletons.getStringFromDate(adate)};
         int rows    =   this.sqlGymDatabase.update(UserMakesExercise_tablename, values, field, filter);
+        values.put(UserMakesExercise_rating, rating);
         System.out.println("updated rows: " + rows);
     }
 

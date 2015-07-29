@@ -30,8 +30,9 @@ public interface UserWorkoutSessionSerializer {
      * @param sessionDate date of the session
      * @param strComment comment to the session
      * @param intIDUser id of the user
+     * @param rating session rating
      */
-    void                        updateSession(int intUserSessionID,Date sessionDate,String strComment,int intIDUser);
+    void                        updateSession(int intUserSessionID,Date sessionDate,String strComment,int intIDUser,int rating);
 
     /**
      * creates a new user workout session
@@ -39,9 +40,10 @@ public interface UserWorkoutSessionSerializer {
      * @param strComment comment to this session
      * @param intIDUser id of the owner
      * @param idWorkoutS id of workout
+     * @param rating
      * @return returns sessionid
      */
-    int                         createSession(Date sessionDate,String strComment,int intIDUser,int idWorkoutS);
+    int                         createSession(Date sessionDate,String strComment,int intIDUser,int idWorkoutS,int rating);
 
     /**
      * loads sessions of user workout

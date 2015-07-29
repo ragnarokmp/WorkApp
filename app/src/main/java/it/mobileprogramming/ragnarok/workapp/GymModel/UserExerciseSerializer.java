@@ -14,9 +14,10 @@ public interface UserExerciseSerializer {
      * @param strComment set a comment for user session
      * @param userID set the userid of exercise
      * @param executionDate set the execution date
+     * @param rating int from 0 to five (stars)
      * @return return the ID of the userExercise on DB
      */
-    int createUserExercise(int intIDExercise, boolean boolIsDone, String strComment,int userID,Date executionDate) ;
+    int createUserExercise(int intIDExercise, boolean boolIsDone, String strComment,int userID,Date executionDate,int rating) ;
 
     /**
      * get all the exercises of a user workout session
@@ -34,8 +35,9 @@ public interface UserExerciseSerializer {
      * @param executionDate date of execution
      * @param boolIsDone state of exercise (1 done 0 not done)
      * @param strComment set comment about this exercise
+     * @param rating int from 0 to five (stars)
      */
-    void updateUserExercise(int intIDUser,int intIDExercise ,Date executionDate,boolean boolIsDone,String strComment);
+    void updateUserExercise(int intIDUser,int intIDExercise ,Date executionDate,boolean boolIsDone,String strComment,int rating);
 
     /**
      * delete an user exercise

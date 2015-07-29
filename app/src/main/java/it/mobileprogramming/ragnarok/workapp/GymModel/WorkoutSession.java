@@ -6,7 +6,7 @@ public class WorkoutSession {
     private int id;
     private String filepath;
     private WorkoutSessionSerializer workoutSessionSerializer;
-    private ArrayList<Exercise> exercisesOfSession  =   new ArrayList<Exercise>();
+    protected ArrayList<Exercise> exercisesOfSession  =   new ArrayList<Exercise>();
 
     public WorkoutSession() {
     }

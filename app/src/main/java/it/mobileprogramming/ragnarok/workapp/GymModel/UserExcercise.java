@@ -12,6 +12,7 @@ public class UserExcercise extends Exercise{
     private UserExerciseSerializer  userExerciseSerializer;
     private Date exerciseDate;
     private int myUserID;
+    private int rating;
 
     /**
      * default constructor, saves the entry on DB
@@ -23,14 +24,15 @@ public class UserExcercise extends Exercise{
      * @param userExerciseSerializer instance that saves this exercise
      * @param exerciseSerializer instance that saves the original exercise
      */
-    public UserExcercise(int anUser, Date exDate, Exercise anExercise, boolean done, String aComment, UserExerciseSerializer userExerciseSerializer,ExerciseSerializer exerciseSerializer) {
+    public UserExcercise(int anUser, Date exDate, Exercise anExercise, boolean done, String aComment, UserExerciseSerializer userExerciseSerializer,ExerciseSerializer exerciseSerializer,int rating) {
         super(anExercise.getId(),exerciseSerializer, anExercise.getFrequency(), anExercise.getName(), anExercise.getRecovery(), anExercise.getRepetition(), anExercise.getSeries(), anExercise.getUsedWeight(),anExercise.getMuscles());
         this.comment                =   aComment;
         this.done                   =   done;
         this.userExerciseSerializer =   userExerciseSerializer;
         this.exerciseDate           =   exDate;
         this.myUserID               =   anUser;
-        this.userExerciseSerializer.createUserExercise(anExercise.getId(),done,aComment,myUserID,exDate);
+        this.rating                 =   rating;
+        this.userExerciseSerializer.createUserExercise(anExercise.getId(),done,aComment,myUserID,exDate,rating);
     }
 
     /**
@@ -98,7 +100,7 @@ public class UserExcercise extends Exercise{
     public void setComment(String comment) {
         this.comment = comment;
         System.out.println(this.myUserID+" "+this.getId()+" "+this.exerciseDate+" "+this.done+" "+this.comment);
-        userExerciseSerializer.updateUserExercise(this.myUserID, this.getId(), this.exerciseDate, this.done, this.comment);
+        userExerciseSerializer.updateUserExercise(this.myUserID, this.getId(), this.exerciseDate, this.done, this.comment,this.rating);
     }
 
     /**
@@ -107,9 +109,17 @@ public class UserExcercise extends Exercise{
      */
     public void setDone(boolean done) {
         this.done = done;
-        userExerciseSerializer.updateUserExercise(this.myUserID,this.getId(),this.exerciseDate,this.done,this.comment);
+        userExerciseSerializer.updateUserExercise(this.myUserID,this.getId(),this.exerciseDate,this.done,this.comment,this.rating);
     }
 
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+        this.userExerciseSerializer.updateUserExercise(this.myUserID,this.getId(),this.exerciseDate,this.done,this.comment,this.rating);
+    }
 
     @Override
     public String toString() {
