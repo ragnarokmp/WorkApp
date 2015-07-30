@@ -12,7 +12,7 @@ import android.view.View;
 
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
 
-public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener {
+public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener, View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,4 +151,16 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
 
     // TODO: manage username, e-mail and avatar using Google Sig-in (https://developers.google.com/+/mobile/android/sign-in)
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.avatar:
+                // Create new AccountActivity
+                Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
+                startActivity(intent);
+                break;
+            default:
+                break;
+        }
+    }
 }

@@ -5,8 +5,7 @@
     android:layout_height="172dp"
     android:background="@color/primary"
     android:orientation="vertical"
-    android:paddingTop="@dimen/status_bar_height"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:paddingTop="@dimen/status_bar_height">
 
     <ImageView
         android:id="@+id/avatar"
@@ -15,7 +14,9 @@
         android:layout_margin="@dimen/spacing_large"
         android:elevation="@dimen/elevation_toolbar"
         android:src="@mipmap/ic_launcher"
-        tools:ignore="ContentDescription,UnusedAttribute" />
+        tools:ignore="ContentDescription,UnusedAttribute"
+        android:clickable="true"
+        android:onClick="onClick" />
 
     <TextView
         android:id="@+id/username"
@@ -25,7 +26,8 @@
         android:layout_marginLeft="@dimen/spacing_large"
         android:layout_marginStart="@dimen/spacing_large"
         android:text="Username"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/email"
@@ -36,6 +38,7 @@
         android:layout_marginStart="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/spacing_large"
         android:text="username@gmail.com"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>

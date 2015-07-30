@@ -37,5 +37,8 @@
     <string name="material_switch_preference">Material Switch Preference</string>
     <string name="material_switch_preference_on">Material Switch Summary On</string>
     <string name="material_switch_preference_off">Material Switch Summary Off</string>
+    <string name="title_activity_account_activty">AccountActivty</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>
