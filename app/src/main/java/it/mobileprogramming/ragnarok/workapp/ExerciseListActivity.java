@@ -58,8 +58,8 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
 
         if (findViewById(R.id.exercise_detail_container) != null) {
             // The detail container view will be present only in the
-            // large-screen layouts (res/values-large and
-            // res/values-sw600dp). If this view is present, then the
+            // large-screen layouts (res/values-large-land and
+            // res/values-sw600dp-land). If this view is present, then the
             // activity should be in two-pane mode.
             mTwoPane = true;
 

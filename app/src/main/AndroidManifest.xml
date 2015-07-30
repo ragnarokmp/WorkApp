@@ -38,14 +38,6 @@
                 android:value="it.mobileprogramming.ragnarok.workapp.ExerciseListActivity" />
         </activity>
         <activity
-            android:name=".AboutActivity"
-            android:label="@string/about"
-            android:parentActivityName=".MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="it.mobileprogramming.ragnarok.workapp.MainActivity" />
-        </activity>
-        <activity
             android:name=".SettingsActivity"
             android:label="@string/settings"
             android:parentActivityName=".MainActivity" >

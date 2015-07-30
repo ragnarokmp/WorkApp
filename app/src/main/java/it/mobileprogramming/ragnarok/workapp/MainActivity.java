@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
 
@@ -15,7 +16,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // Make sure this is before calling super.onCreate
+        // Make sure this is before calling super.onCreate for launch screen
         setTheme(R.style.WorkApp);
         super.onCreate(savedInstanceState);
 
@@ -55,7 +56,6 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
         return new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                // Snackbar.make(content, menuItem.getTitle() + " pressed", Snackbar.LENGTH_LONG).show(); // TODO: remove after
                 // Checked the Drawer Menu Item
                 menuItem.setChecked(true);
                 // Close Navigation Drawer
@@ -73,11 +73,6 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
                         Intent intent = new Intent(getApplicationContext(), ExerciseListActivity.class);
                         startActivity(intent);
                         break;
-/*                    case R.id.drawer_about:
-                        // Create new AboutActivity
-                        Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
-                        startActivity(intent);
-                        break;*/
                     case R.id.drawer_settings:
                         // Create new SettingsActivity
                         intent = new Intent(getApplicationContext(), SettingsActivity.class);
@@ -153,4 +148,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
          */
         Exercises
     }
+
+    // TODO: manage username, e-mail and avatar using Google Sig-in (https://developers.google.com/+/mobile/android/sign-in)
+
 }

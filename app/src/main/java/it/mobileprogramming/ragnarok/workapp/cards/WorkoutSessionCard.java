@@ -5,7 +5,6 @@ import android.content.Context;
 import com.dexafree.materialList.cards.SimpleCard;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
-import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.R;
 
 /**
