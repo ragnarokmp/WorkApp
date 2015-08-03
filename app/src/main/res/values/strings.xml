@@ -40,5 +40,9 @@
     <string name="title_activity_account_activty">AccountActivty</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="account_add">add</string>
+    <string name="account_kg">kg</string>
+    <string name="account_addentry_title">Add a new entry in your body weight history</string>
+    <string name="account_trend">Your weight history trend</string>
 
 </resources>
