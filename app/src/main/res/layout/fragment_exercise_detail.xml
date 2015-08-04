@@ -142,19 +142,15 @@
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/start_fab"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:src="@drawable/ic_action_play"
                 android:layout_gravity="bottom|end"
-                auto:elevation="6dp"
-                auto:pressedTranslationZ="12dp"
-                auto:borderWidth="0dp"
-                android:layout_marginRight="@dimen/big_padding"
-                android:layout_marginTop="-28dp"
+                style="@style/FabStyle"
+                android:layout_marginRight="18dp"
+                android:layout_marginTop="27dp"
+                android:layout_alignTop="@+id/linear_layout"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@+id/linear_layout" />
-
+                android:layout_marginEnd="18dp" />
 
         </RelativeLayout>
 

@@ -38,6 +38,7 @@
             style="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@color/secondary_text"
             android:gravity="center" />
+
     </LinearLayout>
 
 </FrameLayout>

@@ -172,5 +172,7 @@
                 android:textColor="@color/primary" />
 
         </RelativeLayout>
+
     </android.support.v7.widget.CardView>
+
 </it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCardItemView>

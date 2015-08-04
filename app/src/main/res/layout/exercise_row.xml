@@ -38,5 +38,7 @@
             tools:text="Ne devi da fa tanti tanti"
             android:id="@+id/exercise_description_row"
             style="@style/Base.TextAppearance.AppCompat.Small" />
+
     </LinearLayout>
+
 </LinearLayout>

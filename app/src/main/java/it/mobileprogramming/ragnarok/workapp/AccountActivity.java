@@ -1,13 +1,16 @@
 package it.mobileprogramming.ragnarok.workapp;
 
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.text.InputType;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -22,9 +25,6 @@ import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 
 public class AccountActivity extends BaseActivityWithToolbar {
-    TextView tvTop;
-    User currentUser;
-    LineChart chart;
 
     @Override
     protected int getLayoutResourceId() {
@@ -34,7 +34,7 @@ public class AccountActivity extends BaseActivityWithToolbar {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_account_activty, menu);
+        //getMenuInflater().inflate(R.menu.menu_account_activty, menu);
         return true;
     }
 
@@ -54,8 +54,9 @@ public class AccountActivity extends BaseActivityWithToolbar {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         SQLiteSerializer dbSerializer = ((App) this.getApplication()).getDBSerializer();
         dbSerializer.open();
 
@@ -64,15 +65,15 @@ public class AccountActivity extends BaseActivityWithToolbar {
         ((App) this.getApplication()).setCurrentUser(anUser);
         //END TO BE REMOVED
 
-        currentUser = ((App) this.getApplication()).getCurrentUser();
-        tvTop   =  (TextView)findViewById(R.id.tv_top);
-        tvTop.setText(currentUser.getStrName()+" "+currentUser.getStrSurname());
-        chart = (LineChart) findViewById(R.id.lc_chart);
+        User currentUser = ((App) this.getApplication()).getCurrentUser();
+        TextView tvTop = (TextView) findViewById(R.id.account_text_view);
+        tvTop.setText(currentUser.getStrName() + " " + currentUser.getStrSurname());
+        LineChart chart = (LineChart) findViewById(R.id.lc_chart);
         chart.setDescription(getString(R.string.account_trend));
         ArrayList<WeightItem> history = currentUser.getWeightHistory();
         LineData line = new LineData();
-        ArrayList<Entry> dataset = new ArrayList<Entry>();
-        ArrayList<String>labels =   new ArrayList<String>();    //entry labels
+        ArrayList<Entry> dataset = new ArrayList<>();
+        ArrayList<String>labels = new ArrayList<>();    //entry labels
         for (int i = 0; i < history.size(); i++) {
             WeightItem anItem   =   history.get(i);
             dataset.add(new Entry(anItem.value, i));
@@ -80,25 +81,32 @@ public class AccountActivity extends BaseActivityWithToolbar {
         }
         LineDataSet aDataset = new LineDataSet(dataset, currentUser.getStrName());
 
-        TypedValue a = new TypedValue();
-        int color;
-        getTheme().resolveAttribute(android.R.attr.colorPrimary, a, true);//TODO works only from API 21!!!
-        if (a.type >= TypedValue.TYPE_FIRST_COLOR_INT && a.type <= TypedValue.TYPE_LAST_COLOR_INT) {
-            // windowBackground is a color
-            color = a.data;
-        } else {
-            // windowBackground is not a color, probably a drawable
-            color   = Color.BLACK;
-        }
-
-
+        int color = getResources().getColor(R.color.primary);
 
         aDataset.setColor(color);
         aDataset.setCircleColor(color);
         line.addDataSet(aDataset);
-        ArrayList<LineDataSet> datasets =   new ArrayList<LineDataSet>();
+        ArrayList<LineDataSet> datasets =   new ArrayList<>();
         datasets.add(aDataset);
         LineData data=  new LineData(labels,datasets);
         chart.setData(data);
+
+        FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.add_fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MaterialDialog.Builder(AccountActivity.this)
+                        .title(R.string.account_add_title)
+                        .content(R.string.account_add_content)
+                        .inputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL)
+                        .positiveText(R.string.submit)
+                        .input(getString(R.string.account_add_hint), null, true, new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                                Log.i(TAG, "New weight: " + input.toString() + " kg");
+                            }
+                        }).show();
+            }
+        });
     }
 }
