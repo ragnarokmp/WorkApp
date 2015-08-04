@@ -69,7 +69,7 @@
 
         <activity
             android:name=".AccountActivity"
-            android:label="@string/title_activity_account_activty"
+            android:label="@string/account_summary"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -1,35 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--suppress ALL -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.jenzz.materialpreference.PreferenceCategory
-        android:title="@string/material_category">
-
-        <com.jenzz.materialpreference.Preference
-            android:title="@string/material_preference"/>
-
-        <com.jenzz.materialpreference.Preference
-            android:title="@string/material_preference"
-            android:summary="@string/material_summary" />
-
-        <com.jenzz.materialpreference.Preference
-            android:title="@string/material_preference"
-            android:summary="@string/material_summary_with_icon"
-            android:icon="@mipmap/ic_launcher"
-            android:dependency="@string/material_checkbox_key" />
-
-        <com.jenzz.materialpreference.CheckBoxPreference
-            android:key="@string/material_checkbox_key"
-            android:title="@string/material_checkbox_preference"
-            android:summaryOn="@string/material_checkbox_summary_on"
-            android:summaryOff="@string/material_checkbox_summary_off"
-            android:disableDependentsState="true" />
+    <PreferenceCategory
+        android:title="@string/sound_preference_category">
 
         <com.jenzz.materialpreference.SwitchPreference
-            android:title="@string/material_switch_preference"
-            android:summaryOn="@string/material_switch_preference_on"
-            android:summaryOff="@string/material_switch_preference_off" />
+            android:key="@string/switch_sound_preference_key"
+            android:title="@string/switch_preference_sound"
+            android:summaryOn="@string/sound_preference_on"
+            android:summaryOff="@string/sound_preference_off"
+            android:defaultValue="true"
+            android:disableDependentsState="false"/>
 
-    </com.jenzz.materialpreference.PreferenceCategory>
+        <CheckBoxPreference
+            android:key="@string/voice_preference_key"
+            android:title="@string/voice_preference_checkbox"
+            android:summaryOn="@string/voice_preference_summary_on"
+            android:summaryOff="@string/voice_preference_summary_off"
+            android:dependency="@string/switch_sound_preference_key"/>
+
+        <CheckBoxPreference
+            android:key="@string/sound_preference_key"
+            android:title="@string/sound_preference_checkbox"
+            android:summaryOn="@string/sound_preference_summary_on"
+            android:summaryOff="@string/sound_preference_summary_off"
+            android:dependency="@string/switch_sound_preference_key" />
+        <!--
+                <Preference
+                    android:title="@string/material_preference"/>
+
+                <Preference
+                    android:title="@string/material_preference"
+                    android:summary="@string/material_summary" />
+
+                <Preference
+                    android:title="@string/material_preference"
+                    android:summary="@string/material_summary_with_icon"
+                    android:icon="@mipmap/ic_launcher"
+                     />-->
+
+    </PreferenceCategory>
 
 </PreferenceScreen>
