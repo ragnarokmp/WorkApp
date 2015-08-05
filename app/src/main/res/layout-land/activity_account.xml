@@ -36,17 +36,34 @@
                     android:src="@mipmap/ic_launcher"
                     tools:ignore="ContentDescription,UnusedAttribute"/>
 
-                <TextView
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    tools:text="Nome"
-                    android:id="@+id/account_text_view"
-                    android:layout_margin="@dimen/small_padding"
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical"
-                    style="@style/Base.TextAppearance.AppCompat.Title"
-                    android:textColor="@android:color/white" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        tools:text="Nome"
+                        android:id="@+id/account_text_view"
+                        android:layout_margin="@dimen/small_padding"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical"
+                        style="@style/Base.TextAppearance.AppCompat.Title"
+                        android:textColor="@android:color/white" />
+                    <TextView
+                        style="@style/Base.TextAppearance.AppCompat.Subhead.Inverse"
+                        tools:text="Nome"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:id="@+id/account_text_view_details"
+                        android:layout_margin="@dimen/small_padding"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/primary_light" />
+                </LinearLayout>
 
             </LinearLayout>
 

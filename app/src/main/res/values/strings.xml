@@ -52,6 +52,10 @@
     <string name="account_add_content">Add a new entry</string>
     <string name="account_add_hint">Your new weight here</string>
     <string name="account_trend">Your weight history trend</string>
+    <string name="account_male">Male</string>
+    <string name="account_female">Female</string>
+    <string name="account_unknown">Unknown</string>
+    <string name="account_weight_error">You can insert your weight only once per day, please retry tomorrow!</string>
     <string name="submit">Submit</string>
 
 </resources>
