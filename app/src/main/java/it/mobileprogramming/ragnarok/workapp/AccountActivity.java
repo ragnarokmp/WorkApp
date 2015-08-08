@@ -27,9 +27,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 
+import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.GymModel.User;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.GymModel.WeightItem;
+import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 
@@ -75,6 +79,21 @@ public class AccountActivity extends BaseActivityWithToolbar {
         //TODO TO BE REMOVED
         User anUser = dbSerializer.loadUser(1);
         ((App) this.getApplication()).setCurrentUser(anUser);
+        //test per Federico
+        ArrayList<Workout> testlist =   anUser.getWorkoutHistory();
+        System.out.println(testlist);
+        for(int i=0;i<testlist.size();i++){
+            System.out.println("->USERWORKOUT " + testlist.get(i).toString());
+            UserWorkout aworkout    =   (UserWorkout)testlist.get(i);
+            ArrayList<UserWorkoutSession>  wosessions   =   aworkout.getWoSessions();
+            for(int j=0;j<wosessions.size();j++){
+                ArrayList<Exercise> excercises =   wosessions.get(j).getExercisesOfSession();
+                System.out.println("->USERSESSION "+wosessions.get(j).toString()+" LISTA ESERCIZI "+excercises.size()+" "+excercises.toString());
+                for(int k=0;k<excercises.size();k++){
+                    System.out.println("Esercizio "+k+" "+excercises.get(k).toString());
+                }
+            }
+        }
         //END TO BE REMOVED
 
         currentUser = ((App) this.getApplication()).getCurrentUser();
