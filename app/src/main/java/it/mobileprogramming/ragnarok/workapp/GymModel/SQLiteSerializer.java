@@ -657,7 +657,8 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
             int     progressive  =   result.getInt(result.getColumnIndex(SessionMadeByExercises_Progressive));
             //TODO handle boolean with int
             boolean completed    =   false;
-            userWorkoutSessionArrayList.add(progressive,new UserExcercise(exerciseID,executionDate,userID,this,frequency,name,recovery,repetition,series,usedWeight,completed,comment,muscles,this));
+            userWorkoutSessionArrayList.add(new UserExcercise(exerciseID,executionDate,userID,this,frequency,name,recovery,repetition,series,usedWeight,completed,comment,muscles,this));
+            //TODO variable "progressive" needs to be readded
             result.moveToNext();
         }
         result.close();
