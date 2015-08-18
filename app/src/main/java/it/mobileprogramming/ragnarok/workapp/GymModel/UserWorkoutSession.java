@@ -79,7 +79,12 @@ public class UserWorkoutSession extends WorkoutSession implements Parcelable {
      * @return a clone
      */
     public UserWorkoutSession clone(){
-        return new UserWorkoutSession(this.getFilepath(),this.usrSessionUserId,this.workoutSessionSerializer,this.userWorkoutSessionSerializer,this.dateSessionDate,this.getId(),this.strComment,true,rating);
+        UserWorkoutSession workoutSession   =   new UserWorkoutSession(this.getFilepath(),this.usrSessionUserId,this.workoutSessionSerializer,this.userWorkoutSessionSerializer,this.dateSessionDate,this.getId(),this.strComment,true,rating);
+        for(int i=0;i<this.exercisesOfSession.size();i++){
+            //TODO implement clone UserExercise/Exercise
+            workoutSession.addExerciseToWorkoutSession(this.exercisesOfSession.get(i),i,false);
+        }
+        return workoutSession;
     }
 
     /**checks if all the exercises of the session are done
