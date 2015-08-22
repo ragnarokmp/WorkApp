@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,6 +124,17 @@ public class WorkoutFragment extends BaseFragment {
                 workoutListView.add(card);
             }
         }
+
+        FloatingActionButton addWorkout = (FloatingActionButton) view.findViewById(R.id.add_fab);
+        addWorkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO: create workoutListActivity similar to exercises?
+                Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return view;
     }
 
