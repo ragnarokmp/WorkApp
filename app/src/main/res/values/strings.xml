@@ -1,20 +1,23 @@
 <resources>
     <string name="app_name">WorkApp</string>
 
-    <!-- Navigation drawer element && Activity title-->
+    <!-- Navigation drawer element -->
     <string name="workout">Workout</string>
     <string name="exercises">Exercises</string>
     <string name="about">About</string>
     <string name="settings">Settings</string>
     <string name="info">Info</string>
 
+    <!-- Activity title -->
     <string name="exercise_list">Exercises</string>
     <string name="exercise_detail">Exercise Detail</string>
     <string name="start_exercise">Start Exercise</string>
     <string name="account_summary">Account Summary</string>
+    <string name="account_settings">Settings</string>
 
-    <!-- Actions -->
-    <string name="action_settings">Settings</string>
+    <!-- Workout menu -->
+    <string name="action_change_workout">Change</string>
+    <string name="action_history_workouts">History</string>
 
     <!-- -->
     <string name="session_right_button">Start</string>
@@ -47,6 +50,7 @@
     <string name="sound_preference_summary_on">Sound is now enabled, you will listen metronome during the exercises</string>
     <string name="sound_preference_summary_off">Sound is now disabled</string>
 
+    <!-- Account strings -->
     <string name="account_add_title">Add</string>
     <string name="account_kg">kg</string>
     <string name="account_add_content">Add a new entry</string>
