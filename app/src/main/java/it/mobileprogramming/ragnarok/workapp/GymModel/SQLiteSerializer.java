@@ -655,9 +655,11 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
             String  muscles      =   result.getString(result.getColumnIndex(Exercise_muscles));
             String  comment      =   result.getString(result.getColumnIndex(UserMakesExercise_comment));
             int     progressive  =   result.getInt(result.getColumnIndex(SessionMadeByExercises_Progressive));
+            int     rating       =   result.getInt(result.getColumnIndex(UserMakesExercise_rating));
+            System.out.println("RATING LOADED "+rating);
             //TODO handle boolean with int
             boolean completed    =   false;
-            userWorkoutSessionArrayList.add(new UserExcercise(exerciseID,executionDate,userID,this,frequency,name,recovery,repetition,series,usedWeight,completed,comment,muscles,this));
+            userWorkoutSessionArrayList.add(new UserExcercise(exerciseID,executionDate,userID,this,frequency,name,recovery,repetition,series,usedWeight,completed,comment,muscles,this,rating));
             //TODO variable "progressive" needs to be readded
             result.moveToNext();
         }
@@ -670,11 +672,12 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         ContentValues   values  = new ContentValues();
         values.put(UserMakesExercise_done,boolIsDone);
         values.put(UserMakesExercise_comment,strComment);
-        String field        =       UserMakesExercise_userID+"=? AND "+ UserMakesExercise_exID +"=? AND "+UserMakesExercise_execution_date+"=?";
-        String filter   []  =       {String.valueOf(intIDUser),String.valueOf(intIDExercise),Singletons.getStringFromDate(adate)};
-        int rows    =   this.sqlGymDatabase.update(UserMakesExercise_tablename, values, field, filter);
         values.put(UserMakesExercise_rating, rating);
-        System.out.println("updated rows: " + rows);
+        String field        =       UserMakesExercise_userID+"=? AND "+ UserMakesExercise_exID +"=? AND "+UserMakesExercise_execution_date+"=?";
+        String filter   []  =       {String.valueOf(intIDUser),String.valueOf(intIDExercise),Singletons.getStringFromDate(adate)};;
+        int rows    =   this.sqlGymDatabase.update(UserMakesExercise_tablename, values, field, filter);
+        System.out.println("updated rows: " + rows + " on field " + field);
+        System.out.println("UserExercise data user " + intIDUser + " idex " + intIDExercise + " date " + Singletons.getStringFromDate(adate)+" rating "+rating+" comment "+strComment);
     }
 
     @Override

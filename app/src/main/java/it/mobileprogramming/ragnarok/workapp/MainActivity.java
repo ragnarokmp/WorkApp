@@ -10,6 +10,16 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+
+import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
+import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.User;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserExcercise;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
+import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
+import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
 
 public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener, View.OnClickListener {
@@ -27,6 +37,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
         /*TestTask testing    =   new TestTask(this.getApplicationContext());
         testing.execute();*/
         //end testing task
+
     }
 
     @Override

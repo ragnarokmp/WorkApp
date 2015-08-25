@@ -1,8 +1,11 @@
 package it.mobileprogramming.ragnarok.workapp.GymModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public class WorkoutSession {
+public class WorkoutSession implements Parcelable {
     private int id;
     private String filepath;
     private WorkoutSessionSerializer workoutSessionSerializer;
@@ -94,5 +97,21 @@ public class WorkoutSession {
         return filepath;
     }
 
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.id);
+        dest.writeString(this.filepath);
+    }
+
+    protected WorkoutSession(Parcel in) {
+        this.id = in.readInt();
+        this.filepath = in.readString();
+    }
 
 }

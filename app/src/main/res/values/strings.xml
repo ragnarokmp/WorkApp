@@ -61,5 +61,19 @@
     <string name="account_unknown">Unknown</string>
     <string name="account_weight_error">You can insert your weight only once per day, please retry tomorrow!</string>
     <string name="submit">Submit</string>
+    <string name="title_activity_feedback">FeedbackActivity</string>
+
+    <string name="feedback_leavefeedback">Please write a feedback</string>
+    <string name="feedback_1star">Bad</string>
+    <string name="feedback_2star">So bad</string>
+    <string name="feedback_3star">Normal</string>
+    <string name="feedback_4star">Good</string>
+    <string name="feedback_5star">Excellent</string>
+    <string name="feedback_comment">Please write a comment:</string>
+    <string name="feedback_commentForm">Write your comment here</string>
+    <string name="feedback_submitButton">Submit</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

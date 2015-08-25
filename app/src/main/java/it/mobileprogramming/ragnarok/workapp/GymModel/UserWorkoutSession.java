@@ -9,11 +9,11 @@ import java.util.Date;
 /**
  *
  */
-public class UserWorkoutSession extends WorkoutSession implements Parcelable {
-    private String  strComment;
+public class UserWorkoutSession extends WorkoutSession implements Parcelable,Commentable {
+    private String  strComment="";
     private Date    dateSessionDate;
     private int     usrSessionUserId;
-    private int     rating;
+    private int     rating=0;
     private WorkoutSessionSerializer        workoutSessionSerializer;
     private UserWorkoutSessionSerializer    userWorkoutSessionSerializer;
 
@@ -70,8 +70,11 @@ public class UserWorkoutSession extends WorkoutSession implements Parcelable {
         return "UserWorkoutSession{" +
                 "dateSessionDate=" + dateSessionDate +
                 ", strComment='" + strComment + '\'' +
-                ", usrSessionUser=" + usrSessionUserId +
-                '}'+super.toString();
+                ", usrSessionUserId=" + usrSessionUserId +
+                ", rating=" + rating +
+                ", workoutSessionSerializer=" + workoutSessionSerializer +
+                ", userWorkoutSessionSerializer=" + userWorkoutSessionSerializer +
+                '}';
     }
 
     /**
@@ -106,31 +109,31 @@ public class UserWorkoutSession extends WorkoutSession implements Parcelable {
         return result;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.strComment);
-        dest.writeLong(dateSessionDate != null ? dateSessionDate.getTime() : -1);
-        dest.writeInt(this.usrSessionUserId);
-    }
-
-    protected UserWorkoutSession(Parcel in) {
-        this.strComment = in.readString();
-        long tmpDateSessionDate = in.readLong();
-        this.dateSessionDate = tmpDateSessionDate == -1 ? null : new Date(tmpDateSessionDate);
-        this.usrSessionUserId = in.readInt();
-    }
-
     /**
      * return the rating given to this workout session
      * @return rating
      */
     public int getRating() {
         return rating;
+    }
+
+    @Override
+    public void setComment(String comment) {
+        this.strComment =   comment;
+        this.userWorkoutSessionSerializer.updateSession(this.usrSessionUserId,this.dateSessionDate,this.strComment,this.usrSessionUserId,this.rating);
+
+    }
+
+    @Override
+    public void setSerializer(Object serializer) {
+        this.userWorkoutSessionSerializer   =   (UserWorkoutSessionSerializer)serializer;
+    }
+
+    @Override
+    public void setComment(String comment, int rating) {
+        this.strComment =   comment;
+        this.rating     =   rating;
+        this.userWorkoutSessionSerializer.updateSession(this.usrSessionUserId,this.dateSessionDate,this.strComment,this.usrSessionUserId,this.rating);
     }
 
     /**
@@ -142,7 +145,36 @@ public class UserWorkoutSession extends WorkoutSession implements Parcelable {
         this.userWorkoutSessionSerializer.updateSession(this.usrSessionUserId,this.dateSessionDate,this.strComment,this.usrSessionUserId,this.rating);
     }
 
-    public static final Parcelable.Creator<UserWorkoutSession> CREATOR = new Parcelable.Creator<UserWorkoutSession>() {
+    @Override
+    public String getComment() {
+        return this.strComment+"";
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        super.writeToParcel(dest, flags);
+        dest.writeString(this.strComment);
+        dest.writeLong(dateSessionDate != null ? dateSessionDate.getTime() : -1);
+        dest.writeInt(this.usrSessionUserId);
+        dest.writeInt(this.rating);
+    }
+
+    protected UserWorkoutSession(Parcel in) {
+        super(in);
+        this.strComment = in.readString();
+        long tmpDateSessionDate = in.readLong();
+        this.dateSessionDate = tmpDateSessionDate == -1 ? null : new Date(tmpDateSessionDate);
+        this.usrSessionUserId = in.readInt();
+        this.rating = in.readInt();
+    }
+
+    public static final Creator<UserWorkoutSession> CREATOR = new Creator<UserWorkoutSession>() {
         public UserWorkoutSession createFromParcel(Parcel source) {
             return new UserWorkoutSession(source);
         }

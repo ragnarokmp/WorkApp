@@ -1,18 +1,21 @@
 package it.mobileprogramming.ragnarok.workapp.GymModel;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * model class for Exercise, includes method for CRUD
  */
-public class Exercise {
-    private int intExId;
-    private ExerciseSerializer aSerializer;
-    private String  usedWeight;
-    private int     series;
-    private int     repetition;
-    private int     frequency;
-    private int     recovery;
-    private String  name;
-    private String  muscles;
+public class Exercise implements Parcelable{
+    protected int intExId;
+    protected ExerciseSerializer aSerializer;
+    protected String  usedWeight;
+    protected int     series;
+    protected int     repetition;
+    protected int     frequency;
+    protected int     recovery;
+    protected String  name;
+    protected String  muscles;
 
 
     /**
@@ -60,6 +63,12 @@ public class Exercise {
         this.muscles    =   muscles;
     }
 
+    /**
+     * default constructor requested by subclass
+     */
+    public Exercise(){
+        super();
+    }
     /**
      * clone the exercise
      * @return returns a new exercise
@@ -210,4 +219,33 @@ public class Exercise {
 
 
     //TODO create user exercise from this one
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.intExId);
+        dest.writeString(this.usedWeight);
+        dest.writeInt(this.series);
+        dest.writeInt(this.repetition);
+        dest.writeInt(this.frequency);
+        dest.writeInt(this.recovery);
+        dest.writeString(this.name);
+        dest.writeString(this.muscles);
+    }
+
+    protected Exercise(Parcel in) {
+        this.intExId = in.readInt();
+        this.usedWeight = in.readString();
+        this.series = in.readInt();
+        this.repetition = in.readInt();
+        this.frequency = in.readInt();
+        this.recovery = in.readInt();
+        this.name = in.readString();
+        this.muscles = in.readString();
+    }
+
 }
