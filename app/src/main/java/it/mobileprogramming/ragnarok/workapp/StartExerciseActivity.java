@@ -1,7 +1,9 @@
 package it.mobileprogramming.ragnarok.workapp;
 
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,7 @@ import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -31,12 +34,62 @@ public class StartExerciseActivity extends BaseActivity {
 
     private int milliseconds;
     private int totalMillis;
+    private int progress    =   0;
 
     private View[] linkedViews;
 
     private SeriesItem seriesItem;
-    private int seriesIndex;
-    private float current;
+
+    boolean paused  =   false;
+    boolean stopped =   false;
+
+    private class GraphManager extends AsyncTask{
+        long previous;
+        @Override
+        protected Object doInBackground(Object[] params) {
+            while(progress<totalMillis&&stopped==false){
+                previous = System.currentTimeMillis();
+                System.out.println("MILLISECONDS " + previous);
+                SystemClock.sleep(100);
+                long now = System.currentTimeMillis();
+                now =   now-previous;
+                System.out.println("MILLISECONDS DELTA"+now);
+                //System.out.println("paused status " + paused);
+                if(paused==false&&stopped==false){
+                    Object[] payload    =   new Object[1];
+                    payload[0]          =   now;
+                    this.publishProgress(payload);
+                }
+            }
+            stopped =   false;
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Object[] values) {
+            //System.out.println("aumento");
+            long now    =   (long)values[0];
+            super.onProgressUpdate(values);
+            progress    =   progress+(int)now;
+            int series1Index = decoView.addSeries(seriesItem);
+            if(progress>totalMillis){
+                progress    =   totalMillis;
+            }
+            decoView.addEvent(new DecoEvent.Builder(progress).setIndex(series1Index).setDelay(0).build());
+            textViewPercentage.setText(String.valueOf((int) progress / milliseconds));
+            textViewRemaining.setText(new SimpleDateFormat("mm:ss:SSS", Locale.ITALY).format(new Date((long) progress)));
+            if(progress>=totalMillis){
+                series1Index = decoView.addSeries(seriesItem);
+                decoView.addEvent(new DecoEvent.Builder(DecoDrawEffect.EffectType.EFFECT_SPIRAL_EXPLODE)
+                        .setIndex(series1Index)
+                        .setLinkedViews(linkedViews)
+                        .setDelay(0)
+                        .setDuration(4000)
+                        .setDisplayText("Complete!") // TODO: use string res
+                        .build());
+            }
+        }
+    }
 
     @Override
     protected int getLayoutResourceId() {
@@ -55,11 +108,20 @@ public class StartExerciseActivity extends BaseActivity {
         }
 
         // Get exercise info
-        milliseconds = 2000;
-        totalMillis = 30 * milliseconds;
+        milliseconds = 1000;
+        totalMillis = 15 * milliseconds;
 
         // Get DecoView
         decoView = (DecoView) findViewById(R.id.deco_view);
+        seriesItem = new SeriesItem.Builder(getResources().getColor(R.color.accent))
+                .setRange(0, totalMillis, 0)
+                .setLineWidth(32f)
+                .build();
+
+        decoView.addEvent(new DecoEvent.Builder(DecoEvent.EventType.EVENT_SHOW, true)
+                .setDelay(1000)
+                .setDuration(2000)
+                .build());
 
         // Get Views
         textViewPercentage = (TextView) findViewById(R.id.percentage_text_view);
@@ -71,9 +133,6 @@ public class StartExerciseActivity extends BaseActivity {
         // Group some of them for final animation
         linkedViews = new View[]{textViewPercentage, textViewRemaining, layout};
 
-        // Setup DecoView
-        setupDecoView();
-
         // TODO: decoview implements handler that doesn't come with pause method.. some trick to do here
         // Set pause and stop onItemClickListener
         pauseImageView.setOnClickListener(new View.OnClickListener() {
@@ -84,9 +143,7 @@ public class StartExerciseActivity extends BaseActivity {
 
                 if (pauseImageView.getTag().equals(getString(R.string.play)) && stopImageView.getTag().equals(getString(R.string.stop))) {
                     Log.i(TAG, "PLAY");
-                    setupDecoView();
-                    startEvent();
-
+                    paused = false;
                     // Get drawable
                     Drawable drawable;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -101,15 +158,7 @@ public class StartExerciseActivity extends BaseActivity {
                     pauseImageView.setTag(getString(R.string.pause));
                 } else if (pauseImageView.getTag().equals(getString(R.string.pause)) && stopImageView.getTag().equals(getString(R.string.stop))) {
                     Log.i(TAG, "PAUSE");
-                    //
-                    decoView.executeReset();
-
-                    seriesItem = new SeriesItem.Builder(getResources().getColor(R.color.accent))
-                            .setRange(current, totalMillis, current)
-                            .build();
-
-                    seriesIndex = decoView.addSeries(seriesItem);
-
+                    paused = true;
                     // Get drawable
                     Drawable drawable;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -134,9 +183,7 @@ public class StartExerciseActivity extends BaseActivity {
 
                 if (stopImageView.getTag().equals(getString(R.string.play)) && pauseImageView.getTag().equals(getString(R.string.pause))) {
                     Log.i(TAG, "PLAY");
-                    setupDecoView();
-                    startEvent();
-
+                    //TODO implement actions
                     // Get drawable
                     Drawable drawable;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -151,10 +198,14 @@ public class StartExerciseActivity extends BaseActivity {
                     stopImageView.setTag(getString(R.string.stop));
                 } else if (stopImageView.getTag().equals(getString(R.string.stop)) && pauseImageView.getTag().equals(getString(R.string.pause))) {
                     Log.i(TAG, "STOP");
-                    //
+                    //TODO implement actions
+                    stopped =   true;
+                    progress    =   0;
                     decoView.executeReset();
-                    decoView.deleteAll();
-
+                    int series1Index = decoView.addSeries(seriesItem);
+                    decoView.addEvent(new DecoEvent.Builder(progress).setIndex(series1Index).setDelay(0).build());
+                    textViewPercentage.setText(String.valueOf((int) progress / milliseconds));
+                    textViewRemaining.setText(new SimpleDateFormat("mm:ss:SSS", Locale.ITALY).format(new Date((long) progress)));
                     // Get drawable
                     Drawable drawable;
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -170,55 +221,8 @@ public class StartExerciseActivity extends BaseActivity {
                 }
             }
         });
+        GraphManager aManager   =   new GraphManager();
+        aManager.execute();
 
-        // 3, 2, 1.. GO!
-        startEvent();
-    }
-
-    private void setupDecoView() {
-        seriesItem = new SeriesItem.Builder(getResources().getColor(R.color.accent))
-                .setRange(0, totalMillis, 0)
-                .build();
-
-        seriesIndex = decoView.addSeries(seriesItem);
-
-        // Add listener
-        seriesItem.addArcSeriesItemListener(new SeriesItem.SeriesItemListener() {
-            @Override
-            public void onSeriesItemAnimationProgress(float percentComplete, float currentPosition) {
-                current = currentPosition;
-
-                // Calculate and set percentage
-                /*float percentFilled = ((currentPosition - seriesItem.getMinValue()) / (seriesItem.getMaxValue() - seriesItem.getMinValue()));
-                textViewPercentage.setText(String.format("%.0f%%", percentFilled * 100f));*/
-                textViewPercentage.setText(String.valueOf((int) currentPosition / milliseconds));
-                // Set time
-                textViewRemaining.setText(new SimpleDateFormat("mm:ss:SSS", Locale.ITALY).format(new Date((long) currentPosition)));
-            }
-
-            @Override
-            public void onSeriesItemDisplayProgress(float percentComplete) {
-
-            }
-        });
-    }
-
-    private void startEvent() {
-        // Add main event
-        decoView.addEvent(new DecoEvent.Builder(totalMillis)
-                .setIndex(seriesIndex)
-                .setInterpolator(new LinearInterpolator())
-                .setDuration(totalMillis)
-                .build());
-
-        // Add final event
-        decoView.addEvent(new DecoEvent.Builder(DecoDrawEffect.EffectType.EFFECT_SPIRAL_EXPLODE)
-                        .setIndex(seriesIndex)
-                        .setLinkedViews(linkedViews)
-                        .setDelay(totalMillis + 2000)
-                        .setDuration(4000)
-                        .setDisplayText("Complete!") // TODO: use string res
-                        .build()
-        );
     }
 }
