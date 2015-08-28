@@ -47,11 +47,11 @@ public class FeedbackActivity extends ActionBarActivity {
         if(value>-1){
             for(int i=0;i<value;i++){
                 if(i<5) {
-                    stars.get(i).setImageResource(R.drawable.ic_launcher);
+                    stars.get(i).setImageResource(R.drawable.goldstar);
                 }
             }
             for(int i=value;i<stars.size();i++){
-                stars.get(i).setImageResource(R.drawable.ic_launcher);
+                stars.get(i).setImageResource(R.drawable.greystar);
             }
         }
         this.commentableItem.setRating(value);
