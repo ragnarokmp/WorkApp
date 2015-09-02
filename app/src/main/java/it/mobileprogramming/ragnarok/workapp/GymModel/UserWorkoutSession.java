@@ -95,18 +95,19 @@ public class UserWorkoutSession extends WorkoutSession implements Parcelable,Com
      * @return true if all the exercises of this session are completed, false otherwise
      * @throws Exception if there is a wrong exercise type
      */
-    public boolean allExerciseDone() throws Exception {
+    public int allExerciseDone() throws Exception {
         boolean result = true;
+        int exDone = 0;
         for(int i=0;i<this.exercisesOfSession.size();i++){
             if(this.exercisesOfSession.get(i) instanceof UserExcercise){
                 UserExcercise anEx  =   (UserExcercise)this.exercisesOfSession.get(i);
-                if(anEx.isDone()==false){
-                    return false;
+                if(anEx.isDone() == true){
+                    exDone += 1;
                 }
             }
             else throw new Exception("UserWorkoutSession.java Exercise wrong type exception");
         }
-        return result;
+        return exDone/this.exercisesOfSession.size();
     }
 
     /**

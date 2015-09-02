@@ -119,7 +119,6 @@ public class WorkoutFragment extends BaseFragment {
 
         //TODO Federico: the userID will be used here in order to obtain the workouts
         ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(userID);
-
         if (usWorkouts.size() > 0) {
             //TODO Federico: I get only the first workout
             ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();

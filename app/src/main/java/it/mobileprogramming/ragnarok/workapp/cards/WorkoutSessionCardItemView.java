@@ -57,7 +57,6 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
 
         // Get workout session from the card
         workoutSession = (UserWorkoutSession) card.getTag();
-
         // Choose session image from assets evaluating the session
         Drawable sessionDrawable = chooseSessionDrawable();
         // Generate session description with exercises and muscle used
@@ -94,7 +93,6 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      * @return the chosen drawable image.
      */
     private Drawable chooseSessionDrawable() {
-        //TODO: @federico
         Drawable drawable;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             drawable = getContext().getDrawable(R.drawable.ic_launcher);
@@ -108,7 +106,13 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      * This method allows to set the completion of the session.
      */
     private void setCompletion() {
-        //TODO: @federico
+        ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
+        TextView completionTextView = (TextView) findViewById(R.id.completion_text_view);
+        try {
+            completionTextView.setText(String.valueOf(workoutSession.allExerciseDone()) + "%");  //TODO is a try/catch correct?
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -128,6 +132,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
         ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
         for(int i = 0; i < exercises.size(); i++) {
             Exercise exercise = exercises.get(i);
+
             int timeForSeries = 0;
             timeForSeries += exercise.getFrequency() * exercise.getRepetition();
             int recoveryTime = 0;
@@ -135,7 +140,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
             totalTime = (timeForSeries+ recoveryTime)*exercise.getSeries();
         }
         TextView durationTextView = (TextView) findViewById(R.id.duration_text_view);
-        durationTextView.setText("~" + totalTime/60 + "min");
+        durationTextView.setText("~" + totalTime/60 + " min");
     }
 
     /**
@@ -170,25 +175,25 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
         String description = "In the session of " + workoutSession.getDateSessionDate() + " we will work on ";
         int size = exercises.size();
         for (int i = 0; i < size; i++) {
-            description += exercises.get(i).getMuscles();
+            String muscle = exercises.get(i).getMuscles();
+            muscle = muscle.substring(0,muscle.length()-2); //There is \n escape character at the end
+            description += muscle;
             if (i < size - 2) {
                 description += ", ";
             }
             if (i == size - 2) {
-                description += "and";
+                description += " and ";
             }
         }
+        description += ".\nIn details:\n";
         for (int i = 0; i < size; i++) {
             Exercise currentEx = exercises.get(i);
-            description += "with " + currentEx.getSeries() + " series of " + currentEx.getName();
-            if (i < size - 2) {
-                description += ", ";
-            }
-            if (i == size - 2) {
-                description += "and";
+            description += currentEx.getSeries() + " series of " + currentEx.getName();
+            if (size > 1 && i != size - 1) {
+                description += "\n";
             }
         }
-        return description + ".";
+        return description;
     }
 
     /**
