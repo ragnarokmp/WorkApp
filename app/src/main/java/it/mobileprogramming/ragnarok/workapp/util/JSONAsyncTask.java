@@ -8,6 +8,9 @@ import com.google.gson.Gson;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 
+/**
+ * in order to use this AsyncTask you must set the activity launching the task
+ */
 public class JSONAsyncTask extends AsyncTask<String, String, String> {
     // activity launching
     private Activity act;
@@ -16,7 +19,7 @@ public class JSONAsyncTask extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected void onPreExecute() {
+    protected void onPreExecute(){
         super.onPreExecute();
     }
 
