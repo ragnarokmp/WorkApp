@@ -9,7 +9,6 @@ import android.support.v4.view.GravityCompat;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-
 import java.util.ArrayList;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
@@ -21,6 +20,7 @@ import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
+import it.mobileprogramming.ragnarok.workapp.util.JSONRoot;
 
 public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener, View.OnClickListener {
 
