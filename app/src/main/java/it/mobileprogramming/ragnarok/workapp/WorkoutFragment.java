@@ -104,7 +104,9 @@ public class WorkoutFragment extends BaseFragment {
             @Override
             public void onItemClick(CardItemView cardItemView, int i) {
                 Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
+                System.out.println((UserWorkoutSession) cardItemView.getTag());
                 intent.putExtra(EXTRA_USER_WORKOUT_SESSION, (UserWorkoutSession) cardItemView.getTag());
+                System.out.println(((UserWorkoutSession) cardItemView.getTag()).getExercisesOfSession());
                 getActivity().startActivity(intent);
             }
 
@@ -125,6 +127,7 @@ public class WorkoutFragment extends BaseFragment {
             for (int j = 0; j < firstWorkoutSessions.size(); j++) {
                 WorkoutSessionCard card = new WorkoutSessionCard(context, firstWorkoutSessions.get(j));
                 workoutListView.add(card);
+
             }
         }
 

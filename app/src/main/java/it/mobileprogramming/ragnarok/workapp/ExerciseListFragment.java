@@ -78,11 +78,8 @@ public class ExerciseListFragment extends ListFragment {
 
         Intent intent = getActivity().getIntent();
         if (intent.hasExtra(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION)) {
-            UserWorkoutSession userWorkoutSession = getActivity().getIntent().getParcelableExtra(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION);
+            UserWorkoutSession userWorkoutSession = getActivity().getIntent().getExtras().getParcelable(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION);
             ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
-
-            //exercises.add(new Exercise(((App) getActivity().getApplication()).getDBSerializer(), 10, "Addominali", 5, 5, 5, "", "Addome, Pancia, Fianchi"));
-
             ExercisesListAdapter exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
         } else {
