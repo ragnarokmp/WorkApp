@@ -220,6 +220,7 @@ public class Exercise implements Parcelable{
 
     //TODO create user exercise from this one
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -248,4 +249,13 @@ public class Exercise implements Parcelable{
         this.muscles = in.readString();
     }
 
+    public static final Creator<Exercise> CREATOR = new Creator<Exercise>() {
+        public Exercise createFromParcel(Parcel source) {
+            return new Exercise(source);
+        }
+
+        public Exercise[] newArray(int size) {
+            return new Exercise[size];
+        }
+    };
 }
