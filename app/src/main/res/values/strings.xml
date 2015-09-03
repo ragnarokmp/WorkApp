@@ -81,5 +81,9 @@
     <string name="play">Play</string>
     <string name="repetition">Repetition</string>
     <string name="series">Series</string>
+    <string name="title_activity_sign_in">SignIn</string>
+
+    <!-- SignIn error -->
+    <string name="signin_error">Cannot sign in to your account, please check your connection or try later.</string>
 
 </resources>
