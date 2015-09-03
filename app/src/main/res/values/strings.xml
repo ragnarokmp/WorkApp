@@ -71,6 +71,7 @@
     <string name="feedback_comment">Please write a comment:</string>
     <string name="feedback_commentForm">Write your comment here</string>
     <string name="feedback_submitButton">Submit</string>
+    <string name="feedback_title">Leave feedback</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
