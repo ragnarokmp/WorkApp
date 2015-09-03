@@ -1,5 +1,6 @@
 package it.mobileprogramming.ragnarok.workapp.GymModel;
 
+
 /**
  * This class models a workout session made by exercises
  */
