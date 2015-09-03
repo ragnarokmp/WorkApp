@@ -121,8 +121,10 @@ public class SignIn extends Activity implements GoogleApiClient.ConnectionCallba
         }
 
         Log.e("LOGIN", "onConnectionFailed:" + connectionResult);
-        if (connectionResult.getErrorCode() == ConnectionResult.NETWORK_ERROR ||
-            connectionResult.getErrorCode() == ConnectionResult.INTERNAL_ERROR) {
+        if (connectionResult.getErrorCode() == ConnectionResult.NETWORK_ERROR  ||
+            connectionResult.getErrorCode() == ConnectionResult.INTERNAL_ERROR ||
+            connectionResult.getErrorCode() == ConnectionResult.SIGN_IN_FAILED ||
+            connectionResult.getErrorCode() == ConnectionResult.INVALID_ACCOUNT) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.signin_error), Toast.LENGTH_LONG).show();
             finish();
         }
