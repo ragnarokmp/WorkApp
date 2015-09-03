@@ -1,14 +1,35 @@
 package it.mobileprogramming.ragnarok.workapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
@@ -20,6 +41,7 @@ import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
+import it.mobileprogramming.ragnarok.workapp.util.BitmapHelper;
 import it.mobileprogramming.ragnarok.workapp.util.JSONRoot;
 
 public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener, View.OnClickListener {
@@ -38,6 +60,17 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
         testing.execute();*/
         //end testing task
 
+        checkSignIn();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override
@@ -45,6 +78,9 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
         super.onResume();
         // Set checked always the only possible item, the Workout one
         navigationView.getMenu().getItem(0).setChecked(true);
+
+        // setting user signed in
+        setUserSignedIn();
     }
 
     @Override
@@ -110,6 +146,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
     /**
      * This method allow to set the right fragment in the container of
      * the Activity.
+     *
      * @param type the type of fragment to set.
      */
     private void setFragment(TypeFragment type) {
@@ -172,6 +209,93 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
                 break;
             default:
                 break;
+        }
+    }
+
+
+    /**
+     * shared preferences check if first sign in is done
+     */
+    public void checkSignIn() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (!pref.contains("signed_in"))
+            startActivity(new Intent(getApplicationContext(), SignIn.class));
+        else
+            setUserSignedIn();
+    }
+
+    /**
+     * shared preferences retrieving
+     */
+    public void setUserSignedIn() {
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (pref.contains("signed_in")) {
+            setUser(pref);
+        }
+    }
+    public void setUser(SharedPreferences pref) {
+        ((TextView) findViewById(R.id.username)).setText(pref.getString("personName", "Username"));
+        ((TextView) findViewById(R.id.email)).setText(pref.getString("personEmail", "username@gmail.com"));
+
+        if (!pref.contains("personAvatarBitmap")) {
+            String avatar_string;
+            if ((avatar_string = pref.getString("personAvatar", null)) != null) {
+                BitmapAsync bAsync = new BitmapAsync();
+                bAsync.execute(avatar_string);
+            }
+        } else {
+            ((ImageView) findViewById(R.id.avatar)).setImageBitmap(BitmapHelper
+                                                   .decodeBase64(pref.getString("personAvatarBitmap", null)));
+        }
+
+    }
+
+
+    /**
+     * image retrieving and storing encoded bitmap string
+     * (using an async task to retrieve)
+     */
+    private class BitmapAsync extends AsyncTask<String, String, InputStream> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected InputStream doInBackground(final String...args) {
+            try {
+                URL url = new URL(args[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                return input;
+
+                //prefeditor.putString("personAvatar", BitmapHelper.encodeTobase64(avatar_bitmap));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("Exception", e.getMessage());
+                return null;
+            }
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            // nothing to do (for now...)
+        }
+
+        @Override
+        protected void onPostExecute(InputStream result) {
+            if (result == null)
+                this.cancel(true);
+            Bitmap avatar_bitmap = BitmapFactory.decodeStream(result);
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putString("personAvatarBitmap", BitmapHelper.encodeTobase64(avatar_bitmap));
+            editor.commit();
+
+            ((ImageView) findViewById(R.id.avatar)).setImageBitmap(avatar_bitmap);
         }
     }
 }

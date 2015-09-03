@@ -1,8 +1,10 @@
 package it.mobileprogramming.ragnarok.workapp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.text.InputType;
 import android.text.format.DateFormat;
@@ -11,6 +13,7 @@ import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +39,7 @@ import it.mobileprogramming.ragnarok.workapp.GymModel.WeightItem;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
+import it.mobileprogramming.ragnarok.workapp.util.BitmapHelper;
 
 public class AccountActivity extends BaseActivityWithToolbar {
 
@@ -49,6 +53,17 @@ public class AccountActivity extends BaseActivityWithToolbar {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // setting user name and avatar
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        if (pref.contains("signed_in")) {
+            ((TextView) findViewById(R.id.account_text_view)).setText(pref.getString("personName", "Username"));
+            ((TextView) findViewById(R.id.account_text_view_details)).setText("user details");
+            if (pref.contains("personAvatarBitmap"))
+                ((ImageView) findViewById(R.id.avatar)).setImageBitmap(BitmapHelper
+                                                       .decodeBase64(pref.getString("personAvatarBitmap", null)));
+        }
+
 
         SQLiteSerializer dbSerializer = ((App) this.getApplication()).getDBSerializer();
         dbSerializer.open();
@@ -78,7 +93,8 @@ public class AccountActivity extends BaseActivityWithToolbar {
         TextView tvDetails   =   (TextView)  findViewById(R.id.account_text_view_details);
         System.out.println(tvTop);
         System.out.println(tvDetails);
-        tvTop.setText(currentUser.getStrName() + " " + currentUser.getStrSurname());
+        // TODO USELESS??
+        //tvTop.setText(currentUser.getStrName() + " " + currentUser.getStrSurname());
         String gender=getString(R.string.account_unknown);;
         if(currentUser.getIntGender()==0){
             gender  =   getString(R.string.account_male);
@@ -173,4 +189,5 @@ public class AccountActivity extends BaseActivityWithToolbar {
         LineData data=  new LineData(labels,datasets);
         chart.setData(data);
     }
+
 }
