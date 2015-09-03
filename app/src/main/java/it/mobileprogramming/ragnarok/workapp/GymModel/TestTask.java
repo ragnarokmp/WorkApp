@@ -75,7 +75,7 @@ public class TestTask extends AsyncTask implements TextToSpeech.OnInitListener {
         System.out.println(load.toString());
         User aUser  =   sqLiteSerializer.loadUser(1);
         Date    d=   new Date();
-        UserExcercise userExcercise    =   new UserExcercise(aUser.getIntUserID(),d,load,false,"stocazzo",sqLiteSerializer,sqLiteSerializer);
+        UserExercise userExcercise    =   new UserExercise(aUser.getIntUserID(),d,load,false,"stocazzo",sqLiteSerializer,sqLiteSerializer);
         WorkoutSession aSession =   new WorkoutSession("pippo",sqLiteSerializer);
         System.out.println("Created new WO Session " + aSession.getId());
         WorkoutSession loaded   =   sqLiteSerializer.loadWorkoutSession(aSession.getId());
@@ -94,7 +94,7 @@ public class TestTask extends AsyncTask implements TextToSpeech.OnInitListener {
             ArrayList<UserWorkoutSession> mySessions    =   sqLiteSerializer.loadAllSessionsForUserWorkout(1, allWO.get(i).getIntWOID());
             for(int j=0;j<mySessions.size();j++){
                 System.out.println("SESSIONE: " + mySessions.get(j).toString());
-                ArrayList<UserExcercise>    exercises = sqLiteSerializer.getExercisesOfAUserSession(mySessions.get(j).getId(),1,Singletons.formatFromString("15/01/2015"));
+                ArrayList<UserExercise>    exercises = sqLiteSerializer.getExercisesOfAUserSession(mySessions.get(j).getId(),1,Singletons.formatFromString("15/01/2015"));
                 System.out.println("Size array " + exercises.size());
                 for(int k=0;k<exercises.size();k++){
                     System.out.println(exercises.get(k).toString());

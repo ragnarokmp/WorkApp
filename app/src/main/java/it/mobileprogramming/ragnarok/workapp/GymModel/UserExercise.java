@@ -9,7 +9,7 @@ import java.util.Date;
  * Class modeling an instance of user exercise
  *
  */
-public class UserExcercise extends Exercise implements Commentable,Parcelable{
+public class UserExercise extends Exercise implements Commentable,Parcelable{
     private boolean done;
     private String comment="";
     private UserExerciseSerializer  userExerciseSerializer;
@@ -27,7 +27,7 @@ public class UserExcercise extends Exercise implements Commentable,Parcelable{
      * @param userExerciseSerializer instance that saves this exercise
      * @param exerciseSerializer instance that saves the original exercise
      */
-    public UserExcercise(int anUser, Date exDate, Exercise anExercise, boolean done, String aComment, UserExerciseSerializer userExerciseSerializer,ExerciseSerializer exerciseSerializer,int rating) {
+    public UserExercise(int anUser, Date exDate, Exercise anExercise, boolean done, String aComment, UserExerciseSerializer userExerciseSerializer, ExerciseSerializer exerciseSerializer, int rating) {
         super(anExercise.getId(),exerciseSerializer, anExercise.getFrequency(), anExercise.getName(), anExercise.getRecovery(), anExercise.getRepetition(), anExercise.getSeries(), anExercise.getUsedWeight(),anExercise.getMuscles());
         this.comment                =   aComment;
         this.done                   =   done;
@@ -56,7 +56,7 @@ public class UserExcercise extends Exercise implements Commentable,Parcelable{
      * @param userExerciseSerializer instance that saves state
      * @param rating exercise rating
      */
-    public UserExcercise(int eid,Date exerciseDate,int anUser,ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, boolean completed, String comment,String muscles,UserExerciseSerializer userExerciseSerializer,int rating) {
+    public UserExercise(int eid, Date exerciseDate, int anUser, ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, boolean completed, String comment, String muscles, UserExerciseSerializer userExerciseSerializer, int rating) {
         super(eid, aSerializer, frequency, name, recovery, repetition, series, usedWeight, muscles);
         this.comment                =   comment;
         this.done                   =   completed;
@@ -69,7 +69,7 @@ public class UserExcercise extends Exercise implements Commentable,Parcelable{
     /**
      * default constructor used for parcelable
      */
-    public UserExcercise(){
+    public UserExercise(){
         super();
     }
     /**
@@ -150,7 +150,7 @@ public class UserExcercise extends Exercise implements Commentable,Parcelable{
 
     @Override
     public String toString() {
-        return "UserExcercise{" +
+        return "UserExercise{" +
                 "comment='" + comment + '\'' +
                 ", done=" + done +
                 ", userExerciseSerializer=" + userExerciseSerializer +
@@ -162,7 +162,7 @@ public class UserExcercise extends Exercise implements Commentable,Parcelable{
 
     @Override
     public Exercise clone() {
-        return new UserExcercise(this.intExId,this.exerciseDate,this.myUserID,this.aSerializer,this.frequency,this.name,this.recovery,this.repetition,this.series,this.usedWeight,this.done,this.comment,this.muscles,this.userExerciseSerializer,this.rating);
+        return new UserExercise(this.intExId,this.exerciseDate,this.myUserID,this.aSerializer,this.frequency,this.name,this.recovery,this.repetition,this.series,this.usedWeight,this.done,this.comment,this.muscles,this.userExerciseSerializer,this.rating);
     }
 
 
@@ -181,7 +181,7 @@ public class UserExcercise extends Exercise implements Commentable,Parcelable{
         dest.writeInt(this.rating);
     }
 
-    protected UserExcercise(Parcel in) {
+    protected UserExercise(Parcel in) {
         super(in);
         this.done = in.readByte() != 0;
         this.comment = in.readString();
@@ -191,13 +191,13 @@ public class UserExcercise extends Exercise implements Commentable,Parcelable{
         this.rating = in.readInt();
     }
 
-    public static final Creator<UserExcercise> CREATOR = new Creator<UserExcercise>() {
-        public UserExcercise createFromParcel(Parcel source) {
-            return new UserExcercise(source);
+    public static final Creator<UserExercise> CREATOR = new Creator<UserExercise>() {
+        public UserExercise createFromParcel(Parcel source) {
+            return new UserExercise(source);
         }
 
-        public UserExcercise[] newArray(int size) {
-            return new UserExcercise[size];
+        public UserExercise[] newArray(int size) {
+            return new UserExercise[size];
         }
     };
 }
