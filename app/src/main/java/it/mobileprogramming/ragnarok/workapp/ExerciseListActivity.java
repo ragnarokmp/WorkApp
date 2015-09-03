@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -40,6 +41,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
      * device.
      */
     private boolean mTwoPane;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected int getLayoutResourceId() {
@@ -68,7 +70,16 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             ((ExerciseListFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.exercise_list))
                     .setActivateOnItemClick(true);
+
         }
+        // setting up the swipe-refresh layout
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i("SWIPE", "");
+            }
+        });
 
         // TODO: If exposing deep links into your app, handle intents here.
     }

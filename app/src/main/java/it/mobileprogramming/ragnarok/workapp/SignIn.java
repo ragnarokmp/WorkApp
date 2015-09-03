@@ -32,6 +32,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import it.mobileprogramming.ragnarok.workapp.util.BitmapHelper;
+import it.mobileprogramming.ragnarok.workapp.util.JSONRoot;
+import it.mobileprogramming.ragnarok.workapp.util.NetworkTest;
 
 
 public class SignIn extends Activity implements GoogleApiClient.ConnectionCallbacks,
@@ -68,6 +70,12 @@ public class SignIn extends Activity implements GoogleApiClient.ConnectionCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        // check for network -> if there is not connectivity then the activity will be finished
+        if(!NetworkTest.Connectivity(getApplicationContext())) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.signin_error), Toast.LENGTH_LONG).show();
+            finish();
+        }
 
         // StrictMode settings
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -116,6 +124,7 @@ public class SignIn extends Activity implements GoogleApiClient.ConnectionCallba
         if (connectionResult.getErrorCode() == ConnectionResult.NETWORK_ERROR ||
             connectionResult.getErrorCode() == ConnectionResult.INTERNAL_ERROR) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.signin_error), Toast.LENGTH_LONG).show();
+            finish();
         }
 
     }

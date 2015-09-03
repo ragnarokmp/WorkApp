@@ -197,15 +197,20 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
         Exercises
     }
 
-    // TODO: manage username, e-mail and avatar using Google Sig-in (https://developers.google.com/+/mobile/android/sign-in)
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.avatar:
-                // Create new AccountActivity
-                Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
-                startActivity(intent);
+                // if user not signed in then he cannot access to the account activity
+                SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                if (pref.contains("signed_in")) {
+                    // Create new AccountActivity
+                    Intent intent = new Intent(getApplicationContext(), AccountActivity.class);
+                    startActivity(intent);
+                } else {
+                    checkSignIn();
+                }
                 break;
             default:
                 break;
