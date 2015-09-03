@@ -44,6 +44,7 @@ import it.mobileprogramming.ragnarok.workapp.util.BitmapHelper;
 public class AccountActivity extends BaseActivityWithToolbar {
 
     private User currentUser;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     protected int getLayoutResourceId() {
@@ -53,6 +54,8 @@ public class AccountActivity extends BaseActivityWithToolbar {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.add_fab);
 
         // setting user name and avatar
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -105,7 +108,7 @@ public class AccountActivity extends BaseActivityWithToolbar {
         DateFormat format       =   new DateFormat();
         String birthdate   = format.format("dd/MM/yyyy",currentUser.getDateBirth()).toString();
         tvDetails.setText(gender + ", " + birthdate);
-        FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.add_fab);
+
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,7 +120,9 @@ public class AccountActivity extends BaseActivityWithToolbar {
                         .input(getString(R.string.account_add_hint), null, true, new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(MaterialDialog dialog, CharSequence input) {
-                                Log.i(TAG, "New weight: " + input.toString() + " kg");
+
+                                //Log.i(TAG, "New weight: " + input.toString() + " kg");
+
                                 Date today = new Date();
                                 WeightItem weightToday = new WeightItem();
                                 weightToday.value = Float.valueOf(input.toString());
@@ -125,13 +130,20 @@ public class AccountActivity extends BaseActivityWithToolbar {
                                 currentUser.addToWeightHistory(weightToday, true);
                                 loadGraphData();
 
+                                // disable floating button
+                                floatingActionButton.setEnabled(false);
+                                floatingActionButton.hide();
+
                             }
                         }).show();
             }
         });
+
         loadGraphData();
+
         String todayString = format.format("dd/MM/yyyy", new Date()).toString();
         ArrayList<WeightItem> history = currentUser.getWeightHistory();
+
         for (int y = 0; y < history.size(); y++) {
             String itemString = format.format("dd/MM/yyyy", history.get(y).date).toString();
             if (itemString.equals(todayString)) {
