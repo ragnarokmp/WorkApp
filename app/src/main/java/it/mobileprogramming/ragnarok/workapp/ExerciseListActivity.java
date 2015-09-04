@@ -18,6 +18,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
+import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.util.App;
@@ -52,6 +56,8 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
 
     // to retrieve exercises from the website
     private String website = "http://46.101.165.167/index.php/exercise/getAllExercise";
+    private int userID;
+    private int workoutID;
 
     @Override
     protected int getLayoutResourceId() {
@@ -63,8 +69,14 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        if (intent.hasExtra(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION)) {
-            UserWorkoutSession userWorkoutSession = intent.getParcelableExtra(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION);
+        SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
+        dbSerializer.open();
+        if (intent.hasExtra("userID")) {
+            userID = intent.getExtras().getInt("userID");
+            ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(userID);
+            ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
+            workoutID = intent.getExtras().getInt("workoutID");
+            UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(workoutID);
             Toast.makeText(this, userWorkoutSession.getStrComment(), Toast.LENGTH_LONG).show();
         }
 
@@ -132,7 +144,10 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(ExerciseDetailFragment.ARG_ITEM_ID, id);
+            //arguments.putString(ExerciseDetailFragment.ARG_ITEM_ID, id);
+            arguments.putInt("userID",userID);
+            arguments.putInt("workoutID",workoutID);
+            arguments.putInt("exerciseID",Integer.valueOf(id));
             ExerciseDetailFragment fragment = new ExerciseDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

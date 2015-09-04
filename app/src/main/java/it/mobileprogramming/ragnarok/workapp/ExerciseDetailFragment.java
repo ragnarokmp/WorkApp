@@ -9,7 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
+import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.dummy.DummyContent;
+import it.mobileprogramming.ragnarok.workapp.util.App;
 
 /**
  * A fragment representing a single Exercise detail screen.
@@ -27,7 +34,7 @@ public class ExerciseDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private DummyContent.DummyItem mItem;
+    private Exercise mItem;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -39,12 +46,17 @@ public class ExerciseDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
+        SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
+        dbSerializer.open();
+        if (getArguments().containsKey("userID")) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(getActivity().getIntent().getExtras().getInt("userID"));
+            ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
+            UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
+            ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
+            mItem = exercises.get(getActivity().getIntent().getExtras().getInt("exerciseID")); //DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
         }
     }
 
@@ -55,7 +67,7 @@ public class ExerciseDetailFragment extends Fragment {
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(mItem.content);
+            ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(mItem.describeContents());
         }
 
         FloatingActionButton startFloatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.start_fab);

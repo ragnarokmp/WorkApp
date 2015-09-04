@@ -83,23 +83,18 @@ public class ExerciseListFragment extends ListFragment {
         SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
         if (intent.hasExtra("userID")) {
-            //UserWorkoutSession userWorkoutSession = getActivity().getIntent().getExtras().getParcelable(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION);
-            //ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
-            //
             ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(getActivity().getIntent().getExtras().getInt("userID"));
             ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
             UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
             ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
-            Log.i("andrea", String.valueOf(exercises));
             ExercisesListAdapter exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
-            dbSerializer.close();
+
         } else {
             ArrayList<Exercise> exercises = dbSerializer.loadAll();
             // TODO: replace with a real list adapter. @federico
             ExercisesListAdapter exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
-            dbSerializer.close();
         }
 
     }
