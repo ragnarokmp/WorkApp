@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -11,6 +12,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
+import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.dummy.DummyContent;
 import it.mobileprogramming.ragnarok.workapp.util.App;
@@ -77,20 +80,28 @@ public class ExerciseListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         Intent intent = getActivity().getIntent();
-        if (intent.hasExtra(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION)) {
-            UserWorkoutSession userWorkoutSession = getActivity().getIntent().getExtras().getParcelable(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION);
+        SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
+        dbSerializer.open();
+        if (intent.hasExtra("userID")) {
+            //UserWorkoutSession userWorkoutSession = getActivity().getIntent().getExtras().getParcelable(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION);
+            //ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
+            //
+            ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(getActivity().getIntent().getExtras().getInt("userID"));
+            ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
+            UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
             ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
+            Log.i("andrea", String.valueOf(exercises));
             ExercisesListAdapter exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
+            dbSerializer.close();
         } else {
-
+            ArrayList<Exercise> exercises = dbSerializer.loadAll();
             // TODO: replace with a real list adapter. @federico
-            setListAdapter(new ArrayAdapter<>(
-                    getActivity(),
-                    R.layout.exercise_row,
-                    R.id.exercise_title_row,
-                    DummyContent.ITEMS));
+            ExercisesListAdapter exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
+            setListAdapter(exercisesListAdapter);
+            dbSerializer.close();
         }
+
     }
 
     @Override
