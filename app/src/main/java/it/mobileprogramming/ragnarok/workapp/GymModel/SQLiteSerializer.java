@@ -107,8 +107,27 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         values.put(Exercise_frequency,frequency);
         values.put(Exercise_pause, recovery);
         values.put(Exercise_muscles, muscle);
-        values.put(Exercise_usedWeights,usedWeight);
+        values.put(Exercise_usedWeights, usedWeight);
         return  (int)this.sqlGymDatabase.insert(Exercise_tablename,null,values);
+    }
+
+    public int createNewExercise(int exid, int series,int repetition,int frequency,int recovery,String name,String muscle,String usedWeight){
+        Exercise check  =   this.loadExercise(exid);
+        if (check   == null){
+            ContentValues   values  = new ContentValues();
+            values.put(Exercise_label,name);
+            values.put(Exercise_ID,exid);
+            values.put(Exercise_series,series);
+            values.put(Exercise_repetitions,repetition);
+            values.put(Exercise_frequency,frequency);
+            values.put(Exercise_pause, recovery);
+            values.put(Exercise_muscles, muscle);
+            values.put(Exercise_usedWeights, usedWeight);
+            int id  =  (int)this.sqlGymDatabase.insert(Exercise_tablename,null,values);
+            System.out.println("SQLiteSeralizer.java: SAVED ON DB with ID "+id);
+        }
+        System.out.println("SQLiteSeralizer.java: exercise already exists "+exid);
+        return -1;
     }
 
     @Override
@@ -136,7 +155,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
             String muscles  =   result.getString(result.getColumnIndex(Exercise_muscles));
             result.close();
             Exercise myEx   =   new Exercise(eid, this, frequency, ename, recovery, repetition, series, weights, muscles);
-            System.out.println(myEx.toString());
+            System.out.println("SQLiteSerializer.java"+ myEx.toString());
             return myEx;
         }
         else return null;

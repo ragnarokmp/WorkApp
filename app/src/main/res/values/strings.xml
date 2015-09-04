@@ -86,5 +86,6 @@
 
     <!-- SignIn error -->
     <string name="signin_error">Cannot sign in to your account, please check your connection or try later.</string>
+    <string name="feedback_0star">Set rating</string>
 
 </resources>

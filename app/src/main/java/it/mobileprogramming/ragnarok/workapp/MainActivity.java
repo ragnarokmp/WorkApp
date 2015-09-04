@@ -43,36 +43,6 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
         setTheme(R.style.WorkApp);
         super.onCreate(savedInstanceState);
 
-        /*SQLiteSerializer dbSerializer = ((App) this.getApplication()).getDBSerializer();
-        dbSerializer.open();
-
-        //TODO TO BE REMOVED
-        User anUser = dbSerializer.loadUser(1);
-        ((App) this.getApplication()).setCurrentUser(anUser);
-        //test per Federico
-        ArrayList<Workout> testlist =   anUser.getWorkoutHistory();
-        UserExercise outex   =   null;
-        System.out.println(testlist);
-        for(int i=0;i<testlist.size();i++){
-            System.out.println("->USERWORKOUT " + testlist.get(i).toString());
-            UserWorkout aworkout    =   (UserWorkout)testlist.get(i);
-            ArrayList<UserWorkoutSession>  wosessions   =   aworkout.getWoSessions();
-            for(int j=0;j<wosessions.size();j++){
-                //outex   =   wosessions.get(j);
-                ArrayList<Exercise> excercises =   wosessions.get(j).getExercisesOfSession();
-                System.out.println("->USERSESSION "+wosessions.get(j).toString()+" LISTA ESERCIZI "+excercises.size()+" "+excercises.toString());
-                for(int k=0;k<excercises.size();k++){
-                    System.out.println("Esercizio "+k+" "+excercises.get(k).toString());
-                    outex   =   (UserExercise)excercises.get(k);
-                }
-            }
-        }
-        //launch in this way
-        Intent intent = new Intent(getApplicationContext(), FeedbackActivity.class);
-        intent.putExtra("item",outex);
-        startActivity(intent);
-        */
-
         // Set the WorkoutFragment
         setFragment(TypeFragment.Workout);
         //TODO remove in final commit

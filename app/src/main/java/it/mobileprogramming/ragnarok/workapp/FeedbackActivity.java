@@ -73,12 +73,13 @@ public class FeedbackActivity extends ActionBarActivity {
         super.onStart();
         setContentView(R.layout.activity_feedback);
         //this.commentableItem    =   savedInstanceState.getParcelable("item");
-        this.starsStringId      =   new int[5];
-        this.starsStringId[0]   =   R.string.feedback_1star;
-        this.starsStringId[1]   =   R.string.feedback_2star;
-        this.starsStringId[2]   =   R.string.feedback_3star;
-        this.starsStringId[3]   =   R.string.feedback_4star;
-        this.starsStringId[4]   =   R.string.feedback_5star;
+        this.starsStringId      =   new int[6];
+        this.starsStringId[0]   =   R.string.feedback_0star;
+        this.starsStringId[1]   =   R.string.feedback_1star;
+        this.starsStringId[2]   =   R.string.feedback_2star;
+        this.starsStringId[3]   =   R.string.feedback_3star;
+        this.starsStringId[4]   =   R.string.feedback_4star;
+        this.starsStringId[5]   =   R.string.feedback_5star;
         Button submitButton     =   (Button)findViewById(R.id.btnSubmit);
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,8 +110,11 @@ public class FeedbackActivity extends ActionBarActivity {
             starMap.put(stars.get(i).getId(), i + 1);
        }
         this.et_comment.setText(this.commentableItem.getComment());
-        setRating(this.commentableItem.getRating());
-        tvStars.setText(starsStringId[this.commentableItem.getRating()-1]);
+        int rating  =   this.commentableItem.getRating();
+        if(0<=rating&&rating<=5){
+            setRating(this.commentableItem.getRating());
+            tvStars.setText(starsStringId[this.commentableItem.getRating()]);
+        }
     }
 
     @Override
@@ -143,6 +147,6 @@ public class FeedbackActivity extends ActionBarActivity {
         int index   =   starMap.get(v.getId());
         int viewID  =   v.getId();
         setRating(starMap.get(viewID));
-        tvStars.setText(starsStringId[index-1]);
+        tvStars.setText(starsStringId[index]);
     }
 }
