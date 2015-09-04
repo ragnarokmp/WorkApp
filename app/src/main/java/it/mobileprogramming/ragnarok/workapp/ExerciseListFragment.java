@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -79,20 +80,23 @@ public class ExerciseListFragment extends ListFragment {
         super.onCreate(savedInstanceState);
 
         Intent intent = getActivity().getIntent();
-        if (intent.hasExtra(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION)) {
-            UserWorkoutSession userWorkoutSession = getActivity().getIntent().getExtras().getParcelable(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION);
+        SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
+        dbSerializer.open();
+        if (intent.hasExtra("userID")) {
+            ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(getActivity().getIntent().getExtras().getInt("userID"));
+            ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
+            UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
             ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
             ExercisesListAdapter exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
-        } else {
 
+        } else {
+            ArrayList<Exercise> exercises = dbSerializer.loadAll();
             // TODO: replace with a real list adapter. @federico
-            setListAdapter(new ArrayAdapter<>(
-                    getActivity(),
-                    R.layout.exercise_row,
-                    R.id.exercise_title_row,
-                    DummyContent.ITEMS));
+            ExercisesListAdapter exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
+            setListAdapter(exercisesListAdapter);
         }
+
     }
 
     @Override
