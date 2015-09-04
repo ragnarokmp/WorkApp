@@ -68,14 +68,17 @@ public class JSONRoot {
         for (JSONExercise exercise : this.root) {
             // TEST
             i++;
-            Exercise new_exercise = new Exercise(aSerializer        ,
+            Exercise new_exercise = new Exercise(exercise.intExId,
+                                                 aSerializer        ,
                                                  exercise.frequency ,
                                                  exercise.name      ,
                                                  exercise.recovery  ,
                                                  exercise.repetition,
                                                  exercise.series    ,
                                                  exercise.usedWeight,
-                                                 exercise.muscles   );
+                                                 exercise.muscles,
+                                                 false
+                                                );
         }
         Log.d("DESERIALIZED", String.valueOf(i));
     }

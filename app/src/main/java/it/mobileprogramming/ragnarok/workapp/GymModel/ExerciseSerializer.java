@@ -21,6 +21,21 @@ public interface ExerciseSerializer {
     int createNewExercise(int series,int repetition,int frequency,int recovery,String name,String muscle,String usedWeight);
 
     /**
+     * create new exercise entry in DB, this version is used for exercises loaded from external sources
+     * @param exid esercise id
+     * @param series number of series of repetitions of this exercise
+     * @param repetition number of repetitions of this exercise
+     * @param frequency exercise frequency
+     * @param recovery exercise recovery time
+     * @param name exercise name
+     * @param muscle muscles involved in this exercise
+     * @param usedWeight description of the used weights
+     * @return return the new exercise ID in DB
+     */
+    int createNewExercise(int exid, int series,int repetition,int frequency,int recovery,String name,String muscle,String usedWeight);
+
+
+    /**
      * loads an exercise from DB
      * @param id id of exercise
      * @return exercise istance

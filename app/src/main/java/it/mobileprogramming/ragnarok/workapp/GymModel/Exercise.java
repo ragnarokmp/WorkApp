@@ -64,6 +64,32 @@ public class Exercise implements Parcelable{
     }
 
     /**
+     * constructors with id are used for loading instances from DB
+     * @param eid id of exercise
+     * @param aSerializer class serializing
+     * @param frequency frequency of the exercise
+     * @param name exercise name
+     * @param recovery exercise recovery time
+     * @param repetition number of repetitions
+     * @param series number of series
+     * @param usedWeight description of the used weight
+     * @param loadedFromJson placemark for json loaded
+     */
+    public Exercise(int eid, ExerciseSerializer aSerializer, int frequency, String name, int recovery, int repetition, int series, String usedWeight, String muscles,boolean loadedFromJson) {
+        this.aSerializer = aSerializer;
+        this.frequency = frequency;
+        this.name = name;
+        this.recovery = recovery;
+        this.repetition = repetition;
+        this.series = series;
+        this.usedWeight = usedWeight;
+        this.intExId    =  eid;
+        this.muscles    =   muscles;
+        this.intExId    =   eid;
+        this.aSerializer.createNewExercise(eid,series,repetition,frequency,recovery,name,muscles,usedWeight);
+    }
+
+    /**
      * default constructor requested by subclass
      */
     public Exercise(){
