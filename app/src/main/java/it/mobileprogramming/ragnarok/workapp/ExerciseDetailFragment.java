@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserExercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.dummy.DummyContent;
@@ -34,7 +35,7 @@ public class ExerciseDetailFragment extends Fragment {
     /**
      * The dummy content this fragment is presenting.
      */
-    private Exercise mItem;
+    private Exercise currentExercise;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -56,7 +57,9 @@ public class ExerciseDetailFragment extends Fragment {
             ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
             UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
             ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
-            mItem = exercises.get(getActivity().getIntent().getExtras().getInt("exerciseID")); //DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            currentExercise = exercises.get(getActivity().getIntent().getExtras().getInt("exerciseID")); //DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+        } else {
+            currentExercise = dbSerializer.loadExercise(getActivity().getIntent().getExtras().getInt("exerciseID"));
         }
     }
 
@@ -66,8 +69,31 @@ public class ExerciseDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_exercise_detail, container, false);
 
         // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(mItem.describeContents());
+        if (currentExercise != null) {
+            TextView durationTitleTextView = (TextView) rootView.findViewById(R.id.duration_title_text_view);
+            durationTitleTextView.setText(getResources().getString(R.string.duration_title).toUpperCase());
+
+            TextView exercisesTitleTextView = (TextView) rootView.findViewById(R.id.exercises_title_text_view);
+            exercisesTitleTextView.setText(getResources().getString(R.string.exercises_title).toUpperCase());
+
+            TextView completionTitleTextView = (TextView) rootView.findViewById(R.id.completion_title_text_view);
+            completionTitleTextView.setText(getResources().getString(R.string.completion_title).toUpperCase());
+
+            if (currentExercise instanceof UserExercise) {
+                if (((UserExercise) currentExercise).isDone()) {
+                    String done = "DONE";
+                    ((TextView) rootView.findViewById(R.id.completion_text_view)).setText(done);
+                } else {
+                    String done = "NOT YET";
+                    ((TextView) rootView.findViewById(R.id.completion_text_view)).setText(done);
+                }
+            }
+            ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(currentExercise.getName() + " : " + currentExercise.describeContents());
+            int totalTime = 0;
+            totalTime += currentExercise.getFrequency() * currentExercise.getRepetition();
+            ((TextView) rootView.findViewById(R.id.duration_text_view)).setText("~" + totalTime/60 + " min");
+
+
         }
 
         FloatingActionButton startFloatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.start_fab);

@@ -137,7 +137,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
             timeForSeries += exercise.getFrequency() * exercise.getRepetition();
             int recoveryTime = 0;
             recoveryTime += exercise.getRecovery();
-            totalTime = (timeForSeries+ recoveryTime)*exercise.getSeries();
+            totalTime += (timeForSeries + recoveryTime) * exercise.getSeries();
         }
         TextView durationTextView = (TextView) findViewById(R.id.duration_text_view);
         durationTextView.setText("~" + totalTime/60 + " min");
