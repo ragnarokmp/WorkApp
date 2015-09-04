@@ -147,6 +147,6 @@ public class FeedbackActivity extends ActionBarActivity {
         int index   =   starMap.get(v.getId());
         int viewID  =   v.getId();
         setRating(starMap.get(viewID));
-        tvStars.setText(starsStringId[index-1]);
+        tvStars.setText(starsStringId[index]);
     }
 }
