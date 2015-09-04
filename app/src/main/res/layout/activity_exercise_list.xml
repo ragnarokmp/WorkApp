@@ -10,13 +10,6 @@
     <!-- Includes the toolbar -->
     <include layout="@layout/toolbar"/>
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
             <fragment
                 android:id="@+id/exercise_list"
                 android:name="it.mobileprogramming.ragnarok.workapp.ExerciseListFragment"
@@ -24,9 +17,6 @@
                 android:layout_height="match_parent"
                 tools:context="it.mobileprogramming.ragnarok.workapp.ExerciseListActivity"
                 tools:layout="@android:layout/list_content"/>
-        </RelativeLayout>
-
-    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>
 

@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
         testing.execute();*/
         //end testing task
 
-        checkSignIn();
+        setUserSignedIn();
     }
 
     @Override

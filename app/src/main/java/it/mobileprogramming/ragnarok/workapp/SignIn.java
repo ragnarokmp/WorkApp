@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
@@ -70,6 +71,11 @@ public class SignIn extends Activity implements GoogleApiClient.ConnectionCallba
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        // design of the GooglePlus button
+        SignInButton signin = (SignInButton) findViewById(R.id.sign_in_button);
+        signin.setColorScheme(SignInButton.COLOR_LIGHT);
+        signin.setSize(SignInButton.SIZE_WIDE);
 
         // check for network -> if there is not connectivity then the activity will be finished
         if(!NetworkTest.Connectivity(getApplicationContext())) {

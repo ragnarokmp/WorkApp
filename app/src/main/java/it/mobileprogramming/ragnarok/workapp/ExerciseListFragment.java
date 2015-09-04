@@ -2,12 +2,19 @@ package it.mobileprogramming.ragnarok.workapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -17,6 +24,7 @@ import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.dummy.DummyContent;
 import it.mobileprogramming.ragnarok.workapp.util.App;
+import it.mobileprogramming.ragnarok.workapp.util.JSONRoot;
 
 /**
  * A list fragment representing a list of Exercises. This fragment
@@ -29,6 +37,13 @@ import it.mobileprogramming.ragnarok.workapp.util.App;
  */
 public class ExerciseListFragment extends ListFragment {
 
+    // to retrieve exercises from the website
+    private String website = "http://46.101.165.167/index.php/exercise/getAllExercise";
+
+    // to visualize the exercises list
+    public ArrayList<Exercise> exercises;
+    public ExercisesListAdapter exercisesListAdapter;
+
     /**
      * The serialization (saved instance state) Bundle key representing the
      * activated item position. Only used on tablets.
@@ -39,7 +54,7 @@ public class ExerciseListFragment extends ListFragment {
      * The fragment's current callback object, which is notified of list item
      * clicks.
      */
-    private Callbacks mCallbacks = sDummyCallbacks;
+    private Callbacks mCallbacks = exerciseCallback;
 
     /**
      * The current activated item position. Only used on tablets.
@@ -62,9 +77,10 @@ public class ExerciseListFragment extends ListFragment {
      * A dummy implementation of the {@link Callbacks} interface that does
      * nothing. Used only when this fragment is not attached to an activity.
      */
-    private static Callbacks sDummyCallbacks = new Callbacks() {
+    private static Callbacks exerciseCallback = new Callbacks() {
         @Override
         public void onItemSelected(String id) {
+
         }
     };
 
@@ -86,18 +102,20 @@ public class ExerciseListFragment extends ListFragment {
             ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(getActivity().getIntent().getExtras().getInt("userID"));
             ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
             UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
-            ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
-            ExercisesListAdapter exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
+            exercises = userWorkoutSession.getExercisesOfSession();
+            exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
-
         } else {
-            ArrayList<Exercise> exercises = dbSerializer.loadAll();
-            // TODO: replace with a real list adapter. @federico
-            ExercisesListAdapter exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
+            exercises = dbSerializer.loadAll();
+            exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
         }
 
+        setHasOptionsMenu(true);
+
     }
+
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -130,7 +148,7 @@ public class ExerciseListFragment extends ListFragment {
         super.onDetach();
 
         // Reset the active callbacks interface to the dummy implementation.
-        mCallbacks = sDummyCallbacks;
+        mCallbacks = exerciseCallback;
     }
 
     @Override
@@ -139,7 +157,8 @@ public class ExerciseListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(String.valueOf(exercises.get(position).getId()));
+
     }
 
     @Override
@@ -171,5 +190,69 @@ public class ExerciseListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_refresh, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_refresh) {
+            // retrieving data from the website
+            JSONAsyncTask JAT = new JSONAsyncTask();
+            JAT.execute(website);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    /**
+     * AsyncTask to perform a connection on swipe to refresh to retrieve from the website
+     * the list of all the exercises
+     */
+    private class JSONAsyncTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(final String...args) {
+            String json = JSONRoot.JSONRetrieve(args[0]);
+            if (json == null)
+                this.cancel(true);
+            return json;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            // nothing to do (for now...)
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            Gson gson = new Gson();
+            // parsing
+            JSONRoot data = gson.fromJson(result, JSONRoot.class);
+            data.deserializeRoot(((App) getActivity().getApplication()).getDBSerializer());
+            // updating the list
+            SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
+            exercises = dbSerializer.loadAll();
+            exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
+            setListAdapter(exercisesListAdapter);
+        }
+
+        @Override
+        protected void onCancelled(String result) {
+            if (result == null) {
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Cannot establish connection!", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
     }
 }
