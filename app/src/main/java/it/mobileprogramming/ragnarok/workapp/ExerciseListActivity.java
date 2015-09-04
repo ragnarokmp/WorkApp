@@ -1,17 +1,10 @@
 package it.mobileprogramming.ragnarok.workapp;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -19,9 +12,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
-import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.util.App;
-import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 import it.mobileprogramming.ragnarok.workapp.util.JSONRoot;
 
@@ -80,7 +71,6 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             ((ExerciseListFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.exercise_list))
                     .setActivateOnItemClick(true);
-
         }
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);

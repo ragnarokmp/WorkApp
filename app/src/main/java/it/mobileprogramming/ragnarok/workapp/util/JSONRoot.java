@@ -24,21 +24,13 @@ public class JSONRoot {
      * its very purposes are to deserialize the JSON from the webserver
      */
     class JSONExercise {
- //       @SerializedName("intExId")
         public int     intExId;
- //       @SerializedName("usedWeight")
         public String  usedWeight;
- //       @SerializedName("series")
         public int     series;
- //       @SerializedName("repetition")
         public int     repetition;
- //       @SerializedName("frequency")
         public int     frequency;
- //       @SerializedName("recovery")
         public int     recovery;
- //       @SerializedName("name")
         public String  name;
- //       @SerializedName("muscles")
         public String  muscles;
     }
 
@@ -77,7 +69,6 @@ public class JSONRoot {
                                                  exercise.usedWeight,
                                                  exercise.muscles   );
         }
-        Log.d("DESERIALIZED", String.valueOf(i));
     }
 
     /**

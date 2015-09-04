@@ -1,5 +1,6 @@
 package it.mobileprogramming.ragnarok.workapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,7 +51,7 @@ public class ExercisesListAdapter extends ArrayAdapter<Exercise> {
 
         ExerciseHolder holder = new ExerciseHolder();
         // First let's verify the convertView is not null
-        if (convertView == null) {
+        if (view == null) {
             // This a new view we inflate the new layout
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.exercise_row, null);

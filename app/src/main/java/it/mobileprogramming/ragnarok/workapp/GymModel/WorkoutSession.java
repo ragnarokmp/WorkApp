@@ -67,9 +67,9 @@ public class WorkoutSession implements Parcelable {
      * @return arraylist with all exercises within
      */
     public ArrayList<Exercise> getExercisesOfSession(){
-        ArrayList<Exercise> returnList  =   new ArrayList<>();
+        ArrayList<Exercise> returnList = new ArrayList<>();
         for(int i=0;i<this.exercisesOfSession.size();i++){
-            Exercise temp   =   exercisesOfSession.get(i).clone();
+            Exercise temp  =  exercisesOfSession.get(i).clone();
             returnList.add(temp);
         }
         return returnList;
