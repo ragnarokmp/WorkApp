@@ -1,6 +1,8 @@
 package it.mobileprogramming.ragnarok.workapp;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentActivity;
@@ -11,12 +13,17 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
+import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
+import it.mobileprogramming.ragnarok.workapp.util.JSONRoot;
 
 /**
  * An activity representing a list of Exercises. This activity
@@ -42,6 +49,9 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
      */
     private boolean mTwoPane;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    // to retrieve exercises from the website
+    private String website = "http://46.101.165.167/index.php/exercise/getAllExercise";
 
     @Override
     protected int getLayoutResourceId() {
@@ -72,14 +82,24 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
                     .setActivateOnItemClick(true);
 
         }
-        // setting up the swipe-refresh layout
+
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Log.i("SWIPE", "");
-            }
-        });
+        if (!getIntent().hasExtra(WorkoutFragment.EXTRA_USER_WORKOUT_SESSION)) {
+            // setting up the swipe-refresh layout
+            mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    // performing async connection
+                    JSONAsyncTask JAT = new JSONAsyncTask();
+                    JAT.execute(website);
+
+                    // letting the swipe to refresh to stop
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+            });
+        } else {
+            mSwipeRefreshLayout.setVisibility(View.INVISIBLE);
+        }
 
         // TODO: If exposing deep links into your app, handle intents here.
     }
@@ -127,4 +147,49 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             startActivity(detailIntent);
         }
     }
+
+
+
+    /**
+     * AsyncTask to perform a connection on swipe to refresh to retrieve from the website
+     * the list of all the exercises
+     */
+    private class JSONAsyncTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(final String...args) {
+            String json = JSONRoot.JSONRetrieve(args[0]);
+            if (json == null)
+                this.cancel(true);
+            return json;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            // nothing to do (for now...)
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            Gson gson = new Gson();
+            // parsing
+            JSONRoot data = gson.fromJson(result, JSONRoot.class);
+            data.deserializeRoot(((App) getApplication()).getDBSerializer());
+        }
+
+        @Override
+        protected void onCancelled(String result) {
+            if (result == null) {
+                Toast toast = Toast.makeText(getApplicationContext(), "Cannot establish connection!", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
+    }
+
 }
