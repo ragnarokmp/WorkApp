@@ -104,9 +104,8 @@ public class WorkoutFragment extends BaseFragment {
             @Override
             public void onItemClick(CardItemView cardItemView, int i) {
                 Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
-                System.out.println((UserWorkoutSession) cardItemView.getTag());
-                intent.putExtra(EXTRA_USER_WORKOUT_SESSION, (UserWorkoutSession) cardItemView.getTag());
-                System.out.println(((UserWorkoutSession) cardItemView.getTag()).getExercisesOfSession());
+                intent.putExtra("userID", userID);
+                intent.putExtra("workoutID",i);
                 getActivity().startActivity(intent);
             }
 
@@ -130,6 +129,7 @@ public class WorkoutFragment extends BaseFragment {
 
             }
         }
+        dbSerializer.close();
 
         FloatingActionButton addWorkout = (FloatingActionButton) view.findViewById(R.id.add_fab);
         addWorkout.setOnClickListener(new View.OnClickListener() {
