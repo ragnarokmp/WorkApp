@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -19,13 +18,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.Scopes;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Scope;
-import com.google.android.gms.plus.Plus;
-import com.google.android.gms.plus.model.people.Person;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -35,14 +27,13 @@ import java.util.ArrayList;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.GymModel.User;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserExcercise;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserExercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
 import it.mobileprogramming.ragnarok.workapp.util.BitmapHelper;
-import it.mobileprogramming.ragnarok.workapp.util.JSONRoot;
 
 public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener, View.OnClickListener {
 
@@ -51,6 +42,36 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
         // Make sure this is before calling super.onCreate for launch screen
         setTheme(R.style.WorkApp);
         super.onCreate(savedInstanceState);
+
+        /*SQLiteSerializer dbSerializer = ((App) this.getApplication()).getDBSerializer();
+        dbSerializer.open();
+
+        //TODO TO BE REMOVED
+        User anUser = dbSerializer.loadUser(1);
+        ((App) this.getApplication()).setCurrentUser(anUser);
+        //test per Federico
+        ArrayList<Workout> testlist =   anUser.getWorkoutHistory();
+        UserExercise outex   =   null;
+        System.out.println(testlist);
+        for(int i=0;i<testlist.size();i++){
+            System.out.println("->USERWORKOUT " + testlist.get(i).toString());
+            UserWorkout aworkout    =   (UserWorkout)testlist.get(i);
+            ArrayList<UserWorkoutSession>  wosessions   =   aworkout.getWoSessions();
+            for(int j=0;j<wosessions.size();j++){
+                //outex   =   wosessions.get(j);
+                ArrayList<Exercise> excercises =   wosessions.get(j).getExercisesOfSession();
+                System.out.println("->USERSESSION "+wosessions.get(j).toString()+" LISTA ESERCIZI "+excercises.size()+" "+excercises.toString());
+                for(int k=0;k<excercises.size();k++){
+                    System.out.println("Esercizio "+k+" "+excercises.get(k).toString());
+                    outex   =   (UserExercise)excercises.get(k);
+                }
+            }
+        }
+        //launch in this way
+        Intent intent = new Intent(getApplicationContext(), FeedbackActivity.class);
+        intent.putExtra("item",outex);
+        startActivity(intent);
+        */
 
         // Set the WorkoutFragment
         setFragment(TypeFragment.Workout);

@@ -3,7 +3,6 @@ package it.mobileprogramming.ragnarok.workapp.GymModel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.security.spec.ECField;
 import java.util.Date;
 
 /**
@@ -99,8 +98,8 @@ public class UserWorkoutSession extends WorkoutSession implements Parcelable,Com
         boolean result = true;
         int exDone = 0;
         for(int i=0;i<this.exercisesOfSession.size();i++){
-            if(this.exercisesOfSession.get(i) instanceof UserExcercise){
-                UserExcercise anEx  =   (UserExcercise)this.exercisesOfSession.get(i);
+            if(this.exercisesOfSession.get(i) instanceof UserExercise){
+                UserExercise anEx  =   (UserExercise)this.exercisesOfSession.get(i);
                 if(anEx.isDone() == true){
                     exDone += 1;
                 }

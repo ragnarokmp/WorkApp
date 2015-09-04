@@ -26,7 +26,7 @@ public interface UserExerciseSerializer {
      * @param executionDate date of execution
      * @return id of user exercise
      */
-    ArrayList<UserExcercise> getExercisesOfAUserSession(int intIDUserWorkoutSession,int userID,Date executionDate);
+    ArrayList<UserExercise> getExercisesOfAUserSession(int intIDUserWorkoutSession,int userID,Date executionDate);
 
     /**
      * update an user exercise on db
@@ -46,5 +46,5 @@ public interface UserExerciseSerializer {
      * @param date execution date
      */
     void deleteUserExercise(int intIDUser,int intIDExercise ,Date date);
-    //UserExcercise loadExercise(int intIDExercise,int intUserID,Date executionDate);
+    //UserExercise loadExercise(int intIDExercise,int intUserID,Date executionDate);
 }

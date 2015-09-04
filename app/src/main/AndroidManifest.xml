@@ -35,6 +35,14 @@
         </activity>
         <activity
             android:name=".ExerciseDetailActivity"
+            android:label="@string/feedback_title"
+            android:parentActivityName=".FeedbackActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.mobileprogramming.ragnarok.workapp.FeedbackActivity" />
+        </activity>
+        <activity
+            android:name=".FeedbackActivity"
             android:label="@string/exercise_detail"
             android:parentActivityName=".ExerciseListActivity" >
             <meta-data
