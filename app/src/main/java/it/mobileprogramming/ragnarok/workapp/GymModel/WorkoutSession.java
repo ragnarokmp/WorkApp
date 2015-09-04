@@ -106,13 +106,13 @@ public class WorkoutSession implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
         dest.writeString(this.filepath);
-        dest.writeTypedList(exercisesOfSession);
+        //dest.writeTypedList(exercisesOfSession);
     }
 
     protected WorkoutSession(Parcel in) {
         this.id = in.readInt();
         this.filepath = in.readString();
-        this.exercisesOfSession = in.createTypedArrayList(Exercise.CREATOR);
+        //this.exercisesOfSession = in.createTypedArrayList(Exercise.CREATOR);
     }
 
     public static final Parcelable.Creator<WorkoutSession> CREATOR = new Parcelable.Creator<WorkoutSession>() {
