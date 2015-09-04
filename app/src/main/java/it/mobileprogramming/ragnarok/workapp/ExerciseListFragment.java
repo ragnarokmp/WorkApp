@@ -89,14 +89,12 @@ public class ExerciseListFragment extends ListFragment {
             ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
             ExercisesListAdapter exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
-            dbSerializer.close();
 
         } else {
             ArrayList<Exercise> exercises = dbSerializer.loadAll();
             // TODO: replace with a real list adapter. @federico
             ExercisesListAdapter exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
-            dbSerializer.close();
         }
 
     }

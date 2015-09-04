@@ -129,7 +129,6 @@ public class WorkoutFragment extends BaseFragment {
 
             }
         }
-        dbSerializer.close();
 
         FloatingActionButton addWorkout = (FloatingActionButton) view.findViewById(R.id.add_fab);
         addWorkout.setOnClickListener(new View.OnClickListener() {
