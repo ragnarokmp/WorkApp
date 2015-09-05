@@ -8,11 +8,11 @@ import java.util.Date;
 
 public class User {
     private int intUserID;
-    private String strPwdHash;
+    private String strAvatar;
     private String strName;
-    private String strSurname;
+    private String strEmail;
     private int    intGender;
-    private Date dateBirth;
+    private Date   dateRegistration;
     private ArrayList<WeightItem>   weightHistory;
     private ArrayList<UserWorkout>      workoutHistory;
     private UserSerializer  usSerializer;
@@ -20,54 +20,54 @@ public class User {
     /**
      * constructor that saves a new User instance on DB, don't use for loading an User from database
      * @param name name
-     * @param surname surname
+     * @param email email
      * @param gender gender 0 male 1 female
-     * @param birthDate date birthdate
-     * @param password password (will be processed)
+     * @param regDate date registration
+     * @param avatar encoded avatar
      * @param aSerializer serializer to save data
      */
-    public User(String name,String surname,int gender,Date birthDate,String password,UserSerializer aSerializer){
+    public User(String name,String email,int gender,Date regDate,String avatar,UserSerializer aSerializer){
         this.strName        =   name;
-        this.strSurname     =   surname;
+        this.strEmail     =   email;
         this.intGender      =   gender;
-        this.dateBirth      =   birthDate;
-        this.strPwdHash     =   hashAndSalt(password);
+        this.dateRegistration      =   regDate;
+        this.strAvatar      =   avatar;
         this.usSerializer   =   aSerializer;
         this.weightHistory  =   new ArrayList<>();
         this.workoutHistory =   new ArrayList<>();
-        this.intUserID  =   aSerializer.createNewUser(name,surname,this.strPwdHash,gender,birthDate);
+        this.intUserID  =   aSerializer.createNewUser(name,email,this.strAvatar,gender,regDate);
     }
 
     /**
      * constructor used to load an User instance from Database
      * @param uId user id
      * @param name user name
-     * @param surname user surname
+     * @param email user email
      * @param gender user gender 0 male 1 female
-     * @param birthDate user birth date
-     * @param pwdHash pass hash
+     * @param regDate user registration date
+     * @param avatar encoded avatar
      * @param aSerializer serializer
      * @param workouts arraylist of workouts
      * @param weightStory arraylist of weight history
      */
-    public User(int uId, String name,String surname,int gender,Date birthDate,String pwdHash,UserSerializer aSerializer,ArrayList workouts,ArrayList<WeightItem> weightStory){
+    public User(int uId, String name,String email,int gender,Date regDate,String avatar,UserSerializer aSerializer,ArrayList workouts,ArrayList<WeightItem> weightStory){
         this.strName        =   name;
-        this.strSurname     =   surname;
+        this.strEmail       =   email;
         this.intGender      =   gender;
-        this.dateBirth      =   birthDate;
+        this.dateRegistration   =   regDate;
         this.usSerializer   =   aSerializer;
         this.weightHistory  =   weightStory;
         this.workoutHistory =   workouts;
-        this.strPwdHash     =   pwdHash;
+        this.strAvatar      =   avatar;
         this.intUserID      =   uId;
     }
 
     /**
-     * returns user birthdate
-     * @return date birthdate
+     * returns user registration date
+     * @return date registration
      */
-    public Date getDateBirth() {
-        return (Date) dateBirth.clone();
+    public Date getDateRegistration() {
+        return (Date) dateRegistration.clone();
     }
 
     /**
@@ -95,68 +95,19 @@ public class User {
     }
 
     /**
-     * returns user surname
-     * @return String surname
+     * returns the encoded avatar
+     * @return String encoded avatar
      */
-    public String getStrSurname() {
-        return strSurname+"";
+    public String getStrAvatar() {
+        return strAvatar;
     }
 
     /**
-     * function used to SHA-1 and salt the password
-     * @param password password to be salted
-     * @return digest
+     * returns user surname
+     * @return String surname
      */
-    //TODO hash and salt password
-    private String hashAndSalt(String password) {
-        String hash = null;
-        try
-        {
-            String myPassword   =   password+"workapp~2015";
-            MessageDigest digest = MessageDigest.getInstance( "SHA-1" );
-            byte[] bytes = myPassword.getBytes("UTF-8");
-            digest.update(bytes, 0, bytes.length);
-            bytes = digest.digest();
-
-            // This is ~55x faster than looping and String.formating()
-            hash = bytesToHex( bytes );
-        }
-        catch( NoSuchAlgorithmException e )
-        {
-            e.printStackTrace();
-        }
-        catch( UnsupportedEncodingException e )
-        {
-            e.printStackTrace();
-        }
-        return hash;
-    }
-
-    // http://stackoverflow.com/questions/9655181/convert-from-byte-array-to-hex-string-in-java
-    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
-    public static String bytesToHex( byte[] bytes )
-    {
-        char[] hexChars = new char[ bytes.length * 2 ];
-        for( int j = 0; j < bytes.length; j++ )
-        {
-            int v = bytes[ j ] & 0xFF;
-            hexChars[ j * 2 ] = hexArray[ v >>> 4 ];
-            hexChars[ j * 2 + 1 ] = hexArray[ v & 0x0F ];
-        }
-        return new String( hexChars );
-    }
-
-    private static String convertToHex(byte[] data) {
-        StringBuilder buf = new StringBuilder();
-        for (byte b : data) {
-            int halfbyte = (b >>> 4) & 0x0F;
-            int two_halfs = 0;
-            do {
-                buf.append((0 <= halfbyte) && (halfbyte <= 9) ? (char) ('0' + halfbyte) : (char) ('a' + (halfbyte - 10)));
-                halfbyte = b & 0x0F;
-            } while (two_halfs++ < 1);
-        }
-        return buf.toString();
+    public String getStrEmail() {
+        return strEmail+"";
     }
 
     /**
@@ -252,11 +203,11 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "dateBirth=" + dateBirth +
+                "dateRegistration=" + dateRegistration +
                 ", intUserID=" + intUserID +
-                ", strPwdHash='" + strPwdHash + '\'' +
+                ", avatar='" + strAvatar + '\'' +
                 ", strName='" + strName + '\'' +
-                ", strSurname='" + strSurname + '\'' +
+                ", strSurname='" + strEmail + '\'' +
                 ", intGender=" + intGender +
                 ", weightHistory=" + weightHistory +
                 ", workoutHistory=" + workoutHistory +

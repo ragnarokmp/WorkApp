@@ -7,13 +7,13 @@ public interface UserSerializer {
     /**
      * adds a new User entry on DB
      * @param strName user name
-     * @param strSurname user surname
-     * @param hashPWD hash of password
+     * @param strEmail user email
+     * @param avatar encoded avatar
      * @param intSex user gender
-     * @param dateBirth birth date
+     * @param dateReg registration date
      * @return userID
      */
-    public int createNewUser(String strName, String strSurname,String hashPWD, int intSex, Date dateBirth);
+    public int createNewUser(String strName, String strEmail,String avatar, int intSex, Date dateReg);
 
     /**
      * returns all users (SELECT *)
@@ -29,14 +29,22 @@ public interface UserSerializer {
     User loadUser(int id);
 
     /**
+     * loads user from email
+     * @param email emailaddress
+     * @return corresponding user
+     */
+    User loadUser(String email);
+
+    /**
      * updates an existing user
      * @param id id of the user (PK)
      * @param strName name
-     * @param strSurname surname
+     * @param strEmail surname
      * @param intSex gender
-     * @param dateBirth birthdate
+     * @param dateReg registration date
      */
-    void updateUser(int id,String strName, String strSurname, int intSex, Date dateBirth);
+
+    void updateUser(int id,String strName, String strEmail, int intSex, Date dateReg);
 
     /**
      * remove from DB user with an ID

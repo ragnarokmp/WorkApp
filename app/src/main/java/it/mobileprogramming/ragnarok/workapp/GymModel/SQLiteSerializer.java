@@ -21,11 +21,11 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     private Context         appContext;
     private final static String User_USER_tablename         =   "User";
     private final static String User_USERID_column          =   "UserID";
-    private final static String User_Password_column        =   "Password";
+    private final static String User_Avatar_column          =   "Avatar";
     private final static String User_Name_column            =   "Name";
-    private final static String User_Surname_column         =   "Surname";
+    private final static String User_Email_column           =   "Email";
     private final static String User_Gender_column          =   "Gender";
-    private final static String User_BirthDate_column       =   "Birthdate";
+    private final static String User_Registration_column    =   "Registration";
     private final static String Workout_tablename           =   "Workout";
     private final static String Workout_ID                  =   "WorkoutID";
     private final static String Workout_label               =   "Label";
@@ -220,20 +220,20 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     /**
      * insert a new user entry on DB
      * @param strName user name
-     * @param strSurname user surname
-     * @param pwd user password
+     * @param strEmail user email
+     * @param avatar encoded avarar
      * @param intGender
-     * @param dateBirth
+     * @param dateReg registration date
      * @return
      */
     @Override
-    public int createNewUser(String strName, String strSurname, String pwd, int intGender, Date dateBirth) {
+    public int createNewUser(String strName, String strEmail, String avatar, int intGender, Date dateReg) {
         ContentValues   values  = new ContentValues();
         values.put(User_Name_column,strName);
-        values.put(User_Surname_column,strSurname);
+        values.put(User_Email_column,strEmail);
         values.put(User_Gender_column,intGender);
-        values.put(User_Password_column, pwd);
-        values.put(User_BirthDate_column, Singletons.getStringFromDate(dateBirth));
+        values.put(User_Avatar_column, avatar);
+        values.put(User_Registration_column, Singletons.getStringFromDate(dateReg));
         return  (int)this.sqlGymDatabase.insert(User_USER_tablename,null,values);
 
     }
@@ -263,13 +263,13 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         if(result.getCount()>0) {
             int uid = result.getInt(result.getColumnIndex(User_USERID_column));
             String uname = result.getString(result.getColumnIndex(User_Name_column));
-            String usurname = result.getString(result.getColumnIndex(User_Surname_column));
-            String upassword = result.getString(result.getColumnIndex(User_Password_column));
+            String uemail = result.getString(result.getColumnIndex(User_Email_column));
+            String uavatar = result.getString(result.getColumnIndex(User_Avatar_column));
             int ugender = result.getInt(result.getColumnIndex(User_Gender_column));
-            Date ubirth = Singletons.formatFromString(result.getString(result.getColumnIndex(User_BirthDate_column)));
+            Date ureg = Singletons.formatFromString(result.getString(result.getColumnIndex(User_Registration_column)));
             ArrayList<UserWorkout> workoutArrayList = loadWorkoutsForUser(id);
             ArrayList<WeightItem> story = loadWeightHistory(id);
-            User anUser = new User(uid, uname, usurname, ugender, ubirth, upassword, this, workoutArrayList, story);
+            User anUser = new User(uid, uname, uemail, ugender, ureg, uavatar, this, workoutArrayList, story);
             result.close();
             return anUser;
         }
@@ -277,12 +277,34 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     }
 
     @Override
-    public void updateUser(int id, String strName, String strSurname, int intSex, Date dateBirth) {
+    public User loadUser(String email) {
+        String field        =       User_Email_column+"=?";
+        String filter   []  =       {email};
+        Cursor result       =       this.sqlGymDatabase.query(User_USER_tablename,null,field,filter,null,null,null);
+        result.moveToFirst();
+        if(result.getCount()>0) {
+            int uid = result.getInt(result.getColumnIndex(User_USERID_column));
+            String uname = result.getString(result.getColumnIndex(User_Name_column));
+            String uemail = result.getString(result.getColumnIndex(User_Email_column));
+            String uavatar = result.getString(result.getColumnIndex(User_Avatar_column));
+            int ugender = result.getInt(result.getColumnIndex(User_Gender_column));
+            Date ureg = Singletons.formatFromString(result.getString(result.getColumnIndex(User_Registration_column)));
+            ArrayList<UserWorkout> workoutArrayList = loadWorkoutsForUser(uid);
+            ArrayList<WeightItem> story = loadWeightHistory(uid);
+            User anUser = new User(uid, uname, uemail, ugender, ureg, uavatar, this, workoutArrayList, story);
+            result.close();
+            return anUser;
+        }
+        else return null;
+    }
+
+    @Override
+    public void updateUser(int id, String strName, String strEmail, int intSex, Date dateReg) {
         ContentValues   values  =   new ContentValues();
         values.put(User_Name_column, strName);
-        values.put(User_Surname_column,strSurname);
+        values.put(User_Email_column, strEmail);
         values.put(User_Gender_column,intSex);
-        values.put(User_BirthDate_column,Singletons.getStringFromDate(dateBirth));
+        values.put(User_Registration_column,Singletons.getStringFromDate(dateReg));
         String field            =       User_USERID_column+"=?";
         String filter   []      =       {String.valueOf(id)};
         int rows                =   this.sqlGymDatabase.update(User_USER_tablename, values, field, filter);
