@@ -13,13 +13,14 @@
     <string name="exercise_detail">Exercise Detail</string>
     <string name="start_exercise">Start Exercise</string>
     <string name="account_summary">Account Summary</string>
+    <string name="sign_in">Sign In</string>
 
     <!-- Workout menu -->
     <string name="action_change_workout">Change</string>
     <string name="action_history_workouts">History</string>
     <string name="action_refresh">Refresh</string>
 
-    <!-- -->
+    <!-- Session Card -->
     <string name="session_right_button">Start</string>
     <string name="session_left_button">Details</string>
     <string name="start_now_button">Start now</string>
@@ -28,8 +29,12 @@
     <string name="duration_title">Duration</string>
     <string name="completion_title">Completion</string>
 
-    <string name="no_workout">There is no workout here for you, add one!</string>
+    <!-- Empty Views -->
+    <string name="no_workouts">There are no workouts here for you, add one!</string>
+    <string name="no_exercises">There are no exercises here for you, download from the web!</string>
+    <string name="no_logged">Yor are not logged in yet</string>
 
+    <!-- Exercise Row -->
     <string name="exercise">Exercise</string>
 
     <!-- Settings -->
@@ -64,7 +69,9 @@
     <string name="submit">Submit</string>
     <string name="title_activity_feedback">FeedbackActivity</string>
 
+    <!-- Feedback Activity -->
     <string name="feedback_leavefeedback">Please write a feedback</string>
+    <string name="feedback_0star">Set rating</string>
     <string name="feedback_1star">Bad</string>
     <string name="feedback_2star">So bad</string>
     <string name="feedback_3star">Normal</string>
@@ -75,22 +82,15 @@
     <string name="feedback_submitButton">Submit</string>
     <string name="feedback_title">Leave feedback</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-
-    <string name="signin">Access with your Google account to personalize and view usage statistics of your training.</string>
-
-
     <!-- Start Exercise Activity -->
     <string name="pause">Pause</string>
     <string name="stop">Stop</string>
     <string name="play">Play</string>
     <string name="repetition">Repetition</string>
     <string name="series">Series</string>
-    <string name="title_activity_sign_in">SignIn</string>
 
-    <!-- SignIn error -->
+    <!-- SignIn Activity -->
     <string name="signin_error">Cannot sign in to your account, please check your connection or try later.</string>
-    <string name="feedback_0star">Set rating</string>
+    <string name="signin">Access with your Google account to personalize and view usage statistics of your training.</string>
 
 </resources>

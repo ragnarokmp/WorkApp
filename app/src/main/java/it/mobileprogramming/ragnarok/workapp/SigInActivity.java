@@ -1,22 +1,13 @@
 package it.mobileprogramming.ragnarok.workapp;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -27,17 +18,11 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
-import it.mobileprogramming.ragnarok.workapp.util.BitmapHelper;
-import it.mobileprogramming.ragnarok.workapp.util.JSONRoot;
+import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 import it.mobileprogramming.ragnarok.workapp.util.NetworkTest;
 
 
-public class SignIn extends Activity implements GoogleApiClient.ConnectionCallbacks,
+public class SigInActivity extends BaseActivityWithToolbar implements GoogleApiClient.ConnectionCallbacks,
                                                 GoogleApiClient.OnConnectionFailedListener,
                                                 View.OnClickListener {
 
@@ -68,9 +53,13 @@ public class SignIn extends Activity implements GoogleApiClient.ConnectionCallba
     }
 
     @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_sign_in;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
 
         // design of the GooglePlus button
         SignInButton signin = (SignInButton) findViewById(R.id.sign_in_button);

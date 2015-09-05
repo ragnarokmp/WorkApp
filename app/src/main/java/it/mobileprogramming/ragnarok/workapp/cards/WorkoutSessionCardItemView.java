@@ -172,7 +172,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
     private String generateDescription() {
         ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
         //TODO: @federico improve with the recognition of the actual day.. and with the bold..
-        String description = "In the session of " + workoutSession.getDateSessionDate() + " we will work on ";
+        String description = "In the session of $" + workoutSession.getDateSessionDate() + "$ we will work on $";
         int size = exercises.size();
         for (int i = 0; i < size; i++) {
             String muscle = exercises.get(i).getMuscles();
@@ -185,10 +185,10 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
                 description += " and ";
             }
         }
-        description += ".\nIn details:\n";
+        description += "$.\n\nIn details:\n";
         for (int i = 0; i < size; i++) {
             Exercise currentEx = exercises.get(i);
-            description += currentEx.getSeries() + " series of " + currentEx.getName();
+            description += " $• " + currentEx.getSeries() + "$ series of $" + currentEx.getName() + "$";
             if (size > 1 && i != size - 1) {
                 description += "\n";
             }
@@ -264,7 +264,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      */
     private void setDescription(String description) {
         TextView descriptionTextView = (TextView) findViewById(R.id.description_text_view);
-        descriptionTextView.setText(boldTextBetweenTokens(description, "%"));
+        descriptionTextView.setText(boldTextBetweenTokens(description, "$"));
     }
 
     /**

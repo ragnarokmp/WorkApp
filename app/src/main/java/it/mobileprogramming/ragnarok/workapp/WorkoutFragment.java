@@ -196,7 +196,7 @@ public class WorkoutFragment extends BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.workout, menu);
+        inflater.inflate(R.menu.menu_workout, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 

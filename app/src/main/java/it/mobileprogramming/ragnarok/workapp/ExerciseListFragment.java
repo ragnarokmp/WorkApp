@@ -5,12 +5,10 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -22,7 +20,6 @@ import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
-import it.mobileprogramming.ragnarok.workapp.dummy.DummyContent;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.JSONRoot;
 
@@ -95,6 +92,8 @@ public class ExerciseListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
+
         Intent intent = getActivity().getIntent();
         SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
@@ -110,9 +109,6 @@ public class ExerciseListFragment extends ListFragment {
             exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
         }
-
-        setHasOptionsMenu(true);
-
     }
 
 
@@ -194,7 +190,10 @@ public class ExerciseListFragment extends ListFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_refresh, menu);
+        Intent intent = getActivity().getIntent();
+        if (!intent.hasExtra("userID")) {
+            inflater.inflate(R.menu.menu_refresh, menu);
+        }
         super.onCreateOptionsMenu(menu, inflater);
     }
 

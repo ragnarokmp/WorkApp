@@ -33,7 +33,7 @@
                     android:layout_height="64dp"
                     android:layout_margin="@dimen/spacing_large"
                     android:elevation="@dimen/elevation_toolbar"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@mipmap/ic_no_avatar"
                     tools:ignore="ContentDescription,UnusedAttribute"/>
 
                 <LinearLayout

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Cthis class models a user workout instance
+ * This class models a user workout instance
  */
 public class UserWorkout extends Workout{
     private int userID;

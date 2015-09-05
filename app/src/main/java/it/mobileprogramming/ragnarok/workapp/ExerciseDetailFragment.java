@@ -16,7 +16,6 @@ import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserExercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
-import it.mobileprogramming.ragnarok.workapp.dummy.DummyContent;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 
 /**

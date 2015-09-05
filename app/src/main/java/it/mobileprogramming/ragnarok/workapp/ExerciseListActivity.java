@@ -62,18 +62,6 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Intent intent = getIntent();
-        /*SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
-        dbSerializer.open();
-        if (intent.hasExtra("userID")) {
-            userID = intent.getExtras().getInt("userID");
-            ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(userID);
-            ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
-            workoutID = intent.getExtras().getInt("workoutID");
-            UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(workoutID);
-            Toast.makeText(this, userWorkoutSession.getStrComment(), Toast.LENGTH_LONG).show();
-        }*/
-
         if (findViewById(R.id.exercise_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large-land and

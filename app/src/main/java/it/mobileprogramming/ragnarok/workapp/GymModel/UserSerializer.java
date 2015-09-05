@@ -78,7 +78,7 @@ public interface UserSerializer {
      * @param id user id
      * @return array of workouts
      */
-    ArrayList<UserWorkout> loadWorkoutsForUser(int id);                    //workout history added to user features (note:load the correct istance from relation table)
+    ArrayList<UserWorkout> loadWorkoutsForUser(int id);                    //workout history added to user features (note:load the correct instance from relation table)
 
     /**
      * adds a workout for an user

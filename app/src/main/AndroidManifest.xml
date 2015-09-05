@@ -12,6 +12,7 @@
         android:name=".util.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:logo=""
         android:label="@string/app_name"
         android:theme="@style/WorkApp"
         tools:ignore="UnusedAttribute" >
@@ -83,8 +84,12 @@
                 android:value="it.mobileprogramming.ragnarok.workapp.MainActivity" />
         </activity>
         <activity
-            android:name=".SignIn"
-            android:label="@string/title_activity_sign_in" >
+            android:name=".SigInActivity"
+            android:label="@string/sign_in"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.mobileprogramming.ragnarok.workapp.MainActivity" />
         </activity>
     </application>
 

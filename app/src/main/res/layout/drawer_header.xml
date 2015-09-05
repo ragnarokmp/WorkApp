@@ -13,10 +13,27 @@
         android:layout_height="64dp"
         android:layout_margin="@dimen/spacing_large"
         android:elevation="@dimen/elevation_toolbar"
-        android:src="@mipmap/ic_launcher"
-        tools:ignore="ContentDescription,UnusedAttribute"
+        android:src="@mipmap/ic_no_avatar"
         android:clickable="true"
         android:onClick="onClick" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/avatar">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/no_logged"
+            android:id="@+id/no_logged_text_view"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_marginLeft="@dimen/spacing_large"
+            android:gravity="center_vertical"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="@dimen/spacing_large"
+            tools:ignore="RtlHardcoded" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/username"
@@ -25,9 +42,10 @@
         android:layout_above="@+id/email"
         android:layout_marginLeft="@dimen/spacing_large"
         android:layout_marginStart="@dimen/spacing_large"
-        android:text="Username"
+        tools:text="Username"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/email"
@@ -37,8 +55,9 @@
         android:layout_marginLeft="@dimen/spacing_large"
         android:layout_marginStart="@dimen/spacing_large"
         android:layout_marginBottom="@dimen/spacing_large"
-        android:text="username@gmail.com"
+        tools:text="username@gmail.com"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:visibility="invisible" />
 
 </RelativeLayout>

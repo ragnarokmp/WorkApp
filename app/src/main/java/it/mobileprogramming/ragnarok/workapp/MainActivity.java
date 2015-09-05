@@ -22,16 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
-import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
-import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
-import it.mobileprogramming.ragnarok.workapp.GymModel.User;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserExercise;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
-import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
-import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
 import it.mobileprogramming.ragnarok.workapp.util.BitmapHelper;
 
@@ -215,7 +206,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
     public void checkSignIn() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         if (!pref.contains("signed_in"))
-            startActivity(new Intent(getApplicationContext(), SignIn.class));
+            startActivity(new Intent(getApplicationContext(), SigInActivity.class));
         else
             setUserSignedIn();
     }
@@ -230,8 +221,16 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
         }
     }
     public void setUser(SharedPreferences pref) {
-        ((TextView) findViewById(R.id.username)).setText(pref.getString("personName", "Username"));
-        ((TextView) findViewById(R.id.email)).setText(pref.getString("personEmail", "username@gmail.com"));
+        TextView usernameTextView = (TextView) findViewById(R.id.username);
+        usernameTextView.setText(pref.getString("personName", "Username"));
+        usernameTextView.setVisibility(View.VISIBLE);
+
+        TextView emailTextView = (TextView) findViewById(R.id.email);
+        emailTextView.setText(pref.getString("personEmail", "username@gmail.com"));
+        emailTextView.setVisibility(View.VISIBLE);
+
+        TextView noLoggedTextView = (TextView) findViewById(R.id.no_logged_text_view);
+        noLoggedTextView.setVisibility(View.GONE);
 
         if (!pref.contains("personAvatarBitmap")) {
             String avatar_string;
