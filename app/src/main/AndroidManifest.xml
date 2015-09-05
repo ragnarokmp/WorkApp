@@ -35,7 +35,7 @@
         </activity>
         <activity
             android:name=".ExerciseDetailActivity"
-            android:label="@string/feedback_title"
+            android:label="@string/exercise_detail"
             android:parentActivityName=".FeedbackActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -43,7 +43,7 @@
         </activity>
         <activity
             android:name=".FeedbackActivity"
-            android:label="@string/exercise_detail"
+            android:label="@string/feedback_title"
             android:parentActivityName=".ExerciseListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
