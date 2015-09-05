@@ -63,7 +63,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
-        SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
+        /*SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
         dbSerializer.open();
         if (intent.hasExtra("userID")) {
             userID = intent.getExtras().getInt("userID");
@@ -72,7 +72,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             workoutID = intent.getExtras().getInt("workoutID");
             UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(workoutID);
             Toast.makeText(this, userWorkoutSession.getStrComment(), Toast.LENGTH_LONG).show();
-        }
+        }*/
 
         if (findViewById(R.id.exercise_detail_container) != null) {
             // The detail container view will be present only in the
@@ -132,7 +132,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ExerciseDetailActivity.class);
-            detailIntent.putExtra(ExerciseDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra("exerciseID",Integer.valueOf(id));
             startActivity(detailIntent);
         }
     }

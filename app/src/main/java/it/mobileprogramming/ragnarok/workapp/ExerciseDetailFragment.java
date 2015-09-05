@@ -88,7 +88,7 @@ public class ExerciseDetailFragment extends Fragment {
                     ((TextView) rootView.findViewById(R.id.completion_text_view)).setText(done);
                 }
             }
-            ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(currentExercise.getName() + " : " + currentExercise.describeContents());
+            ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(currentExercise.getName());
             int totalTime = 0;
             totalTime += currentExercise.getFrequency() * currentExercise.getRepetition();
             ((TextView) rootView.findViewById(R.id.duration_text_view)).setText("~" + totalTime/60 + " min");
