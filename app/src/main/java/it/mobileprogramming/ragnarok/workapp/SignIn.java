@@ -165,19 +165,25 @@ public class SignIn extends Activity implements GoogleApiClient.ConnectionCallba
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
 
             String personName     = currentPerson.getDisplayName();
-            String personAge      = currentPerson.getBirthday();
+
+            String personAge      = null;
+            if (currentPerson.hasBirthday()) {
+                String[] birth = currentPerson.getBirthday().split("-");
+                for (int j = 0; j < birth.length; j++) {
+                    personAge     = birth[birth.length - 1 - j];
+                }
+            }
 
             String personGender   = (currentPerson.getGender() == Person.Gender.MALE    ?  getResources().getString(R.string.account_male)    :
                                     (currentPerson.getGender() == Person.Gender.FEMALE  ?  getResources().getString(R.string.account_female)  :
                                                                                            getResources().getString(R.string.account_other )));
             String personImage    = currentPerson.getImage().getUrl();
+
             String personGooglePlusProfile = Plus.AccountApi.getAccountName(mGoogleApiClient);
 
             // getting shared preferences
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor prefeditor = pref.edit();
-
-            // setting drawer header -> avatar
 
             prefeditor.putString("personAvatar", personImage);
             prefeditor.putString("personName",   personName);
