@@ -58,7 +58,8 @@
     <string name="account_trend">Your weight history trend</string>
     <string name="account_male">Male</string>
     <string name="account_female">Female</string>
-    <string name="account_unknown">Unknown</string>
+    <string name="account_other">Other</string>
+    <string name="account_unknown_birth">age unknown</string>
     <string name="account_weight_error">You can insert your weight only once per day, please retry tomorrow!</string>
     <string name="submit">Submit</string>
     <string name="title_activity_feedback">FeedbackActivity</string>

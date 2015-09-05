@@ -57,14 +57,20 @@ public class AccountActivity extends BaseActivityWithToolbar {
 
         floatingActionButton = (FloatingActionButton) findViewById(R.id.add_fab);
 
-        // setting user name and avatar
+        // setting user name and avatar and other userspecifications
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         if (pref.contains("signed_in")) {
             ((TextView) findViewById(R.id.account_text_view)).setText(pref.getString("personName", "Username"));
-            ((TextView) findViewById(R.id.account_text_view_details)).setText("user details");
-            if (pref.contains("personAvatarBitmap"))
+
+            String userAge = pref.getString("personAge", getResources().getString(R.string.account_unknown_birth));
+            String userGen = pref.getString("personGender", getResources().getString(R.string.account_other));
+            ((TextView) findViewById(R.id.account_text_view_details)).setText(userGen + ", " + userAge);
+
+            if (pref.contains("personAvatarBitmap")) {
                 ((ImageView) findViewById(R.id.avatar)).setImageBitmap(BitmapHelper
-                                                       .decodeBase64(pref.getString("personAvatarBitmap", null)));
+                        .decodeBase64(pref.getString("personAvatarBitmap", null)));
+            }
+
         }
 
 
@@ -92,22 +98,22 @@ public class AccountActivity extends BaseActivityWithToolbar {
         //END TO BE REMOVED
 
         currentUser = ((App) this.getApplication()).getCurrentUser();
-        TextView tvTop       =   (TextView)  findViewById(R.id.account_text_view);
-        TextView tvDetails   =   (TextView)  findViewById(R.id.account_text_view_details);
-        System.out.println(tvTop);
-        System.out.println(tvDetails);
-        // TODO USELESS??
-        //tvTop.setText(currentUser.getStrName() + " " + currentUser.getStrSurname());
-        String gender=getString(R.string.account_unknown);;
-        if(currentUser.getIntGender()==0){
-            gender  =   getString(R.string.account_male);
-        }
-        else if(currentUser.getIntGender()==1){
-            gender  =   getString(R.string.account_female);
-        }
-        DateFormat format       =   new DateFormat();
-        String birthdate   = format.format("dd/MM/yyyy",currentUser.getDateBirth()).toString();
-        tvDetails.setText(gender + ", " + birthdate);
+//        TextView tvTop       =   (TextView)  findViewById(R.id.account_text_view);
+//        TextView tvDetails   =   (TextView)  findViewById(R.id.account_text_view_details);
+//        System.out.println(tvTop);
+//        System.out.println(tvDetails);
+//        // TODO USELESS??
+//        //tvTop.setText(currentUser.getStrName() + " " + currentUser.getStrSurname());
+//        String gender=getString(R.string.account_unknown);;
+//        if(currentUser.getIntGender()==0){
+//            gender  =   getString(R.string.account_male);
+//        }
+//        else if(currentUser.getIntGender()==1){
+//            gender  =   getString(R.string.account_female);
+//        }
+//        DateFormat format       =   new DateFormat();
+//        String birthdate   = format.format("dd/MM/yyyy",currentUser.getDateBirth()).toString();
+//        tvDetails.setText(gender + ", " + birthdate);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +146,7 @@ public class AccountActivity extends BaseActivityWithToolbar {
         });
 
         loadGraphData();
-
+        DateFormat format = new DateFormat();
         String todayString = format.format("dd/MM/yyyy", new Date()).toString();
         ArrayList<WeightItem> history = currentUser.getWeightHistory();
 

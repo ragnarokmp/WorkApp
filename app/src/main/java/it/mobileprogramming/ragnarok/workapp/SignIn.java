@@ -83,7 +83,7 @@ public class SignIn extends Activity implements GoogleApiClient.ConnectionCallba
             finish();
         }
 
-        // StrictMode settings
+        // StrictMode settings -> it is not necessary to use another thread to perform this few operations
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
@@ -163,8 +163,14 @@ public class SignIn extends Activity implements GoogleApiClient.ConnectionCallba
         // retrieve info and store them
         if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-            String personName = currentPerson.getDisplayName();
-            String personImage = currentPerson.getImage().getUrl();
+
+            String personName     = currentPerson.getDisplayName();
+            String personAge      = currentPerson.getBirthday();
+
+            String personGender   = (currentPerson.getGender() == Person.Gender.MALE    ?  getResources().getString(R.string.account_male)    :
+                                    (currentPerson.getGender() == Person.Gender.FEMALE  ?  getResources().getString(R.string.account_female)  :
+                                                                                           getResources().getString(R.string.account_other )));
+            String personImage    = currentPerson.getImage().getUrl();
             String personGooglePlusProfile = Plus.AccountApi.getAccountName(mGoogleApiClient);
 
             // getting shared preferences
@@ -174,7 +180,9 @@ public class SignIn extends Activity implements GoogleApiClient.ConnectionCallba
             // setting drawer header -> avatar
 
             prefeditor.putString("personAvatar", personImage);
-            prefeditor.putString("personName", personName);
+            prefeditor.putString("personName",   personName);
+            prefeditor.putString("personAge",    personAge);
+            prefeditor.putString("personGender", personGender);
             prefeditor.putString("personEmail", personGooglePlusProfile);
             prefeditor.putBoolean("signed_in", true);
             prefeditor.commit();
