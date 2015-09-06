@@ -1,8 +1,12 @@
 package it.mobileprogramming.ragnarok.workapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +14,7 @@ import android.text.InputType;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -73,11 +78,14 @@ public class AccountActivity extends BaseActivityWithToolbar {
                     Singletons.getStringFromDate(
                             ((App) getApplication()).getCurrentUser().getDateRegistration());
 
-            account.setText(account_name + ", " + account_gen + "\n" + account_reg);
+            // if the activity is in landscape mode only the graph will be visualized
+            if (getResources().getConfiguration().orientation == 1) {
+                account.setText(account_name + ", " + account_gen + "\n" + account_reg);
 
-            if (pref.contains("personAvatarBitmap")) {
-                ((ImageView) findViewById(R.id.avatar)).setImageBitmap(BitmapHelper
-                        .decodeBase64(pref.getString("personAvatarBitmap", null)));
+                if (pref.contains("personAvatarBitmap")) {
+                    ((ImageView) findViewById(R.id.avatar)).setImageBitmap(BitmapHelper
+                            .decodeBase64(pref.getString("personAvatarBitmap", null)));
+                }
             }
 
         }
@@ -126,35 +134,38 @@ public class AccountActivity extends BaseActivityWithToolbar {
 //        String birthdate   = format.format("dd/MM/yyyy",currentUser.getDateBirth()).toString();
 //        tvDetails.setText(gender + ", " + birthdate);
 
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new MaterialDialog.Builder(AccountActivity.this)
-                        .title(R.string.account_add_title)
-                        .content(R.string.account_add_content)
-                        .inputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL)
-                        .positiveText(R.string.submit)
-                        .input(getString(R.string.account_add_hint), null, true, new MaterialDialog.InputCallback() {
-                            @Override
-                            public void onInput(MaterialDialog dialog, CharSequence input) {
 
-                                //Log.i(TAG, "New weight: " + input.toString() + " kg");
+        if (getResources().getConfiguration().orientation == 1) {
+            floatingActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    new MaterialDialog.Builder(AccountActivity.this)
+                            .title(R.string.account_add_title)
+                            .content(R.string.account_add_content)
+                            .inputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL)
+                            .positiveText(R.string.submit)
+                            .input(getString(R.string.account_add_hint), null, true, new MaterialDialog.InputCallback() {
+                                @Override
+                                public void onInput(MaterialDialog dialog, CharSequence input) {
 
-                                Date today = new Date();
-                                WeightItem weightToday = new WeightItem();
-                                weightToday.value = Float.valueOf(input.toString());
-                                weightToday.date = today;
-                                currentUser.addToWeightHistory(weightToday, true);
-                                loadGraphData();
+                                    //Log.i(TAG, "New weight: " + input.toString() + " kg");
 
-                                // disable floating button
-                                floatingActionButton.setEnabled(false);
-                                floatingActionButton.hide();
+                                    Date today = new Date();
+                                    WeightItem weightToday = new WeightItem();
+                                    weightToday.value = Float.valueOf(input.toString());
+                                    weightToday.date = today;
+                                    currentUser.addToWeightHistory(weightToday, true);
+                                    loadGraphData();
 
-                            }
-                        }).show();
-            }
-        });
+                                    // disable floating button
+                                    floatingActionButton.setEnabled(false);
+                                    floatingActionButton.hide();
+
+                                }
+                            }).show();
+                }
+            });
+        }
 
         loadGraphData();
         DateFormat format = new DateFormat();
@@ -218,5 +229,4 @@ public class AccountActivity extends BaseActivityWithToolbar {
         LineData data=  new LineData(labels,datasets);
         chart.setData(data);
     }
-
 }

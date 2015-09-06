@@ -72,7 +72,6 @@ public class FeedbackActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
         setContentView(R.layout.activity_feedback);
-        //this.commentableItem    =   savedInstanceState.getParcelable("item");
         this.starsStringId      =   new int[6];
         this.starsStringId[0]   =   R.string.feedback_0star;
         this.starsStringId[1]   =   R.string.feedback_1star;
@@ -89,7 +88,9 @@ public class FeedbackActivity extends ActionBarActivity {
                 finish();
             }
         });
-        iw_star1                =   (ImageView)findViewById(R.id.iw_st1);
+
+
+        this.iw_star1           =   (ImageView)findViewById(R.id.iw_st1);
         this.iw_star2           =   (ImageView)findViewById(R.id.iw_st2);
         this.iw_star3           =   (ImageView)findViewById(R.id.iw_st3);
         this.iw_star4           =   (ImageView)findViewById(R.id.iw_st4);
@@ -111,8 +112,7 @@ public class FeedbackActivity extends ActionBarActivity {
        }
         this.et_comment.setText(this.commentableItem.getComment());
         int rating  =   this.commentableItem.getRating();
-        if(0<=rating&&rating<=5){
-            setRating(this.commentableItem.getRating());
+        if(0<=rating&&rating<=5){         setRating(this.commentableItem.getRating());
             tvStars.setText(starsStringId[this.commentableItem.getRating()]);
         }
     }
