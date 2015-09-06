@@ -23,6 +23,7 @@ public class App extends Application {
 
         if (sqLiteSerializer == null) {
             sqLiteSerializer = new SQLiteSerializer(this, "workapp.db");
+            sqLiteSerializer.open();
         }
         return sqLiteSerializer;
     }

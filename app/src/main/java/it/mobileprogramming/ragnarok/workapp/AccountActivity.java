@@ -25,6 +25,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.FillFormatter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -32,6 +33,7 @@ import java.util.Date;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.Singletons;
 import it.mobileprogramming.ragnarok.workapp.GymModel.User;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
@@ -60,11 +62,18 @@ public class AccountActivity extends BaseActivityWithToolbar {
         // setting user name and avatar and other userspecifications
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         if (pref.contains("signed_in")) {
-            ((TextView) findViewById(R.id.account_text_view)).setText(pref.getString("personName", "Username"));
+            TextView account = (TextView)findViewById(R.id.account_text_view);
 
-            String userAge = pref.getString("personAge", getResources().getString(R.string.account_unknown_birth));
-            String userGen = pref.getString("personGender", getResources().getString(R.string.account_other));
-            ((TextView) findViewById(R.id.account_text_view_details)).setText(userGen + ", " + userAge);
+            String account_name = ((App) getApplication()).getCurrentUser().getStrName();
+            String account_gen  = (((App) getApplication()).getCurrentUser().getIntGender() == 0) ?
+                    getApplication().getResources().getString(R.string.account_male) :
+                    getApplication().getResources().getString(R.string.account_female);
+
+            String account_reg  = getResources().getString(R.string.account_registered) + " " +
+                    Singletons.getStringFromDate(
+                            ((App) getApplication()).getCurrentUser().getDateRegistration());
+
+            account.setText(account_name + ", " + account_gen + "\n" + account_reg);
 
             if (pref.contains("personAvatarBitmap")) {
                 ((ImageView) findViewById(R.id.avatar)).setImageBitmap(BitmapHelper
@@ -78,25 +87,27 @@ public class AccountActivity extends BaseActivityWithToolbar {
         dbSerializer.open();
 
         //TODO TO BE REMOVED
-        User anUser = dbSerializer.loadUser(1);
-        ((App) this.getApplication()).setCurrentUser(anUser);
-        //test per Federico
-        ArrayList<Workout> testlist =   anUser.getWorkoutHistory();
-        System.out.println(testlist);
-        for(int i=0;i<testlist.size();i++){
-            System.out.println("->USERWORKOUT " + testlist.get(i).toString());
-            UserWorkout aworkout    =   (UserWorkout)testlist.get(i);
-            ArrayList<UserWorkoutSession>  wosessions   =   aworkout.getWoSessions();
-            for(int j=0;j<wosessions.size();j++){
-                ArrayList<Exercise> excercises =   wosessions.get(j).getExercisesOfSession();
-                System.out.println("->USERSESSION "+wosessions.get(j).toString()+" LISTA ESERCIZI "+excercises.size()+" "+excercises.toString());
-                for(int k=0;k<excercises.size();k++){
-                    System.out.println("Esercizio "+k+" "+excercises.get(k).toString());
-                }
-            }
-        }
+//        User anUser = dbSerializer.loadUser(1);
+//        ((App) this.getApplication()).setCurrentUser(anUser);
+//        //test per Federico
+//        ArrayList<Workout> testlist =   anUser.getWorkoutHistory();
+//        System.out.println(testlist);
+//        for(int i=0;i<testlist.size();i++){
+//            System.out.println("->USERWORKOUT " + testlist.get(i).toString());
+//            UserWorkout aworkout    =   (UserWorkout)testlist.get(i);
+//            ArrayList<UserWorkoutSession>  wosessions   =   aworkout.getWoSessions();
+//            for(int j=0;j<wosessions.size();j++){
+//                ArrayList<Exercise> excercises =   wosessions.get(j).getExercisesOfSession();
+//                System.out.println("->USERSESSION "+wosessions.get(j).toString()+" LISTA ESERCIZI "+excercises.size()+" "+excercises.toString());
+//                for(int k=0;k<excercises.size();k++){
+//                    System.out.println("Esercizio "+k+" "+excercises.get(k).toString());
+//                }
+//            }
+//        }
         //END TO BE REMOVED
 
+        ((App) this.getApplication()).setCurrentUser(dbSerializer.loadUser(
+                pref.getString("userEmail", "username@gmail.com")));
         currentUser = ((App) this.getApplication()).getCurrentUser();
 //        TextView tvTop       =   (TextView)  findViewById(R.id.account_text_view);
 //        TextView tvDetails   =   (TextView)  findViewById(R.id.account_text_view_details);

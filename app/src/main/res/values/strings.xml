@@ -61,9 +61,10 @@
     <string name="account_add_content">Add a new entry</string>
     <string name="account_add_hint">Your new weight here</string>
     <string name="account_trend">Your weight history trend</string>
-    <string name="account_male">Male</string>
-    <string name="account_female">Female</string>
-    <string name="account_other">Other</string>
+    <string name="account_male">male</string>
+    <string name="account_female">female</string>
+    <string name="account_other">other</string>
+    <string name="account_registered">registered</string>
     <string name="account_unknown_birth">age unknown</string>
     <string name="account_weight_error">You can insert your weight only once per day, please retry tomorrow!</string>
     <string name="submit">Submit</string>
@@ -90,6 +91,7 @@
     <string name="series">Series</string>
 
     <!-- SignIn Activity -->
+    <string name="sign_in_no_service">Your GooglePlay Services are missing or disabled.</string>
     <string name="signin_error">Cannot sign in to your account, please check your connection or try later.</string>
     <string name="signin">Access with your Google account to personalize and view usage statistics of your training.</string>
 

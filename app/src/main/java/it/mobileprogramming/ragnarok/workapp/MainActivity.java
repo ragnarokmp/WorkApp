@@ -22,7 +22,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
+import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
+import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.User;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserExercise;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
+import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
+import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
 import it.mobileprogramming.ragnarok.workapp.util.BitmapHelper;
 
@@ -220,29 +229,30 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
             setUser(pref);
         }
     }
+
     public void setUser(SharedPreferences pref) {
-        TextView usernameTextView = (TextView) findViewById(R.id.username);
-        usernameTextView.setText(pref.getString("personName", "Username"));
-        usernameTextView.setVisibility(View.VISIBLE);
+        SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
+        User current = dbSerializer.loadUser(pref.getString("userEmail", "username@gmail.com"));
+        if (current != null) {
+            ((App) getApplication()).setCurrentUser(current);
+            ((TextView) findViewById(R.id.username)).setText(((App) getApplication()).getCurrentUser().getStrName());
+            ((TextView) findViewById(R.id.email)).setText(((App) getApplication()).getCurrentUser().getStrEmail());
 
-        TextView emailTextView = (TextView) findViewById(R.id.email);
-        emailTextView.setText(pref.getString("personEmail", "username@gmail.com"));
-        emailTextView.setVisibility(View.VISIBLE);
-
-        TextView noLoggedTextView = (TextView) findViewById(R.id.no_logged_text_view);
-        noLoggedTextView.setVisibility(View.GONE);
-
-        if (!pref.contains("personAvatarBitmap")) {
-            String avatar_string;
-            if ((avatar_string = pref.getString("personAvatar", null)) != null) {
-                BitmapAsync bAsync = new BitmapAsync();
-                bAsync.execute(avatar_string);
+            if (!pref.contains("personAvatarBitmap")) {
+                String avatar_string = ((App) getApplication()).getCurrentUser().getStrAvatar();
+                if ((avatar_string != null)) {
+                    BitmapAsync bAsync = new BitmapAsync();
+                    bAsync.execute(avatar_string);
+                }
+            } else {
+                ((ImageView) findViewById(R.id.avatar)).setImageBitmap(BitmapHelper
+                        .decodeBase64(pref.getString("personAvatarBitmap", null)));
             }
-        } else {
-            ((ImageView) findViewById(R.id.avatar)).setImageBitmap(BitmapHelper
-                                                   .decodeBase64(pref.getString("personAvatarBitmap", null)));
-        }
 
+            (findViewById(R.id.no_logged_text_view)).setVisibility(View.INVISIBLE);
+            (findViewById(R.id.username)).setVisibility(View.VISIBLE);
+            (findViewById(R.id.email)).setVisibility(View.VISIBLE);
+        }
     }
 
 
@@ -266,7 +276,6 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
                 InputStream input = connection.getInputStream();
                 return input;
 
-                //prefeditor.putString("personAvatar", BitmapHelper.encodeTobase64(avatar_bitmap));
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -288,7 +297,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor editor = pref.edit();
             editor.putString("personAvatarBitmap", BitmapHelper.encodeTobase64(avatar_bitmap));
-            editor.commit();
+            editor.apply();
 
             ((ImageView) findViewById(R.id.avatar)).setImageBitmap(avatar_bitmap);
         }

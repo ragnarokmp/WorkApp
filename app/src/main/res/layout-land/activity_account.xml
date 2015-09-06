@@ -27,13 +27,13 @@
                 android:layout_below="@+id/toolbar"
                 android:layout_marginBottom="@dimen/activity_vertical_margin">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/avatar"
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:layout_margin="@dimen/spacing_large"
                     android:elevation="@dimen/elevation_toolbar"
-                    android:src="@mipmap/ic_no_avatar"
+                    android:src="@mipmap/ic_launcher"
                     tools:ignore="ContentDescription,UnusedAttribute"/>
 
                 <LinearLayout

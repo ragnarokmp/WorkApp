@@ -18,6 +18,11 @@ import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 
+import java.util.Date;
+
+import it.mobileprogramming.ragnarok.workapp.GymModel.User;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserSerializer;
+import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 import it.mobileprogramming.ragnarok.workapp.util.NetworkTest;
 
@@ -116,12 +121,17 @@ public class SigInActivity extends BaseActivityWithToolbar implements GoogleApiC
         }
 
         Log.e("LOGIN", "onConnectionFailed:" + connectionResult);
-        if (connectionResult.getErrorCode() == ConnectionResult.NETWORK_ERROR  ||
-            connectionResult.getErrorCode() == ConnectionResult.INTERNAL_ERROR ||
-            connectionResult.getErrorCode() == ConnectionResult.SIGN_IN_FAILED ||
-            connectionResult.getErrorCode() == ConnectionResult.INVALID_ACCOUNT) {
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.signin_error), Toast.LENGTH_LONG).show();
+        if (connectionResult.getErrorCode() == ConnectionResult.SERVICE_MISSING  ||
+            connectionResult.getErrorCode() == ConnectionResult.SERVICE_DISABLED) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.sign_in_no_service) ,Toast.LENGTH_LONG);
             finish();
+        }
+        else if (connectionResult.getErrorCode() == ConnectionResult.NETWORK_ERROR  ||
+                 connectionResult.getErrorCode() == ConnectionResult.INTERNAL_ERROR ||
+                 connectionResult.getErrorCode() == ConnectionResult.SIGN_IN_FAILED ||
+                 connectionResult.getErrorCode() == ConnectionResult.INVALID_ACCOUNT) {
+                 Toast.makeText(getApplicationContext(), getResources().getString(R.string.signin_error), Toast.LENGTH_LONG).show();
+                 finish();
         }
 
     }
@@ -154,18 +164,9 @@ public class SigInActivity extends BaseActivityWithToolbar implements GoogleApiC
             Person currentPerson = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
 
             String personName     = currentPerson.getDisplayName();
-
-            String personAge      = null;
-            if (currentPerson.hasBirthday()) {
-                String[] birth = currentPerson.getBirthday().split("-");
-                for (int j = 0; j < birth.length; j++) {
-                    personAge     = birth[birth.length - 1 - j];
-                }
-            }
-
-            String personGender   = (currentPerson.getGender() == Person.Gender.MALE    ?  getResources().getString(R.string.account_male)    :
-                                    (currentPerson.getGender() == Person.Gender.FEMALE  ?  getResources().getString(R.string.account_female)  :
-                                                                                           getResources().getString(R.string.account_other )));
+            int personGender      = (currentPerson.getGender() == Person.Gender.MALE    ?  Person.Gender.MALE    :
+                                    (currentPerson.getGender() == Person.Gender.FEMALE  ?  Person.Gender.FEMALE  :
+                                                                                           Person.Gender.OTHER  ));
             String personImage    = currentPerson.getImage().getUrl();
 
             String personGooglePlusProfile = Plus.AccountApi.getAccountName(mGoogleApiClient);
@@ -173,14 +174,21 @@ public class SigInActivity extends BaseActivityWithToolbar implements GoogleApiC
             // getting shared preferences
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor prefeditor = pref.edit();
+            // getting DB serializer
+            UserSerializer userSerializer = ((App) getApplication()).getDBSerializer();
+            User user = (userSerializer.loadUser(personGooglePlusProfile) != null ? userSerializer.loadUser(personGooglePlusProfile) :
+                         new User(personName              ,
+                                  personGooglePlusProfile ,
+                                  personGender            ,
+                                  new Date()              ,
+                                  personImage             ,
+                                  userSerializer          )
+                        );
+            ((App) getApplication()).setCurrentUser(user);
 
-            prefeditor.putString("personAvatar", personImage);
-            prefeditor.putString("personName",   personName);
-            prefeditor.putString("personAge",    personAge);
-            prefeditor.putString("personGender", personGender);
-            prefeditor.putString("personEmail", personGooglePlusProfile);
+            prefeditor.putString("userEmail", personGooglePlusProfile);
             prefeditor.putBoolean("signed_in", true);
-            prefeditor.commit();
+            prefeditor.apply();
             finish();
         }
 
