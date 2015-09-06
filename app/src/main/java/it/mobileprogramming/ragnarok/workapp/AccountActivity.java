@@ -79,14 +79,14 @@ public class AccountActivity extends BaseActivityWithToolbar {
                             ((App) getApplication()).getCurrentUser().getDateRegistration());
 
             // if the activity is in landscape mode only the graph will be visualized
-            if (getResources().getConfiguration().orientation == 1) {
+//            if (getResources().getConfiguration().orientation == 1) {
                 account.setText(account_name + ", " + account_gen + "\n" + account_reg);
 
                 if (pref.contains("personAvatarBitmap")) {
                     ((ImageView) findViewById(R.id.avatar)).setImageBitmap(BitmapHelper
                             .decodeBase64(pref.getString("personAvatarBitmap", null)));
                 }
-            }
+//            }
 
         }
 
@@ -135,7 +135,7 @@ public class AccountActivity extends BaseActivityWithToolbar {
 //        tvDetails.setText(gender + ", " + birthdate);
 
 
-        if (getResources().getConfiguration().orientation == 1) {
+//        if (getResources().getConfiguration().orientation == 1) {
             floatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -165,7 +165,7 @@ public class AccountActivity extends BaseActivityWithToolbar {
                             }).show();
                 }
             });
-        }
+
 
         loadGraphData();
         DateFormat format = new DateFormat();

@@ -88,8 +88,6 @@ public class FeedbackActivity extends ActionBarActivity {
                 finish();
             }
         });
-
-
         this.iw_star1           =   (ImageView)findViewById(R.id.iw_st1);
         this.iw_star2           =   (ImageView)findViewById(R.id.iw_st2);
         this.iw_star3           =   (ImageView)findViewById(R.id.iw_st3);
