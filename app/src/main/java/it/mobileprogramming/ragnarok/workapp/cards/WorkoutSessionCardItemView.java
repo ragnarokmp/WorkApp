@@ -6,9 +6,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dexafree.materialList.cards.OnButtonPressListener;
@@ -16,6 +16,7 @@ import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.model.CardItemView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import it.mobileprogramming.ragnarok.workapp.ExerciseListActivity;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
@@ -24,6 +25,7 @@ import it.mobileprogramming.ragnarok.workapp.R;
 import it.mobileprogramming.ragnarok.workapp.StartExerciseActivity;
 
 import static it.mobileprogramming.ragnarok.workapp.util.Util.boldTextBetweenTokens;
+import static it.mobileprogramming.ragnarok.workapp.util.Util.getContext;
 
 /**
  * View for WorkoutSessionCard.
@@ -72,21 +74,6 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
         setCompletion();
         setDivider(false, false);
         setButtons(false, card);
-/*
-        setDivider(true, true);
-        setButtons(true, card);
-*/
-/*
-        // Set onClickListener on card
-        CardView cardView = (CardView) findViewById(R.id.card_view);
-        cardView.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ExerciseListActivity.class);
-                getContext().startActivity(intent);
-            }
-        });
-*/
     }
 
     /**
@@ -94,12 +81,16 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      * @return the chosen drawable image.
      */
     private Drawable chooseSessionDrawable() {
+
+        int resourceId = getResources().getIdentifier("exercise_" + String.valueOf(new Random().nextInt(7) + 1), "raw", getContext().getPackageName());
+
         Drawable drawable;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            drawable = getContext().getDrawable(R.drawable.ic_launcher);
+            drawable = getContext().getDrawable(resourceId);
         } else {
-            drawable = getContext().getResources().getDrawable(R.drawable.ic_launcher);
+            drawable = getContext().getResources().getDrawable(resourceId);
         }
+
         return drawable;
     }
 
@@ -162,7 +153,8 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      * @param image the image to set.
      */
     public void setImage(Drawable image) {
-        //TODO: @federico
+        ImageView sessionImageView = (ImageView) findViewById(R.id.session_image_view);
+        sessionImageView.setImageDrawable(image);
     }
 
     /**
@@ -171,7 +163,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      */
     private String generateDescription() {
         ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
-        //TODO: @federico improve with the recognition of the actual day.. and with the bold..
+        //TODO: @federico improve with the recognition of the actual day..
         String description = "In the session of $" + workoutSession.getDateSessionDate() + "$ we will work on $";
         int size = exercises.size();
         for (int i = 0; i < size; i++) {

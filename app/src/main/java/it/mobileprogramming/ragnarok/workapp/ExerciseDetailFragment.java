@@ -1,15 +1,20 @@
 package it.mobileprogramming.ragnarok.workapp;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
@@ -33,9 +38,6 @@ public class ExerciseDetailFragment extends Fragment {
 
     int exerciseID;
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
     private Exercise currentExercise;
 
     /**
@@ -59,9 +61,16 @@ public class ExerciseDetailFragment extends Fragment {
             UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
             ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
             exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
-            currentExercise = (UserExercise) exercises.get(exerciseID); //DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            currentExercise = exercises.get(exerciseID); //DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
         } else {
-            exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
+            if (getActivity().getIntent().getExtras() != null) {
+                // Mobile
+                exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
+            } else {
+                // Tablet
+                exerciseID = getArguments().getInt("exerciseID");
+            }
+
             currentExercise = dbSerializer.loadExercise(exerciseID);
         }
     }
@@ -71,7 +80,6 @@ public class ExerciseDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_exercise_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
         if (currentExercise != null) {
             TextView durationTitleTextView = (TextView) rootView.findViewById(R.id.duration_title_text_view);
             durationTitleTextView.setText(getResources().getString(R.string.duration_title).toUpperCase());
@@ -82,6 +90,19 @@ public class ExerciseDetailFragment extends Fragment {
             TextView completionTitleTextView = (TextView) rootView.findViewById(R.id.completion_title_text_view);
             completionTitleTextView.setText(getResources().getString(R.string.completion_title).toUpperCase());
 
+            ImageView exerciseImageView = (ImageView) rootView.findViewById(R.id.session_image_view);
+
+            int resourceId = getResources().getIdentifier("exercise_" + String.valueOf((exerciseID) % 8), "raw", getActivity().getPackageName());
+
+            Drawable drawable;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                drawable = getActivity().getDrawable(resourceId);
+            } else {
+                drawable = getResources().getDrawable(resourceId);
+            }
+
+            exerciseImageView.setImageDrawable(drawable);
+
             if (currentExercise instanceof UserExercise) {
                 if (((UserExercise) currentExercise).isDone()) {
                     String done = "DONE";
@@ -91,6 +112,7 @@ public class ExerciseDetailFragment extends Fragment {
                     ((TextView) rootView.findViewById(R.id.completion_text_view)).setText(done);
                 }
             }
+
             String description = getResources().getString(R.string.exercise_detail_description_intro) + "\n";
             description += String.valueOf(currentExercise.getSeries()) + " " +
                            getResources().getString(R.string.exercise_detail_description_series) + " " +
@@ -101,12 +123,11 @@ public class ExerciseDetailFragment extends Fragment {
                            getResources().getString(R.string.exercise_detail_description_recrate) + " " +
                            String.valueOf(currentExercise.getFrequency()) + "/sec)";
 
-                    ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(description);
+            ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(description);
+
             int totalTime = 0;
             totalTime += (currentExercise.getRepetition() / currentExercise.getFrequency()) * currentExercise.getSeries() + (currentExercise.getSeries() - 1)* currentExercise.getRecovery();
             ((TextView) rootView.findViewById(R.id.duration_text_view)).setText("~" + totalTime/60 + " min");
-
-
         }
 
         FloatingActionButton startFloatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.start_fab);

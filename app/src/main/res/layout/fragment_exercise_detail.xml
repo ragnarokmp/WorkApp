@@ -11,7 +11,7 @@
         android:id="@+id/card_view"
         style="@style/MainCardView"
         android:layout_width="match_parent"
-        android:layout_margin="@dimen/small_padding"
+        android:layout_margin="@dimen/activity_horizontal_margin"
         auto:cardCornerRadius="@dimen/card_corner_radius">
 
         <RelativeLayout
@@ -63,7 +63,7 @@
                         android:layout_height="wrap_content"
                         tools:text="40 min"
                         android:id="@+id/duration_text_view"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/secondary_text"
                         style="@style/Base.TextAppearance.AppCompat.Body1"
                         android:layout_gravity="center_vertical"
                         android:textStyle="italic"
@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         tools:text="14"
                         android:id="@+id/exercises_text_view"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/secondary_text"
                         style="@style/Base.TextAppearance.AppCompat.Body1"
                         android:layout_gravity="center_vertical"
                         android:textStyle="italic"
@@ -119,7 +119,7 @@
                         android:layout_height="wrap_content"
                         tools:text="60%"
                         android:id="@+id/completion_text_view"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/secondary_text"
                         style="@style/Base.TextAppearance.AppCompat.Body1"
                         android:layout_gravity="center_vertical"
                         android:textStyle="italic"

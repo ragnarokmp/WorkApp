@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,20 +21,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
-import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.GymModel.User;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserExercise;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
-import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
 import it.mobileprogramming.ragnarok.workapp.util.BitmapHelper;
 
-public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, ExercisesFragment.OnFragmentInteractionListener, View.OnClickListener {
+public class MainActivity extends BaseActivityWithNavigationDrawer implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +38,6 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
 
         // Set the WorkoutFragment
         setFragment(TypeFragment.Workout);
-        //TODO remove in final commit
-        //testing task
-        /*TestTask testing    =   new TestTask(this.getApplicationContext());
-        testing.execute();*/
-        //end testing task
 
         setUserSignedIn();
     }
@@ -105,8 +93,6 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
                         setFragment(TypeFragment.Workout);
                         break;
                     case R.id.drawer_exercises:
-/*                        // Set the ExercisesFragment
-                        setFragment(TypeFragment.Exercises);*/
                         // Create new ExerciseListActivity
                         Intent intent = new Intent(getApplicationContext(), ExerciseListActivity.class);
                         startActivity(intent);
@@ -129,11 +115,6 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
         };
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-        //TODO: to use in order to fetch interaction from fragments
-    }
-
     /**
      * This method allow to set the right fragment in the container of
      * the Activity.
@@ -151,20 +132,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
 
             // Create fragment and give it an argument specifying the article it should show
             fragment = new WorkoutFragment();
-            Bundle args = new Bundle();
-            //args.putInt();
-            fragment.setArguments(args);
-
-        } /*else if (type == TypeFragment.Exercises) {
-            // Set title to the app
-            actionBar.setTitle(R.string.exercises);
-
-            // Create fragment and give it an argument specifying the article it should show
-            fragment = new ExerciseListFragment();
-            Bundle args = new Bundle();
-            //args.putInt();
-            fragment.setArguments(args);
-        }*/
+        }
 
         // Replace whatever is in the fragment_container view with this fragment
         transaction.replace(R.id.content, fragment);
@@ -180,12 +148,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
         /**
          * Enum for WorkoutFragment.
          */
-        Workout,
-
-        /**
-         * Enum for ExercisesFragment
-         */
-        Exercises
+        Workout
     }
 
 
@@ -214,10 +177,11 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
      */
     public void checkSignIn() {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        if (!pref.contains("signed_in"))
+        if (!pref.contains("signed_in")) {
             startActivity(new Intent(getApplicationContext(), SigInActivity.class));
-        else
+        } else {
             setUserSignedIn();
+        }
     }
 
     /**
@@ -255,7 +219,6 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
         }
     }
 
-
     /**
      * image retrieving and storing encoded bitmap string
      * (using an async task to retrieve)
@@ -273,13 +236,9 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
                 connection.connect();
-                InputStream input = connection.getInputStream();
-                return input;
-
-
+                return connection.getInputStream();
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e("Exception", e.getMessage());
                 return null;
             }
         }
@@ -291,12 +250,14 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Wo
 
         @Override
         protected void onPostExecute(InputStream result) {
-            if (result == null)
+            if (result == null) {
                 this.cancel(true);
+            }
+
             Bitmap avatar_bitmap = BitmapFactory.decodeStream(result);
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor editor = pref.edit();
-            editor.putString("personAvatarBitmap", BitmapHelper.encodeTobase64(avatar_bitmap));
+            editor.putString("personAvatarBitmap", BitmapHelper.encodeToBase64(avatar_bitmap));
             editor.apply();
 
             ((ImageView) findViewById(R.id.avatar)).setImageBitmap(avatar_bitmap);

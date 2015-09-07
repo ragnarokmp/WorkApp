@@ -36,13 +36,30 @@
             android:name="it.mobileprogramming.ragnarok.workapp.ExerciseListFragment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1.5"
+            tools:layout="@layout/empty_exercises" />
 
         <FrameLayout
             android:id="@+id/exercise_detail_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3" />
+            android:layout_gravity="center"
+            android:layout_weight="3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/big_padding"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:drawableTop="@drawable/ic_logo_colored"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:textColor="@color/secondary_text"
+                android:layout_gravity="center" />
+
+        </FrameLayout>
 
     </LinearLayout>
+
 </LinearLayout>

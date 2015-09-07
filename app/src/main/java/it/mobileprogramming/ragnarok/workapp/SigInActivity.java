@@ -201,7 +201,6 @@ public class SigInActivity extends BaseActivityWithToolbar implements GoogleApiC
         // it will try to reconnect automatically
     }
 
-
     @Override
     protected void onStart() {
         super.onStart();

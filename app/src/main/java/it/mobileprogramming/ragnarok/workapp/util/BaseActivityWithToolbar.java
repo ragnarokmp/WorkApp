@@ -1,13 +1,8 @@
 package it.mobileprogramming.ragnarok.workapp.util;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 
-import it.mobileprogramming.ragnarok.workapp.BuildConfig;
 import it.mobileprogramming.ragnarok.workapp.R;
 
 /**

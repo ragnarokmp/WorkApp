@@ -1,15 +1,18 @@
 package it.mobileprogramming.ragnarok.workapp;
 
-import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Random;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 
@@ -27,10 +30,6 @@ public class ExercisesListAdapter extends ArrayAdapter<Exercise> {
     public void clear() {
         exerciseList.clear();
         notifyDataSetChanged();
-    }
-
-    public void setExercisesList(List<Exercise> newsList) {
-        this.exerciseList = newsList;
     }
 
     public int getCount() {
@@ -58,18 +57,30 @@ public class ExercisesListAdapter extends ArrayAdapter<Exercise> {
             // Now we can fill the layout with the right values
             TextView exerciseTitleTextView = (TextView) view.findViewById(R.id.exercise_title_row);
             TextView exerciseDescriptionTextView = (TextView) view.findViewById(R.id.exercise_description_row);
+            ImageView exerciseImageView = (ImageView) view.findViewById(R.id.exercise_image_row);
 
             holder.exerciseTitleTextView = exerciseTitleTextView;
             holder.exerciseDescriptionTextView = exerciseDescriptionTextView;
+            holder.exerciseImageView = exerciseImageView;
             view.setTag(holder);
         } else {
             holder = (ExerciseHolder) view.getTag();
         }
 
         Exercise exercise = exerciseList.get(position);
-        Log.i(this.getClass().getCanonicalName(), exercise.getName());
         holder.exerciseTitleTextView.setText(exercise.getName());
         holder.exerciseDescriptionTextView.setText(exercise.getMuscles());
+
+        int resourceId = getContext().getResources().getIdentifier("exercise_" + String.valueOf((position + 1) % 8), "raw", getContext().getPackageName());
+
+        Drawable drawable;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            drawable = getContext().getDrawable(resourceId);
+        } else {
+            drawable = getContext().getResources().getDrawable(resourceId);
+        }
+
+        holder.exerciseImageView.setImageDrawable(drawable);
 
         return view;
     }
@@ -78,5 +89,6 @@ public class ExercisesListAdapter extends ArrayAdapter<Exercise> {
     private static class ExerciseHolder {
         public TextView exerciseTitleTextView;
         public TextView exerciseDescriptionTextView;
+        public ImageView exerciseImageView;
     }
 }

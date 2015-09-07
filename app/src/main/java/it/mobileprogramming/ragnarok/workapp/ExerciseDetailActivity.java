@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
-import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 
 /**
