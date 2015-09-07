@@ -31,6 +31,8 @@ public class ExerciseDetailFragment extends Fragment {
      */
     public static final String ARG_ITEM_ID = "item_id";
 
+    int exerciseID;
+
     /**
      * The dummy content this fragment is presenting.
      */
@@ -56,9 +58,11 @@ public class ExerciseDetailFragment extends Fragment {
             ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
             UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
             ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
-            currentExercise = exercises.get(getActivity().getIntent().getExtras().getInt("exerciseID")); //DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
+            currentExercise = (UserExercise) exercises.get(exerciseID); //DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
         } else {
-            currentExercise = dbSerializer.loadExercise(getActivity().getIntent().getExtras().getInt("exerciseID"));
+            exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
+            currentExercise = dbSerializer.loadExercise(exerciseID);
         }
     }
 
@@ -87,9 +91,19 @@ public class ExerciseDetailFragment extends Fragment {
                     ((TextView) rootView.findViewById(R.id.completion_text_view)).setText(done);
                 }
             }
-            ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(currentExercise.getName());
+            String description = getResources().getString(R.string.exercise_detail_description_intro) + "\n";
+            description += String.valueOf(currentExercise.getSeries()) + " " +
+                           getResources().getString(R.string.exercise_detail_description_series) + " " +
+                           String.valueOf(currentExercise.getRepetition()) + " " +
+                           currentExercise.getName() + " " +
+                           getResources().getString(R.string.exercise_detail_description_with) + " " +
+                           String.valueOf(currentExercise.getRecovery()) + " " +
+                           getResources().getString(R.string.exercise_detail_description_recrate) + " " +
+                           String.valueOf(currentExercise.getFrequency()) + "/sec)";
+
+                    ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(description);
             int totalTime = 0;
-            totalTime += currentExercise.getFrequency() * currentExercise.getRepetition();
+            totalTime += (currentExercise.getRepetition() / currentExercise.getFrequency()) * currentExercise.getSeries() + (currentExercise.getSeries() - 1)* currentExercise.getRecovery();
             ((TextView) rootView.findViewById(R.id.duration_text_view)).setText("~" + totalTime/60 + " min");
 
 
@@ -100,6 +114,7 @@ public class ExerciseDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StartExerciseActivity.class);
+                intent.putExtra("exerciseID",exerciseID);
                 getActivity().startActivity(intent);
             }
         });

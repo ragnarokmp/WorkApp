@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -93,11 +94,6 @@ public class WorkoutFragment extends BaseFragment {
             drawable = getActivity().getResources().getDrawable(R.drawable.divider);
         }
         workoutListView.setDivider(drawable); //TODO doesn't work well in landscape mode..
-
-//        WorkoutSessionCard card = new WorkoutSessionCard(context);
-//        workoutListView.add(card);
-//        workoutListView.add(card);
-//        workoutListView.add(card);
 
         workoutListView.setEmptyView(view.findViewById(R.id.no_workout));
         workoutListView.addOnItemTouchListener(new RecyclerItemClickListener.OnItemClickListener() {

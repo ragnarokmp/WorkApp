@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -106,7 +107,6 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      * This method allows to set the completion of the session.
      */
     private void setCompletion() {
-        ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
         TextView completionTextView = (TextView) findViewById(R.id.completion_text_view);
         try {
             completionTextView.setText(String.valueOf(workoutSession.allExerciseDone()) + "%");  //TODO is a try/catch correct?

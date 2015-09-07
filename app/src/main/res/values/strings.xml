@@ -97,5 +97,9 @@
     <string name="sign_in_no_service">Your GooglePlay Services are missing or disabled.</string>
     <string name="signin_error">Cannot sign in to your account, please check your connection or try later.</string>
     <string name="signin">Access with your Google account to personalize and view statistics of your training.</string>
+    <string name="exercise_detail_description_intro">Exercise structure:</string>
+    <string name="exercise_detail_description_series"> series of </string>
+    <string name="exercise_detail_description_with"> with </string>
+    <string name="exercise_detail_description_recrate"> second of recovery\n(At a rate of </string>
 
 </resources>

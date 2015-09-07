@@ -97,7 +97,7 @@ public class UserWorkoutSession extends WorkoutSession implements Parcelable,Com
     public int allExerciseDone() throws Exception {
         boolean result = true;
         int exDone = 0;
-        for(int i=0;i<this.exercisesOfSession.size();i++){
+        for(int i=0;i < this.exercisesOfSession.size();i++){
             if(this.exercisesOfSession.get(i) instanceof UserExercise){
                 UserExercise anEx  =   (UserExercise)this.exercisesOfSession.get(i);
                 if(anEx.isDone() == true){
