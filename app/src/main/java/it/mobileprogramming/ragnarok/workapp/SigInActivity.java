@@ -122,7 +122,9 @@ public class SigInActivity extends BaseActivityWithToolbar implements GoogleApiC
 
         Log.e("LOGIN", "onConnectionFailed:" + connectionResult);
         if (connectionResult.getErrorCode() == ConnectionResult.SERVICE_MISSING  ||
-            connectionResult.getErrorCode() == ConnectionResult.SERVICE_DISABLED) {
+            connectionResult.getErrorCode() == ConnectionResult.SERVICE_DISABLED ||
+            connectionResult.getErrorCode() == ConnectionResult.SERVICE_UPDATING ||
+            connectionResult.getErrorCode() == ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED) {
             Toast.makeText(getApplicationContext(), getResources().getString(R.string.sign_in_no_service) ,Toast.LENGTH_LONG);
             finish();
         }

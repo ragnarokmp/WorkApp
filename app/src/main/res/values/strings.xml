@@ -70,11 +70,14 @@
     <string name="submit">Submit</string>
     <string name="title_activity_feedback">FeedbackActivity</string>
 
+    <!-- About Activity -->
+    <string name="text_about">WorkApp has been developed by a group of students from the University of Rome, Tor Vergata. It is a Mobile Programming project aiming to help athlets during daily workouts, allowing interaction via web with their trainers.</string>
+    <string name="text_dev">Meet our developers</string>
     <!-- Feedback Activity -->
     <string name="feedback_leavefeedback">Please write a feedback</string>
     <string name="feedback_0star">Set rating</string>
     <string name="feedback_1star">Bad</string>
-    <string name="feedback_2star">So bad</string>
+    <string name="feedback_2star">Not so bad</string>
     <string name="feedback_3star">Normal</string>
     <string name="feedback_4star">Good</string>
     <string name="feedback_5star">Excellent</string>
@@ -93,6 +96,6 @@
     <!-- SignIn Activity -->
     <string name="sign_in_no_service">Your GooglePlay Services are missing or disabled.</string>
     <string name="signin_error">Cannot sign in to your account, please check your connection or try later.</string>
-    <string name="signin">Access with your Google account to personalize and view usage statistics of your training.</string>
+    <string name="signin">Access with your Google account to personalize and view statistics of your training.</string>
 
 </resources>

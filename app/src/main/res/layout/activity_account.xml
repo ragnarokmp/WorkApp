@@ -33,6 +33,8 @@
             android:src="@mipmap/ic_launcher"
             tools:ignore="ContentDescription,UnusedAttribute"/>
 
+
+
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
