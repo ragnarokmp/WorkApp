@@ -15,9 +15,6 @@
             android:name="it.mobileprogramming.ragnarok.workapp.ExerciseListFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="it.mobileprogramming.ragnarok.workapp.ExerciseListActivity"
-            tools:layout="@android:layout/list_content"/>
+            tools:context="it.mobileprogramming.ragnarok.workapp.ExerciseListActivity"/>
 
 </LinearLayout>
-
-

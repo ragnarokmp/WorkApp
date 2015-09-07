@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -89,6 +90,16 @@ public class ExerciseListFragment extends ListFragment {
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        View emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_exercises, null);
+
+        ((ViewGroup)getListView().getParent()).addView(emptyView);
+        getListView().setEmptyView(emptyView);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -116,9 +127,6 @@ public class ExerciseListFragment extends ListFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // Set empty text //TODO right message...
-        setEmptyText(getString(R.string.app_name));
 
         // Restore the previously serialized activated item position.
         if (savedInstanceState != null
