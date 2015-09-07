@@ -79,6 +79,16 @@ public class WorkoutListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
+        dbSerializer.open();
+
+        ArrayList<Workout> workouts = dbSerializer.loadAllWorkouts(true);
+
+        Log.d("WORKOUT_LIST_FRAGMENT","Workouts: " + workouts);
+
+        workoutListAdapter = new WorkoutListAdapter(workouts, getActivity());
+        setListAdapter(workoutListAdapter);
     }
 
     @Override
