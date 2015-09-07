@@ -35,7 +35,7 @@ import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
 import it.mobileprogramming.ragnarok.workapp.util.BitmapHelper;
 
-public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener, View.OnClickListener {
+public class MainActivity extends BaseActivityWithNavigationDrawer implements WorkoutFragment.OnFragmentInteractionListener,  View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
