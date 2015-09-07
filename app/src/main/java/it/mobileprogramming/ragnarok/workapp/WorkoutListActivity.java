@@ -1,48 +1,30 @@
 package it.mobileprogramming.ragnarok.workapp;
 
-import android.app.ListFragment;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-
-import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
-import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
-import it.mobileprogramming.ragnarok.workapp.util.JSONRoot;
 
 /**
- * An activity representing a list of Exercises. This activity
+ * An activity representing a list of Workout. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link ExerciseDetailActivity} representing
+ * lead to a {@link WorkoutDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  * <p/>
  * The activity makes heavy use of fragments. The list of items is a
- * {@link ExerciseListFragment} and the item details
- * (if present) is a {@link ExerciseDetailFragment}.
+ * {@link WorkoutListFragment} and the item details
+ * (if present) is a {@link WorkoutDetailFragment}.
  * <p/>
  * This activity also implements the required
- * {@link ExerciseListFragment.Callbacks} interface
+ * {@link WorkoutListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class ExerciseListActivity extends BaseActivityWithToolbar implements ExerciseListFragment.Callbacks {
+public class WorkoutListActivity extends BaseActivityWithToolbar implements WorkoutListFragment.Callbacks {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -50,33 +32,31 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
      */
     private boolean mTwoPane;
 
-    private int userID;
-    private int workoutID;
-
     @Override
     protected int getLayoutResourceId() {
 
-        return R.layout.activity_exercise_list;
+        return R.layout.activity_workout_list;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
-        if (findViewById(R.id.exercise_detail_container) != null) {
+        if (findViewById(R.id.workout_detail_container) != null) {
             // The detail container view will be present only in the
-            // large-screen layouts (res/values-large-land and
-            // res/values-sw600dp-land). If this view is present, then the
+            // large-screen layouts (res/values-large and
+            // res/values-sw600dp). If this view is present, then the
             // activity should be in two-pane mode.
             mTwoPane = true;
 
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
-            ((ExerciseListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.exercise_list))
+            ((WorkoutListFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.workout_list))
                     .setActivateOnItemClick(true);
-
         }
+
         // TODO: If exposing deep links into your app, handle intents here.
     }
 
@@ -98,7 +78,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
     }
 
     /**
-     * Callback method from {@link ExerciseListFragment.Callbacks}
+     * Callback method from {@link WorkoutListFragment.Callbacks}
      * indicating that the item with the given ID was selected.
      */
     @Override
@@ -108,20 +88,18 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            //arguments.putString(ExerciseDetailFragment.ARG_ITEM_ID, id);
-            arguments.putInt("userID",userID);
-            arguments.putInt("workoutID", workoutID);
-            arguments.putInt("exerciseID",Integer.valueOf(id));
-            ExerciseDetailFragment fragment = new ExerciseDetailFragment();
+            arguments.putString(WorkoutDetailFragment.ARG_ITEM_ID, id);
+            WorkoutDetailFragment fragment = new WorkoutDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.exercise_detail_container, fragment)
+                    .replace(R.id.workout_detail_container, fragment)
                     .commit();
+
         } else {
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
-            Intent detailIntent = new Intent(this, ExerciseDetailActivity.class);
-            detailIntent.putExtra("exerciseID",Integer.valueOf(id));
+            Intent detailIntent = new Intent(this, WorkoutDetailActivity.class);
+            detailIntent.putExtra(WorkoutDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
     }

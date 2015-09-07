@@ -131,7 +131,7 @@ public class WorkoutFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //TODO: create workoutListActivity similar to exercises?
-                Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
+                Intent intent = new Intent(getActivity(), WorkoutListActivity.class);
                 startActivity(intent);
             }
         });
