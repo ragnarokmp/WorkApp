@@ -31,7 +31,7 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:text="@string/no_workouts"
-            android:drawableTop="@mipmap/ic_launcher"
+            android:drawableTop="@drawable/ic_logo_colored"
             style="@style/Base.TextAppearance.AppCompat.Title"
             android:textColor="@color/secondary_text"
             android:gravity="center"

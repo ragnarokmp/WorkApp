@@ -33,19 +33,18 @@
             android:src="@mipmap/ic_launcher"
             tools:ignore="ContentDescription,UnusedAttribute"/>
 
-
-
         <TextView
-               android:layout_width="fill_parent"
-               android:layout_height="match_parent"
-               android:textAppearance="?android:attr/textAppearanceLarge"
-               android:id="@+id/account_text_view"
-               android:layout_margin="@dimen/small_padding"
-               android:layout_gravity="center"
-               android:gravity="center_vertical"
-               style="@style/Base.TextAppearance.AppCompat.SearchResult.Subtitle"
-               android:textColor="@color/primary_dark"
-               android:lines="2"/>
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/account_text_view"
+            tools:text="Alessio Moretti, maschio\nregistato 12/08/2014"
+            android:layout_margin="@dimen/small_padding"
+            android:layout_gravity="center"
+            android:gravity="center_vertical"
+            style="@style/Base.TextAppearance.AppCompat.SearchResult.Subtitle"
+            android:textColor="@color/secondary_text"
+            android:lines="2"/>
 
         <!--<TextView
                style="@style/Base.TextAppearance.AppCompat.Subhead.Inverse"
