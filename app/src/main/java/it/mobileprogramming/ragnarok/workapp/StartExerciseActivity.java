@@ -1,5 +1,6 @@
 package it.mobileprogramming.ragnarok.workapp;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -22,6 +23,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
+import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
 
 public class StartExerciseActivity extends BaseActivity {
@@ -31,6 +35,8 @@ public class StartExerciseActivity extends BaseActivity {
     private DecoView decoView;
     private TextView textViewPercentage;
     private TextView textViewRemaining;
+
+    Exercise cExercise;
 
     private int milliseconds;
     private int totalMillis;
@@ -109,10 +115,17 @@ public class StartExerciseActivity extends BaseActivity {
         }
 
         // Get exercise info
-        milliseconds = 1000;
-        totalMillis = 15 * milliseconds;
+        Intent intent = getIntent();
+        SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
+        dbSerializer.open();
+        if (intent.hasExtra("exerciseID")) {
+            cExercise = dbSerializer.loadExercise(intent.getExtras().getInt("exerciseID"));
+        }
 
-        if(savedInstanceState!=null){
+        milliseconds = cExercise.getFrequency()*cExercise.getRepetition();
+        totalMillis = 15 * milliseconds; //TODO TotalMillis?
+
+        if(savedInstanceState != null){
             progress            =   savedInstanceState.getInt("progress");
             this.milliseconds   =   savedInstanceState.getInt("milliseconds");
             this.totalMillis    =   savedInstanceState.getInt("totalMillis");
