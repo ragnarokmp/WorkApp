@@ -9,6 +9,7 @@ import java.util.Date;
 public class UserWorkout extends Workout{
     private int userID;
     private ArrayList<UserWorkoutSession> woSessions = new ArrayList<UserWorkoutSession>();
+    private WorkoutSerializer serializer;
 
     /**
      * default constructor (not needed to save, user makes it after calling this), creates a new Workout
@@ -19,9 +20,11 @@ public class UserWorkout extends Workout{
      * @param difficulty workout difficulty
      * @param aserializer instance saving
      */
-    public UserWorkout(String name,int userID,String type,String difficulty,WorkoutSerializer aserializer){
+    public UserWorkout(String name,int userID,String type,String difficulty,WorkoutSerializer aserializer,UserSerializer userSerializer){
         super(name,type,difficulty,aserializer);
-        this.userID =    userID;
+        this.userID     =    userID;
+        this.serializer =   aserializer;
+        userSerializer.addWorkoutForUser(userID,this.getIntWOID());
     }
 
     /**
@@ -47,9 +50,12 @@ public class UserWorkout extends Workout{
     public void addWorkoutSession(WorkoutSession aSession,boolean saveToDb,int progressive){
         if(aSession.getClass()==UserWorkoutSession.class){
             this.addUserWorkoutSession((UserWorkoutSession)aSession,progressive);
+            if(saveToDb==true){
+                super.addWorkoutSession(aSession,saveToDb,progressive);
+            }
         }
         else{
-            super.addWorkoutSession(aSession,saveToDb,progressive);
+            super.addWorkoutSession(aSession, saveToDb, progressive);
         }
     }
 
