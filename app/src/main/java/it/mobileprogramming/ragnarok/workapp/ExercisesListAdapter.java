@@ -11,6 +11,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 import java.util.Random;
 
@@ -73,14 +75,10 @@ public class ExercisesListAdapter extends ArrayAdapter<Exercise> {
 
         int resourceId = getContext().getResources().getIdentifier("exercise_" + String.valueOf((position + 1) % 8), "raw", getContext().getPackageName());
 
-        Drawable drawable;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            drawable = getContext().getDrawable(resourceId);
-        } else {
-            drawable = getContext().getResources().getDrawable(resourceId);
-        }
-
-        holder.exerciseImageView.setImageDrawable(drawable);
+        Picasso.with(getContext())
+                .load(resourceId)
+                .placeholder(R.drawable.ic_logo_colored)
+                .into(holder.exerciseImageView);
 
         return view;
     }
