@@ -22,12 +22,11 @@ import java.util.Random;
 
 import it.mobileprogramming.ragnarok.workapp.ExerciseListActivity;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
+import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.R;
 import it.mobileprogramming.ragnarok.workapp.StartExerciseActivity;
 
 import static it.mobileprogramming.ragnarok.workapp.util.Util.boldTextBetweenTokens;
-import static it.mobileprogramming.ragnarok.workapp.util.Util.getContext;
 
 /**
  * View for WorkoutSessionCard.
@@ -41,7 +40,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
     /**
      * The session bound with the card.
      */
-    private UserWorkoutSession workoutSession;
+    private WorkoutSession workoutSession;
 
     // Default constructors
     public WorkoutSessionCardItemView(Context context) {
@@ -58,10 +57,11 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
 
     @Override
     public void build(WorkoutSessionCard card) {
+
         super.build(card);
 
         // Get workout session from the card
-        workoutSession = (UserWorkoutSession) card.getTag();
+        workoutSession = (WorkoutSession) card.getTag();
         // Choose session image from assets evaluating the session
         Drawable sessionDrawable = chooseSessionDrawable();
         // Generate session description with exercises and muscle used
@@ -100,12 +100,15 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      * This method allows to set the completion of the session.
      */
     private void setCompletion() {
-        TextView completionTextView = (TextView) findViewById(R.id.completion_text_view);
+        /*TextView completionTextView = (TextView) findViewById(R.id.completion_text_view);
         try {
             completionTextView.setText(String.valueOf(workoutSession.allExerciseDone()) + "%");  //TODO is a try/catch correct?
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
+
+        TextView completionTextView = (TextView) findViewById(R.id.completion_text_view);
+        completionTextView.setText("11");
     }
 
     /**
@@ -164,7 +167,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      * @return the description in a human readable way.
      */
     private String generateDescription() {
-        ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
+        /*ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
         Calendar calendar = Calendar.getInstance();
         Date date = calendar.getTime();
         String description;
@@ -196,7 +199,9 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
                 description += "\n";
             }
         }
-        return description;
+        return description;*/
+
+        return "Descrizione";
     }
 
     /**
@@ -214,13 +219,13 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
         startNowTextButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                    new OnButtonPressListener() {
-                        @Override
-                        public void onButtonPressedListener(View view, Card card) {
-                            Intent intent = new Intent(getContext(), StartExerciseActivity.class);
-                            getContext().startActivity(intent);
-                        }
-                    }.onButtonPressedListener(startNowTextButton, card);
+                new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        Intent intent = new Intent(getContext(), StartExerciseActivity.class);
+                        getContext().startActivity(intent);
+                    }
+                }.onButtonPressedListener(startNowTextButton, card);
             }
         });
 
