@@ -5,8 +5,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+
 import java.util.ArrayList;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
@@ -94,20 +97,6 @@ public class WorkoutFragment extends BaseFragment {
             }
         }
 
-        //FloatingButton multiple actions
-
-        /*FloatingActionsMenu floatingActionsMenu = (FloatingActionsMenu) view.findViewById(R.id.multiple_actions);
-        floatingActionsMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MyMaterialListView myMaterialListView = (MyMaterialListView) view.findViewById(R.id.workout_list_view);
-                if (myMaterialListView.getAlpha() < 1)
-                    myMaterialListView.setAlpha((float) 1);
-                else
-                    myMaterialListView.setAlpha((float) 0.3);
-            }
-        });*/
-
         FloatingActionButton chronology = (FloatingActionButton) view.findViewById(R.id.action_chronology);
         chronology.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +121,30 @@ public class WorkoutFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
+
+        // TODO: Use with frameLayout background in the layout in order to make shadow on press
+        /*final FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.frame_layout);
+        frameLayout.getBackground().setAlpha(0);
+        final FloatingActionsMenu fabMenu = (FloatingActionsMenu) view.findViewById(R.id.multiple_actions);
+        fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
+            @Override
+            public void onMenuExpanded() {
+                frameLayout.getBackground().setAlpha(190);
+                frameLayout.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        fabMenu.collapse();
+                        return true;
+                    }
+                });
+            }
+
+            @Override
+            public void onMenuCollapsed() {
+                frameLayout.getBackground().setAlpha(0);
+                frameLayout.setOnTouchListener(null);
+            }
+        });*/
 
         return view;
     }

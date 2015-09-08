@@ -1,10 +1,7 @@
 package it.mobileprogramming.ragnarok.workapp;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,7 +13,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
@@ -104,6 +100,8 @@ public class ExerciseDetailFragment extends Fragment {
 
             Picasso.with(getActivity())
                     .load(resourceId)
+                    .fit()
+                    .centerCrop()
                     .placeholder(R.drawable.ic_logo_colored)
                     .into(exerciseImageView);
 

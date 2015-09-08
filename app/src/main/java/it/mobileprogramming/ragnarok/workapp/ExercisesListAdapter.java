@@ -75,6 +75,8 @@ public class ExercisesListAdapter extends ArrayAdapter<Exercise> {
         Picasso.with(getContext())
                 .load(resourceId)
                 .placeholder(R.drawable.ic_logo_colored)
+                .fit()
+                .centerCrop()
                 .into(holder.exerciseImageView);
 
         return view;
