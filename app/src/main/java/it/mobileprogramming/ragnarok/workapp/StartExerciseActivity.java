@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hookedonplay.decoviewlib.DecoView;
 import com.hookedonplay.decoviewlib.charts.DecoDrawEffect;
@@ -35,12 +36,18 @@ public class StartExerciseActivity extends BaseActivity {
     private DecoView decoView;
     private TextView textViewPercentage;
     private TextView textViewRemaining;
+    private TextView totalRepetitions;
+    private TextView currRepetition;
+    private TextView totalSeries;
+    private TextView currSeries;
 
     Exercise cExercise;
 
     private int milliseconds;
-    private int totalMillis;
     private int progress    =   0;
+    private int currentRepetition = 1;
+    private int currentSerie = 1;
+
 
     private View[] linkedViews;
 
@@ -54,7 +61,7 @@ public class StartExerciseActivity extends BaseActivity {
         long previous;
         @Override
         protected Object doInBackground(Object[] params) {
-            while(progress<totalMillis&&stopped==false){
+            while(progress < milliseconds && stopped == false){
                 previous = System.currentTimeMillis();
                 System.out.println("MILLISECONDS " + previous);
                 SystemClock.sleep(100);
@@ -68,24 +75,29 @@ public class StartExerciseActivity extends BaseActivity {
                     this.publishProgress(payload);
                 }
             }
-            stopped =   false;
+            stopped = false;
             return null;
         }
 
         @Override
         protected void onProgressUpdate(Object[] values) {
             //System.out.println("aumento");
-            long now    =   (long)values[0];
             super.onProgressUpdate(values);
+            long now    =   (long)values[0];
             progress    =   progress+(int)now;
             int series1Index = decoView.addSeries(seriesItem);
-            if(progress>totalMillis){
-                progress    =   totalMillis;
+            if(progress > milliseconds){
+                progress = milliseconds;
             }
-            decoView.addEvent(new DecoEvent.Builder(progress).setIndex(series1Index).setDelay(0).build());
-            textViewPercentage.setText(String.valueOf((int) progress / milliseconds));
+            decoView.addEvent(new DecoEvent.Builder(progress).setIndex(series1Index).build());
+            currentRepetition = (int) progress * cExercise.getRepetition() / milliseconds;
+            textViewPercentage.setText(String.valueOf(currentRepetition));
+            currRepetition.setText(String.valueOf(currentRepetition));
+
+
             textViewRemaining.setText(new SimpleDateFormat("mm:ss:SSS", Locale.ITALY).format(new Date((long) progress)));
-            if(progress>=totalMillis){
+            if(currentSerie >= cExercise.getSeries()){
+                Log.i("ENTERED", "");
                 series1Index = decoView.addSeries(seriesItem);
                 decoView.addEvent(new DecoEvent.Builder(DecoDrawEffect.EffectType.EFFECT_SPIRAL_EXPLODE)
                         .setIndex(series1Index)
@@ -94,6 +106,16 @@ public class StartExerciseActivity extends BaseActivity {
                         .setDuration(4000)
                         .setDisplayText("Complete!") // TODO: use string res
                         .build());
+            } else if (currentRepetition == cExercise.getRepetition()) {
+                currentSerie++;
+                currSeries.setText(String.valueOf(currentSerie));
+                progress = 0;
+                // resetting UI when serie is finished
+                decoView.executeReset();
+                series1Index = decoView.addSeries(seriesItem);
+                decoView.addEvent(new DecoEvent.Builder(progress).setIndex(series1Index).setDelay(0).build());
+                textViewPercentage.setText(String.valueOf((int) progress / milliseconds));
+                textViewRemaining.setText(new SimpleDateFormat("mm:ss:SSS", Locale.ITALY).format(new Date((long) progress)));
             }
         }
     }
@@ -106,6 +128,18 @@ public class StartExerciseActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Get Views
+        textViewPercentage = (TextView) findViewById(R.id.percentage_text_view);
+        textViewRemaining = (TextView) findViewById(R.id.remaining_text_view);
+        totalRepetitions  = (TextView) findViewById(R.id.totalRepTV);
+        currRepetition = (TextView) findViewById(R.id.currentRepTV);
+        totalSeries = (TextView) findViewById(R.id.totalSeriesTV);
+        currSeries  = (TextView) findViewById(R.id.currentSeriesTV);
+
+        final View layout = findViewById(R.id.frame_layout);
+        final ImageView pauseImageView = (ImageView) findViewById(R.id.pause_image_view);
+        final ImageView stopImageView = (ImageView) findViewById(R.id.stop_image_view);
 
         if (getSupportFragmentManager().findFragmentByTag(START_EXERCISE_FRAGMENT) == null ) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -121,22 +155,33 @@ public class StartExerciseActivity extends BaseActivity {
         if (intent.hasExtra("exerciseID")) {
             cExercise = dbSerializer.loadExercise(intent.getExtras().getInt("exerciseID"));
         }
+        if (cExercise != null) {
+            currRepetition.setText(String.valueOf(currentRepetition));
+            totalRepetitions.setText(" / " + String.valueOf(cExercise.getRepetition()));
+            currSeries.setText(String.valueOf(currentSerie));
+            totalSeries.setText(" / " + String.valueOf(cExercise.getSeries()));
+        } else {
+            Toast.makeText(getApplicationContext(),
+                           getResources().getString(R.string.internal_error),
+                           Toast.LENGTH_LONG).show();
+            this.finish();
+        }
 
         milliseconds = cExercise.getFrequency()*cExercise.getRepetition();
-        totalMillis = 15 * milliseconds; //TODO TotalMillis?
 
         if(savedInstanceState != null){
             progress            =   savedInstanceState.getInt("progress");
             this.milliseconds   =   savedInstanceState.getInt("milliseconds");
-            this.totalMillis    =   savedInstanceState.getInt("totalMillis");
             this.paused         =   savedInstanceState.getBoolean("paused");
-            this.stopped         =   savedInstanceState.getBoolean("stopped");
+            this.stopped        =   savedInstanceState.getBoolean("stopped");
+            this.currentSerie   =   savedInstanceState.getInt("current_serie");
+            this.currentRepetition = savedInstanceState.getInt("current_repetition");
         }
 
         // Get DecoView
         decoView = (DecoView) findViewById(R.id.deco_view);
         seriesItem = new SeriesItem.Builder(getResources().getColor(R.color.accent))
-                .setRange(0, totalMillis, 0)
+                .setRange(0, milliseconds, 0)
                 .setLineWidth(32f)
                 .setSpinDuration(101)
                 .build();
@@ -145,13 +190,6 @@ public class StartExerciseActivity extends BaseActivity {
                 .setDelay(0)
                 .setDuration(0)
                 .build());
-
-        // Get Views
-        textViewPercentage = (TextView) findViewById(R.id.percentage_text_view);
-        textViewRemaining = (TextView) findViewById(R.id.remaining_text_view);
-        final View layout = findViewById(R.id.frame_layout);
-        final ImageView pauseImageView = (ImageView) findViewById(R.id.pause_image_view);
-        final ImageView stopImageView = (ImageView) findViewById(R.id.stop_image_view);
 
         //restore pause button state
         if(paused==true){
@@ -247,8 +285,8 @@ public class StartExerciseActivity extends BaseActivity {
 
         if(savedInstanceState!=null){
             int series1Index = decoView.addSeries(seriesItem);
-            if(progress>totalMillis){
-                progress    =   totalMillis;
+            if(progress > milliseconds){
+                progress = milliseconds;
              }
             decoView.addEvent(new DecoEvent.Builder(progress).setIndex(series1Index).setDelay(0).build());
             textViewPercentage.setText(String.valueOf((int) progress / milliseconds));
@@ -263,9 +301,10 @@ public class StartExerciseActivity extends BaseActivity {
         super.onSaveInstanceState(outState);
         outState.putInt("progress", progress);
         outState.putInt("milliseconds", milliseconds);
-        outState.putInt("totalMillis", totalMillis);
-        outState.putBoolean("paused",paused);
-        outState.putBoolean("stopped",stopped);
+        outState.putBoolean("paused", paused);
+        outState.putBoolean("stopped", stopped);
+        outState.putInt("current_serie", currentSerie);
+        outState.putInt("current_repetition", currentRepetition);
         stopped =   true;
     }
 

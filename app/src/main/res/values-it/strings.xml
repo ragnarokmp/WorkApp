@@ -78,4 +78,5 @@
     <string name="exercise_detail_description_with">con</string>
     <string name="action_new">Crea nuovo</string>
     <string name="action_select">Seleziona workout</string>
+    <string name="internal_error">Oooops: internal error occurred!</string>
 </resources>

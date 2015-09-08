@@ -92,6 +92,7 @@
     <string name="play">Play</string>
     <string name="repetition">Repetition</string>
     <string name="series">Series</string>
+    <string name="internal_error">Oooops: internal error occurred!</string>
 
     <!-- SignIn Activity -->
     <string name="sign_in_no_service">Your GooglePlay Services are missing or disabled.</string>
@@ -105,5 +106,9 @@
     <string name="title_workout_detail">Workout Detail</string>
     <string name="action_new">Create new</string>
     <string name="action_select">Select workout</string>
+    <string name="title_activity_do_exercise">DoExerciseActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
