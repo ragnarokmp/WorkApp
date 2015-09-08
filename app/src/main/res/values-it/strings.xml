@@ -86,4 +86,5 @@
     <string name="workout_description_and">e</string>
     <string name="workout_description_indetails">In dettaglio:</string>
     <string name="action_chronology">Cronologia</string>
+    <string name="complete">Completato!</string>
 </resources>

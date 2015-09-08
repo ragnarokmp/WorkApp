@@ -106,10 +106,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="it.mobileprogramming.ragnarok.workapp.WorkoutListActivity" />
         </activity>
-        <activity
-            android:name=".DoExerciseActivity"
-            android:label="@string/title_activity_do_exercise" >
-        </activity>
     </application>
 
 </manifest>
