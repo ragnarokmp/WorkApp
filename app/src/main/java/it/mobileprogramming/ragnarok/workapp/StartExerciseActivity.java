@@ -268,4 +268,12 @@ public class StartExerciseActivity extends BaseActivity {
         outState.putBoolean("stopped",stopped);
         stopped =   true;
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopped = true;
+        if (!aManager.isCancelled())
+            aManager.cancel(true);
+    }
 }
