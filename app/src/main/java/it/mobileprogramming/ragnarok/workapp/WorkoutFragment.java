@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +19,7 @@ import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import com.dexafree.materialList.controller.RecyclerItemClickListener;
 import com.dexafree.materialList.model.CardItemView;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCard;
 import it.mobileprogramming.ragnarok.workapp.util.App;
@@ -89,15 +89,22 @@ public class WorkoutFragment extends BaseFragment {
             }
         }
 
-        /*FloatingActionButton addWorkout = (FloatingActionButton) view.findViewById(R.id.action_a);
+        FloatingActionButton addWorkout = (FloatingActionButton) view.findViewById(R.id.action_add);
         addWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: create workoutListActivity similar to exercises?
+
+            }
+        });
+
+        FloatingActionButton selectExistingWorkout = (FloatingActionButton) view.findViewById(R.id.action_select);
+        selectExistingWorkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WorkoutListActivity.class);
                 startActivity(intent);
             }
-        });*/
+        });
 
         return view;
     }
