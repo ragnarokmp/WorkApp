@@ -84,4 +84,5 @@
     <string name="workout_description_intro_work">$ lavoreremo su $</string>
     <string name="workout_description_and">e</string>
     <string name="workout_description_indetails">In dettaglio:</string>
+    <string name="action_chronology">Cronologia</string>
 </resources>

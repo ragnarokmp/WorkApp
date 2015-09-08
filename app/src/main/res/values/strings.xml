@@ -111,5 +111,6 @@
     <string name="workout_description_intro_work">$ we will work on $</string>
     <string name="workout_description_and">and</string>
     <string name="workout_description_indetails">In details:</string>
+    <string name="action_chronology">Chronology</string>
 
 </resources>
