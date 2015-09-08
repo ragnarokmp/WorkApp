@@ -170,11 +170,13 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
         String description;
         //TODO: @federico improve with the recognition of the actual day...
         if ((workoutSession.getDateSessionDate().getTime() - date.getTime()) == 1) {
-            description = "$Tomorrow$ we will work on $";
+            description = getResources().getString(R.string.workout_description_intro_1);
         } else if ((workoutSession.getDateSessionDate().getTime() - date.getTime()) == 2) {
-            description = "$The day after tomorrow we will work on $";
+            description = getResources().getString(R.string.workout_description_intro_2);
         } else {
-            description = "In the session of $" + workoutSession.getDateSessionDate() + "$ we will work on $";
+            description = getResources().getString(R.string.workout_description_default_intro)
+                          + workoutSession.getDateSessionDate()
+                          + getResources().getString(R.string.workout_description_intro_work);
         }
         int size = exercises.size();
         for (int i = 0; i < size; i++) {
@@ -185,13 +187,13 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
                 description += ", ";
             }
             if (i == size - 2) {
-                description += " and ";
+                description += " " + getResources().getString(R.string.workout_description_and) + " ";
             }
         }
-        description += "$.\n\nIn details:\n";
+        description += "$.\n\n" + getResources().getString(R.string.workout_description_indetails) + "\n";
         for (int i = 0; i < size; i++) {
             Exercise currentEx = exercises.get(i);
-            description += " $• " + currentEx.getSeries() + "$ series of $" + currentEx.getName() + "$";
+            description += " $• " + currentEx.getSeries() + "$ " + getResources().getString(R.string.exercise_detail_description_series) + "$ " + currentEx.getName() + "$";
             if (size > 1 && i != size - 1) {
                 description += "\n";
             }

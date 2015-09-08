@@ -1,8 +1,6 @@
 package it.mobileprogramming.ragnarok.workapp;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-import java.util.Random;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 
@@ -71,7 +68,7 @@ public class ExercisesListAdapter extends ArrayAdapter<Exercise> {
 
         Exercise exercise = exerciseList.get(position);
         holder.exerciseTitleTextView.setText(exercise.getName());
-        holder.exerciseDescriptionTextView.setText(exercise.getMuscles());
+        holder.exerciseDescriptionTextView.setText(exercise.getSeries() + "x" + exercise.getRepetition() + " - " + exercise.getMuscles());
 
         int resourceId = getContext().getResources().getIdentifier("exercise_" + String.valueOf((position + 1) % 8), "raw", getContext().getPackageName());
 

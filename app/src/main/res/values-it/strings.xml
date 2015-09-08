@@ -73,9 +73,15 @@
     <string name="text_about">WorkApp è stata sviluppata da un gruppo di studenti dell\'Università di Roma Tor Vergata.\n\n È un progetto del corso di Mobile Programming nato per aiutare gli atleti durante i loro allenamenti quotidiani, permettendo l\'interazione via web con i loro allenatori di fiducia.</string>
     <string name="text_dev">Incontra i nostri sviluppatori</string>
     <string name="exercise_detail_description_intro">Struttura dell\'esercizio:</string>
-    <string name="exercise_detail_description_recrate">secondi di recupero\n(Ad un rate di</string>
+    <string name="exercise_detail_description_recrate">secondi di recupero, ad un rate di</string>
     <string name="exercise_detail_description_series">serie di</string>
     <string name="exercise_detail_description_with">con</string>
     <string name="action_new">Crea nuovo</string>
     <string name="action_select">Seleziona workout</string>
+    <string name="workout_description_default_intro">Nella sessione di $</string>
+    <string name="workout_description_intro_1">$Domani$ lavoreremo su $</string>
+    <string name="workout_description_intro_2">$Dopodomani$ lavoreremo su $</string>
+    <string name="workout_description_intro_work">$ lavoreremo su $</string>
+    <string name="workout_description_and">e</string>
+    <string name="workout_description_indetails">In dettaglio:</string>
 </resources>
