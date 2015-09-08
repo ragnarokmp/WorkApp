@@ -1,20 +1,14 @@
 package it.mobileprogramming.ragnarok.workapp;
 
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +16,6 @@ import java.util.HashMap;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Commentable;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.util.App;
-import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 
 /*launch in this way
         Intent intent = new Intent(getApplicationContext(), FeedbackActivity.class);
@@ -113,16 +106,6 @@ public class FeedbackActivity extends ActionBarActivity {
         if(0<=rating&&rating<=5){         setRating(this.commentableItem.getRating());
             tvStars.setText(starsStringId[this.commentableItem.getRating()]);
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
     }
 
     /**

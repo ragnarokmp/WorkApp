@@ -1,30 +1,11 @@
 package it.mobileprogramming.ragnarok.workapp;
 
-import android.app.ListFragment;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-
-import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
-import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
-import it.mobileprogramming.ragnarok.workapp.util.JSONRoot;
 
 /**
  * An activity representing a list of Exercises. This activity
@@ -49,9 +30,6 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
      * device.
      */
     private boolean mTwoPane;
-
-    private int userID;
-    private int workoutID;
 
     @Override
     protected int getLayoutResourceId() {
@@ -108,10 +86,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            //arguments.putString(ExerciseDetailFragment.ARG_ITEM_ID, id);
-            arguments.putInt("userID",userID);
-            arguments.putInt("workoutID", workoutID);
-            arguments.putInt("exerciseID",Integer.valueOf(id));
+            arguments.putInt("exerciseID", Integer.valueOf(id));
             ExerciseDetailFragment fragment = new ExerciseDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -121,7 +96,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ExerciseDetailActivity.class);
-            detailIntent.putExtra("exerciseID",Integer.valueOf(id));
+            detailIntent.putExtra("exerciseID", Integer.valueOf(id));
             startActivity(detailIntent);
         }
     }

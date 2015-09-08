@@ -13,7 +13,7 @@ public class App extends Application {
      * SQLiteSerializer instance.
      */
     private SQLiteSerializer sqLiteSerializer;
-    private User currentUser;                   //current user logged in the application
+    private User currentUser;                       //current user logged in the application
 
     /**
      * Singleton for SQLiteSerializer.
@@ -29,15 +29,15 @@ public class App extends Application {
     }
 
     /**
-     * gets the current user of the application
-     * @return
+     * Gets the current user of the application.
+     * @return current user.
      */
     public User getCurrentUser() {
         return currentUser;
     }
 
-    /**#
-     * sets the current user of this application
+    /**
+     * Sets the current user of this application
      * @param currentUser current user of the app
      */
     public void setCurrentUser(User currentUser) {

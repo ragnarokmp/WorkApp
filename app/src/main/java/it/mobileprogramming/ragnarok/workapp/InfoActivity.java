@@ -1,7 +1,5 @@
 package it.mobileprogramming.ragnarok.workapp;
 
-import android.content.Intent;
-import android.view.View;
 
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 

@@ -70,7 +70,7 @@
     <string name="voice_preference_summary_off">Vocale ora disattivato.</string>
     <string name="voice_preference_summary_on">Vocale ora attivato, ascolterai una voce che ti aiuterà durante gli esercizi.</string>
     <string name="workout">Allenamento</string>
-    <string name="text_about">WorkApp è stata sviluppata da un gruppo di studenti dell\'Università di Roma Tor Vergata. È un progetto del corso di Mobile Programming nato per aiutare gli atleti durante i loro allenamenti quotidiani, permettendo l\'interazione via web con i loro allenatori di fiducia.</string>
+    <string name="text_about">WorkApp è stata sviluppata da un gruppo di studenti dell\'Università di Roma Tor Vergata.\n\n È un progetto del corso di Mobile Programming nato per aiutare gli atleti durante i loro allenamenti quotidiani, permettendo l\'interazione via web con i loro allenatori di fiducia.</string>
     <string name="text_dev">Incontra i nostri sviluppatori</string>
     <string name="exercise_detail_description_intro">Struttura dell\'esercizio:</string>
     <string name="exercise_detail_description_recrate">secondi di recupero\n(Ad un rate di</string>

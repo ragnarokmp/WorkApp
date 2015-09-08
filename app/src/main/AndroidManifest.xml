@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="it.mobileprogramming.ragnarok.workapp" >
 
@@ -59,10 +60,8 @@
         </activity>
         <activity
             android:name=".InfoActivity"
-            android:configChanges="orientation"
             android:label="@string/info"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" >
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="it.mobileprogramming.ragnarok.workapp.MainActivity" />

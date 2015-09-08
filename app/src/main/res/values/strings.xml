@@ -71,7 +71,7 @@
     <string name="title_activity_feedback">FeedbackActivity</string>
 
     <!-- About Activity -->
-    <string name="text_about">WorkApp has been developed by a group of students from the University of Rome, Tor Vergata. It is a Mobile Programming project aiming to help athlets during daily workouts, allowing interaction via web with their trainers.</string>
+    <string name="text_about">WorkApp has been developed by a group of students from the University of Rome, Tor Vergata.\n\n It is a Mobile Programming project aiming to help athlets during daily workouts, allowing interaction via web with their trainers.</string>
     <string name="text_dev">Meet our developers</string>
     <!-- Feedback Activity -->
     <string name="feedback_leavefeedback">Please write a feedback</string>

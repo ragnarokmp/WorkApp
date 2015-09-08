@@ -1,5 +1,6 @@
 package it.mobileprogramming.ragnarok.workapp;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,21 +26,12 @@ public class StartExerciseFragment extends BaseFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         toggleHideyBar();
-
-        final View decorView = getActivity().getWindow().getDecorView();
-        decorView.setOnSystemUiVisibilityChangeListener(
-                new View.OnSystemUiVisibilityChangeListener() {
-                    @Override
-                    public void onSystemUiVisibilityChange(int i) {
-                        int height = decorView.getHeight();
-                        Log.i(TAG, "Current height: " + height);
-                    }
-                });
     }
 
     /**
      * Detects and toggles immersive mode (also known as "hidey bar" mode).
      */
+    @SuppressLint("InlinedApi")
     public void toggleHideyBar() {
 
         // BEGIN_INCLUDE (get_current_ui_flags)
