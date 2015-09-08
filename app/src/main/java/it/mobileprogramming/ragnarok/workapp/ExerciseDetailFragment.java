@@ -98,6 +98,8 @@ public class ExerciseDetailFragment extends Fragment {
 
             Picasso.with(getActivity())
                     .load(resourceId)
+                    .fit()
+                    .centerCrop()
                     .placeholder(R.drawable.ic_logo_colored)
                     .into(exerciseImageView);
 
