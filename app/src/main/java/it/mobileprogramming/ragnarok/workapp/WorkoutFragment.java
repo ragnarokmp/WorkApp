@@ -82,7 +82,7 @@ public class WorkoutFragment extends BaseFragment {
         ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(userID);
         ArrayList<UserWorkoutSession> firstWorkoutSessions = new ArrayList<>();
         if (usWorkouts.size() > 0) {
-            //TODO Federico: I get only the first workout
+            //The first workout that is not finished will be used
             for (int i = 0; i < usWorkouts.size(); i++) {
                 try {
                     if (usWorkouts.get(i).allSessionDone() == false) {
@@ -141,8 +141,7 @@ public class WorkoutFragment extends BaseFragment {
                 //TODO: Not yet implemented
                 Toast.makeText(getActivity(), "Change", Toast.LENGTH_LONG).show();
                 return true;
-            case R.id.action_history_workouts:
-                //TODO: Not yet implemented
+            case R.id.action_history_workouts:                //TODO: Not yet implemented
                 Toast.makeText(getActivity(), "History", Toast.LENGTH_LONG).show();
                 return true;
             default:

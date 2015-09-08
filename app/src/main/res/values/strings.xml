@@ -100,10 +100,16 @@
     <string name="exercise_detail_description_intro">Exercise structure:</string>
     <string name="exercise_detail_description_series"> series of </string>
     <string name="exercise_detail_description_with"> with </string>
-    <string name="exercise_detail_description_recrate"> second of recovery\n(At a rate of </string>
+    <string name="exercise_detail_description_recrate">second of recovery, at a rate of</string>
     <string name="title_workout_list">Workout</string>
     <string name="title_workout_detail">Workout Detail</string>
     <string name="action_new">Create new</string>
     <string name="action_select">Select workout</string>
+    <string name="workout_description_default_intro">In the session of $</string>
+    <string name="workout_description_intro_1">$Tomorrow$ we will work on $</string>
+    <string name="workout_description_intro_2">$The day after tomorrow$ we will work on $</string>
+    <string name="workout_description_intro_work">$ we will work on $</string>
+    <string name="workout_description_and">and</string>
+    <string name="workout_description_indetails">In details:</string>
 
 </resources>

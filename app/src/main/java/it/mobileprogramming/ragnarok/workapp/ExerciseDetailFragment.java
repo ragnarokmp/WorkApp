@@ -92,7 +92,8 @@ public class ExerciseDetailFragment extends Fragment {
             durationTitleTextView.setText(getResources().getString(R.string.duration_title).toUpperCase());
 
             TextView exercisesTitleTextView = (TextView) rootView.findViewById(R.id.exercises_title_text_view);
-            exercisesTitleTextView.setText(getResources().getString(R.string.exercises_title).toUpperCase());
+            exercisesTitleTextView.setVisibility(View.INVISIBLE);
+
 
             TextView completionTitleTextView = (TextView) rootView.findViewById(R.id.completion_title_text_view);
             completionTitleTextView.setText(getResources().getString(R.string.completion_title).toUpperCase());
@@ -114,9 +115,11 @@ public class ExerciseDetailFragment extends Fragment {
                     String done = "NOT YET";
                     ((TextView) rootView.findViewById(R.id.completion_text_view)).setText(done);
                 }
+            } else {
+                completionTitleTextView.setVisibility(View.INVISIBLE);
             }
 
-            String description = getResources().getString(R.string.exercise_detail_description_intro) + "\n$";
+            String description = "$";
             description += String.valueOf(currentExercise.getSeries()) + "$ " +
                            getResources().getString(R.string.exercise_detail_description_series) + " $" +
                            String.valueOf(currentExercise.getRepetition()) + "$ " +
@@ -124,13 +127,13 @@ public class ExerciseDetailFragment extends Fragment {
                            getResources().getString(R.string.exercise_detail_description_with) + " $" +
                            String.valueOf(currentExercise.getRecovery()) + "$ " +
                            getResources().getString(R.string.exercise_detail_description_recrate) + " $" +
-                           String.valueOf(currentExercise.getFrequency()) + "/sec$)";
+                           String.valueOf(currentExercise.getFrequency()) + "/sec$";
 
             ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(boldTextBetweenTokens(description, "$"));
 
             int totalTime = 0;
             totalTime += (currentExercise.getRepetition() / currentExercise.getFrequency()) * currentExercise.getSeries() + (currentExercise.getSeries() - 1)* currentExercise.getRecovery();
-            ((TextView) rootView.findViewById(R.id.duration_text_view)).setText("~" + totalTime/60 + " min");
+            ((TextView) rootView.findViewById(R.id.duration_text_view)).setText("~" + totalTime / 60 + " min");
         }
 
         FloatingActionButton startFloatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.start_fab);
