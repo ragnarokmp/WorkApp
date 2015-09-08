@@ -116,7 +116,7 @@ public class Workout {
             ArrayList<Exercise> exercises           =   aSession.exercisesOfSession;
             for(int j=0;j<exercises.size();j++){
                 UserExercise    userExercise        =   new UserExercise(anUser.getIntUserID(),new Date(),exercises.get(j),false,"",aSerializer,aSerializer,0);
-                userWorkoutSession.addExerciseToWorkoutSession(userExercise,0,true);
+                userWorkoutSession.addExerciseToWorkoutSession(userExercise,0,false);
             }
             res.addWorkoutSession(userWorkoutSession,true,i);
         }
