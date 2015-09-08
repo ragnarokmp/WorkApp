@@ -30,7 +30,7 @@
     <string name="completion_title">Completion</string>
 
     <!-- Empty Views -->
-    <string name="no_workouts">There are no workouts here for you, add one!</string>
+    <string name="no_workouts">There are no workouts here for you, add or create one!</string>
     <string name="no_exercises">There are no exercises here for you, download from the web!</string>
     <string name="no_logged">Yor are not logged in yet</string>
 
@@ -103,5 +103,7 @@
     <string name="exercise_detail_description_recrate"> second of recovery\n(At a rate of </string>
     <string name="title_workout_list">Workout</string>
     <string name="title_workout_detail">Workout Detail</string>
+    <string name="action_new">Create new</string>
+    <string name="action_select">Select workout</string>
 
 </resources>
