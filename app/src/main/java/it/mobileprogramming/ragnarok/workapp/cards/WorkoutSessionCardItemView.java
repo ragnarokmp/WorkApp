@@ -16,6 +16,8 @@ import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.model.CardItemView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 import it.mobileprogramming.ragnarok.workapp.ExerciseListActivity;
@@ -131,7 +133,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
             totalTime += (timeForSeries + recoveryTime) * exercise.getSeries();
         }
         TextView durationTextView = (TextView) findViewById(R.id.duration_text_view);
-        durationTextView.setText("~" + totalTime/60 + " min");
+        durationTextView.setText("~" + totalTime / 60 + " min");
     }
 
     /**
@@ -163,8 +165,17 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      */
     private String generateDescription() {
         ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
-        //TODO: @federico improve with the recognition of the actual day..
-        String description = "In the session of $" + workoutSession.getDateSessionDate() + "$ we will work on $";
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        String description;
+        //TODO: @federico improve with the recognition of the actual day...
+        if ((workoutSession.getDateSessionDate().getTime() - date.getTime()) == 1) {
+            description = "$Tomorrow$ we will work on $";
+        } else if ((workoutSession.getDateSessionDate().getTime() - date.getTime()) == 2) {
+            description = "$The day after tomorrow we will work on $";
+        } else {
+            description = "In the session of $" + workoutSession.getDateSessionDate() + "$ we will work on $";
+        }
         int size = exercises.size();
         for (int i = 0; i < size; i++) {
             String muscle = exercises.get(i).getMuscles();

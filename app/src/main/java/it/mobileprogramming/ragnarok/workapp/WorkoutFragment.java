@@ -80,9 +80,19 @@ public class WorkoutFragment extends BaseFragment {
 
         //TODO Federico: the userID will be used here in order to obtain the workouts
         ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(userID);
+        ArrayList<UserWorkoutSession> firstWorkoutSessions = new ArrayList<>();
         if (usWorkouts.size() > 0) {
             //TODO Federico: I get only the first workout
-            ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
+            for (int i = 0; i < usWorkouts.size(); i++) {
+                try {
+                    if (usWorkouts.get(i).allSessionDone() == false) {
+                        firstWorkoutSessions = usWorkouts.get(i).getWoSessions();
+                        break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             for (int j = 0; j < firstWorkoutSessions.size(); j++) {
                 WorkoutSessionCard card = new WorkoutSessionCard(context, firstWorkoutSessions.get(j));
                 workoutListView.add(card);
