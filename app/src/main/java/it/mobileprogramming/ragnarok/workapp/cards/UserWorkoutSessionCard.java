@@ -4,20 +4,20 @@ import android.content.Context;
 
 import com.dexafree.materialList.cards.SimpleCard;
 
-import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.R;
 
 /**
  * Card for WorkoutSession.
  */
-public class WorkoutSessionCard extends SimpleCard {
+public class UserWorkoutSessionCard extends SimpleCard {
 
     /**
      * Indicates if the Session is complete or not.
      */
     private boolean complete;
 
-    public WorkoutSessionCard(Context context, WorkoutSession workoutSession) {
+    public UserWorkoutSessionCard(Context context, UserWorkoutSession workoutSession) {
         super(context);
         // Set the tag of the card as explained here https://github.com/dexafree/MaterialList/wiki/Recovering-data-from-the-Cards
         this.setTag(workoutSession);
@@ -26,7 +26,7 @@ public class WorkoutSessionCard extends SimpleCard {
     @Override
     public int getLayout() {
         // Set the right layout of the card
-        return R.layout.workout_session_card_layout;
+        return R.layout.user_workout_session_card_layout;
     }
 
     /**

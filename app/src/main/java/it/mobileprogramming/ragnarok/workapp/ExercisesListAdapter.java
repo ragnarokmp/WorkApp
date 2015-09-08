@@ -68,7 +68,7 @@ public class ExercisesListAdapter extends ArrayAdapter<Exercise> {
 
         Exercise exercise = exerciseList.get(position);
         holder.exerciseTitleTextView.setText(exercise.getName());
-        holder.exerciseDescriptionTextView.setText(exercise.getMuscles());
+        holder.exerciseDescriptionTextView.setText(exercise.getSeries() + "x" + exercise.getRepetition() + " - " + exercise.getMuscles());
 
         int resourceId = getContext().getResources().getIdentifier("exercise_" + String.valueOf((position + 1) % 8), "raw", getContext().getPackageName());
 

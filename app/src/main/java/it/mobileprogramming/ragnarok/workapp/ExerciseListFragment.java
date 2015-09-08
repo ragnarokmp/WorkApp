@@ -91,6 +91,7 @@ public class ExerciseListFragment extends ListFragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+
         super.onActivityCreated(savedInstanceState);
 
         View emptyView = getActivity().getLayoutInflater().inflate(R.layout.empty_exercises, null);
@@ -105,20 +106,31 @@ public class ExerciseListFragment extends ListFragment {
 
         setHasOptionsMenu(true);
 
-        Intent intent = getActivity().getIntent();
         SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
+
+        Intent intent = getActivity().getIntent();
+
         if (intent.hasExtra("userID")) {
+
             ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(getActivity().getIntent().getExtras().getInt("userID"));
             ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
             UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
             exercises = userWorkoutSession.getExercisesOfSession();
             exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
+
         } else {
+
             exercises = dbSerializer.loadAll();
             exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
+
+            // When arrive from workout detail in read mode, see WorkoutDetailFragment for info
+            if (intent.hasExtra("readMode")){
+                // TODO: remove play button
+                // TODO: handle backButton in correct way for back in Workout Detail
+            }
         }
     }
 
