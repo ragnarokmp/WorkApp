@@ -97,33 +97,6 @@
                         android:textColor="@color/secondary_text" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="COMPLETION"
-                        android:id="@+id/completion_title_text_view"
-                        style="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@color/primary"
-                        android:textStyle="bold"
-                        android:singleLine="true" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="60%"
-                        android:id="@+id/completion_text_view"
-                        style="@style/Base.TextAppearance.AppCompat.Body1"
-                        android:layout_gravity="center_vertical"
-                        android:textStyle="italic"
-                        android:singleLine="true"
-                        android:textColor="@color/secondary_text" />
-                </LinearLayout>
             </LinearLayout>
 
             <TextView
