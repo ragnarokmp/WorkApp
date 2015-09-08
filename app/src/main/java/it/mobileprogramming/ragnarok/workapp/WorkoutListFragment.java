@@ -83,7 +83,7 @@ public class WorkoutListFragment extends ListFragment {
         SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
 
-        ArrayList<Workout> workouts = dbSerializer.loadAllWorkouts(true);
+        workouts = dbSerializer.loadAllWorkouts(true);
 
         Log.d("WORKOUT_LIST_FRAGMENT","Workouts: " + workouts);
 
@@ -129,7 +129,7 @@ public class WorkoutListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(String.valueOf(workouts.get(position).getIntWOID()));
     }
 
     @Override

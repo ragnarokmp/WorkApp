@@ -5,23 +5,18 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import java.util.ArrayList;
-
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import com.dexafree.materialList.controller.RecyclerItemClickListener;
 import com.dexafree.materialList.model.CardItemView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
-import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCard;
+import it.mobileprogramming.ragnarok.workapp.cards.UserWorkoutSessionCard;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
 import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
@@ -82,7 +77,7 @@ public class WorkoutFragment extends BaseFragment {
         ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(userID);
         ArrayList<UserWorkoutSession> firstWorkoutSessions = new ArrayList<>();
         if (usWorkouts.size() > 0) {
-            //TODO Federico: I get only the first workout
+            //The first workout that is not finished will be used
             for (int i = 0; i < usWorkouts.size(); i++) {
                 try {
                     if (usWorkouts.get(i).allSessionDone() == false) {
@@ -94,10 +89,32 @@ public class WorkoutFragment extends BaseFragment {
                 }
             }
             for (int j = 0; j < firstWorkoutSessions.size(); j++) {
-                WorkoutSessionCard card = new WorkoutSessionCard(context, firstWorkoutSessions.get(j));
+                UserWorkoutSessionCard card = new UserWorkoutSessionCard(context, firstWorkoutSessions.get(j));
                 workoutListView.add(card);
             }
         }
+
+        //FloatingButton multiple actions
+
+        /*FloatingActionsMenu floatingActionsMenu = (FloatingActionsMenu) view.findViewById(R.id.multiple_actions);
+        floatingActionsMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyMaterialListView myMaterialListView = (MyMaterialListView) view.findViewById(R.id.workout_list_view);
+                if (myMaterialListView.getAlpha() < 1)
+                    myMaterialListView.setAlpha((float) 1);
+                else
+                    myMaterialListView.setAlpha((float) 0.3);
+            }
+        });*/
+
+        FloatingActionButton chronology = (FloatingActionButton) view.findViewById(R.id.action_chronology);
+        chronology.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         FloatingActionButton addWorkout = (FloatingActionButton) view.findViewById(R.id.action_add);
         addWorkout.setOnClickListener(new View.OnClickListener() {
@@ -123,32 +140,5 @@ public class WorkoutFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);    // Useful in order to notify the fragment that it should participate in options menu handling
-
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_workout, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-        //TODO: togliere cambia se nessun workout selezionato e quindi visibile
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_change_workout:
-                //TODO: Not yet implemented
-                Toast.makeText(getActivity(), "Change", Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.action_history_workouts:
-                //TODO: Not yet implemented
-                Toast.makeText(getActivity(), "History", Toast.LENGTH_LONG).show();
-                return true;
-            default:
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -53,20 +53,23 @@ public class ExerciseDetailFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
+
         if (getArguments().containsKey("userID")) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
+
             ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(getActivity().getIntent().getExtras().getInt("userID"));
             ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
             UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
             ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
             exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
             currentExercise = exercises.get(exerciseID); //DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+
         } else {
+
             if (getActivity().getIntent().getExtras() != null) {
                 // Mobile
                 exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
@@ -89,7 +92,8 @@ public class ExerciseDetailFragment extends Fragment {
             durationTitleTextView.setText(getResources().getString(R.string.duration_title).toUpperCase());
 
             TextView exercisesTitleTextView = (TextView) rootView.findViewById(R.id.exercises_title_text_view);
-            exercisesTitleTextView.setText(getResources().getString(R.string.exercises_title).toUpperCase());
+            exercisesTitleTextView.setVisibility(View.INVISIBLE);
+
 
             TextView completionTitleTextView = (TextView) rootView.findViewById(R.id.completion_title_text_view);
             completionTitleTextView.setText(getResources().getString(R.string.completion_title).toUpperCase());
@@ -111,9 +115,11 @@ public class ExerciseDetailFragment extends Fragment {
                     String done = "NOT YET";
                     ((TextView) rootView.findViewById(R.id.completion_text_view)).setText(done);
                 }
+            } else {
+                completionTitleTextView.setVisibility(View.INVISIBLE);
             }
 
-            String description = getResources().getString(R.string.exercise_detail_description_intro) + "\n$";
+            String description = "$";
             description += String.valueOf(currentExercise.getSeries()) + "$ " +
                            getResources().getString(R.string.exercise_detail_description_series) + " $" +
                            String.valueOf(currentExercise.getRepetition()) + "$ " +
@@ -121,13 +127,13 @@ public class ExerciseDetailFragment extends Fragment {
                            getResources().getString(R.string.exercise_detail_description_with) + " $" +
                            String.valueOf(currentExercise.getRecovery()) + "$ " +
                            getResources().getString(R.string.exercise_detail_description_recrate) + " $" +
-                           String.valueOf(currentExercise.getFrequency()) + "/sec$)";
+                           String.valueOf(currentExercise.getFrequency()) + "/sec$";
 
             ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(boldTextBetweenTokens(description, "$"));
 
             int totalTime = 0;
             totalTime += (currentExercise.getRepetition() / currentExercise.getFrequency()) * currentExercise.getSeries() + (currentExercise.getSeries() - 1)* currentExercise.getRecovery();
-            ((TextView) rootView.findViewById(R.id.duration_text_view)).setText("~" + totalTime/60 + " min");
+            ((TextView) rootView.findViewById(R.id.duration_text_view)).setText("~" + totalTime / 60 + " min");
         }
 
         FloatingActionButton startFloatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.start_fab);

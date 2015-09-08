@@ -16,11 +16,13 @@ import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.model.CardItemView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 import it.mobileprogramming.ragnarok.workapp.ExerciseListActivity;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
-import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.R;
 import it.mobileprogramming.ragnarok.workapp.StartExerciseActivity;
 
@@ -29,7 +31,7 @@ import static it.mobileprogramming.ragnarok.workapp.util.Util.boldTextBetweenTok
 /**
  * View for WorkoutSessionCard.
  */
-public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard> {
+public class UserWorkoutSessionCardItemView extends CardItemView<UserWorkoutSessionCard> {
     /**
      * Divider margin for Android guidelines.
      */
@@ -38,28 +40,28 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
     /**
      * The session bound with the card.
      */
-    private WorkoutSession workoutSession;
+    private UserWorkoutSession workoutSession;
 
     // Default constructors
-    public WorkoutSessionCardItemView(Context context) {
+    public UserWorkoutSessionCardItemView(Context context) {
         super(context);
     }
 
-    public WorkoutSessionCardItemView(Context context, AttributeSet attrs) {
+    public UserWorkoutSessionCardItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public WorkoutSessionCardItemView(Context context, AttributeSet attrs, int defStyle) {
+    public UserWorkoutSessionCardItemView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
     @Override
-    public void build(WorkoutSessionCard card) {
+    public void build(UserWorkoutSessionCard card) {
 
         super.build(card);
 
         // Get workout session from the card
-        workoutSession = (WorkoutSession) card.getTag();
+        workoutSession = (UserWorkoutSession) card.getTag();
         // Choose session image from assets evaluating the session
         Drawable sessionDrawable = chooseSessionDrawable();
         // Generate session description with exercises and muscle used
@@ -71,6 +73,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
         setTitles();
         setDuration();
         setExercises();
+        setCompletion();
         setDivider(false, false);
         setButtons(false, card);
     }
@@ -94,6 +97,18 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
     }
 
     /**
+     * This method allows to set the completion of the session.
+     */
+    private void setCompletion() {
+        TextView completionTextView = (TextView) findViewById(R.id.completion_text_view);
+        try {
+            completionTextView.setText(String.valueOf(workoutSession.allExerciseDone()) + "%");  //TODO is a try/catch correct?
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * This method allows to set the total number of exercise of the session.
      */
     private void setExercises() {
@@ -106,13 +121,9 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      * This method allows to set session total duration (duration of exercises + recovery time).
      */
     private void setDuration() {
-
         int totalTime = 0;
-
         ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
-
         for(int i = 0; i < exercises.size(); i++) {
-
             Exercise exercise = exercises.get(i);
 
             int timeForSeries = 0;
@@ -121,7 +132,6 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
             recoveryTime += exercise.getRecovery();
             totalTime += (timeForSeries + recoveryTime) * exercise.getSeries();
         }
-
         TextView durationTextView = (TextView) findViewById(R.id.duration_text_view);
         durationTextView.setText("~" + totalTime / 60 + " min");
     }
@@ -135,6 +145,9 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
 
         TextView exercisesTitleTextView = (TextView) findViewById(R.id.exercises_title_text_view);
         exercisesTitleTextView.setText(getResources().getString(R.string.exercises_title).toUpperCase());
+
+        TextView completionTitleTextView = (TextView) findViewById(R.id.completion_title_text_view);
+        completionTitleTextView.setText(getResources().getString(R.string.completion_title).toUpperCase());
     }
 
     /**
@@ -151,36 +164,38 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      * @return the description in a human readable way.
      */
     private String generateDescription() {
-
         ArrayList<Exercise> exercises = workoutSession.getExercisesOfSession();
-        String  description = "In the session of we will work on $";
-
-        for (int i = 0; i < exercises.size(); i++) {
-
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        String description;
+        //TODO: @federico improve with the recognition of the actual day...
+        if ((workoutSession.getDateSessionDate().getTime() - date.getTime()) == 1) {
+            description = "$Tomorrow$ we will work on $";
+        } else if ((workoutSession.getDateSessionDate().getTime() - date.getTime()) == 2) {
+            description = "$The day after tomorrow we will work on $";
+        } else {
+            description = "In the session of $" + workoutSession.getDateSessionDate() + "$ we will work on $";
+        }
+        int size = exercises.size();
+        for (int i = 0; i < size; i++) {
             String muscle = exercises.get(i).getMuscles();
             muscle = muscle.substring(0,muscle.length()-2); //There is \n escape character at the end
             description += muscle;
-
-            if (i < exercises.size() - 2) {
+            if (i < size - 2) {
                 description += ", ";
             }
-
-            if (i == exercises.size() - 2) {
+            if (i == size - 2) {
                 description += " and ";
             }
         }
         description += "$.\n\nIn details:\n";
-
-        for (int i = 0; i < exercises.size(); i++) {
-
+        for (int i = 0; i < size; i++) {
             Exercise currentEx = exercises.get(i);
             description += " $• " + currentEx.getSeries() + "$ series of $" + currentEx.getName() + "$";
-
-            if (exercises.size() > 1 && i != exercises.size() - 1) {
+            if (size > 1 && i != size - 1) {
                 description += "\n";
             }
         }
-
         return description;
     }
 
@@ -199,13 +214,13 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
         startNowTextButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                new OnButtonPressListener() {
-                    @Override
-                    public void onButtonPressedListener(View view, Card card) {
-                        Intent intent = new Intent(getContext(), StartExerciseActivity.class);
-                        getContext().startActivity(intent);
-                    }
-                }.onButtonPressedListener(startNowTextButton, card);
+                    new OnButtonPressListener() {
+                        @Override
+                        public void onButtonPressedListener(View view, Card card) {
+                            Intent intent = new Intent(getContext(), StartExerciseActivity.class);
+                            getContext().startActivity(intent);
+                        }
+                    }.onButtonPressedListener(startNowTextButton, card);
             }
         });
 
