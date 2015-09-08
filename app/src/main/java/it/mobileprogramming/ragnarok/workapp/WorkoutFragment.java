@@ -109,7 +109,8 @@ public class WorkoutFragment extends BaseFragment {
         addWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity(), WorkoutCreateActivity.class);
+                startActivity(intent);
             }
         });
 

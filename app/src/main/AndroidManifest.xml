@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="it.mobileprogramming.ragnarok.workapp" >
 
@@ -61,7 +60,7 @@
         <activity
             android:name=".InfoActivity"
             android:label="@string/info"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="it.mobileprogramming.ragnarok.workapp.MainActivity" />
@@ -106,6 +105,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="it.mobileprogramming.ragnarok.workapp.WorkoutListActivity" />
+        </activity>
+        <activity
+            android:name=".WorkoutCreateActivity"
+            android:label="@string/title_activity_workout_create"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.mobileprogramming.ragnarok.workapp.MainActivity" />
         </activity>
     </application>
 

@@ -112,5 +112,9 @@
     <string name="workout_description_and">and</string>
     <string name="workout_description_indetails">In details:</string>
     <string name="action_chronology">Chronology</string>
+    <string name="title_activity_workout_create">Create workout</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
