@@ -14,6 +14,8 @@ import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import com.dexafree.materialList.controller.RecyclerItemClickListener;
 import com.dexafree.materialList.model.CardItemView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
+
 import it.mobileprogramming.ragnarok.workapp.cards.UserWorkoutSessionCard;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
@@ -93,6 +95,18 @@ public class WorkoutFragment extends BaseFragment {
         }
 
         //FloatingButton multiple actions
+
+        /*FloatingActionsMenu floatingActionsMenu = (FloatingActionsMenu) view.findViewById(R.id.multiple_actions);
+        floatingActionsMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyMaterialListView myMaterialListView = (MyMaterialListView) view.findViewById(R.id.workout_list_view);
+                if (myMaterialListView.getAlpha() < 1)
+                    myMaterialListView.setAlpha((float) 1);
+                else
+                    myMaterialListView.setAlpha((float) 0.3);
+            }
+        });*/
 
         FloatingActionButton chronology = (FloatingActionButton) view.findViewById(R.id.action_chronology);
         chronology.setOnClickListener(new View.OnClickListener() {
