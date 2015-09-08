@@ -39,7 +39,7 @@
     <string name="info">Informazioni</string>
     <string name="no_exercises">Non ci sono esercizi ancora, scaricali da internet!</string>
     <string name="no_logged">Non ti sei registrato</string>
-    <string name="no_workouts">Non ci sono allenamenti ancora, aggiungine uno!</string>
+    <string name="no_workouts">Non ci sono allenamenti, aggiungine o creane uno!</string>
     <string name="pause">Pausa</string>
     <string name="play">Play</string>
     <string name="repetition">Ripetizione</string>
@@ -76,4 +76,6 @@
     <string name="exercise_detail_description_recrate">secondi di recupero\n(Ad un rate di</string>
     <string name="exercise_detail_description_series">serie di</string>
     <string name="exercise_detail_description_with">con</string>
+    <string name="action_new">Crea nuovo</string>
+    <string name="action_select">Seleziona workout</string>
 </resources>

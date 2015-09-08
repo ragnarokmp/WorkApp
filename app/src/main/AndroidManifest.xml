@@ -91,6 +91,22 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="it.mobileprogramming.ragnarok.workapp.MainActivity" />
         </activity>
+        <activity
+            android:name=".WorkoutListActivity"
+            android:label="@string/title_workout_list"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.mobileprogramming.ragnarok.workapp.MainActivity" />
+        </activity>
+        <activity
+            android:name=".WorkoutDetailActivity"
+            android:label="@string/title_workout_detail"
+            android:parentActivityName=".WorkoutListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="it.mobileprogramming.ragnarok.workapp.WorkoutListActivity" />
+        </activity>
     </application>
 
 </manifest>

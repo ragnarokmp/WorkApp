@@ -89,15 +89,15 @@ public class WorkoutFragment extends BaseFragment {
             }
         }
 
-        FloatingActionButton addWorkout = (FloatingActionButton) view.findViewById(R.id.add_fab);
+        /*FloatingActionButton addWorkout = (FloatingActionButton) view.findViewById(R.id.action_a);
         addWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: create workoutListActivity con lista workout e possibilità creare workout
-                Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
+                //TODO: create workoutListActivity similar to exercises?
+                Intent intent = new Intent(getActivity(), WorkoutListActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
         return view;
     }
