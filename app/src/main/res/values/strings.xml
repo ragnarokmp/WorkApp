@@ -26,6 +26,7 @@
     <string name="start_now_button">Start now</string>
     <string name="details_button">Details</string>
     <string name="exercises_title">Exercises</string>
+    <string name="repetitions_title">Repetitions</string>
     <string name="duration_title">Duration</string>
     <string name="completion_title">Completion</string>
 
