@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -94,14 +96,10 @@ public class ExerciseDetailFragment extends Fragment {
 
             int resourceId = getResources().getIdentifier("exercise_" + String.valueOf((exerciseID) % 8), "raw", getActivity().getPackageName());
 
-            Drawable drawable;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                drawable = getActivity().getDrawable(resourceId);
-            } else {
-                drawable = getResources().getDrawable(resourceId);
-            }
-
-            exerciseImageView.setImageDrawable(drawable);
+            Picasso.with(getActivity())
+                    .load(resourceId)
+                    .placeholder(R.drawable.ic_logo_colored)
+                    .into(exerciseImageView);
 
             if (currentExercise instanceof UserExercise) {
                 if (((UserExercise) currentExercise).isDone()) {
