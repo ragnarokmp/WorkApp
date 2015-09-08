@@ -97,4 +97,15 @@ public class UserWorkout extends Workout{
                 "woSessions=" + woSessions +
                 '}';
     }
+
+    public boolean allSessionDone() throws Exception {
+        int i;
+        for (i = 0; i < woSessions.size(); i++) {
+            if (woSessions.get(i).allExerciseDone() != 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

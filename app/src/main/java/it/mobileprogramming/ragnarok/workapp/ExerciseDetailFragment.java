@@ -25,6 +25,8 @@ import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 
+import static it.mobileprogramming.ragnarok.workapp.util.Util.boldTextBetweenTokens;
+
 /**
  * A fragment representing a single Exercise detail screen.
  * This fragment is either contained in a {@link ExerciseListActivity}
@@ -111,17 +113,17 @@ public class ExerciseDetailFragment extends Fragment {
                 }
             }
 
-            String description = getResources().getString(R.string.exercise_detail_description_intro) + "\n";
-            description += String.valueOf(currentExercise.getSeries()) + " " +
-                           getResources().getString(R.string.exercise_detail_description_series) + " " +
-                           String.valueOf(currentExercise.getRepetition()) + " " +
+            String description = getResources().getString(R.string.exercise_detail_description_intro) + "\n$";
+            description += String.valueOf(currentExercise.getSeries()) + "$ " +
+                           getResources().getString(R.string.exercise_detail_description_series) + " $" +
+                           String.valueOf(currentExercise.getRepetition()) + "$ " +
                            currentExercise.getName() + " " +
-                           getResources().getString(R.string.exercise_detail_description_with) + " " +
-                           String.valueOf(currentExercise.getRecovery()) + " " +
-                           getResources().getString(R.string.exercise_detail_description_recrate) + " " +
-                           String.valueOf(currentExercise.getFrequency()) + "/sec)";
+                           getResources().getString(R.string.exercise_detail_description_with) + " $" +
+                           String.valueOf(currentExercise.getRecovery()) + "$ " +
+                           getResources().getString(R.string.exercise_detail_description_recrate) + " $" +
+                           String.valueOf(currentExercise.getFrequency()) + "/sec$)";
 
-            ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(description);
+            ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(boldTextBetweenTokens(description, "$"));
 
             int totalTime = 0;
             totalTime += (currentExercise.getRepetition() / currentExercise.getFrequency()) * currentExercise.getSeries() + (currentExercise.getSeries() - 1)* currentExercise.getRecovery();
