@@ -4,22 +4,18 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
 import com.dexafree.materialList.controller.RecyclerItemClickListener;
 import com.dexafree.materialList.model.CardItemView;
-
 import java.util.ArrayList;
-
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
+import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
+import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCard;
-import it.mobileprogramming.ragnarok.workapp.dummy.DummyContent;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
 
@@ -34,12 +30,12 @@ public class WorkoutDetailFragment extends Fragment {
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
+    public static String WORKOUT_ID;
 
     /**
-     * The dummy content this fragment is presenting.
+     * The workout id passing from list fragment
      */
-    private DummyContent.DummyItem mItem;
+    private String workoutID;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -52,26 +48,21 @@ public class WorkoutDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_ITEM_ID)) {
+        if (getArguments().containsKey(WORKOUT_ID)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            workoutID = getArguments().getString(WORKOUT_ID);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_workout_detail, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
 
-        // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.workout_detail)).setText(mItem.content);
-        }
+        final View rootView = inflater.inflate(R.layout.fragment_workout_detail, container, false);
 
         // Get MaterialListView
-        /*MyMaterialListView workoutListView = (MyMaterialListView) view.findViewById(R.id.workout_list_view);
+        MyMaterialListView workoutListView = (MyMaterialListView) rootView.findViewById(R.id.workout_detail_container);
 
         // Get divider for MaterialListView
         Drawable drawable;
@@ -86,13 +77,13 @@ public class WorkoutDetailFragment extends Fragment {
         workoutListView.setDivider(drawable); //TODO doesn't work well in landscape mode..
 
         // Set emptyView and onItemTouchListener
-        workoutListView.setEmptyView(view.findViewById(R.id.no_workout));
         workoutListView.addOnItemTouchListener(new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(CardItemView cardItemView, int i) {
+
                 Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
-                intent.putExtra("userID", userID);
                 intent.putExtra("workoutID", i);
+                intent.putExtra("readMode", i);
                 getActivity().startActivity(intent);
             }
 
@@ -102,19 +93,27 @@ public class WorkoutDetailFragment extends Fragment {
             }
         });
 
-        SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
+        final SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
 
-        //TODO Federico: the userID will be used here in order to obtain the workouts
-        ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(userID);
-        if (usWorkouts.size() > 0) {
-            //TODO Federico: I get only the first workout
-            ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
-            for (int j = 0; j < firstWorkoutSessions.size(); j++) {
-                WorkoutSessionCard card = new WorkoutSessionCard(context, firstWorkoutSessions.get(j));
-                workoutListView.add(card);
+        ArrayList<WorkoutSession> workoutSessions = dbSerializer.loadAllWorkoutSessionsForWorkout(Integer.parseInt(workoutID));
+
+        for (int j = 0; j < workoutSessions.size(); j++) {
+            WorkoutSessionCard card = new WorkoutSessionCard(getActivity().getApplicationContext(), workoutSessions.get(j));
+            workoutListView.add(card);
+        }
+
+        // TODO: change fab icon to white color
+        FloatingActionButton addWorkout = (FloatingActionButton) rootView.findViewById(R.id.add_fab);
+        addWorkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Workout wkr = dbSerializer.loadWorkout(Integer.parseInt(workoutID));
+                wkr.createFromThisWorkout(dbSerializer.loadUser(1));
+
             }
-        }*/
+        });
 
         return rootView;
     }

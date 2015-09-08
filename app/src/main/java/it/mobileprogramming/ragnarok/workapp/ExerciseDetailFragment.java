@@ -53,20 +53,23 @@ public class ExerciseDetailFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
         SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
+
         if (getArguments().containsKey("userID")) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
+
             ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(getActivity().getIntent().getExtras().getInt("userID"));
             ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
             UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
             ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
             exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
             currentExercise = exercises.get(exerciseID); //DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+
         } else {
+
             if (getActivity().getIntent().getExtras() != null) {
                 // Mobile
                 exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");

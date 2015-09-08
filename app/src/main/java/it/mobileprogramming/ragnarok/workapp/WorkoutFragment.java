@@ -21,7 +21,7 @@ import com.dexafree.materialList.controller.RecyclerItemClickListener;
 import com.dexafree.materialList.model.CardItemView;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
-import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCard;
+import it.mobileprogramming.ragnarok.workapp.cards.UserWorkoutSessionCard;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
 import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
@@ -94,7 +94,7 @@ public class WorkoutFragment extends BaseFragment {
                 }
             }
             for (int j = 0; j < firstWorkoutSessions.size(); j++) {
-                WorkoutSessionCard card = new WorkoutSessionCard(context, firstWorkoutSessions.get(j));
+                UserWorkoutSessionCard card = new UserWorkoutSessionCard(context, firstWorkoutSessions.get(j));
                 workoutListView.add(card);
             }
         }

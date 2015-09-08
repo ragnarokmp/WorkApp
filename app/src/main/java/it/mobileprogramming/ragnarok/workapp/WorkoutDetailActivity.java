@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
+
 /**
  * An activity representing a single Workout detail screen. This
  * activity is only used on handset devices. On tablet-size devices,
@@ -15,15 +17,16 @@ import android.view.MenuItem;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link WorkoutDetailFragment}.
  */
-public class WorkoutDetailActivity extends AppCompatActivity {
+public class WorkoutDetailActivity extends BaseActivityWithToolbar {
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_workout_detail;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_workout_detail);
-
-        // Show the Up button in the action bar.
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
@@ -38,8 +41,8 @@ public class WorkoutDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(WorkoutDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(WorkoutDetailFragment.ARG_ITEM_ID));
+            arguments.putString(WorkoutDetailFragment.WORKOUT_ID,
+                    getIntent().getStringExtra(WorkoutDetailFragment.WORKOUT_ID));
             WorkoutDetailFragment fragment = new WorkoutDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

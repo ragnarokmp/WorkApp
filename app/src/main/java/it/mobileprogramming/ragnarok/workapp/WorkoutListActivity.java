@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.MenuItem;
 
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
@@ -83,12 +84,15 @@ public class WorkoutListActivity extends BaseActivityWithToolbar implements Work
      */
     @Override
     public void onItemSelected(String id) {
+
+        Log.d("WORKOUT_LIST_ACTIVITY", "Premo workout con id " + id);
+
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(WorkoutDetailFragment.ARG_ITEM_ID, id);
+            arguments.putString(WorkoutDetailFragment.WORKOUT_ID, id);
             WorkoutDetailFragment fragment = new WorkoutDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -99,7 +103,7 @@ public class WorkoutListActivity extends BaseActivityWithToolbar implements Work
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, WorkoutDetailActivity.class);
-            detailIntent.putExtra(WorkoutDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra(WorkoutDetailFragment.WORKOUT_ID, id);
             startActivity(detailIntent);
         }
     }
