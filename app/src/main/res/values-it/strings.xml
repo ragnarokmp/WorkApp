@@ -97,4 +97,6 @@
     <string name="difficulty_hard">Difficile</string>
     <string name="add_session">+ Aggiungi sessione</string>
     <string name="title_activity_execises_list_activity_checkbox">Seleziona esercizi</string>
+    <string name="exercises_text_button">SELEZIONA ESERCIZI</string>
+    <string name="date_text_button">SELEZIONA DATA</string>
 </resources>

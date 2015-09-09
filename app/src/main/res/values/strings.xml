@@ -123,5 +123,7 @@
     <string name="difficulty_hard">Hard</string>
     <string name="add_session">+ Add session</string>
     <string name="title_activity_execises_list_activity_checkbox">Select exercises</string>
+    <string name="exercises_text_button">SELECT EXERCISES</string>
+    <string name="date_text_button">SELECT DATE</string>
 
 </resources>

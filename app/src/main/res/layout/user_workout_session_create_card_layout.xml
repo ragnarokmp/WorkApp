@@ -149,13 +149,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/details_text_button"
+                android:id="@+id/date_text_button"
                 android:layout_below="@+id/description_text_view"
                 android:layout_marginTop="@dimen/small_padding"
                 android:layout_marginBottom="@dimen/small_padding"
                 android:layout_marginLeft="@dimen/small_padding"
                 android:padding="@dimen/small_padding"
-                tools:text="DETAILS"
+                tools:text="SELECT DATE"
                 style="@style/LeftButtonBaseStyle"
                 tools:ignore="RtlSymmetry"
                 android:textColor="@color/secondary_text" />
@@ -163,13 +163,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/start_now_text_button"
+                android:id="@+id/exercises_text_button"
                 android:layout_toRightOf="@+id/details_text_button"
                 android:layout_alignBottom="@+id/details_text_button"
                 android:layout_marginRight="@dimen/small_padding"
                 android:layout_marginLeft="@dimen/small_padding"
                 android:padding="@dimen/small_padding"
-                tools:text="START NOW"
+                tools:text="SELECT EXERCISES"
                 style="@style/RightButtonBaseStyle"
                 android:textColor="@color/primary" />
 
