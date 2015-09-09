@@ -122,7 +122,7 @@ public class WorkoutFragment extends BaseFragment {
         });
 
         // TODO: Use with frameLayout background in the layout in order to make shadow on press
-        /*final FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.frame_layout);
+        final FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.frame_layout);
         frameLayout.getBackground().setAlpha(0);
         final FloatingActionsMenu fabMenu = (FloatingActionsMenu) view.findViewById(R.id.multiple_actions);
         fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
@@ -143,7 +143,7 @@ public class WorkoutFragment extends BaseFragment {
                 frameLayout.getBackground().setAlpha(0);
                 frameLayout.setOnTouchListener(null);
             }
-        });*/
+        });
 
         return view;
     }

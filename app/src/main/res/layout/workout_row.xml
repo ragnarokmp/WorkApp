@@ -4,24 +4,28 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="@dimen/row_height"
-    android:padding="@dimen/big_padding"
     android:background="@drawable/selectable_background">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/exercise_image_row"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:id="@+id/workout_image_row"
         android:src="@drawable/ic_launcher"
         android:layout_gravity="center"
-        android:contentDescription="@string/workout" />
+        android:contentDescription="@string/exercise" />
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="10"
         android:paddingLeft="@dimen/big_padding"
         android:layout_gravity="center_vertical"
-        tools:ignore="RtlSymmetry">
+        tools:ignore="RtlSymmetry"
+        android:layout_marginRight="@dimen/big_padding"
+        android:layout_marginBottom="@dimen/small_padding"
+        android:layout_marginTop="@dimen/small_padding">
 
         <TextView
             android:layout_width="wrap_content"

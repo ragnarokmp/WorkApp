@@ -70,7 +70,7 @@ public class ExercisesListAdapter extends ArrayAdapter<Exercise> {
         holder.exerciseTitleTextView.setText(exercise.getName());
         holder.exerciseDescriptionTextView.setText(exercise.getSeries() + "x" + exercise.getRepetition() + " - " + exercise.getMuscles());
 
-        int resourceId = getContext().getResources().getIdentifier("exercise_" + String.valueOf((position + 1) % 8), "raw", getContext().getPackageName());
+        int resourceId = getContext().getResources().getIdentifier("exercise_" + String.valueOf((position % 8) + 1), "raw", getContext().getPackageName());
 
         Picasso.with(getContext())
                 .load(resourceId)
