@@ -1,35 +1,128 @@
 <RelativeLayout
+    android:id="@+id/rootLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="it.mobileprogramming.ragnarok.workapp.WorkoutCreateActivity">
 
     <!-- Includes the toolbar -->
-    <include layout="@layout/toolbar"/>
+    <include layout="@layout/toolbar" />
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/moveLayout"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <android.support.v7.widget.CardView
-            android:layout_width="wrap_content"
+            android:id="@+id/infoCardView"
             android:layout_height="wrap_content"
-            tools:ignore="RtlHardcoded"
+            android:layout_width="match_parent"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin">
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/text_insert_name"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:id="@+id/textViewNameWorkout"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:id="@+id/editText" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:text="@string/text_insert_difficulty"
+                    android:id="@+id/textViewDifficulty"/>
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/difficulty_easy"
+                        android:id="@+id/radioButtonEasy" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/difficulty_medium"
+                        android:id="@+id/radioButtonMedium" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/difficulty_hard"
+                        android:id="@+id/radioButtonHard" />
+
+                </RadioGroup>
 
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
-    </ScrollView>
+    </LinearLayout>
+
+    <Button
+        android:layout_below="@+id/moveLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_session"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:textColor="@color/primary"
+        android:id="@+id/button" />
+
+    <it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView
+        android:layout_below="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:column_count_portrait="1"
+        app:column_count_landscape="2"
+        android:id="@+id/session_list_view"
+        android:paddingBottom="@dimen/small_padding"
+        android:paddingTop="@dimen/small_padding"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp" />
 
 </RelativeLayout>
