@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.model.CardItemView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -39,18 +40,25 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      * The session bound with the card.
      */
     private WorkoutSession workoutSession;
+    private Context context;
 
     // Default constructors
     public WorkoutSessionCardItemView(Context context) {
         super(context);
+
+        this.context = context;
     }
 
     public WorkoutSessionCardItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        this.context = context;
     }
 
     public WorkoutSessionCardItemView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+
+        this.context = context;
     }
 
     @Override
@@ -60,13 +68,11 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
 
         // Get workout session from the card
         workoutSession = (WorkoutSession) card.getTag();
-        // Choose session image from assets evaluating the session
-        Drawable sessionDrawable = chooseSessionDrawable();
         // Generate session description with exercises and muscle used
         String sessionDescription = generateDescription();
 
         // Set all stuffs
-        setImage(sessionDrawable);
+        setImage();
         setDescription(sessionDescription);
         setTitles();
         setDuration();
@@ -139,11 +145,17 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
 
     /**
      * This method allows to set session image.
-     * @param image the image to set.
      */
-    public void setImage(Drawable image) {
+    public void setImage() {
         ImageView sessionImageView = (ImageView) findViewById(R.id.session_image_view);
-        sessionImageView.setImageDrawable(image);
+        int resourceId = getResources().getIdentifier("exercise_" + String.valueOf(new Random().nextInt(7) + 1), "raw", context.getPackageName());
+
+        Picasso.with(context)
+                .load(resourceId)
+                .fit()
+                .centerCrop()
+                .placeholder(R.drawable.ic_logo_colored)
+                .into(sessionImageView);
     }
 
     /**

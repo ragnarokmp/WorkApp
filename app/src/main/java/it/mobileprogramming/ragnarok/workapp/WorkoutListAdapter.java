@@ -5,7 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 
@@ -64,11 +68,12 @@ public class WorkoutListAdapter extends ArrayAdapter<Workout> {
             // Now we can fill the layout with the right values
             TextView workoutTitleTextView = (TextView) view.findViewById(R.id.workout_title_row);
             TextView workoutDifficultyTextView = (TextView) view.findViewById(R.id.workout_difficulty_row);
+            ImageView workoutImageView = (ImageView) view.findViewById(R.id.workout_image_row);
 
             holder.workoutTitleTextView = workoutTitleTextView;
             holder.workoutDifficultyTextView = workoutDifficultyTextView;
+            holder.workoutImageView = workoutImageView;
             view.setTag(holder);
-
         } else {
             holder = (WorkoutHolder) view.getTag();
         }
@@ -78,6 +83,15 @@ public class WorkoutListAdapter extends ArrayAdapter<Workout> {
         holder.workoutTitleTextView.setText(workout.getName());
         holder.workoutDifficultyTextView.setText(workout.getDifficulty());
 
+        int resourceId = getContext().getResources().getIdentifier("exercise_" + String.valueOf(((position + 1) % 8) + 1), "raw", getContext().getPackageName());
+
+        Picasso.with(getContext())
+                .load(resourceId)
+                .placeholder(R.drawable.ic_logo_colored)
+                .fit()
+                .centerCrop()
+                .into(holder.workoutImageView);
+
         return view;
     }
 
@@ -86,5 +100,6 @@ public class WorkoutListAdapter extends ArrayAdapter<Workout> {
 
         public TextView workoutTitleTextView;
         public TextView workoutDifficultyTextView;
+        public ImageView workoutImageView;
     }
 }

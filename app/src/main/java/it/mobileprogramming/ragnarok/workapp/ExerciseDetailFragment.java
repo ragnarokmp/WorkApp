@@ -97,8 +97,7 @@ public class ExerciseDetailFragment extends Fragment {
             durationTitleTextView.setText(getResources().getString(R.string.duration_title).toUpperCase());
 
             TextView exercisesTitleTextView = (TextView) rootView.findViewById(R.id.exercises_title_text_view);
-            exercisesTitleTextView.setVisibility(View.INVISIBLE);
-
+            exercisesTitleTextView.setText(getResources().getString(R.string.repetitions_title).toUpperCase());
 
             TextView completionTitleTextView = (TextView) rootView.findViewById(R.id.completion_title_text_view);
             completionTitleTextView.setText(getResources().getString(R.string.completion_title).toUpperCase());
@@ -114,6 +113,16 @@ public class ExerciseDetailFragment extends Fragment {
                     .placeholder(R.drawable.ic_logo_colored)
                     .into(exerciseImageView);
 
+            FloatingActionButton startFloatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.start_fab);
+            startFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), StartExerciseActivity.class);
+                    intent.putExtra("exerciseID", exerciseID);
+                    getActivity().startActivity(intent);
+                }
+            });
+
             if (currentExercise instanceof UserExercise) {
                 if (((UserExercise) currentExercise).isDone()) {
                     String done = "DONE";
@@ -123,7 +132,8 @@ public class ExerciseDetailFragment extends Fragment {
                     ((TextView) rootView.findViewById(R.id.completion_text_view)).setText(done);
                 }
             } else {
-                completionTitleTextView.setVisibility(View.INVISIBLE);
+                rootView.findViewById(R.id.completion_layout).setVisibility(View.GONE);
+                startFloatingActionButton.setVisibility(View.GONE);
             }
 
             String description = "$";
@@ -137,6 +147,8 @@ public class ExerciseDetailFragment extends Fragment {
                            String.valueOf(currentExercise.getFrequency()) + "/sec$";
 
             ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(boldTextBetweenTokens(description, "$"));
+
+            ((TextView) rootView.findViewById(R.id.exercises_text_view)).setText(String.valueOf(currentExercise.getSeries() * currentExercise.getRepetition()));
 
             int totalTime = 0;
             totalTime += (currentExercise.getRepetition() / currentExercise.getFrequency()) * currentExercise.getSeries() + (currentExercise.getSeries() - 1)* currentExercise.getRecovery();

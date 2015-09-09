@@ -51,7 +51,7 @@ public class WorkoutSession implements Parcelable {
         if(saveOnDB==true){
             this.workoutSessionSerializer.addExerciseForWorkoutSession(this.id,e.getId());
         }
-        System.out.println("Added exercise " + e.toString() + " session made with " + this.exercisesOfSession.size() + " exercises");
+        //System.out.println("Added exercise " + e.toString() + " session made with " + this.exercisesOfSession.size() + " exercises");
     }
 
     /**
