@@ -150,9 +150,7 @@
                 android:layout_alignTop="@+id/linear_layout"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="18dp"
-
-                android:visibility="gone"/>
+                android:layout_marginEnd="18dp" />
 
         </RelativeLayout>
 

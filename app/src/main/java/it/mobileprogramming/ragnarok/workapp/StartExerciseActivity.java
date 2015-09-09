@@ -175,6 +175,9 @@ public class StartExerciseActivity extends BaseActivity {
     public void onPauseButton() {
         if (pauseImageView.getTag().equals(getString(R.string.pause))) {
 
+            decoView.setVisibility(View.VISIBLE);
+            textViewPercentage.setVisibility(View.VISIBLE);
+
             stopped           = true;
 
             if (countDownTimer != null) {
@@ -236,6 +239,10 @@ public class StartExerciseActivity extends BaseActivity {
      * to stop the countdown timer
      */
     public void onStopButton() {
+
+        decoView.setVisibility(View.INVISIBLE);
+        textViewPercentage.setVisibility(View.INVISIBLE);
+
         leftTime          = millis;
         currentRepetition = 0;
         currentSerie      = 1;
