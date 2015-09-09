@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -44,6 +45,8 @@ public class ExerciseListFragment extends ListFragment {
     public static ArrayList<Exercise> exercises;
     private UserWorkoutSession userWorkoutSession;
     public ExercisesListAdapter exercisesListAdapter;
+
+    private boolean workout_session = false;
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -129,9 +132,8 @@ public class ExerciseListFragment extends ListFragment {
             setListAdapter(exercisesListAdapter);
 
             // When arrive from workout detail in read mode, see WorkoutDetailFragment for info
-            if (intent.hasExtra("readMode")){
-                // TODO: remove play button
-                // TODO: handle backButton in correct way for back in Workout Detail
+            if (!intent.hasExtra("readMode")){
+                workout_session = true;
             }
         }
     }
@@ -145,6 +147,21 @@ public class ExerciseListFragment extends ListFragment {
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
+
+        view.setFocusableInTouchMode(true);
+        view.requestFocus();
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (event.getAction() == KeyEvent.ACTION_UP &&
+                    keyCode == KeyEvent.KEYCODE_BACK        && workout_session) {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override

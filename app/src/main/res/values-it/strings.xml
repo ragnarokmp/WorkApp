@@ -88,4 +88,6 @@
     <string name="action_chronology">Cronologia</string>
     <string name="complete">Completato!</string>
     <string name="development">Sei uno sviluppatore?</string>
+    <string name="exercise_detail_skip">Prossimo esercizio</string>
+    <string name="exercise_detail_skip_finish">Dacci un feedback</string>
 </resources>

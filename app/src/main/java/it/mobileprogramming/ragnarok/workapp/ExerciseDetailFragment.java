@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,6 +42,10 @@ public class ExerciseDetailFragment extends Fragment {
     int exerciseID;
     private UserWorkoutSession userWorkoutSession;
     private Exercise currentExercise;
+    private ArrayList<Exercise> exercises;
+
+    private boolean workout_session  = false;
+    private boolean workout_finished = false;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -57,11 +63,14 @@ public class ExerciseDetailFragment extends Fragment {
         dbSerializer.open();
 
         if (getArguments().containsKey("workoutSession")) {
+            // if in workout session the play button can be activated
+            workout_session = true;
+
             userWorkoutSession = savedInstanceState.getParcelable("workoutSession");
             User currentUser =   ((App) getActivity().getApplication()).getCurrentUser();
             assert userWorkoutSession != null;
             userWorkoutSession = dbSerializer.loadSession(userWorkoutSession.getId(),currentUser,userWorkoutSession.getDateSessionDate());
-            ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
+            exercises = userWorkoutSession.getExercisesOfSession();
             exerciseID = savedInstanceState.getInt("exerciseID");
             currentExercise = (UserExercise) exercises.get(exerciseID);
 
@@ -134,18 +143,64 @@ public class ExerciseDetailFragment extends Fragment {
             ((TextView) rootView.findViewById(R.id.duration_text_view)).setText("~" + totalTime / 60 + " min");
         }
 
+
         FloatingActionButton startFloatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.start_fab);
+        Button skipButton                              = (Button)               rootView.findViewById(R.id.skip);
+        if (workout_session) {
+            startFloatingActionButton.setVisibility(View.VISIBLE);
+            skipButton.setVisibility(View.VISIBLE);
+            if ((exerciseID + 1) == (exercises.size() - 1)) {
+                workout_finished = true;
+                skipButton.setText(getString(R.string.exercise_detail_skip_finish));
+            }
+        }
+
         startFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StartExerciseActivity.class);
                 if (currentExercise instanceof UserExercise) {
-                    intent.putExtra("workoutSession",userWorkoutSession);
-                    intent.putExtra("exerciseID",exerciseID);
+                    intent.putExtra("workoutSession", userWorkoutSession);
+                    intent.putExtra("exerciseID", exerciseID);
                 } else {
                     intent.putExtra("exercise", currentExercise);
                 }
                 getActivity().startActivity(intent);
+            }
+        });
+
+        skipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((UserExercise) currentExercise).isDone();
+
+                Intent intent;
+                if (workout_finished) {
+                    // last exercise
+                    intent = new Intent(getActivity(), FeedbackActivity.class);
+                    intent.putExtra("item", (UserExercise) currentExercise);
+                    startActivity(intent);
+                } else {
+                    intent = new Intent(getActivity(), ExerciseDetailActivity.class);
+                    intent.putExtra("exerciseID", exercises.get(exerciseID++));
+                    startActivity(intent);
+                }
+            }
+        });
+
+
+        rootView.setFocusableInTouchMode(true);
+        rootView.requestFocus();
+        rootView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (event.getAction() == KeyEvent.ACTION_UP &&
+                    keyCode == KeyEvent.KEYCODE_BACK && workout_session) {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    return true;
+                }
+                return false;
             }
         });
 

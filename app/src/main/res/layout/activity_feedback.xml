@@ -142,7 +142,7 @@
             android:layout_below="@id/et_comment"
             android:background="@drawable/submit_selector"
             android:text="@string/feedback_submitButton"
-            android:textColor="@color/secondary_text"
+            android:textColor="@android:color/white"
             android:id="@+id/btnSubmit" />
 
 </RelativeLayout>

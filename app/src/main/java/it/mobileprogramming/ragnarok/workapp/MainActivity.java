@@ -37,6 +37,22 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Vi
         setTheme(R.style.WorkApp);
         super.onCreate(savedInstanceState);
 
+        // TODO DEVELOPMENT
+        SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
+        Workout newWorkout = new Workout("Workout di prova","custom","Difficile",dbSerializer);
+
+        WorkoutSession testSession = new WorkoutSession("",dbSerializer);
+        newWorkout.addWorkoutSession(testSession, true, 0);
+
+        WorkoutSession testSession2 = new WorkoutSession("",dbSerializer);
+        newWorkout.addWorkoutSession(testSession2, true, 1);
+
+        Exercise ex1 = new Exercise(dbSerializer,2,"Esercizio n°1",15,10,3,"25","Bicipiti");
+        testSession.addExerciseToWorkoutSession(ex1, 0, true);
+
+        Exercise ex2 = new Exercise(dbSerializer,2,"Esercizio n°2",15,10,3,"25","Quadricipiti");
+        testSession2.addExerciseToWorkoutSession(ex2, 0, true);
+
         // Set the WorkoutFragment
         setFragment(TypeFragment.Workout);
 

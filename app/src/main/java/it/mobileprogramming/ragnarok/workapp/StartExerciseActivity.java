@@ -98,8 +98,8 @@ public class StartExerciseActivity extends BaseActivity {
             exerciseID = savedInstanceState.getInt("exerciseID");
             cExercise = (UserExercise) exercises.get(exerciseID);
         } else {
-            //if it comes from the generic list of exercises
-            cExercise = intent.getParcelableExtra("exercise");
+            Toast.makeText(getApplicationContext(), getString(R.string.internal_error), Toast.LENGTH_LONG).show();
+            finish();
         }
         if (cExercise != null) {
             // setup for the very first time the exercise

@@ -7,153 +7,179 @@
     android:id="@+id/scroll_view"
     tools:context="it.mobileprogramming.ragnarok.workapp.ExerciseDetailFragment">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
-        style="@style/MainCardView"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        auto:cardCornerRadius="@dimen/card_corner_radius">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
+            style="@style/MainCardView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            auto:cardCornerRadius="@dimen/card_corner_radius">
 
-            <it.mobileprogramming.ragnarok.workapp.util.AspectRatioImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_launcher"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:id="@+id/session_image_view"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                auto:aspectRatioEnabled="true"
-                auto:aspectRatio="0.5625"
-                tools:ignore="ContentDescription"/>
-
-            <LinearLayout
-                android:orientation="horizontal"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/session_image_view"
-                android:background="@drawable/shadow"
-                android:padding="@dimen/small_padding"
-                android:baselineAligned="false"
-                android:id="@+id/linear_layout">
+                android:layout_height="wrap_content">
+
+                <it.mobileprogramming.ragnarok.workapp.util.AspectRatioImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_launcher"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:id="@+id/session_image_view"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    auto:aspectRatioEnabled="true"
+                    auto:aspectRatio="0.5625"
+                    tools:ignore="ContentDescription"/>
 
                 <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3">
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/session_image_view"
+                    android:background="@drawable/shadow"
+                    android:padding="@dimen/small_padding"
+                    android:baselineAligned="false"
+                    android:id="@+id/linear_layout">
 
-                    <TextView
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="DURATION"
-                        android:id="@+id/duration_title_text_view"
-                        style="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@color/primary"
-                        android:textStyle="bold"
-                        android:singleLine="true" />
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3">
 
-                    <TextView
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="DURATION"
+                            android:id="@+id/duration_title_text_view"
+                            style="@style/Base.TextAppearance.AppCompat.Small"
+                            android:textColor="@color/primary"
+                            android:textStyle="bold"
+                            android:singleLine="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="40 min"
+                            android:id="@+id/duration_text_view"
+                            android:textColor="@color/secondary_text"
+                            style="@style/Base.TextAppearance.AppCompat.Body1"
+                            android:layout_gravity="center_vertical"
+                            android:textStyle="italic"
+                            android:singleLine="true" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="40 min"
-                        android:id="@+id/duration_text_view"
-                        android:textColor="@color/secondary_text"
-                        style="@style/Base.TextAppearance.AppCompat.Body1"
-                        android:layout_gravity="center_vertical"
-                        android:textStyle="italic"
-                        android:singleLine="true" />
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="EXERCISES"
+                            android:id="@+id/exercises_title_text_view"
+                            style="@style/Base.TextAppearance.AppCompat.Small"
+                            android:textColor="@color/primary"
+                            android:textStyle="bold"
+                            android:singleLine="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="14"
+                            android:id="@+id/exercises_text_view"
+                            android:textColor="@color/secondary_text"
+                            style="@style/Base.TextAppearance.AppCompat.Body1"
+                            android:layout_gravity="center_vertical"
+                            android:textStyle="italic"
+                            android:singleLine="true" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.3">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="COMPLETION"
+                            android:id="@+id/completion_title_text_view"
+                            style="@style/Base.TextAppearance.AppCompat.Small"
+                            android:textColor="@color/primary"
+                            android:textStyle="bold"
+                            android:singleLine="true" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="60%"
+                            android:id="@+id/completion_text_view"
+                            android:textColor="@color/secondary_text"
+                            style="@style/Base.TextAppearance.AppCompat.Body1"
+                            android:layout_gravity="center_vertical"
+                            android:textStyle="italic"
+                            android:singleLine="true" />
+                    </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3">
+                <TextView
+                    tools:text="In the session of 25 june we will work on muscle1, muscle2 and muscle3 with 4xexercise1, 10xexercise2 and 5xesercise3."
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/exercise_detail"
+                    android:textColor="@color/description_color"
+                    android:padding="@dimen/big_padding"
+                    android:textSize="@dimen/description_size"
+                    android:layout_below="@+id/session_image_view"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="@dimen/small_padding" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="EXERCISES"
-                        android:id="@+id/exercises_title_text_view"
-                        style="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@color/primary"
-                        android:textStyle="bold"
-                        android:singleLine="true" />
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/start_fab"
+                    android:src="@drawable/ic_action_play"
+                    android:layout_gravity="bottom|end"
+                    style="@style/FabStyle"
+                    android:layout_marginRight="18dp"
+                    android:layout_marginTop="27dp"
+                    android:layout_alignTop="@+id/linear_layout"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="18dp"
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="14"
-                        android:id="@+id/exercises_text_view"
-                        android:textColor="@color/secondary_text"
-                        style="@style/Base.TextAppearance.AppCompat.Body1"
-                        android:layout_gravity="center_vertical"
-                        android:textStyle="italic"
-                        android:singleLine="true" />
-                </LinearLayout>
+                    android:visibility="gone"/>
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3">
+            </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="COMPLETION"
-                        android:id="@+id/completion_title_text_view"
-                        style="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@color/primary"
-                        android:textStyle="bold"
-                        android:singleLine="true" />
+        </android.support.v7.widget.CardView>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="60%"
-                        android:id="@+id/completion_text_view"
-                        android:textColor="@color/secondary_text"
-                        style="@style/Base.TextAppearance.AppCompat.Body1"
-                        android:layout_gravity="center_vertical"
-                        android:textStyle="italic"
-                        android:singleLine="true" />
-                </LinearLayout>
-            </LinearLayout>
 
-            <TextView
-                tools:text="In the session of 25 june we will work on muscle1, muscle2 and muscle3 with 4xexercise1, 10xexercise2 and 5xesercise3."
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/exercise_detail"
-                android:textColor="@color/description_color"
-                android:padding="@dimen/big_padding"
-                android:textSize="@dimen/description_size"
-                android:layout_below="@+id/session_image_view"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="@dimen/small_padding" />
+        <Button
+            android:id="@+id/skip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/start_fab"
-                android:src="@drawable/ic_action_play"
-                android:layout_gravity="bottom|end"
-                style="@style/FabStyle"
-                android:layout_marginRight="18dp"
-                android:layout_marginTop="27dp"
-                android:layout_alignTop="@+id/linear_layout"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="18dp" />
+            android:background="@color/accent"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Button"
+            android:textColor="@android:color/white"
+            android:text="@string/exercise_detail_skip"
 
-        </RelativeLayout>
+            android:visibility="gone"/>
+    </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+
 
 </ScrollView>
