@@ -131,10 +131,6 @@ public class ExerciseListFragment extends ListFragment {
             exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
 
-            // When arrive from workout detail in read mode, see WorkoutDetailFragment for info
-            if (!intent.hasExtra("readMode")){
-                workout_session = true;
-            }
         }
     }
 
@@ -147,21 +143,6 @@ public class ExerciseListFragment extends ListFragment {
                 && savedInstanceState.containsKey(STATE_ACTIVATED_POSITION)) {
             setActivatedPosition(savedInstanceState.getInt(STATE_ACTIVATED_POSITION));
         }
-
-        view.setFocusableInTouchMode(true);
-        view.requestFocus();
-        view.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-                if (event.getAction() == KeyEvent.ACTION_UP &&
-                    keyCode == KeyEvent.KEYCODE_BACK        && workout_session) {
-                    getActivity().getSupportFragmentManager().popBackStack();
-                    return true;
-                }
-                return false;
-            }
-        });
     }
 
     @Override
@@ -229,7 +210,7 @@ public class ExerciseListFragment extends ListFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         Intent intent = getActivity().getIntent();
-        if (!intent.hasExtra("userID")) {
+        if (!intent.hasExtra("readMode")) {
             inflater.inflate(R.menu.menu_refresh, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);

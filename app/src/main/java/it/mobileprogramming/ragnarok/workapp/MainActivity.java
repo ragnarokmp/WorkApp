@@ -226,6 +226,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Vi
                     bAsync.execute(avatar_string);
                 }
             } else {
+
                 ((ImageView) findViewById(R.id.avatar)).setImageBitmap(BitmapHelper
                         .decodeBase64(pref.getString("personAvatarBitmap", null)));
             }
@@ -274,6 +275,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Vi
             Bitmap avatar_bitmap = BitmapFactory.decodeStream(result);
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor editor = pref.edit();
+
             editor.putString("personAvatarBitmap", BitmapHelper.encodeToBase64(avatar_bitmap));
             editor.apply();
 

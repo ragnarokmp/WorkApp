@@ -3,6 +3,7 @@ package it.mobileprogramming.ragnarok.workapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.MenuItem;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
@@ -32,6 +33,8 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
      */
     private boolean mTwoPane;
 
+    private boolean workout_session = false;
+
     @Override
     protected int getLayoutResourceId() {
 
@@ -56,6 +59,11 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
                     .setActivateOnItemClick(true);
 
         }
+
+        // When arrive from workout detail in read mode, see WorkoutDetailFragment for info
+        if (!getIntent().hasExtra("readMode")){
+            workout_session = true;
+        }
         // TODO: If exposing deep links into your app, handle intents here.
     }
 
@@ -70,7 +78,10 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpFromSameTask(this);
+            if (workout_session)
+                NavUtils.navigateUpTo(this, new Intent(this, WorkoutListActivity.class));
+            else
+                NavUtils.navigateUpTo(this, new Intent(this, MainActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -89,7 +100,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             // fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putParcelable("workoutSession",userWorkoutSession);
-            arguments.putInt("exerciseID",position);
+            arguments.putInt("exerciseID", position);
             ExerciseDetailFragment fragment = new ExerciseDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
