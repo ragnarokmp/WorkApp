@@ -545,13 +545,13 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
             ArrayList<Exercise> exerciseList    =   this.loadExercisesOfASession(id);
             for(int j=0;j<exerciseList.size();j++){
                 aSession.addExerciseToWorkoutSession(exerciseList.get(j),j,false);
-                System.out.println("Added to session " + id + " the following exercise " + exerciseList.get(j).toString());
+                //System.out.println("Added to session " + id + " the following exercise " + exerciseList.get(j).toString());
             }
             result.close();
             return aSession;
         }
         result.close();
-        System.out.println("Session "+id+"without exercises");
+        //System.out.println("Session "+id+"without exercises");
         return null;
     }
 
@@ -583,8 +583,12 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
 
     @Override
     public UserWorkoutSession loadSession(int intUserSessionID,User anUser,Date sessionDate) {
-        String MY_QUERY = "SELECT * "+SessionMadeByExercises_tablename+" NATURAL JOIN "+Exercise_tablename+" NATURAL JOIN "+UserMakesExercise_tablename+" WHERE "+SessionMadeByExercises_WorkoutSessionID+"=? AND "+UserMakesExercise_execution_date+"=? AND "+UserMakesExercise_userID+"=?";
+        String MY_QUERY = "SELECT * FROM "+UserMakesSession_tablename+" NATURAL JOIN "+WorkoutSession_tablename+" NATURAL JOIN "+WorkoutMadeBySessions_tablename+" WHERE "+SessionMadeByExercises_WorkoutSessionID+"=? AND "+UserMakesExercise_execution_date+"=? AND "+UserMakesExercise_userID+"=?";
         Cursor result   =   this.sqlGymDatabase.rawQuery(MY_QUERY, new String[]{String.valueOf(intUserSessionID), Singletons.getStringFromDate(sessionDate), String.valueOf(anUser.getIntUserID())});
+        result.moveToFirst();
+        if(result.getCount()<=0){
+            return null;
+        }
         String  photopath    =   result.getString(result.getColumnIndex(WorkoutSession_photopath));
         int     sessionID    =   result.getInt(result.getColumnIndex(UserMakesSession_WorkoutSID));
         String  comment      =   result.getString(result.getColumnIndex(UserMakesSession_Comment));
@@ -592,7 +596,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         UserWorkoutSession aSession =    new UserWorkoutSession(photopath,intUserSessionID,this,this,sessionDate,sessionID,comment,true,rating);
         ArrayList<UserExercise> userExercises =   this.getExercisesOfAUserSession(intUserSessionID,anUser.getIntUserID(),sessionDate);
         for (int j=0;j< userExercises.size();j++){
-            System.out.println("Exercise in workout " + userExercises.get(j).toString());
+            //System.out.println("Exercise in workout " + userExercises.get(j).toString());
             aSession.addExerciseToWorkoutSession(userExercises.get(j),j,false);
         }
         result.close();
@@ -637,7 +641,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     @Override
     public ArrayList<UserWorkoutSession> loadAllSessionsForUserWorkout(int myUserID,int workoutID){
         String MY_QUERY = "SELECT * FROM "+UserMakesSession_tablename+" NATURAL JOIN "+WorkoutSession_tablename+" NATURAL JOIN "+WorkoutMadeBySessions_tablename+" WHERE "+UserMakesSession_UserID+"=? AND "+UserMakesWorkoutWorkoutID+"=? ORDER BY "+WorkoutMadeBySessions_progressive;
-        System.out.println("Query: "+MY_QUERY);
+        //System.out.println("Query: "+MY_QUERY);
         Cursor result   =   this.sqlGymDatabase.rawQuery(MY_QUERY, new String[]{String.valueOf(myUserID),String.valueOf(workoutID)});
         ArrayList<UserWorkoutSession> userWorkoutSessionArrayList   =   new ArrayList<>();
         result.moveToFirst();
@@ -650,12 +654,12 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
             int     rating       =   result.getInt(result.getColumnIndex(UserMakesSession_rating));
             String  comment      =   result.getString(result.getColumnIndex(UserMakesSession_Comment));
             UserWorkoutSession   aSession   =   new UserWorkoutSession(photopath,myUserID,this,this,sessionDate,sessionID,comment,true,rating);
-            System.out.println("SESSIONE N "+progressive+" ARRAY DIM "+userWorkoutSessionArrayList.size());
+            //System.out.println("SESSIONE N "+progressive+" ARRAY DIM "+userWorkoutSessionArrayList.size());
             userWorkoutSessionArrayList.add(aSession);
             ArrayList<UserExercise> userExercises =   this.getExercisesOfAUserSession(sessionID,myUserID,sessionDate);
-            System.out.println("Number of exercises in this userSession: for user"+myUserID+" session "+sessionID+" "+ userExercises.size());
+            //System.out.println("Number of exercises in this userSession: for user"+myUserID+" session "+sessionID+" "+ userExercises.size());
             for (int j=0;j< userExercises.size();j++){
-                System.out.println("Exercise in workout " + userExercises.get(j).toString());
+                //System.out.println("Exercise in workout " + userExercises.get(j).toString());
                 aSession.addExerciseToWorkoutSession(userExercises.get(j),j,false);
             }
             result.moveToNext();
@@ -679,11 +683,11 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     @Override
     public ArrayList<UserExercise> getExercisesOfAUserSession(int intIDUserWorkoutSession,int userID,Date executionDate) {//TODO controllare, non ho bisogno di id user???
         String  MY_QUERY    =   "SELECT * FROM "+UserMakesExercise_tablename+" JOIN "+Exercise_tablename+" ON "+UserMakesExercise_tablename+"."+UserMakesExercise_exID+"="+Exercise_tablename+"."+Exercise_ID+" NATURAL JOIN "+SessionMadeByExercises_tablename+" WHERE "+UserMakesExercise_tablename+"."+UserMakesSession_UserID+"=? AND "+UserMakesExercise_tablename+"."+UserMakesExercise_execution_date+"=\""+Singletons.getStringFromDate(executionDate)+"\" AND "+SessionMadeByExercises_tablename+"."+SessionMadeByExercises_WorkoutSessionID+"=? ORDER BY "+SessionMadeByExercises_Progressive;
-        System.out.println("Query: "+MY_QUERY);
+        //System.out.println("Query: "+MY_QUERY);
         //String MY_QUERY = "SELECT * FROM "+UserMakesSession_tablename+" NATURAL JOIN "+SessionMadeByExercises_tablename+" NATURAL JOIN "+Exercise_tablename;//+" WHERE "+SessionMadeByExercises_WorkoutSessionID+"=?"
         Cursor result   =   this.sqlGymDatabase.rawQuery(MY_QUERY, new String[]{String.valueOf(userID),String.valueOf(intIDUserWorkoutSession)});//TODO clean
         ArrayList<UserExercise> userWorkoutSessionArrayList = new ArrayList<>();
-        System.out.println("number of exercises of this userworkoutsession "+intIDUserWorkoutSession+" "+result.getCount());
+        //System.out.println("number of exercises of this userworkoutsession "+intIDUserWorkoutSession+" "+result.getCount());
         result.moveToFirst();
         for(int i=0;i<result.getCount();i++){
             int     exerciseID   =   result.getInt(result.getColumnIndex(Exercise_ID));
@@ -697,7 +701,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
             String  comment      =   result.getString(result.getColumnIndex(UserMakesExercise_comment));
             int     progressive  =   result.getInt(result.getColumnIndex(SessionMadeByExercises_Progressive));
             int     rating       =   result.getInt(result.getColumnIndex(UserMakesExercise_rating));
-            System.out.println("RATING LOADED "+rating);
+            //System.out.println("RATING LOADED "+rating);
             //TODO handle boolean with int
             boolean completed    =   false;
             userWorkoutSessionArrayList.add(new UserExercise(exerciseID,executionDate,userID,this,frequency,name,recovery,repetition,series,usedWeight,completed,comment,muscles,this,rating));
