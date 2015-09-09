@@ -233,8 +233,7 @@ public class UserWorkoutSessionCreateCardItemView extends CardItemView<UserWorko
                 new OnButtonPressListener() {
                     @Override
                     public void onButtonPressedListener(View view, Card card) {
-                        Intent intent = new Intent(getContext(), ExerciseListActivity.class);
-                        getContext().startActivity(intent);
+
                     }
                 }.onButtonPressedListener(detailsTextButton, card);
             }
