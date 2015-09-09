@@ -64,7 +64,6 @@
     <string name="submit">Invia</string>
     <string name="switch_preference_sound">Attiva il sonoro nell\'app</string>
     <string name="switch_sound_preference_key">cambio_valores_suono</string>
-    <string name="title_activity_feedback">FeedbackActivity</string>
     <string name="voice_preference_checkbox">Voce</string>
     <string name="voice_preference_key">valore_voce</string>
     <string name="voice_preference_summary_off">Vocale ora disattivato.</string>
@@ -85,4 +84,7 @@
     <string name="workout_description_and">e</string>
     <string name="workout_description_indetails">In dettaglio:</string>
     <string name="action_chronology">Cronologia</string>
+    <string name="repetitions_title">Ripetizioni</string>
+    <string name="workouts">Allenamenti</string>
+    <string name="workout_detail">Dettaglio allenamento</string>
 </resources>

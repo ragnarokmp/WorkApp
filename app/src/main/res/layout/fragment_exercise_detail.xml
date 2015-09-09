@@ -47,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
-                    android:layout_marginTop="@dimen/big_padding">
+                    android:layout_marginTop="@dimen/spacing_xlarge">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0.3"
-                    android:layout_marginTop="@dimen/big_padding">
+                    android:layout_marginTop="@dimen/spacing_xlarge">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/completion_layout"
                     android:layout_weight="0.3"
-                    android:layout_marginTop="@dimen/big_padding">
+                    android:layout_marginTop="@dimen/spacing_xlarge">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -137,12 +137,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/exercise_detail"
                 android:textColor="@color/description_color"
-                android:padding="@dimen/big_padding"
+                android:paddingTop="@dimen/small_padding"
+                android:paddingLeft="@dimen/big_padding"
+                android:paddingRight="@dimen/big_padding"
+                android:paddingBottom="@dimen/big_padding"
                 android:textSize="@dimen/description_size"
                 android:layout_below="@+id/session_image_view"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="@dimen/small_padding" />
+                android:layout_alignParentStart="true"/>
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/start_fab"

@@ -95,7 +95,7 @@ public class ExerciseDetailFragment extends Fragment {
 
             ImageView exerciseImageView = (ImageView) rootView.findViewById(R.id.session_image_view);
 
-            int resourceId = getResources().getIdentifier("exercise_" + String.valueOf((exerciseID) % 8), "raw", getActivity().getPackageName());
+            int resourceId = getResources().getIdentifier("exercise_" + String.valueOf(((exerciseID) % 8) + 1), "raw", getActivity().getPackageName());
 
             Picasso.with(getActivity())
                     .load(resourceId)

@@ -93,7 +93,7 @@
         </activity>
         <activity
             android:name=".WorkoutListActivity"
-            android:label="@string/title_workout_list"
+            android:label="@string/workout"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -101,7 +101,7 @@
         </activity>
         <activity
             android:name=".WorkoutDetailActivity"
-            android:label="@string/title_workout_detail"
+            android:label="@string/workout_detail"
             android:parentActivityName=".WorkoutListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
