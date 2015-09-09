@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.User;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.util.App;
@@ -40,6 +42,7 @@ public class ExerciseListFragment extends ListFragment {
 
     // to visualize the exercises list
     public static ArrayList<Exercise> exercises;
+    private UserWorkoutSession userWorkoutSession;
     public ExercisesListAdapter exercisesListAdapter;
 
     /**
@@ -68,7 +71,7 @@ public class ExerciseListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        void onItemSelected(String id);
+        void onItemSelected(UserWorkoutSession userWorkoutSession, int exerciseID);
     }
 
     /**
@@ -77,7 +80,7 @@ public class ExerciseListFragment extends ListFragment {
      */
     private static Callbacks exerciseCallback = new Callbacks() {
         @Override
-        public void onItemSelected(String id) {
+        public void onItemSelected(UserWorkoutSession userWorkoutSession, int exerciseID) {
 
         }
     };
@@ -111,24 +114,10 @@ public class ExerciseListFragment extends ListFragment {
 
         Intent intent = getActivity().getIntent();
 
-        if (intent.hasExtra("userID")) {
-
-            ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(getActivity().getIntent().getExtras().getInt("userID"));
-            ArrayList<UserWorkoutSession> firstWorkoutSessions = new ArrayList<>();
-            if (usWorkouts.size() > 0) {
-                //The first workout that is not finished will be used
-                for (int i = 0; i < usWorkouts.size(); i++) {
-                    try {
-                        if (usWorkouts.get(i).allSessionDone() == false) {
-                            firstWorkoutSessions = usWorkouts.get(i).getWoSessions();
-                            break;
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-            UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
+        if (intent.hasExtra("workoutSession")) {
+            userWorkoutSession = intent.getExtras().getParcelable("workoutSession");
+            User currentUser =   ((App) getActivity().getApplication()).getCurrentUser();
+            userWorkoutSession = dbSerializer.loadSession(userWorkoutSession.getId(),currentUser,userWorkoutSession.getDateSessionDate());
             exercises = userWorkoutSession.getExercisesOfSession();
             exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
@@ -184,7 +173,8 @@ public class ExerciseListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(String.valueOf(exercises.get(position).getId()));
+        Log.i("andrea","Item" + String.valueOf(position) + "selected");
+        mCallbacks.onItemSelected(userWorkoutSession,position);
 
     }
 

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.User;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserExercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
@@ -52,8 +53,16 @@ public class ExerciseDetailFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey("exerciseID")) {
-            currentExercise = getActivity().getIntent().getParcelableExtra("exerciseID"); //DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+        SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
+        dbSerializer.open();
+
+        if (getArguments().containsKey("workoutSession")) {
+            UserWorkoutSession userWorkoutSession = savedInstanceState.getParcelable("workoutSession");
+            User currentUser =   ((App) getActivity().getApplication()).getCurrentUser();
+            assert userWorkoutSession != null;
+            userWorkoutSession = dbSerializer.loadSession(userWorkoutSession.getId(),currentUser,userWorkoutSession.getDateSessionDate());
+            ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
+            currentExercise = exercises.get(savedInstanceState.getInt("exerciseID"));
 
         } else {
 

@@ -62,8 +62,7 @@ public class WorkoutFragment extends BaseFragment {
             @Override
             public void onItemClick(CardItemView cardItemView, int i) {
                 Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
-                intent.putExtra("userID", userID);
-                intent.putExtra("workoutID", i);
+                intent.putExtra("workoutSession",(UserWorkoutSession) cardItemView.getTag());
                 getActivity().startActivity(intent);
             }
 
