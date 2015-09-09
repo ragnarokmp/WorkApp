@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.User;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserExercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
@@ -37,7 +38,7 @@ public class ExerciseDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
 
     int exerciseID;
-
+    private UserWorkoutSession userWorkoutSession;
     private Exercise currentExercise;
 
     /**
@@ -52,8 +53,17 @@ public class ExerciseDetailFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey("exerciseID")) {
-            currentExercise = getActivity().getIntent().getParcelableExtra("exerciseID"); //DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+        SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
+        dbSerializer.open();
+
+        if (getArguments().containsKey("workoutSession")) {
+            userWorkoutSession = savedInstanceState.getParcelable("workoutSession");
+            User currentUser =   ((App) getActivity().getApplication()).getCurrentUser();
+            assert userWorkoutSession != null;
+            userWorkoutSession = dbSerializer.loadSession(userWorkoutSession.getId(),currentUser,userWorkoutSession.getDateSessionDate());
+            ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
+            exerciseID = savedInstanceState.getInt("exerciseID");
+            currentExercise = (UserExercise) exercises.get(exerciseID);
 
         } else {
 
@@ -69,7 +79,7 @@ public class ExerciseDetailFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_exercise_detail, container, false);
 
@@ -129,7 +139,12 @@ public class ExerciseDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StartExerciseActivity.class);
-                intent.putExtra("exercise",currentExercise);
+                if (currentExercise instanceof UserExercise) {
+                    intent.putExtra("workoutSession",userWorkoutSession);
+                    intent.putExtra("exerciseID",exerciseID);
+                } else {
+                    intent.putExtra("exercise", currentExercise);
+                }
                 getActivity().startActivity(intent);
             }
         });

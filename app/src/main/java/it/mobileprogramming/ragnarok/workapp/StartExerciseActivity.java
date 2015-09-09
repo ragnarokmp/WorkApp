@@ -16,9 +16,13 @@ import com.hookedonplay.decoviewlib.charts.DecoDrawEffect;
 import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
 
+import java.util.ArrayList;
+
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.User;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserExercise;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
 
@@ -30,6 +34,8 @@ public class StartExerciseActivity extends BaseActivity {
     TextView textViewPercentage, textViewRemaining, totalRepetitions, currRepetition, totalSeries, currSeries;
     ImageView pauseImageView, stopImageView;
 
+    UserWorkoutSession userWorkoutSession;
+    int exerciseID;
     Exercise cExercise;
     CountDownTimer countDownTimer;
 
@@ -81,7 +87,18 @@ public class StartExerciseActivity extends BaseActivity {
         Intent intent = getIntent();
         SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
         dbSerializer.open();
-        if (intent.hasExtra("exercise")) {
+
+        if (intent.hasExtra("workoutSession")) {
+            //If it comes from a userWorkoutSession
+            userWorkoutSession = savedInstanceState.getParcelable("workoutSession");
+            User currentUser =   ((App) getApplication()).getCurrentUser();
+            assert userWorkoutSession != null;
+            userWorkoutSession = dbSerializer.loadSession(userWorkoutSession.getId(),currentUser,userWorkoutSession.getDateSessionDate());
+            ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
+            exerciseID = savedInstanceState.getInt("exerciseID");
+            cExercise = (UserExercise) exercises.get(exerciseID);
+        } else {
+            //if it comes from the generic list of exercises
             cExercise = intent.getParcelableExtra("exercise");
         }
         if (cExercise != null) {
