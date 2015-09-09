@@ -39,7 +39,7 @@ public class ExerciseListFragment extends ListFragment {
     private String website = "http://46.101.165.167/index.php/exercise/getAllExercise";
 
     // to visualize the exercises list
-    public ArrayList<Exercise> exercises;
+    public static ArrayList<Exercise> exercises;
     public ExercisesListAdapter exercisesListAdapter;
 
     /**
@@ -114,7 +114,20 @@ public class ExerciseListFragment extends ListFragment {
         if (intent.hasExtra("userID")) {
 
             ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(getActivity().getIntent().getExtras().getInt("userID"));
-            ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
+            ArrayList<UserWorkoutSession> firstWorkoutSessions = new ArrayList<>();
+            if (usWorkouts.size() > 0) {
+                //The first workout that is not finished will be used
+                for (int i = 0; i < usWorkouts.size(); i++) {
+                    try {
+                        if (usWorkouts.get(i).allSessionDone() == false) {
+                            firstWorkoutSessions = usWorkouts.get(i).getWoSessions();
+                            break;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
             UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
             exercises = userWorkoutSession.getExercisesOfSession();
             exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());

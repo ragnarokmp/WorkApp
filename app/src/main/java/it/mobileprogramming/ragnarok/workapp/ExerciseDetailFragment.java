@@ -52,29 +52,19 @@ public class ExerciseDetailFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
 
-        SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
-        dbSerializer.open();
-
-        if (getArguments().containsKey("userID")) {
-
-            ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(getActivity().getIntent().getExtras().getInt("userID"));
-            ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
-            UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
-            ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
-            exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
-            currentExercise = exercises.get(exerciseID); //DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+        if (getArguments().containsKey("exerciseID")) {
+            currentExercise = getActivity().getIntent().getParcelableExtra("exerciseID"); //DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
 
         } else {
 
             if (getActivity().getIntent().getExtras() != null) {
                 // Mobile
-                exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
+                currentExercise = getActivity().getIntent().getParcelableExtra("exerciseID");
             } else {
                 // Tablet
-                exerciseID = getArguments().getInt("exerciseID");
+                currentExercise = getArguments().getParcelable("exerciseID");
             }
 
-            currentExercise = dbSerializer.loadExercise(exerciseID);
         }
     }
 
@@ -96,7 +86,7 @@ public class ExerciseDetailFragment extends Fragment {
 
             ImageView exerciseImageView = (ImageView) rootView.findViewById(R.id.session_image_view);
 
-            int resourceId = getResources().getIdentifier("exercise_" + String.valueOf((exerciseID) % 8), "raw", getActivity().getPackageName());
+            int resourceId = getResources().getIdentifier("exercise_" + String.valueOf((currentExercise.getId()) % 8), "raw", getActivity().getPackageName());
 
             Picasso.with(getActivity())
                     .load(resourceId)
@@ -139,7 +129,7 @@ public class ExerciseDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StartExerciseActivity.class);
-                intent.putExtra("exerciseID",exerciseID);
+                intent.putExtra("exercise",currentExercise);
                 getActivity().startActivity(intent);
             }
         });

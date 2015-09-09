@@ -27,6 +27,7 @@ import java.util.Locale;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserExercise;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
 
@@ -38,8 +39,8 @@ public class StartExerciseActivity extends BaseActivity {
     TextView textViewPercentage, textViewRemaining, totalRepetitions, currRepetition, totalSeries, currSeries;
     ImageView pauseImageView, stopImageView;
 
-    CountDownTimer countDownTimer;
     Exercise cExercise;
+    CountDownTimer countDownTimer;
 
     public int millis;
     public int repetitions;
@@ -89,8 +90,8 @@ public class StartExerciseActivity extends BaseActivity {
         Intent intent = getIntent();
         SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
         dbSerializer.open();
-        if (intent.hasExtra("exerciseID")) {
-            cExercise = dbSerializer.loadExercise(intent.getExtras().getInt("exerciseID"));
+        if (intent.hasExtra("exercise")) {
+            cExercise = intent.getParcelableExtra("exercise");
         }
         if (cExercise != null) {
             // setup for the very first time the exercise
@@ -363,9 +364,9 @@ public class StartExerciseActivity extends BaseActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putLong("leftTime"        , leftTime);
+        outState.putLong("leftTime", leftTime);
         outState.putInt("currentRepetition", currentRepetition);
-        outState.putInt("currentSerie"     , currentSerie);
+        outState.putInt("currentSerie", currentSerie);
         outState.putBoolean("stopped"      , stopped);
     }
 
