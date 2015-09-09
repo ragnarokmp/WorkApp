@@ -64,7 +64,6 @@
     <string name="submit">Invia</string>
     <string name="switch_preference_sound">Attiva il sonoro nell\'app</string>
     <string name="switch_sound_preference_key">cambio_valores_suono</string>
-    <string name="title_activity_feedback">FeedbackActivity</string>
     <string name="voice_preference_checkbox">Voce</string>
     <string name="voice_preference_key">valore_voce</string>
     <string name="voice_preference_summary_off">Vocale ora disattivato.</string>
@@ -78,6 +77,7 @@
     <string name="exercise_detail_description_with">con</string>
     <string name="action_new">Crea nuovo</string>
     <string name="action_select">Seleziona workout</string>
+    <string name="internal_error">Oooops: internal error occurred!</string>
     <string name="workout_description_default_intro">Nella sessione di $</string>
     <string name="workout_description_intro_1">$Domani$ lavoreremo su $</string>
     <string name="workout_description_intro_2">$Dopodomani$ lavoreremo su $</string>
@@ -99,4 +99,11 @@
     <string name="title_activity_execises_list_activity_checkbox">Seleziona esercizi</string>
     <string name="exercises_text_button">SELEZIONA ESERCIZI</string>
     <string name="date_text_button">SELEZIONA DATA</string>
+    <string name="repetitions_title">Ripetizioni</string>
+    <string name="workouts">Allenamenti</string>
+    <string name="workout_detail">Dettaglio allenamento</string>
+    <string name="complete">Completato!</string>
+    <string name="development">Sei uno sviluppatore?</string>
+    <string name="exercise_detail_skip">Prossimo esercizio</string>
+    <string name="exercise_detail_skip_finish">Dacci un feedback</string>
 </resources>

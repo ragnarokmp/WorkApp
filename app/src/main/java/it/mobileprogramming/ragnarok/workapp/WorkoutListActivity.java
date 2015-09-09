@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 
@@ -98,6 +100,9 @@ public class WorkoutListActivity extends BaseActivityWithToolbar implements Work
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.workout_detail_container, fragment)
                     .commit();
+
+            TextView emptyWorkoutTextView = (TextView) findViewById(R.id.empty_workout);
+            emptyWorkoutTextView.setVisibility(View.GONE);
 
         } else {
             // In single-pane mode, simply start the detail activity

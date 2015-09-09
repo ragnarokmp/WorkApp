@@ -19,8 +19,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.GymModel.User;
+import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
+import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithNavigationDrawer;
 import it.mobileprogramming.ragnarok.workapp.util.BitmapHelper;
@@ -32,6 +36,22 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Vi
         // Make sure this is before calling super.onCreate for launch screen
         setTheme(R.style.WorkApp);
         super.onCreate(savedInstanceState);
+
+        // TODO DEVELOPMENT
+        SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
+        Workout newWorkout = new Workout("Workout di prova","custom","Difficile",dbSerializer);
+
+        WorkoutSession testSession = new WorkoutSession("",dbSerializer);
+        newWorkout.addWorkoutSession(testSession, true, 0);
+
+        WorkoutSession testSession2 = new WorkoutSession("",dbSerializer);
+        newWorkout.addWorkoutSession(testSession2, true, 1);
+
+        Exercise ex1 = new Exercise(dbSerializer,2,"Esercizio n°1",15,10,3,"25","Bicipiti");
+        testSession.addExerciseToWorkoutSession(ex1, 0, true);
+
+        Exercise ex2 = new Exercise(dbSerializer,2,"Esercizio n°2",15,10,3,"25","Quadricipiti");
+        testSession2.addExerciseToWorkoutSession(ex2, 0, true);
 
         // Set the WorkoutFragment
         setFragment(TypeFragment.Workout);
@@ -206,6 +226,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Vi
                     bAsync.execute(avatar_string);
                 }
             } else {
+
                 ((ImageView) findViewById(R.id.avatar)).setImageBitmap(BitmapHelper
                         .decodeBase64(pref.getString("personAvatarBitmap", null)));
             }
@@ -254,6 +275,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Vi
             Bitmap avatar_bitmap = BitmapFactory.decodeStream(result);
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor editor = pref.edit();
+
             editor.putString("personAvatarBitmap", BitmapHelper.encodeToBase64(avatar_bitmap));
             editor.apply();
 

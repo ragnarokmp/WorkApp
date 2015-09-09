@@ -39,13 +39,15 @@
                 android:layout_alignBottom="@+id/session_image_view"
                 android:background="@drawable/shadow"
                 android:padding="@dimen/small_padding"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                android:id="@+id/linear_layout">
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3">
+                    android:layout_weight="0.3"
+                    android:layout_marginTop="@dimen/spacing_xlarge">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -62,18 +64,19 @@
                         android:layout_height="wrap_content"
                         tools:text="40 min"
                         android:id="@+id/duration_text_view"
+                        android:textColor="@color/secondary_text"
                         style="@style/Base.TextAppearance.AppCompat.Body1"
                         android:layout_gravity="center_vertical"
-                        android:textStyle="italic"
-                        android:singleLine="true"
-                        android:textColor="@color/secondary_text" />
+                        android:textStyle="bold|italic"
+                        android:singleLine="true" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3">
+                    android:layout_weight="0.3"
+                    android:layout_marginTop="@dimen/spacing_xlarge">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -90,24 +93,58 @@
                         android:layout_height="wrap_content"
                         tools:text="14"
                         android:id="@+id/exercises_text_view"
+                        android:textColor="@color/secondary_text"
                         style="@style/Base.TextAppearance.AppCompat.Body1"
                         android:layout_gravity="center_vertical"
-                        android:textStyle="italic"
-                        android:singleLine="true"
-                        android:textColor="@color/secondary_text" />
+                        android:textStyle="bold|italic"
+                        android:singleLine="true" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/completion_layout"
+                    android:layout_weight="0.3"
+                    android:layout_marginTop="@dimen/spacing_xlarge">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="COMPLETION"
+                        android:id="@+id/completion_title_text_view"
+                        style="@style/Base.TextAppearance.AppCompat.Small"
+                        android:textColor="@color/primary"
+                        android:textStyle="bold"
+                        android:singleLine="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="60%"
+                        android:id="@+id/completion_text_view"
+                        android:textColor="@color/secondary_text"
+                        style="@style/Base.TextAppearance.AppCompat.Body1"
+                        android:layout_gravity="center_vertical"
+                        android:textStyle="bold|italic"
+                        android:singleLine="true" />
+                </LinearLayout>
             </LinearLayout>
 
             <TextView
+                tools:text="In the session of 25 june we will work on muscle1, muscle2 and muscle3 with 4xexercise1, 10xexercise2 and 5xesercise3."
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/description_text_view"
                 android:textColor="@color/description_color"
-                android:padding="@dimen/big_padding"
+                android:paddingTop="@dimen/small_padding"
+                android:paddingLeft="@dimen/big_padding"
+                android:paddingRight="@dimen/big_padding"
+                android:paddingBottom="@dimen/big_padding"
                 android:textSize="@dimen/description_size"
                 android:layout_below="@+id/session_image_view"
-                tools:text="In the session of 25 june we will work on muscle1, muscle2 and muscle3 with 4xexercise1, 10xexercise2 and 5xesercise3."/>
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
 
             <View
                 android:id="@+id/card_divider"

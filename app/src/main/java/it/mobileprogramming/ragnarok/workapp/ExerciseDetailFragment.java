@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.User;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserExercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
@@ -37,8 +40,12 @@ public class ExerciseDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
 
     int exerciseID;
-
+    private UserWorkoutSession userWorkoutSession;
     private Exercise currentExercise;
+    private ArrayList<Exercise> exercises;
+
+    private boolean workout_session  = false;
+    private boolean workout_finished = false;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -55,31 +62,33 @@ public class ExerciseDetailFragment extends Fragment {
         SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
 
-        if (getArguments().containsKey("userID")) {
+        if (getArguments().containsKey("workoutSession")) {
+            // if in workout session the play button can be activated
+            workout_session = true;
 
-            ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(getActivity().getIntent().getExtras().getInt("userID"));
-            ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
-            UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
-            ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
-            exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
-            currentExercise = exercises.get(exerciseID); //DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            userWorkoutSession = savedInstanceState.getParcelable("workoutSession");
+            User currentUser =   ((App) getActivity().getApplication()).getCurrentUser();
+            assert userWorkoutSession != null;
+            userWorkoutSession = dbSerializer.loadSession(userWorkoutSession.getId(),currentUser,userWorkoutSession.getDateSessionDate());
+            exercises = userWorkoutSession.getExercisesOfSession();
+            exerciseID = savedInstanceState.getInt("exerciseID");
+            currentExercise = (UserExercise) exercises.get(exerciseID);
 
         } else {
 
             if (getActivity().getIntent().getExtras() != null) {
                 // Mobile
-                exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
+                currentExercise = getActivity().getIntent().getParcelableExtra("exerciseID");
             } else {
                 // Tablet
-                exerciseID = getArguments().getInt("exerciseID");
+                currentExercise = getArguments().getParcelable("exerciseID");
             }
 
-            currentExercise = dbSerializer.loadExercise(exerciseID);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_exercise_detail, container, false);
 
@@ -88,15 +97,14 @@ public class ExerciseDetailFragment extends Fragment {
             durationTitleTextView.setText(getResources().getString(R.string.duration_title).toUpperCase());
 
             TextView exercisesTitleTextView = (TextView) rootView.findViewById(R.id.exercises_title_text_view);
-            exercisesTitleTextView.setVisibility(View.INVISIBLE);
-
+            exercisesTitleTextView.setText(getResources().getString(R.string.repetitions_title).toUpperCase());
 
             TextView completionTitleTextView = (TextView) rootView.findViewById(R.id.completion_title_text_view);
             completionTitleTextView.setText(getResources().getString(R.string.completion_title).toUpperCase());
 
             ImageView exerciseImageView = (ImageView) rootView.findViewById(R.id.session_image_view);
 
-            int resourceId = getResources().getIdentifier("exercise_" + String.valueOf((exerciseID) % 8), "raw", getActivity().getPackageName());
+            int resourceId = getResources().getIdentifier("exercise_" + String.valueOf((currentExercise.getId()) % 8), "raw", getActivity().getPackageName());
 
             Picasso.with(getActivity())
                     .load(resourceId)
@@ -104,6 +112,16 @@ public class ExerciseDetailFragment extends Fragment {
                     .centerCrop()
                     .placeholder(R.drawable.ic_logo_colored)
                     .into(exerciseImageView);
+
+            FloatingActionButton startFloatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.start_fab);
+            startFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), StartExerciseActivity.class);
+                    intent.putExtra("exerciseID", exerciseID);
+                    getActivity().startActivity(intent);
+                }
+            });
 
             if (currentExercise instanceof UserExercise) {
                 if (((UserExercise) currentExercise).isDone()) {
@@ -114,7 +132,8 @@ public class ExerciseDetailFragment extends Fragment {
                     ((TextView) rootView.findViewById(R.id.completion_text_view)).setText(done);
                 }
             } else {
-                completionTitleTextView.setVisibility(View.INVISIBLE);
+                rootView.findViewById(R.id.completion_layout).setVisibility(View.GONE);
+                startFloatingActionButton.setVisibility(View.GONE);
             }
 
             String description = "$";
@@ -129,18 +148,71 @@ public class ExerciseDetailFragment extends Fragment {
 
             ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(boldTextBetweenTokens(description, "$"));
 
+            ((TextView) rootView.findViewById(R.id.exercises_text_view)).setText(String.valueOf(currentExercise.getSeries() * currentExercise.getRepetition()));
+
             int totalTime = 0;
             totalTime += (currentExercise.getRepetition() / currentExercise.getFrequency()) * currentExercise.getSeries() + (currentExercise.getSeries() - 1)* currentExercise.getRecovery();
             ((TextView) rootView.findViewById(R.id.duration_text_view)).setText("~" + totalTime / 60 + " min");
         }
 
+
         FloatingActionButton startFloatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.start_fab);
+        Button skipButton                              = (Button)               rootView.findViewById(R.id.skip);
+        if (workout_session) {
+            startFloatingActionButton.setVisibility(View.VISIBLE);
+            skipButton.setVisibility(View.VISIBLE);
+            if ((exerciseID + 1) == (exercises.size() - 1)) {
+                workout_finished = true;
+                skipButton.setText(getString(R.string.exercise_detail_skip_finish));
+            }
+        }
+
         startFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StartExerciseActivity.class);
-                intent.putExtra("exerciseID",exerciseID);
+                if (currentExercise instanceof UserExercise) {
+                    intent.putExtra("workoutSession", userWorkoutSession);
+                    intent.putExtra("exerciseID", exerciseID);
+                } else {
+                    intent.putExtra("exercise", currentExercise);
+                }
                 getActivity().startActivity(intent);
+            }
+        });
+
+        skipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((UserExercise) currentExercise).isDone();
+
+                Intent intent;
+                if (workout_finished) {
+                    // last exercise
+                    intent = new Intent(getActivity(), FeedbackActivity.class);
+                    intent.putExtra("item", (UserExercise) currentExercise);
+                    startActivity(intent);
+                } else {
+                    intent = new Intent(getActivity(), ExerciseDetailActivity.class);
+                    intent.putExtra("exerciseID", exercises.get(exerciseID++));
+                    startActivity(intent);
+                }
+            }
+        });
+
+
+        rootView.setFocusableInTouchMode(true);
+        rootView.requestFocus();
+        rootView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (event.getAction() == KeyEvent.ACTION_UP &&
+                    keyCode == KeyEvent.KEYCODE_BACK && workout_session) {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                    return true;
+                }
+                return false;
             }
         });
 

@@ -13,6 +13,8 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:id="@+id/linear_layout_repetition"
         android:gravity="center_horizontal"
         android:layout_above="@+id/linear_layout_image_pause"
@@ -36,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10 "
-                android:id="@+id/textView3"
+                android:id="@+id/currentRepTV"
                 style="@style/TextAppearance.AppCompat"
                 android:textColor="@android:color/white" />
 
@@ -44,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="/ 20"
-                android:id="@+id/textView2"
+                android:id="@+id/totalRepTV"
                 android:textStyle="bold"
                 style="@style/TextAppearance.AppCompat"
                 android:textColor="@android:color/white" />
@@ -68,6 +70,8 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
         android:id="@+id/linear_layout_series"
         android:gravity="center_horizontal"
         android:layout_above="@+id/linear_layout_image_stop"
@@ -92,7 +96,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10 "
-                android:id="@+id/textView5"
+                android:id="@+id/currentSeriesTV"
                 android:textColor="@android:color/white" />
 
             <TextView
@@ -101,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:text="/ 20"
                 android:textStyle="bold"
-                android:id="@+id/textView6"
+                android:id="@+id/totalSeriesTV"
                 android:textColor="@android:color/white" />
         </LinearLayout>
 

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.User;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.util.App;
@@ -39,8 +42,11 @@ public class ExerciseListFragment extends ListFragment {
     private String website = "http://46.101.165.167/index.php/exercise/getAllExercise";
 
     // to visualize the exercises list
-    public ArrayList<Exercise> exercises;
+    public static ArrayList<Exercise> exercises;
+    private UserWorkoutSession userWorkoutSession;
     public ExercisesListAdapter exercisesListAdapter;
+
+    private boolean workout_session = false;
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -68,7 +74,7 @@ public class ExerciseListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        void onItemSelected(String id);
+        void onItemSelected(UserWorkoutSession userWorkoutSession, int exerciseID);
     }
 
     /**
@@ -77,7 +83,7 @@ public class ExerciseListFragment extends ListFragment {
      */
     private static Callbacks exerciseCallback = new Callbacks() {
         @Override
-        public void onItemSelected(String id) {
+        public void onItemSelected(UserWorkoutSession userWorkoutSession, int exerciseID) {
 
         }
     };
@@ -111,11 +117,10 @@ public class ExerciseListFragment extends ListFragment {
 
         Intent intent = getActivity().getIntent();
 
-        if (intent.hasExtra("userID")) {
-
-            ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(getActivity().getIntent().getExtras().getInt("userID"));
-            ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
-            UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
+        if (intent.hasExtra("workoutSession")) {
+            userWorkoutSession = intent.getExtras().getParcelable("workoutSession");
+            User currentUser =   ((App) getActivity().getApplication()).getCurrentUser();
+            userWorkoutSession = dbSerializer.loadSession(userWorkoutSession.getId(),currentUser,userWorkoutSession.getDateSessionDate());
             exercises = userWorkoutSession.getExercisesOfSession();
             exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
@@ -126,11 +131,6 @@ public class ExerciseListFragment extends ListFragment {
             exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
 
-            // When arrive from workout detail in read mode, see WorkoutDetailFragment for info
-            if (intent.hasExtra("readMode")){
-                // TODO: remove play button
-                // TODO: handle backButton in correct way for back in Workout Detail
-            }
         }
     }
 
@@ -171,7 +171,8 @@ public class ExerciseListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(String.valueOf(exercises.get(position).getId()));
+        Log.i("andrea","Item" + String.valueOf(position) + "selected");
+        mCallbacks.onItemSelected(userWorkoutSession,position);
 
     }
 
@@ -209,7 +210,7 @@ public class ExerciseListFragment extends ListFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         Intent intent = getActivity().getIntent();
-        if (!intent.hasExtra("userID")) {
+        if (!intent.hasExtra("readMode")) {
             inflater.inflate(R.menu.menu_refresh, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
