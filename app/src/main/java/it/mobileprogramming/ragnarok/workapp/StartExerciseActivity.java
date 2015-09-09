@@ -127,7 +127,7 @@ public class StartExerciseActivity extends BaseActivity {
         // get DecoView
         decoView = (DecoView) findViewById(R.id.deco_view);
         seriesItem = new SeriesItem.Builder(getResources().getColor(R.color.accent))
-                .setRange(0, repetitions, 0)
+                .setRange(0, repetitions-1, 0)
                 .setLineWidth(32f)
                 .setSpinDuration(101)
                 .build();
@@ -157,8 +157,9 @@ public class StartExerciseActivity extends BaseActivity {
         });
 
         if (!stopped)
-            startCountDownTimer((int)leftTime, cExercise.getFrequency());
+            startCountDownTimer((int)leftTime);
         if (stopped) {
+            decoView.setVisibility(View.VISIBLE);
             int series1Index = decoView.addSeries(seriesItem);
             decoView.addEvent(new DecoEvent.Builder(currentRepetition).setIndex(series1Index).setDelay(0).build());
 
@@ -203,10 +204,10 @@ public class StartExerciseActivity extends BaseActivity {
         }
         else if (pauseImageView.getTag().equals(getString(R.string.play))) {
 
-            if (stopped && (currentRepetition != 1 || currentSerie != 1))
+            if (stopped && (currentRepetition != 0 || currentSerie != 1))
                 stopped = false;
             else {
-                leftTime          = 0;
+                leftTime          = millis;
                 currentRepetition = 0;
                 currentSerie      = 1;
                 stopped           = false;
@@ -222,7 +223,7 @@ public class StartExerciseActivity extends BaseActivity {
             if (countDownTimer != null)
                 countDownTimer.start();
             else
-                startCountDownTimer(millis, cExercise.getFrequency());
+                startCountDownTimer((int)leftTime);
 
             pauseImageView.setTag(getString(R.string.pause));
 
@@ -243,7 +244,7 @@ public class StartExerciseActivity extends BaseActivity {
      * to stop the countdown timer
      */
     public void onStopButton() {
-        leftTime          = 0;
+        leftTime          = millis;
         currentRepetition = 0;
         currentSerie      = 1;
         stopped           = true;
@@ -273,51 +274,53 @@ public class StartExerciseActivity extends BaseActivity {
     /**
      * this is the countdown time function
      * @param milliseconds: int, duration of the exercise
-     * @param frequency: int, number of repetitions per seconds
      */
-    private void startCountDownTimer(int milliseconds, int frequency) {
-        countDownTimer = new CountDownTimer(milliseconds + 1000, frequency) {
+    private void startCountDownTimer(int milliseconds) {
+        countDownTimer = new CountDownTimer(milliseconds + 1000, 1000) {
 
             @Override
             public void onTick(long leftTimeInMilliseconds) {
                 leftTime = leftTimeInMilliseconds;
                 long seconds = leftTimeInMilliseconds / 1000;
 
-                currentRepetition++;
-
                 // setting UI elements
-
                 int series1Index = decoView.addSeries(seriesItem);
                 decoView.addEvent(new DecoEvent.Builder(currentRepetition).setIndex(series1Index).setDelay(0).build());
-                currRepetition.setText(String.valueOf(currentRepetition));
-                textViewPercentage.setText(String.valueOf(currentRepetition));
+
+                if (currentRepetition != 0) {
+                    textViewPercentage.setText(String.valueOf(currentRepetition));
+                    currRepetition.setText(String.valueOf(currentRepetition));
+                }
+
+
+                currentRepetition++;
 
                 // format the textview to show the easily readable format
                 textViewRemaining.setText(String.format("%02d", (millis / 1000 - seconds) / 60) + "  :  " + String.format("%02d", (millis / 1000 - seconds) % 60));
 
-                if (currentRepetition == repetitions) {
+                if (currentRepetition > repetitions) {
                     series1Index = decoView.addSeries(seriesItem);
-                    decoView.addEvent(new DecoEvent.Builder(currentRepetition).setIndex(series1Index).setDelay(0).build());
+                    decoView.addEvent(new DecoEvent.Builder(currentRepetition + 1).setIndex(series1Index).setDelay(0).build());
 
-                    currentRepetition = 0;
+                    currentRepetition = 1;
                     decoView.executeReset();
                     series1Index = decoView.addSeries(seriesItem);
                     decoView.addEvent(new DecoEvent.Builder(currentRepetition).setIndex(series1Index).setDelay(0).build());
+
+
 
                     currentSerie++;
                     if (currentSerie <= series)
                         currSeries.setText(String.valueOf(currentSerie));
                 }
+
             }
 
             @Override
             public void onFinish() {
-                // this function will be called when the timecount is finished
-                textViewRemaining.setVisibility(View.INVISIBLE);
-                textViewPercentage.setVisibility(View.INVISIBLE);
 
 
-                if (currentSerie == series) {
+                if (currentSerie >= series) {
                     int series1Index = decoView.addSeries(seriesItem);
                     decoView.addEvent(new DecoEvent.Builder(DecoDrawEffect.EffectType.EFFECT_SPIRAL_EXPLODE)
                             .setIndex(series1Index)

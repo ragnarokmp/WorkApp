@@ -212,6 +212,37 @@ public class SigInActivity extends BaseActivityWithToolbar implements GoogleApiC
         super.onStop();
         mGoogleApiClient.disconnect();
     }
+
+
+    /**
+     * DEVELOPMENT ONLY - fictious WorkApp user
+     */
+    public void onDevClick(View v) {
+        final String personName   = "Emanuele Abate";
+        final int personGender    = 0;
+        final String personImage  = "http://img.datasport.it/images/2012/6/8/18423.jpg";
+        final String personEmail  = "emanuele.abate@gmail.com";
+
+        // getting shared preferences
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor prefeditor = pref.edit();
+        // getting DB serializer
+        UserSerializer userSerializer = ((App) getApplication()).getDBSerializer();
+        User user = (userSerializer.loadUser(personEmail) != null ? userSerializer.loadUser(personEmail) :
+                new User(personName             ,
+                        personEmail             ,
+                        personGender            ,
+                        new Date()              ,
+                        personImage             ,
+                        userSerializer          )
+        );
+        ((App) getApplication()).setCurrentUser(user);
+
+        prefeditor.putString("userEmail", personEmail);
+        prefeditor.putBoolean("signed_in", true);
+        prefeditor.apply();
+        finish();
+    }
 }
 
 
