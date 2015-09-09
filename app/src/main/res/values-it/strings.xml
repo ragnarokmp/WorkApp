@@ -88,4 +88,13 @@
     <string name="title_activity_workout_create">Crea workout</string>
     <string name="title_workout_detail">Workout dettaglio</string>
     <string name="title_workout_list">Workout</string>
+    <string name="text_insert_name">Inserisci il nome del workout</string>
+    <string name="text_insert_difficulty">Seleziona difficoltà</string>
+    <string name="difficulty_easy">Facile</string>
+    <string name="action_settings">Impostazioni</string>
+    <string name="hello_world">Ciao mondo!</string>
+    <string name="difficulty_medium">Medio</string>
+    <string name="difficulty_hard">Difficile</string>
+    <string name="add_session">+ Aggiungi sessione</string>
+    <string name="title_activity_execises_list_activity_checkbox">Seleziona esercizi</string>
 </resources>
