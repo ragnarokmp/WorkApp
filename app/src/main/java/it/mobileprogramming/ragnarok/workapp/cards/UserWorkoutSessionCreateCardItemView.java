@@ -207,13 +207,27 @@ public class UserWorkoutSessionCreateCardItemView extends CardItemView<UserWorko
      */
     private void setButtons(Boolean ButtonsVisible, final Card card) {
 
-        final TextView startNowTextButton = (TextView) findViewById(R.id.start_now_text_button);
+        final TextView startNowTextButton = (TextView) findViewById(R.id.date_text_button);
         startNowTextButton.setVisibility(ButtonsVisible ? VISIBLE : GONE);
-        final TextView detailsTextButton = (TextView) findViewById(R.id.details_text_button);
+
+        startNowTextButton.setText(getResources().getString(R.string.date_text_button).toUpperCase());
+        startNowTextButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+
+                    }
+                }.onButtonPressedListener(startNowTextButton, card);
+            }
+        });
+
+        final TextView detailsTextButton = (TextView) findViewById(R.id.exercises_text_button);
         detailsTextButton.setVisibility(ButtonsVisible ? VISIBLE : GONE);
 
-        startNowTextButton.setText(getResources().getString(R.string.start_now_button).toUpperCase());
-        startNowTextButton.setOnClickListener(new OnClickListener() {
+        detailsTextButton.setText(getResources().getString(R.string.exercises_text_button).toUpperCase());
+        detailsTextButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 new OnButtonPressListener() {
@@ -221,19 +235,6 @@ public class UserWorkoutSessionCreateCardItemView extends CardItemView<UserWorko
                     public void onButtonPressedListener(View view, Card card) {
                         Intent intent = new Intent(getContext(), ExeciseListActivityCheckbox.class);
                         getContext().startActivity(intent);
-                    }
-                }.onButtonPressedListener(startNowTextButton, card);
-            }
-        });
-
-        detailsTextButton.setText(getResources().getString(R.string.details_button).toUpperCase());
-        detailsTextButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                new OnButtonPressListener() {
-                    @Override
-                    public void onButtonPressedListener(View view, Card card) {
-
                     }
                 }.onButtonPressedListener(detailsTextButton, card);
             }
