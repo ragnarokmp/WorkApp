@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 
 /**
@@ -80,13 +81,15 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
      * indicating that the item with the given ID was selected.
      */
     @Override
-    public void onItemSelected(String id) {
+    public void onItemSelected(UserWorkoutSession userWorkoutSession, int position) {
+
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putInt("exerciseID", Integer.valueOf(id));
+            arguments.putParcelable("workoutSession",userWorkoutSession);
+            arguments.putInt("exerciseID",position);
             ExerciseDetailFragment fragment = new ExerciseDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -96,7 +99,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ExerciseDetailActivity.class);
-            detailIntent.putExtra("exerciseID", Integer.valueOf(id));
+            detailIntent.putExtra("exerciseID", ExerciseListFragment.exercises.get(position));
             startActivity(detailIntent);
         }
     }

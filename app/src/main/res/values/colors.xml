@@ -9,6 +9,7 @@
     <color name="secondary_text">#727272</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
+    <color name="recovery">#00FF00</color>
 
     <!-- Floating Action Button Menu -->
     <color name="black_semi_transparent">#B2000000</color>

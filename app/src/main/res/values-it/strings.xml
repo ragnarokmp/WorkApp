@@ -77,6 +77,7 @@
     <string name="exercise_detail_description_with">con</string>
     <string name="action_new">Crea nuovo</string>
     <string name="action_select">Seleziona workout</string>
+    <string name="internal_error">Oooops: internal error occurred!</string>
     <string name="workout_description_default_intro">Nella sessione di $</string>
     <string name="workout_description_intro_1">$Domani$ lavoreremo su $</string>
     <string name="workout_description_intro_2">$Dopodomani$ lavoreremo su $</string>
@@ -87,4 +88,6 @@
     <string name="repetitions_title">Ripetizioni</string>
     <string name="workouts">Allenamenti</string>
     <string name="workout_detail">Dettaglio allenamento</string>
+    <string name="complete">Completato!</string>
+    <string name="development">Sei uno sviluppatore?</string>
 </resources>

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.User;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserExercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
@@ -37,7 +38,7 @@ public class ExerciseDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
 
     int exerciseID;
-
+    private UserWorkoutSession userWorkoutSession;
     private Exercise currentExercise;
 
     /**
@@ -55,31 +56,30 @@ public class ExerciseDetailFragment extends Fragment {
         SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
 
-        if (getArguments().containsKey("userID")) {
-
-            ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(getActivity().getIntent().getExtras().getInt("userID"));
-            ArrayList<UserWorkoutSession> firstWorkoutSessions = usWorkouts.get(0).getWoSessions();
-            UserWorkoutSession userWorkoutSession = firstWorkoutSessions.get(getActivity().getIntent().getExtras().getInt("workoutID"));
+        if (getArguments().containsKey("workoutSession")) {
+            userWorkoutSession = savedInstanceState.getParcelable("workoutSession");
+            User currentUser =   ((App) getActivity().getApplication()).getCurrentUser();
+            assert userWorkoutSession != null;
+            userWorkoutSession = dbSerializer.loadSession(userWorkoutSession.getId(),currentUser,userWorkoutSession.getDateSessionDate());
             ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
-            exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
-            currentExercise = exercises.get(exerciseID); //DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            exerciseID = savedInstanceState.getInt("exerciseID");
+            currentExercise = (UserExercise) exercises.get(exerciseID);
 
         } else {
 
             if (getActivity().getIntent().getExtras() != null) {
                 // Mobile
-                exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
+                currentExercise = getActivity().getIntent().getParcelableExtra("exerciseID");
             } else {
                 // Tablet
-                exerciseID = getArguments().getInt("exerciseID");
+                currentExercise = getArguments().getParcelable("exerciseID");
             }
 
-            currentExercise = dbSerializer.loadExercise(exerciseID);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_exercise_detail, container, false);
 
@@ -95,7 +95,7 @@ public class ExerciseDetailFragment extends Fragment {
 
             ImageView exerciseImageView = (ImageView) rootView.findViewById(R.id.session_image_view);
 
-            int resourceId = getResources().getIdentifier("exercise_" + String.valueOf(((exerciseID) % 8) + 1), "raw", getActivity().getPackageName());
+            int resourceId = getResources().getIdentifier("exercise_" + String.valueOf((currentExercise.getId()) % 8), "raw", getActivity().getPackageName());
 
             Picasso.with(getActivity())
                     .load(resourceId)
@@ -145,6 +145,21 @@ public class ExerciseDetailFragment extends Fragment {
             totalTime += (currentExercise.getRepetition() / currentExercise.getFrequency()) * currentExercise.getSeries() + (currentExercise.getSeries() - 1)* currentExercise.getRecovery();
             ((TextView) rootView.findViewById(R.id.duration_text_view)).setText("~" + totalTime / 60 + " min");
         }
+
+        FloatingActionButton startFloatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.start_fab);
+        startFloatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), StartExerciseActivity.class);
+                if (currentExercise instanceof UserExercise) {
+                    intent.putExtra("workoutSession",userWorkoutSession);
+                    intent.putExtra("exerciseID",exerciseID);
+                } else {
+                    intent.putExtra("exercise", currentExercise);
+                }
+                getActivity().startActivity(intent);
+            }
+        });
 
         return rootView;
     }
