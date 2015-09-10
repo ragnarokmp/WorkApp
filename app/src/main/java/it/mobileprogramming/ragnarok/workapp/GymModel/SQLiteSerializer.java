@@ -585,10 +585,10 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     public UserWorkoutSession loadSession(int intUserSessionID,User anUser,Date sessionDate) {
         String MY_QUERY = "SELECT * FROM "+UserMakesSession_tablename+" NATURAL JOIN "+WorkoutSession_tablename+" NATURAL JOIN "+WorkoutMadeBySessions_tablename+" WHERE "+SessionMadeByExercises_WorkoutSessionID+"=? AND "+UserMakesExercise_execution_date+"=? AND "+UserMakesExercise_userID+"=?";
         Cursor result   =   this.sqlGymDatabase.rawQuery(MY_QUERY, new String[]{String.valueOf(intUserSessionID), Singletons.getStringFromDate(sessionDate), String.valueOf(anUser.getIntUserID())});
-        result.moveToFirst();
         if(result.getCount()<=0){
             return null;
         }
+        result.moveToFirst();
         String  photopath    =   result.getString(result.getColumnIndex(WorkoutSession_photopath));
         int     sessionID    =   result.getInt(result.getColumnIndex(UserMakesSession_WorkoutSID));
         String  comment      =   result.getString(result.getColumnIndex(UserMakesSession_Comment));

@@ -16,7 +16,6 @@
     <string name="sign_in">Sign in</string>
     <string name="workouts">Workouts</string>
     <string name="workout_detail">Workout detail</string>
-    <string name="feedback_title">Leave feedback</string>
 
     <!-- Workout menu -->
     <string name="action_change_workout">Change</string>
@@ -115,8 +114,6 @@
     <string name="title_activity_do_exercise">DoExerciseActivity</string>
     <string name="development">Are you a developer?</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="workout_description_default_intro">In the session of $</string>
     <string name="workout_description_intro_1">$Tomorrow$ we will work on $</string>
     <string name="workout_description_intro_2">$The day after tomorrow$ we will work on $</string>
