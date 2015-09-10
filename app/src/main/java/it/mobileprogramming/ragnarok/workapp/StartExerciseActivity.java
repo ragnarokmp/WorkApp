@@ -88,15 +88,9 @@ public class StartExerciseActivity extends BaseActivity {
         SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
         dbSerializer.open();
 
-        if (intent.hasExtra("workoutSession")) {
-            //If it comes from a userWorkoutSession
-            userWorkoutSession = savedInstanceState.getParcelable("workoutSession");
-            User currentUser =   ((App) getApplication()).getCurrentUser();
-            assert userWorkoutSession != null;
-            userWorkoutSession = dbSerializer.loadSession(userWorkoutSession.getId(),currentUser,userWorkoutSession.getDateSessionDate());
-            ArrayList<Exercise> exercises = userWorkoutSession.getExercisesOfSession();
-            exerciseID = savedInstanceState.getInt("exerciseID");
-            cExercise = (UserExercise) exercises.get(exerciseID);
+        if (intent.hasExtra("exercise")) {
+            cExercise = (UserExercise) intent.getExtras().getParcelable("exercise");
+
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.internal_error), Toast.LENGTH_LONG).show();
             finish();

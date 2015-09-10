@@ -84,8 +84,9 @@ public class WorkoutDetailFragment extends Fragment {
             public void onItemClick(CardItemView cardItemView, int i) {
 
                 Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
-                intent.putExtra("workoutID", i);
-                intent.putExtra("readMode", i);
+                intent.putExtra("workoutID",Integer.parseInt(workoutID));
+                intent.putExtra("sessionID",i);
+                intent.putExtra("readMode",0);
                 getActivity().startActivity(intent);
             }
 

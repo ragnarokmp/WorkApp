@@ -86,7 +86,7 @@
     <string name="feedback_comment">Please write a comment:</string>
     <string name="feedback_commentForm">Write your comment here</string>
     <string name="feedback_submitButton">Submit</string>
-    <string name="feedback_title">Leave feedback</string>
+   <!-- <string name="feedback_title">Leave feedback</string>-->
 
     <!-- Start Exercise Activity -->
     <string name="pause">Pause</string>
@@ -123,8 +123,8 @@
     <string name="action_chronology">Chronology</string>
     <string name="title_activity_workout_create">Create workout</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <!--<string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>-->
     <string name="text_insert_name">Insert workout name</string>
     <string name="text_insert_difficulty">Select difficulty</string>
     <string name="difficulty_easy">Easy</string>

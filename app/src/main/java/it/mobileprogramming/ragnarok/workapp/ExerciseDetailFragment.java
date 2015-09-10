@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -91,7 +92,6 @@ public class ExerciseDetailFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_exercise_detail, container, false);
-
         if (currentExercise != null) {
             TextView durationTitleTextView = (TextView) rootView.findViewById(R.id.duration_title_text_view);
             durationTitleTextView.setText(getResources().getString(R.string.duration_title).toUpperCase());
@@ -172,8 +172,7 @@ public class ExerciseDetailFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StartExerciseActivity.class);
                 if (currentExercise instanceof UserExercise) {
-                    intent.putExtra("workoutSession", userWorkoutSession);
-                    intent.putExtra("exerciseID", exerciseID);
+                    intent.putExtra("exercise",(UserExercise) currentExercise);
                 } else {
                     intent.putExtra("exercise", currentExercise);
                 }
@@ -208,7 +207,7 @@ public class ExerciseDetailFragment extends Fragment {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
                 if (event.getAction() == KeyEvent.ACTION_UP &&
-                    keyCode == KeyEvent.KEYCODE_BACK && workout_session) {
+                        keyCode == KeyEvent.KEYCODE_BACK && workout_session) {
                     getActivity().getSupportFragmentManager().popBackStack();
                     return true;
                 }

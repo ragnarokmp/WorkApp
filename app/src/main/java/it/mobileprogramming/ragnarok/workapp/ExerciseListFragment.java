@@ -24,6 +24,7 @@ import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.GymModel.User;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
+import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.JSONRoot;
 
@@ -120,13 +121,21 @@ public class ExerciseListFragment extends ListFragment {
         if (intent.hasExtra("workoutSession")) {
             userWorkoutSession = intent.getExtras().getParcelable("workoutSession");
             User currentUser =   ((App) getActivity().getApplication()).getCurrentUser();
+            assert userWorkoutSession != null;
             userWorkoutSession = dbSerializer.loadSession(userWorkoutSession.getId(),currentUser,userWorkoutSession.getDateSessionDate());
             exercises = userWorkoutSession.getExercisesOfSession();
+            Log.i("andrea",exercises.toString());
             exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
 
+        } else if (intent.hasExtra("readMode")) {
+            ArrayList<WorkoutSession> workoutSessions = dbSerializer.loadAllWorkoutSessionsForWorkout(intent.getExtras().getInt("workoutID"));
+            Log.i("andrea",workoutSessions.toString());
+            WorkoutSession currentSession = workoutSessions.get(intent.getExtras().getInt("sessionID"));
+            exercises = currentSession.getExercisesOfSession();
+            exercisesListAdapter = new ExercisesListAdapter(exercises,getActivity());
+            setListAdapter(exercisesListAdapter);
         } else {
-
             exercises = dbSerializer.loadAll();
             exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
