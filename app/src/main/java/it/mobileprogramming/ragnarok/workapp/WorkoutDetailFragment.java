@@ -1,5 +1,6 @@
 package it.mobileprogramming.ragnarok.workapp;
 
+import android.app.Application;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -13,6 +14,7 @@ import com.dexafree.materialList.controller.RecyclerItemClickListener;
 import com.dexafree.materialList.model.CardItemView;
 import java.util.ArrayList;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.User;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCard;
@@ -110,7 +112,8 @@ public class WorkoutDetailFragment extends Fragment {
             public void onClick(View v) {
 
                 Workout wkr = dbSerializer.loadWorkout(Integer.parseInt(workoutID));
-                wkr.createFromThisWorkout(dbSerializer.loadUser(1));
+                User currentUser    =   ((App) getActivity().getApplication()).getCurrentUser();
+                wkr.createFromThisWorkout(dbSerializer.loadUser(currentUser.getIntUserID()));
 
             }
         });
