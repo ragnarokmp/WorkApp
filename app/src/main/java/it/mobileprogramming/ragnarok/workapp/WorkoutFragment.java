@@ -28,7 +28,7 @@ import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
 
 public class WorkoutFragment extends BaseFragment {
     private int userID = 1; //TODO Federico: obtained after the successful login by the user
-
+    private FloatingActionsMenu fabm    =   null;
     public WorkoutFragment() {
         // Required empty public constructor
     }
@@ -129,6 +129,7 @@ public class WorkoutFragment extends BaseFragment {
         final FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.frame_layout);
         frameLayout.getBackground().setAlpha(0);
         final FloatingActionsMenu fabMenu = (FloatingActionsMenu) view.findViewById(R.id.multiple_actions);
+        this.fabm   =   fabMenu;
         fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
             public void onMenuExpanded() {
@@ -148,8 +149,20 @@ public class WorkoutFragment extends BaseFragment {
                 frameLayout.setOnTouchListener(null);
             }
         });
-
+        if(((App) getActivity().getApplication()).getCurrentUser()==null){
+            fabMenu.setEnabled(false);
+        }
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(fabm!=null){
+            if(((App) getActivity().getApplication()).getCurrentUser()!=null){
+                fabm.setEnabled(true);
+            }
+        }
     }
 
     @Override
