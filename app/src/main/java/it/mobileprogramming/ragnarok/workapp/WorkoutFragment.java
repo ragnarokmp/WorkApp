@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.User;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import com.dexafree.materialList.controller.RecyclerItemClickListener;
@@ -77,11 +78,13 @@ public class WorkoutFragment extends BaseFragment {
 
         //TODO Federico: the userID will be used here in order to obtain the workouts
         ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(userID);
+        System.out.println("WorkoutFragment loaded number of workouts "+usWorkouts.size());
         ArrayList<UserWorkoutSession> firstWorkoutSessions = new ArrayList<>();
         if (usWorkouts.size() > 0) {
             //The first workout that is not finished will be used
             for (int i = 0; i < usWorkouts.size(); i++) {
                 try {
+                    System.out.println("WorkoutFragment checking if all sessions done "+usWorkouts.get(i).allSessionDone());
                     if (usWorkouts.get(i).allSessionDone() == false) {
                         firstWorkoutSessions = usWorkouts.get(i).getWoSessions();
                         break;
@@ -152,6 +155,9 @@ public class WorkoutFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        User logged =   ((App)getActivity().getApplication()).getCurrentUser();
+        if(logged!=null){
+            userID  =   logged.getIntUserID();
+        }
     }
 }
