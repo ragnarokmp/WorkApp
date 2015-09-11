@@ -40,4 +40,18 @@ public class Singletons {
         java.text.DateFormat df = new java.text.SimpleDateFormat("dd/MM/yyyy",Locale.ITALY);
         return  df.format(aDate);
     }
+
+    public static int getIntFromBoolean(boolean value){
+        if (value==true){
+            return 1;
+        }
+        else return 0;
+    }
+    public static boolean getBooleanFromInt(int value){
+        if (value==1){
+            return true;
+        }
+        else return false;
+    }
+
 }
