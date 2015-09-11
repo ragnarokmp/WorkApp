@@ -16,6 +16,7 @@ import com.dexafree.materialList.model.CardItemView;
 import java.util.ArrayList;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.GymModel.User;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCard;
@@ -40,7 +41,7 @@ public class WorkoutDetailFragment extends BaseFragment {
      * The workout id passing from list fragment
      */
     private String workoutID;
-
+    private int userID=-1;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -57,11 +58,20 @@ public class WorkoutDetailFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (getArguments().containsKey("userID")) {
+            userID = getArguments().getInt("userID");
+        }
         if (getArguments().containsKey(WORKOUT_ID)) {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             workoutID = getArguments().getString(WORKOUT_ID);
+        }
+        if (getActivity().getIntent().hasExtra("userID")) {
+            userID = getActivity().getIntent().getExtras().getInt("userID");
+        }
+        if (getActivity().getIntent().hasExtra(WORKOUT_ID)) {
+            workoutID = getActivity().getIntent().getExtras().getString(WORKOUT_ID);
         }
     }
 
@@ -89,9 +99,14 @@ public class WorkoutDetailFragment extends BaseFragment {
             public void onItemClick(CardItemView cardItemView, int i) {
 
                 Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
-                intent.putExtra("workoutID",Integer.parseInt(workoutID));
-                intent.putExtra("sessionID",i);
-                intent.putExtra("readMode",0);
+                if (userID == -1) {
+                    intent.putExtra("workoutID", Integer.parseInt(workoutID));
+                    intent.putExtra("sessionID", i);
+                    intent.putExtra("readMode", 0);
+                } else {
+                    Log.i("andrea","eccolo");
+                    intent.putExtra("workoutSession", (UserWorkoutSession) cardItemView.getTag());
+                }
                 getActivity().startActivity(intent);
             }
 
@@ -103,8 +118,16 @@ public class WorkoutDetailFragment extends BaseFragment {
 
         final SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
-
-        ArrayList<WorkoutSession> workoutSessions = dbSerializer.loadAllWorkoutSessionsForWorkout(Integer.parseInt(workoutID));
+        ArrayList<WorkoutSession> workoutSessions;
+        if (userID == -1) {
+             workoutSessions = dbSerializer.loadAllWorkoutSessionsForWorkout(Integer.parseInt(workoutID));
+        } else {
+            ArrayList<UserWorkoutSession> temp = dbSerializer.loadAllSessionsForUserWorkout(userID,Integer.parseInt(workoutID));
+            workoutSessions = new ArrayList<WorkoutSession>();
+            for (int i = 0; i < temp.size(); i++) {
+                workoutSessions.add(temp.get(i));
+            }
+        }
 
         for (int j = 0; j < workoutSessions.size(); j++) {
             WorkoutSessionCard card = new WorkoutSessionCard(getActivity().getApplicationContext(), workoutSessions.get(j));

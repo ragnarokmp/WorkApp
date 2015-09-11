@@ -126,6 +126,7 @@ public class ExerciseListFragment extends ListFragment {
 //            System.out.println("ITERATORE "+boh.toString());
 //        }
         if (intent.hasExtra("workoutSession")) {
+            Log.i("andrea","Sono una sessioon");
             userWorkoutSession =  intent.getExtras().getParcelable("workoutSession");
             User currentUser =   ((App) getActivity().getApplication()).getCurrentUser();
             assert userWorkoutSession != null;
@@ -142,7 +143,6 @@ public class ExerciseListFragment extends ListFragment {
             exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
             ((App) getActivity().getApplication()).setCurrentWorkoutSession(currentSession);
-
 
         } else if (intent.hasExtra("back")) {
             WorkoutSession workSession = ((App) getActivity().getApplication()).getCurrentWorkoutSession();
@@ -239,7 +239,8 @@ public class ExerciseListFragment extends ListFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         Intent intent = getActivity().getIntent();
-        if (!intent.hasExtra("readMode") && !intent.hasExtra("workoutSession")) {
+        //TODO There must be a better way to control this
+        if (intent.getExtras() == null) {
             inflater.inflate(R.menu.menu_refresh, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);

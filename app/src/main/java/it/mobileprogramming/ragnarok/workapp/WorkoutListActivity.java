@@ -35,6 +35,8 @@ public class WorkoutListActivity extends BaseActivityWithToolbar implements Work
      */
     private boolean mTwoPane;
 
+    public int userID = -1;
+
     @Override
     protected int getLayoutResourceId() {
 
@@ -95,6 +97,9 @@ public class WorkoutListActivity extends BaseActivityWithToolbar implements Work
             // fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString(WorkoutDetailFragment.WORKOUT_ID, id);
+            if (userID != -1) {
+                arguments.putInt("userID",userID);
+            }
             WorkoutDetailFragment fragment = new WorkoutDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -109,6 +114,9 @@ public class WorkoutListActivity extends BaseActivityWithToolbar implements Work
             // for the selected item ID.
             Intent detailIntent = new Intent(this, WorkoutDetailActivity.class);
             detailIntent.putExtra(WorkoutDetailFragment.WORKOUT_ID, id);
+            if (userID != -1) {
+                detailIntent.putExtra("userID",userID);
+            }
             startActivityForResult(detailIntent, 1);
             finish();
         }

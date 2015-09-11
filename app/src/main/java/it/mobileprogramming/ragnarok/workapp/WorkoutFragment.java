@@ -82,7 +82,9 @@ public class WorkoutFragment extends BaseFragment {
         chronology.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity(), WorkoutListActivity.class);
+                intent.putExtra("userID",userID);
+                startActivityForResult(intent, 0);
             }
         });
 

@@ -252,15 +252,5 @@ public class ExerciseDetailFragment extends Fragment {
         return rootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        //TODO has to  be resolved
-        currentExercise = userWorkoutSession.getExercisesOfSession().get(exerciseID);
-        FloatingActionButton startFab = (FloatingActionButton) rootView.findViewById(R.id.start_fab);
-        if (workout_session && ((UserExercise) currentExercise).isDone()) {
-            startFab.setVisibility(View.GONE);
-        }
-
-    }
+    //TODO implement the onResume
 }
