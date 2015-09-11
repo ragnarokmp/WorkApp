@@ -672,7 +672,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     public int createUserExercise(int intIDExercise, boolean boolIsDone, String strComment,int userID,Date executionDate,int rating) {
         ContentValues   values  = new ContentValues();
         values.put(UserMakesExercise_exID,intIDExercise);
-        values.put(UserMakesExercise_done,boolIsDone);
+        values.put(UserMakesExercise_done,Singletons.getIntFromBoolean(boolIsDone));
         values.put(UserMakesExercise_comment, strComment);
         values.put(UserMakesSession_UserID, userID);
         values.put(UserMakesExercise_execution_date,Singletons.getStringFromDate(executionDate));
@@ -712,11 +712,8 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
             String  comment      =   result.getString(result.getColumnIndex(UserMakesExercise_comment));
             int     progressive  =   result.getInt(result.getColumnIndex(SessionMadeByExercises_Progressive));
             int     rating       =   result.getInt(result.getColumnIndex(UserMakesExercise_rating));
-            //System.out.println("RATING LOADED "+rating);
-            //TODO handle boolean with int
-            boolean completed    =   false;
+            boolean completed    =   Singletons.getBooleanFromInt(result.getInt(result.getColumnIndex(UserMakesExercise_rating)));
             userWorkoutSessionArrayList.add(new UserExercise(exerciseID,executionDate,userID,this,frequency,name,recovery,repetition,series,usedWeight,completed,comment,muscles,this,rating));
-            //TODO variable "progressive" needs to be readded
             result.moveToNext();
         }
         result.close();
@@ -726,7 +723,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     @Override
     public void updateUserExercise(int intIDUser,int intIDExercise,Date adate, boolean boolIsDone, String strComment,int rating) {
         ContentValues   values  = new ContentValues();
-        values.put(UserMakesExercise_done,boolIsDone);
+        values.put(UserMakesExercise_done,Singletons.getIntFromBoolean(boolIsDone));
         values.put(UserMakesExercise_comment,strComment);
         values.put(UserMakesExercise_rating, rating);
         String field        =       UserMakesExercise_userID+"=? AND "+ UserMakesExercise_exID +"=? AND "+UserMakesExercise_execution_date+"=?";
