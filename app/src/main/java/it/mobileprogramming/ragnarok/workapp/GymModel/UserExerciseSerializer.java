@@ -36,6 +36,7 @@ public interface UserExerciseSerializer {
      * @param exId exercise id
      * @return
      */
+
     UserExercise getAnExerciseOfAUserSession(int intIDUserWorkoutSession,int userID,Date executionDate,int exId);
 
     /**

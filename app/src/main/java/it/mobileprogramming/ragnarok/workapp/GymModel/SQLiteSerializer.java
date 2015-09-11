@@ -690,6 +690,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         return null;
     }
 
+
     @Override
     public ArrayList<UserExercise> getExercisesOfAUserSession(int intIDUserWorkoutSession,int userID,Date executionDate) {//TODO controllare, non ho bisogno di id user???
         String  MY_QUERY    =   "SELECT * FROM "+UserMakesExercise_tablename+" JOIN "+Exercise_tablename+" ON "+UserMakesExercise_tablename+"."+UserMakesExercise_exID+"="+Exercise_tablename+"."+Exercise_ID+" NATURAL JOIN "+SessionMadeByExercises_tablename+" WHERE "+UserMakesExercise_tablename+"."+UserMakesSession_UserID+"=? AND "+UserMakesExercise_tablename+"."+UserMakesExercise_execution_date+"=\""+Singletons.getStringFromDate(executionDate)+"\" AND "+SessionMadeByExercises_tablename+"."+SessionMadeByExercises_WorkoutSessionID+"=? ORDER BY "+SessionMadeByExercises_Progressive;
