@@ -218,7 +218,7 @@ public class ExerciseListFragment extends ListFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         Intent intent = getActivity().getIntent();
-        if (!intent.hasExtra("readMode")) {
+        if (!intent.hasExtra("readMode") && !intent.hasExtra("workoutSession")) {
             inflater.inflate(R.menu.menu_refresh, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);

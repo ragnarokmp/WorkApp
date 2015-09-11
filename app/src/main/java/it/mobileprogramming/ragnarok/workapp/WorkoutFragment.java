@@ -32,6 +32,7 @@ public class WorkoutFragment extends BaseFragment {
     private FloatingActionsMenu fabm    =   null;
     private MyMaterialListView workoutListView;
     private boolean toBeRefreshed = true;
+    private FloatingActionsMenu fabMenu;
 
     public WorkoutFragment() {
         // Required empty public constructor
@@ -106,7 +107,7 @@ public class WorkoutFragment extends BaseFragment {
         // TODO: Use with frameLayout background in the layout in order to make shadow on press
         final FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.frame_layout);
         frameLayout.getBackground().setAlpha(0);
-        final FloatingActionsMenu fabMenu = (FloatingActionsMenu) view.findViewById(R.id.multiple_actions);
+        fabMenu = (FloatingActionsMenu) view.findViewById(R.id.multiple_actions);
         this.fabm   =   fabMenu;
         fabMenu.setOnFloatingActionsMenuUpdateListener(new FloatingActionsMenu.OnFloatingActionsMenuUpdateListener() {
             @Override
@@ -169,6 +170,7 @@ public class WorkoutFragment extends BaseFragment {
         if (requestCode == 0) {
             Log.i(TAG, "tutto a posto");
             toBeRefreshed = true;
+            fabMenu.collapse();
         }
     }
 

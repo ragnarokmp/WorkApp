@@ -1,8 +1,6 @@
 package it.mobileprogramming.ragnarok.workapp;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +14,7 @@ import java.util.HashMap;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Commentable;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.util.App;
+import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 
 /*launch in this way
         Intent intent = new Intent(getApplicationContext(), FeedbackActivity.class);
@@ -24,7 +23,7 @@ import it.mobileprogramming.ragnarok.workapp.util.App;
  */
 
 
-public class FeedbackActivity extends ActionBarActivity {
+public class FeedbackActivity extends BaseActivityWithToolbar {
     ImageView   iw_star1;
     ImageView   iw_star2;
     ImageView   iw_star3;
@@ -51,6 +50,11 @@ public class FeedbackActivity extends ActionBarActivity {
     }
 
     @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_feedback;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle extras   =   getIntent().getExtras();
@@ -64,7 +68,6 @@ public class FeedbackActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        setContentView(R.layout.activity_feedback);
         this.starsStringId      =   new int[6];
         this.starsStringId[0]   =   R.string.feedback_0star;
         this.starsStringId[1]   =   R.string.feedback_1star;

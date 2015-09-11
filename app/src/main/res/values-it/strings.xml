@@ -31,7 +31,7 @@
     <string name="feedback_3star">Normale</string>
     <string name="feedback_4star">Buona</string>
     <string name="feedback_5star">Eccellenti</string>
-    <string name="feedback_comment">Scrivici un commento:</string>
+    <string name="feedback_comment">Scrivi un commento</string>
     <string name="feedback_commentForm">Scrivi il tuo commento qui</string>
     <string name="feedback_leavefeedback">Scrivici un tuo feedback</string>
     <string name="feedback_submitButton">Invia</string>

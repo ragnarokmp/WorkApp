@@ -83,10 +83,10 @@
     <string name="feedback_3star">Normal</string>
     <string name="feedback_4star">Good</string>
     <string name="feedback_5star">Excellent</string>
-    <string name="feedback_comment">Please write a comment:</string>
+    <string name="feedback_comment">Please write a comment</string>
     <string name="feedback_commentForm">Write your comment here</string>
     <string name="feedback_submitButton">Submit</string>
-   <!-- <string name="feedback_title">Leave feedback</string>-->
+    <string name="feedback_title">Leave feedback</string>
 
     <!-- Start Exercise Activity -->
     <string name="pause">Pause</string>
@@ -134,5 +134,6 @@
     <string name="title_activity_execises_list_activity_checkbox">Select exercises</string>
     <string name="exercises_text_button">SELECT EXERCISES</string>
     <string name="date_text_button">SELECT DATE</string>
+    <string name="repetitions_title">Repetition</string>
 
 </resources>

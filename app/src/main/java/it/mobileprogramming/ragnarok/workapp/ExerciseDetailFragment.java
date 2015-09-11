@@ -84,12 +84,12 @@ public class ExerciseDetailFragment extends Fragment {
                 // if in workout session the play button can be activated
                 Log.i("andrea","Vengo da un tablet Session");
                 workout_session = true;
-                userWorkoutSession = savedInstanceState.getParcelable("workoutSession");
+                userWorkoutSession = getArguments().getParcelable("workoutSession");
                 User currentUser = ((App) getActivity().getApplication()).getCurrentUser();
                 assert userWorkoutSession != null;
                 userWorkoutSession = dbSerializer.loadSession(userWorkoutSession.getId(), currentUser, userWorkoutSession.getDateSessionDate());
                 exercises = userWorkoutSession.getExercisesOfSession();
-                exerciseID = savedInstanceState.getInt("exerciseID");
+                exerciseID = getArguments(). getInt("exerciseID");
                 currentExercise = (UserExercise) exercises.get(exerciseID);
             } else {
                 Log.i("andrea","Vengo da un tablet esercizio");

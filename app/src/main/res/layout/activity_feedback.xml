@@ -6,143 +6,161 @@
     <!-- Includes the toolbar -->
     <include layout="@layout/toolbar" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/feedback_title"
-        android:id="@+id/feedback_text"
-        android:layout_below="@+id/toolbar"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        style="@style/Base.TextAppearance.AppCompat.Caption" />
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/starsCardView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_below="@id/feedback_text">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layout_marginTop="10dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/iw_st1"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:onClick="clickStar"
-                    android:src="@drawable/greystar" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/iw_st2"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:onClick="clickStar"
-                    android:src="@drawable/greystar" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/iw_st3"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:onClick="clickStar"
-                    android:src="@drawable/greystar" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/iw_st4"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:onClick="clickStar"
-                    android:src="@drawable/greystar" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/iw_st5"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:onClick="clickStar"
-                    android:src="@drawable/greystar" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_starsFeedback"
-                android:textAppearance="?android:attr/textAppearanceSearchResultSubtitle" />
-
-        </LinearLayout>
-
-
-    </android.support.v7.widget.CardView>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/feedback_comment"
-        android:id="@+id/feedback_text_title"
-        android:layout_below="@+id/starsCardView"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        style="@style/Base.TextAppearance.AppCompat.Caption" />
-
-        <EditText
+        <android.support.v7.widget.CardView
+            android:id="@+id/starsCardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_below="@id/feedback_text_title"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/et_comment"
-            android:minLines="10"
-            android:maxLines="10"
-            android:text="@string/feedback_commentForm"
-            android:gravity="start" />
+            android:layout_below="@+id/toolbar"
+            android:layout_marginTop="@dimen/big_padding">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iw_st1"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:onClick="clickStar"
+                        android:src="@drawable/greystar" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iw_st2"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:onClick="clickStar"
+                        android:src="@drawable/greystar" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iw_st3"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:onClick="clickStar"
+                        android:src="@drawable/greystar" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iw_st4"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:onClick="clickStar"
+                        android:src="@drawable/greystar" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/iw_st5"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:onClick="clickStar"
+                        android:src="@drawable/greystar" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_starsFeedback"
+                    tools:text="Bellaaaa"
+                    android:layout_marginBottom="@dimen/small_padding"
+                    android:layout_marginTop="@dimen/small_padding"
+                    android:gravity="center_vertical|center_horizontal"
+                    style="@style/Base.TextAppearance.AppCompat.Title"
+                    android:textColor="@color/secondary_text" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/feedback_comment"
+            android:id="@+id/feedback_text_title"
+            android:layout_below="@+id/starsCardView"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            style="@style/Base.TextAppearance.AppCompat.Caption" />
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/commentCardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_below="@+id/feedback_text_title"
+            android:layout_above="@+id/btnSubmit"
+            android:layout_marginBottom="@dimen/big_padding">
+
+            <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_below="@id/feedback_text_title"
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:id="@+id/et_comment"
+                android:text="@string/feedback_commentForm"
+                    android:gravity="start"
+                    android:textColor="@color/secondary_text"
+                    android:textColorHint="@color/secondary_text"
+                    android:background="@null"
+                    android:padding="@dimen/small_padding" />
+
+        </android.support.v7.widget.CardView>
 
         <Button
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_vertical_margin"
-            android:layout_below="@id/et_comment"
-            android:background="@drawable/submit_selector"
-            android:text="@string/feedback_submitButton"
-            android:textColor="@android:color/white"
-            android:id="@+id/btnSubmit" />
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/submit_selector"
+                android:text="@string/feedback_submitButton"
+                android:textColor="@android:color/white"
+                android:id="@+id/btnSubmit"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/big_padding" />
+    </RelativeLayout>
 
 </RelativeLayout>
