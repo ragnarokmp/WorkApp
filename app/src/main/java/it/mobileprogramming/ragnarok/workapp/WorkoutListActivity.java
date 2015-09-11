@@ -109,7 +109,18 @@ public class WorkoutListActivity extends BaseActivityWithToolbar implements Work
             // for the selected item ID.
             Intent detailIntent = new Intent(this, WorkoutDetailActivity.class);
             detailIntent.putExtra(WorkoutDetailFragment.WORKOUT_ID, id);
-            startActivity(detailIntent);
+            startActivityForResult(detailIntent, 1);
+            finish();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {
+            Log.i(TAG, "tutto a posto workout list activity");
+            super.setResult(RESULT_OK);
         }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,8 +28,11 @@ import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
 
 
 public class WorkoutFragment extends BaseFragment {
-    private int userID = 1; //TODO Federico: obtained after the successful login by the user
+    private int userID = 1;
     private FloatingActionsMenu fabm    =   null;
+    private MyMaterialListView workoutListView;
+    private boolean toBeRefreshed = true;
+
     public WorkoutFragment() {
         // Required empty public constructor
     }
@@ -43,7 +47,7 @@ public class WorkoutFragment extends BaseFragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         // Get MaterialListView
-        MyMaterialListView workoutListView = (MyMaterialListView) view.findViewById(R.id.workout_list_view);
+        workoutListView = (MyMaterialListView) view.findViewById(R.id.workout_list_view);
 
         // Get divider for MaterialListView
         Drawable drawable;
@@ -63,7 +67,7 @@ public class WorkoutFragment extends BaseFragment {
             @Override
             public void onItemClick(CardItemView cardItemView, int i) {
                 Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
-                intent.putExtra("workoutSession",(UserWorkoutSession) cardItemView.getTag());
+                intent.putExtra("workoutSession", (UserWorkoutSession) cardItemView.getTag());
                 getActivity().startActivity(intent);
             }
 
@@ -72,32 +76,6 @@ public class WorkoutFragment extends BaseFragment {
 
             }
         });
-
-        SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
-        dbSerializer.open();
-
-        //TODO Federico: the userID will be used here in order to obtain the workouts
-        ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(userID);
-        System.out.println("WorkoutFragment loaded number of workouts "+usWorkouts.size());
-        ArrayList<UserWorkoutSession> firstWorkoutSessions = new ArrayList<>();
-        if (usWorkouts.size() > 0) {
-            //The first workout that is not finished will be used
-            for (int i = 0; i < usWorkouts.size(); i++) {
-                try {
-                    System.out.println("WorkoutFragment checking if all sessions done "+usWorkouts.get(i).allSessionDone());
-                    if (usWorkouts.get(i).allSessionDone() == false) {
-                        firstWorkoutSessions = usWorkouts.get(i).getWoSessions();
-                        break;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            for (int j = 0; j < firstWorkoutSessions.size(); j++) {
-                UserWorkoutSessionCard card = new UserWorkoutSessionCard(context, firstWorkoutSessions.get(j));
-                workoutListView.add(card);
-            }
-        }
 
         FloatingActionButton chronology = (FloatingActionButton) view.findViewById(R.id.action_chronology);
         chronology.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +99,7 @@ public class WorkoutFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WorkoutListActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
 
@@ -155,6 +133,45 @@ public class WorkoutFragment extends BaseFragment {
         return view;
     }
 
+    private void setWorkoutSessions() {
+        SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
+        dbSerializer.open();
+
+        //TODO Federico: the userID will be used here in order to obtain the workouts
+        ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(userID);
+        System.out.println("WorkoutFragment loaded number of workouts "+usWorkouts.size());
+        ArrayList<UserWorkoutSession> firstWorkoutSessions = new ArrayList<>();
+        if (usWorkouts.size() > 0) {
+            //The first workout that is not finished will be used
+            for (int i = 0; i < usWorkouts.size(); i++) {
+                try {
+                    System.out.println("WorkoutFragment checking if all sessions done "+usWorkouts.get(i).allSessionDone());
+                    if (usWorkouts.get(i).allSessionDone() == false) {
+                        firstWorkoutSessions = usWorkouts.get(i).getWoSessions();
+                        break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            for (int j = 0; j < firstWorkoutSessions.size(); j++) {
+                UserWorkoutSessionCard card = new UserWorkoutSessionCard(context, firstWorkoutSessions.get(j));
+                workoutListView.add(card);
+            }
+        }
+        //toBeRefreshed = false;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 0) {
+            Log.i(TAG, "tutto a posto");
+            toBeRefreshed = true;
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -162,6 +179,14 @@ public class WorkoutFragment extends BaseFragment {
             if(((App) getActivity().getApplication()).getCurrentUser()!=null){
                 fabm.setEnabled(true);
             }
+        }
+        if (toBeRefreshed) {
+            User logged =   ((App)getActivity().getApplication()).getCurrentUser();
+            if(logged!=null){
+                userID  =   logged.getIntUserID();
+            }
+
+            setWorkoutSessions();
         }
     }
 

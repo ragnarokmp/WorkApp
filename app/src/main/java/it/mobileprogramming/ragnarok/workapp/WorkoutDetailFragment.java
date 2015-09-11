@@ -1,12 +1,13 @@
 package it.mobileprogramming.ragnarok.workapp;
 
-import android.app.Application;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCard;
 import it.mobileprogramming.ragnarok.workapp.util.App;
+import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
 import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
 
 /**
@@ -27,7 +29,7 @@ import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
  * in two-pane mode (on tablets) or a {@link WorkoutDetailActivity}
  * on handsets.
  */
-public class WorkoutDetailFragment extends Fragment {
+public class WorkoutDetailFragment extends BaseFragment {
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -47,6 +49,11 @@ public class WorkoutDetailFragment extends Fragment {
     }
 
     @Override
+    protected int getLayoutResourceId() {
+        return R.layout.fragment_workout_detail;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -60,11 +67,9 @@ public class WorkoutDetailFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
-
-        final View rootView = inflater.inflate(R.layout.fragment_workout_detail, container, false);
-
+        super.onCreateView(inflater, container, savedInstanceState);
         // Get MaterialListView
-        MyMaterialListView workoutListView = (MyMaterialListView) rootView.findViewById(R.id.workout_detail_container);
+        MyMaterialListView workoutListView = (MyMaterialListView) view.findViewById(R.id.workout_detail_container);
 
         // Get divider for MaterialListView
         Drawable drawable;
@@ -107,18 +112,25 @@ public class WorkoutDetailFragment extends Fragment {
         }
 
         // TODO: change fab icon to white color
-        FloatingActionButton addWorkout = (FloatingActionButton) rootView.findViewById(R.id.add_fab);
+        FloatingActionButton addWorkout = (FloatingActionButton) view.findViewById(R.id.add_fab);
         addWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                Log.i(TAG, "setto workout");
+
                 Workout wkr = dbSerializer.loadWorkout(Integer.parseInt(workoutID));
                 User currentUser    =   ((App) getActivity().getApplication()).getCurrentUser();
                 wkr.createFromThisWorkout(dbSerializer.loadUser(currentUser.getIntUserID()));
+                dbSerializer.close();
+                dbSerializer.open();
 
+                getActivity().setResult(Activity.RESULT_OK);
+                Log.i(TAG, "tutto a posto workout detail fragment");
+                getActivity().finish();
             }
         });
 
-        return rootView;
+        return view;
     }
 }

@@ -3,6 +3,7 @@ package it.mobileprogramming.ragnarok.workapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.MenuItem;
 
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
@@ -65,5 +66,16 @@ public class WorkoutDetailActivity extends BaseActivityWithToolbar {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1) {
+            Log.i(TAG, "tutto a posto workout list activity");
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 }

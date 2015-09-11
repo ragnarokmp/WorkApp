@@ -282,4 +282,9 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Vi
             ((ImageView) findViewById(R.id.avatar)).setImageBitmap(avatar_bitmap);
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
