@@ -63,8 +63,9 @@ public class ExerciseDetailFragment extends Fragment {
 
         SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
-        if (getActivity().getIntent().getExtras() != null) {
+        if (!getArguments().containsKey("isTablet")) {
             if (getActivity().getIntent().hasExtra("workoutSession")) {
+                Log.i("andrea","Vengo da un telefono Session");
                 workout_session = true;
                 userWorkoutSession = getActivity().getIntent().getExtras().getParcelable("workoutSession");
                 User currentUser = ((App) getActivity().getApplication()).getCurrentUser();
@@ -74,14 +75,15 @@ public class ExerciseDetailFragment extends Fragment {
                 exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
                 currentExercise = (UserExercise) exercises.get(exerciseID);
             } else {
+                Log.i("andrea","Vengo da un telefono esercizio");
                 currentExercise = getActivity().getIntent().getParcelableExtra("exercise");
             }
 
         } else {
             if (getArguments().containsKey("workoutSession")) {
                 // if in workout session the play button can be activated
+                Log.i("andrea","Vengo da un tablet Session");
                 workout_session = true;
-
                 userWorkoutSession = savedInstanceState.getParcelable("workoutSession");
                 User currentUser = ((App) getActivity().getApplication()).getCurrentUser();
                 assert userWorkoutSession != null;
@@ -89,8 +91,8 @@ public class ExerciseDetailFragment extends Fragment {
                 exercises = userWorkoutSession.getExercisesOfSession();
                 exerciseID = savedInstanceState.getInt("exerciseID");
                 currentExercise = (UserExercise) exercises.get(exerciseID);
-
             } else {
+                Log.i("andrea","Vengo da un tablet esercizio");
                 currentExercise = getArguments().getParcelable("exercise");
             }
         }

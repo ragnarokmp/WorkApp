@@ -1,11 +1,13 @@
 package it.mobileprogramming.ragnarok.workapp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,11 +48,13 @@ public class StartExerciseActivity extends BaseActivity {
     public int currentSerie;
     public boolean stopped;
     public long leftTime;
-
+    private boolean inRecovery = false;
+    private int recoveryValue   =   0;
+    private long    startrecovery;
     private View[] linkedViews;
 
     private SeriesItem seriesItem;
-
+    private SeriesItem seriesItemRec;
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_start_exercise;
@@ -97,7 +101,7 @@ public class StartExerciseActivity extends BaseActivity {
         }
         if (cExercise != null) {
             // setup for the very first time the exercise
-            millis      = (cExercise.getFrequency() * cExercise.getRepetition()) * cExercise.getSeries();
+            millis      = (((cExercise.getRepetition() / cExercise.getFrequency()) * cExercise.getSeries()) + cExercise.getRecovery() * (cExercise.getSeries() - 1))*1000;
             repetitions = cExercise.getRepetition();
             series      = cExercise.getSeries();
         } else {
@@ -109,10 +113,13 @@ public class StartExerciseActivity extends BaseActivity {
 
 
         if(savedInstanceState != null){
-            leftTime          =   savedInstanceState.getLong("leftTime");
-            currentRepetition =   savedInstanceState.getInt("currentRepetition");
-            currentSerie      =   savedInstanceState.getInt("currentSerie");
-            stopped           =   savedInstanceState.getBoolean("stopped");
+            leftTime            =   savedInstanceState.getLong("leftTime");
+            currentRepetition   =   savedInstanceState.getInt("currentRepetition");
+            currentSerie        =   savedInstanceState.getInt("currentSerie");
+            stopped             =   savedInstanceState.getBoolean("stopped");
+            this.startrecovery  =   savedInstanceState.getLong("startrecovery");
+            this.inRecovery     =   savedInstanceState.getBoolean("inrecovery");
+            this.recoveryValue  =   savedInstanceState.getInt("recoveryvalue");
         } else {
             leftTime          = millis;
             currentRepetition = 0;
@@ -131,6 +138,12 @@ public class StartExerciseActivity extends BaseActivity {
         decoView = (DecoView) findViewById(R.id.deco_view);
         seriesItem = new SeriesItem.Builder(getResources().getColor(R.color.accent))
                 .setRange(0, repetitions-1, 0)
+                .setLineWidth(32f)
+                .setSpinDuration(101)
+                .build();
+
+        seriesItemRec   = new SeriesItem.Builder(getResources().getColor(R.color.recovery))
+                .setRange(0, cExercise.getRecovery()-1, 0)
                 .setLineWidth(32f)
                 .setSpinDuration(101)
                 .build();
@@ -158,7 +171,6 @@ public class StartExerciseActivity extends BaseActivity {
             }
 
         });
-
         if (!stopped)
             startCountDownTimer((int)leftTime);
         if (stopped) {
@@ -229,7 +241,7 @@ public class StartExerciseActivity extends BaseActivity {
             if (countDownTimer != null)
                 countDownTimer.start();
             else
-                startCountDownTimer((int)leftTime);
+                startCountDownTimer(leftTime);
 
             pauseImageView.setTag(getString(R.string.pause));
 
@@ -285,43 +297,79 @@ public class StartExerciseActivity extends BaseActivity {
      * this is the countdown time function
      * @param milliseconds: int, duration of the exercise
      */
-    private void startCountDownTimer(int milliseconds) {
-        countDownTimer = new CountDownTimer(milliseconds + 1000, 1000) {
+    private void startCountDownTimer(long milliseconds) {
+        Log.i("andrea","start " + milliseconds);
+        final long millisecondstotal    =   milliseconds;
+        countDownTimer = new CountDownTimer(milliseconds + 1000, 1000 / cExercise.getFrequency()) {
 
             @Override
             public void onTick(long leftTimeInMilliseconds) {
+                Log.i("andrea","tick " + leftTimeInMilliseconds);
                 leftTime = leftTimeInMilliseconds;
                 long seconds = leftTimeInMilliseconds / 1000;
+                int series1Index = 0;
 
-                // setting UI elements
-                int series1Index = decoView.addSeries(seriesItem);
-                decoView.addEvent(new DecoEvent.Builder(currentRepetition).setIndex(series1Index).setDelay(0).build());
-
-                if (currentRepetition != 0) {
+                if (!inRecovery) {
+                    series1Index    = decoView.addSeries(seriesItem);
                     textViewPercentage.setText(String.valueOf(currentRepetition));
                     currRepetition.setText(String.valueOf(currentRepetition));
+                    decoView.addEvent(new DecoEvent.Builder(currentRepetition).setIndex(series1Index).setDelay(0).build());
                 }
 
-
-                currentRepetition++;
+                if(!inRecovery)
+                    currentRepetition += 1;
 
                 // format the textview to show the easily readable format
                 textViewRemaining.setText(String.format("%02d", (millis / 1000 - seconds) / 60) + "  :  " + String.format("%02d", (millis / 1000 - seconds) % 60));
 
-                if (currentRepetition > repetitions) {
-                    series1Index = decoView.addSeries(seriesItem);
-                    decoView.addEvent(new DecoEvent.Builder(currentRepetition + 1).setIndex(series1Index).setDelay(0).build());
 
-                    currentRepetition = 1;
-                    decoView.executeReset();
+                if (currentRepetition >= repetitions && !inRecovery) {
+
+                    // setting UI elements
                     series1Index = decoView.addSeries(seriesItem);
                     decoView.addEvent(new DecoEvent.Builder(currentRepetition).setIndex(series1Index).setDelay(0).build());
+                    inRecovery = true;
+                    startrecovery   =   System.currentTimeMillis();
+                    currRepetition.setText(String.valueOf(currentRepetition));
+                    series1Index = decoView.addSeries(seriesItem);
+                    decoView.addEvent(new DecoEvent.Builder(currentRepetition).setIndex(series1Index).setDelay(0).build());
+
+                    //currentRepetition = 0;
+                    decoView.executeReset();
+                    decoView.deleteAll();
+                    textViewPercentage.setTextColor(getResources().getColor(R.color.recovery));
+                    textViewPercentage.setText(0+"");
+                    series1Index = decoView.addSeries(seriesItemRec);
+                    decoView.addEvent(new DecoEvent.Builder(recoveryValue).setIndex(series1Index).setDelay(0).build());
 
 
 
                     currentSerie++;
-                    if (currentSerie <= series)
+                    if (currentSerie <= series&&!inRecovery)
                         currSeries.setText(String.valueOf(currentSerie));
+                }
+
+                if (inRecovery) {
+                    //check if recovery is finished
+                    //restore decoview
+                    long elapsed    =   System.currentTimeMillis()-startrecovery;
+                    textViewPercentage.setTextColor(getResources().getColor(R.color.recovery));
+                    textViewPercentage.setText("" + (int) elapsed / 1000);
+                    System.out.println("in recupero" + elapsed + " " + System.currentTimeMillis() + " " + startrecovery);
+                    recoveryValue   =   (int)elapsed/1000;
+                    series1Index = decoView.addSeries(seriesItemRec);
+                    decoView.addEvent(new DecoEvent.Builder(recoveryValue).setIndex(series1Index).setDelay(0).build());
+                    if(((int)elapsed/1000)>=cExercise.getRecovery()){
+                        currentRepetition   =   0;
+                        recoveryValue   =   0;
+                        inRecovery  =   false;
+                        decoView.executeReset();
+                        decoView.deleteAll();
+                        seriesItem.setColor(getResources().getColor(R.color.accent));
+                        textViewPercentage.setTextColor(getResources().getColor(R.color.accent));
+                        series1Index = decoView.addSeries(seriesItem);
+                        decoView.addEvent(new DecoEvent.Builder(currentRepetition).setIndex(series1Index).setDelay(0).build());
+                    }
                 }
 
             }
@@ -329,7 +377,7 @@ public class StartExerciseActivity extends BaseActivity {
             @Override
             public void onFinish() {
 
-
+                Log.i("andrea","Ho finito!");
                 if (currentSerie >= series) {
                     int series1Index = decoView.addSeries(seriesItem);
                     decoView.addEvent(new DecoEvent.Builder(DecoDrawEffect.EffectType.EFFECT_SPIRAL_EXPLODE)
@@ -378,6 +426,9 @@ public class StartExerciseActivity extends BaseActivity {
         outState.putInt("currentRepetition", currentRepetition);
         outState.putInt("currentSerie", currentSerie);
         outState.putBoolean("stopped"      , stopped);
+        outState.putLong("startrecovery",this.startrecovery);
+        outState.putBoolean("inrecovery",this.inRecovery);
+        outState.putInt("recoveryvalue",this.recoveryValue);
     }
 
 }

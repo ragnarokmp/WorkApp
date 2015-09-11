@@ -106,8 +106,10 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
                 arguments.putParcelable("workoutSession", userWorkoutSession);
                 arguments.putInt("exerciseID", position);
             }
+            arguments.putBoolean("isTablet",true);
             ExerciseDetailFragment fragment = new ExerciseDetailFragment();
             fragment.setArguments(arguments);
+            Log.i("andrea", "Provengo da un tablet");
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.exercise_detail_container, fragment)
                     .commit();
@@ -121,6 +123,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
                 detailIntent.putExtra("workoutSession", userWorkoutSession);
                 detailIntent.putExtra("exerciseID",position);
             }
+            Log.i("andrea","Provengo da un telefono ");
             startActivity(detailIntent);
         }
     }
