@@ -44,7 +44,7 @@ public class ExerciseListFragment extends ListFragment {
 
     // to visualize the exercises list
     public static ArrayList<Exercise> exercises;
-    private UserWorkoutSession userWorkoutSession;
+    private UserWorkoutSession userWorkoutSession = null;
     public ExercisesListAdapter exercisesListAdapter;
 
     private boolean workout_session = false;
@@ -119,7 +119,7 @@ public class ExerciseListFragment extends ListFragment {
         Intent intent = getActivity().getIntent();
 
         if (intent.hasExtra("workoutSession")) {
-            userWorkoutSession = intent.getExtras().getParcelable("workoutSession");
+            userWorkoutSession =  intent.getExtras().getParcelable("workoutSession");
             User currentUser =   ((App) getActivity().getApplication()).getCurrentUser();
             assert userWorkoutSession != null;
             userWorkoutSession = dbSerializer.loadSession(userWorkoutSession.getId(),currentUser,userWorkoutSession.getDateSessionDate());
@@ -130,7 +130,6 @@ public class ExerciseListFragment extends ListFragment {
 
         } else if (intent.hasExtra("readMode")) {
             ArrayList<WorkoutSession> workoutSessions = dbSerializer.loadAllWorkoutSessionsForWorkout(intent.getExtras().getInt("workoutID"));
-            Log.i("andrea",workoutSessions.toString());
             WorkoutSession currentSession = workoutSessions.get(intent.getExtras().getInt("sessionID"));
             exercises = currentSession.getExercisesOfSession();
             exercisesListAdapter = new ExercisesListAdapter(exercises,getActivity());
@@ -180,7 +179,7 @@ public class ExerciseListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        Log.i("andrea","Item" + String.valueOf(position) + "selected");
+        Log.i("andrea","Item " + String.valueOf(position) + " selected");
         mCallbacks.onItemSelected(userWorkoutSession,position);
 
     }

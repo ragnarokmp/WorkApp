@@ -6,6 +6,7 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 
+import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 
@@ -99,8 +100,12 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putParcelable("workoutSession",userWorkoutSession);
-            arguments.putInt("exerciseID", position);
+            if (userWorkoutSession == null) {
+               arguments.putParcelable("exercise",ExerciseListFragment.exercises.get(position));
+            } else {
+                arguments.putParcelable("workoutSession", userWorkoutSession);
+                arguments.putInt("exerciseID", position);
+            }
             ExerciseDetailFragment fragment = new ExerciseDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -110,7 +115,12 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ExerciseDetailActivity.class);
-            detailIntent.putExtra("exerciseID", ExerciseListFragment.exercises.get(position));
+            if (userWorkoutSession == null) {
+                detailIntent.putExtra("exercise", ExerciseListFragment.exercises.get(position));
+            } else {
+                detailIntent.putExtra("workoutSession", userWorkoutSession);
+                detailIntent.putExtra("exerciseID",position);
+            }
             startActivity(detailIntent);
         }
     }
