@@ -712,7 +712,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
             String  comment      =   result.getString(result.getColumnIndex(UserMakesExercise_comment));
             int     progressive  =   result.getInt(result.getColumnIndex(SessionMadeByExercises_Progressive));
             int     rating       =   result.getInt(result.getColumnIndex(UserMakesExercise_rating));
-            boolean completed    =   Singletons.getBooleanFromInt(result.getInt(result.getColumnIndex(UserMakesExercise_rating)));
+            boolean completed    =   Singletons.getBooleanFromInt(result.getInt(result.getColumnIndex(UserMakesExercise_done)));
             userWorkoutSessionArrayList.add(new UserExercise(exerciseID,executionDate,userID,this,frequency,name,recovery,repetition,series,usedWeight,completed,comment,muscles,this,rating));
             result.moveToNext();
         }
