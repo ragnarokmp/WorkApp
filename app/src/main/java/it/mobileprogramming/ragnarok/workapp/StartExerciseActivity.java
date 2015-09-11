@@ -39,7 +39,7 @@ public class StartExerciseActivity extends BaseActivity {
 
     UserWorkoutSession userWorkoutSession;
     int exerciseID;
-    Exercise cExercise;
+    UserExercise cExercise;
     CountDownTimer countDownTimer;
 
     public int millis;
@@ -94,7 +94,8 @@ public class StartExerciseActivity extends BaseActivity {
         dbSerializer.open();
 
         if (intent.hasExtra("exercise")) {
-            cExercise = (UserExercise) intent.getExtras().getParcelable("exercise");
+            cExercise = intent.getExtras().getParcelable("exercise");
+            cExercise.setSerializer(((App) getApplication()).getDBSerializer());
 
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.internal_error), Toast.LENGTH_LONG).show();
@@ -390,6 +391,13 @@ public class StartExerciseActivity extends BaseActivity {
                             .build());
 
                     // finishing activity
+                    cExercise.setDone(true);
+                    SQLiteSerializer test = ((App) getApplication()).getDBSerializer();
+                    cExercise.setComment("tacci tua");
+                    cExercise.setRating(4);
+                    Log.i("andrea",cExercise.toString());
+                    UserExercise pino = test.getAnExerciseOfAUserSession(ExerciseDetailFragment.userWorkoutSession.getId(), cExercise.getMyUserID(), cExercise.getExerciseDate(), cExercise.getId());
+                    Log.i("andrea stato esercizio", pino.toString());
                     finish();
 
                 } else {

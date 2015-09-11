@@ -4,6 +4,7 @@ import android.app.Application;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.GymModel.User;
+import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
 
 /**
  * Own implementation of Application with collects singletons.
@@ -15,7 +16,17 @@ public class App extends Application {
     private SQLiteSerializer sqLiteSerializer;
     private User currentUser;                       //current user logged in the application
 
-    /**
+    public WorkoutSession getCurrentWorkoutSession() {
+        return currentWorkoutSession;
+    }
+
+    public void setCurrentWorkoutSession(WorkoutSession currentWorkoutSession) {
+        this.currentWorkoutSession = currentWorkoutSession;
+    }
+
+    private WorkoutSession currentWorkoutSession;
+
+    /*
      * Singleton for SQLiteSerializer.
      * @return the SQLiteSerializer instance.
      */

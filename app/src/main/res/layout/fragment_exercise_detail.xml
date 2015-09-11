@@ -178,6 +178,21 @@
             android:text="@string/exercise_detail_skip"
 
             android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/feedback"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+
+            android:background="@color/accent"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Button"
+            android:textColor="@android:color/white"
+            android:text="@string/exercise_detail_skip_finish"
+
+            android:visibility="gone"/>
     </LinearLayout>
 
 

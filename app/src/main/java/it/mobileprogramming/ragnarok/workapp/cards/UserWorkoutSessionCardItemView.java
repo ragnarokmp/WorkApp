@@ -16,6 +16,9 @@ import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.model.CardItemView;
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -108,7 +111,7 @@ public class UserWorkoutSessionCardItemView extends CardItemView<UserWorkoutSess
     private void setCompletion() {
         TextView completionTextView = (TextView) findViewById(R.id.completion_text_view);
         try {
-            completionTextView.setText(String.valueOf(workoutSession.allExerciseDone()) + "%");  //TODO is a try/catch correct?
+            completionTextView.setText(String.valueOf(workoutSession.allExerciseDone()*100) + "%");  //TODO is a try/catch correct?
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -186,7 +189,8 @@ public class UserWorkoutSessionCardItemView extends CardItemView<UserWorkoutSess
         } else if ((workoutSession.getDateSessionDate().getTime() - date.getTime()) == 2) {
             description = "$The day after tomorrow we will work on $";
         } else {
-            description = "In the session of $" + workoutSession.getDateSessionDate() + "$ we will work on $";
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            description = "In the session of $" + format.format(workoutSession.getDateSessionDate()) + "$ we will work on $";
         }
         int size = exercises.size();
         for (int i = 0; i < size; i++) {
@@ -207,6 +211,9 @@ public class UserWorkoutSessionCardItemView extends CardItemView<UserWorkoutSess
             if (size > 1 && i != size - 1) {
                 description += "\n";
             }
+        }
+        if (!workoutSession.getComment().equals("")) {
+            description += "\nComment: " + workoutSession.getComment() + "\nRating: " + workoutSession.getRating();
         }
         return description;
     }

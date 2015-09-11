@@ -60,7 +60,7 @@ public class ExerciseDetailActivity extends BaseActivityWithToolbar {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, ExerciseListActivity.class).putExtra("readMode", ""));
+            NavUtils.navigateUpTo(this, new Intent(this, ExerciseListActivity.class).putExtra("back",0));//.putExtra("readMode", 0));
             return true;
         }
         return super.onOptionsItemSelected(item);

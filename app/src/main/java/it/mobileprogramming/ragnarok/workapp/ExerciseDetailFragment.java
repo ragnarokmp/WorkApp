@@ -42,13 +42,14 @@ public class ExerciseDetailFragment extends Fragment {
     public static final String ARG_ITEM_ID = "item_id";
 
     int exerciseID;
-    private UserWorkoutSession userWorkoutSession;
+    public static UserWorkoutSession userWorkoutSession;
     private Exercise currentExercise;
     private ArrayList<Exercise> exercises;
 
     private boolean workout_session  = false;
     private boolean workout_finished = false;
 
+    private View rootView;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -74,6 +75,7 @@ public class ExerciseDetailFragment extends Fragment {
                 exercises = userWorkoutSession.getExercisesOfSession();
                 exerciseID = getActivity().getIntent().getExtras().getInt("exerciseID");
                 currentExercise = (UserExercise) exercises.get(exerciseID);
+                Log.i("andrea", currentExercise.toString());
             } else {
                 Log.i("andrea","Vengo da un telefono esercizio");
                 currentExercise = getActivity().getIntent().getParcelableExtra("exercise");
@@ -89,8 +91,9 @@ public class ExerciseDetailFragment extends Fragment {
                 assert userWorkoutSession != null;
                 userWorkoutSession = dbSerializer.loadSession(userWorkoutSession.getId(), currentUser, userWorkoutSession.getDateSessionDate());
                 exercises = userWorkoutSession.getExercisesOfSession();
-                exerciseID = getArguments(). getInt("exerciseID");
+                exerciseID = getArguments().getInt("exerciseID");
                 currentExercise = (UserExercise) exercises.get(exerciseID);
+                Log.i("andrea", currentExercise.toString());
             } else {
                 Log.i("andrea","Vengo da un tablet esercizio");
                 currentExercise = getArguments().getParcelable("exercise");
@@ -102,7 +105,7 @@ public class ExerciseDetailFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_exercise_detail, container, false);
+        rootView = inflater.inflate(R.layout.fragment_exercise_detail, container, false);
 
         if (currentExercise != null) {
             TextView durationTitleTextView = (TextView) rootView.findViewById(R.id.duration_title_text_view);
@@ -158,6 +161,12 @@ public class ExerciseDetailFragment extends Fragment {
                            String.valueOf(currentExercise.getRecovery()) + "$ " +
                            getResources().getString(R.string.exercise_detail_description_recrate) + " $" +
                            String.valueOf(currentExercise.getFrequency()) + "/sec$";
+            if (workout_session) {
+                if (!((UserExercise) currentExercise).getComment().equals("")) {
+                    description += "\nCommento: " + ((UserExercise) currentExercise).getComment();
+                    description += "\nRating: " + ((UserExercise) currentExercise).getRating();
+                }
+            }
 
             ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(boldTextBetweenTokens(description, "$"));
 
@@ -171,14 +180,23 @@ public class ExerciseDetailFragment extends Fragment {
 
         FloatingActionButton startFloatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.start_fab);
         Button skipButton                              = (Button)               rootView.findViewById(R.id.skip);
+        Button feedbackButton                          = (Button)
+                rootView.findViewById(R.id.feedback);
 
         if (workout_session) {
             Log.i("andrea", "E' di un utente|");
-            startFloatingActionButton.setVisibility(View.VISIBLE);
+            if (!((UserExercise) currentExercise).isDone())
+                startFloatingActionButton.setVisibility(View.VISIBLE);
+            else
+                startFloatingActionButton.setVisibility(View.GONE);
+
             skipButton.setVisibility(View.VISIBLE);
+            if (((UserExercise) currentExercise).isDone()) {
+                feedbackButton.setVisibility(View.VISIBLE);
+            }
             if ((exerciseID + 1) == (exercises.size())) {
                 workout_finished = true;
-                skipButton.setText(getString(R.string.exercise_detail_skip_finish));
+                skipButton.setVisibility(View.GONE);
             }
         }
 
@@ -186,7 +204,7 @@ public class ExerciseDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), StartExerciseActivity.class);
-                intent.putExtra("exercise",(UserExercise) currentExercise);
+                intent.putExtra("exercise", (UserExercise) currentExercise);
                 getActivity().startActivity(intent);
             }
         });
@@ -194,22 +212,27 @@ public class ExerciseDetailFragment extends Fragment {
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((UserExercise) currentExercise).isDone();
+                //((UserExercise) currentExercise).isDone();
 
                 Intent intent;
-                if (workout_finished) {
-                    // last exercise
-                    intent = new Intent(getActivity(), FeedbackActivity.class);
-                    intent.putExtra("item", (UserExercise) currentExercise);
-                    startActivity(intent);
-                } else {
-                    intent = new Intent(getActivity(), ExerciseDetailActivity.class);
-                    intent.putExtra("exercise", exercises.get(exerciseID++));
-                    startActivity(intent);
-                }
+                intent = new Intent(getActivity(), ExerciseDetailActivity.class);
+                intent.putExtra("exercise", exercises.get(exerciseID++));
+                startActivity(intent);
             }
         });
 
+
+        feedbackButton.setOnClickListener(new View.OnClickListener() {
+            Intent intent;
+
+            @Override
+            public void onClick(View v) {
+                    // the exercise has been completed
+                    intent = new Intent(getActivity(), FeedbackActivity.class);
+                    intent.putExtra("item", (UserExercise) currentExercise);
+                    startActivity(intent);
+            }
+        });
 
         rootView.setFocusableInTouchMode(true);
         rootView.requestFocus();
@@ -227,5 +250,17 @@ public class ExerciseDetailFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //TODO has to  be resolved
+        currentExercise = userWorkoutSession.getExercisesOfSession().get(exerciseID);
+        FloatingActionButton startFab = (FloatingActionButton) rootView.findViewById(R.id.start_fab);
+        if (workout_session && ((UserExercise) currentExercise).isDone()) {
+            startFab.setVisibility(View.GONE);
+        }
+
     }
 }

@@ -126,7 +126,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
             int id  =  (int)this.sqlGymDatabase.insert(Exercise_tablename,null,values);
             System.out.println("SQLiteSeralizer.java: SAVED ON DB with ID "+id);
         }
-        System.out.println("SQLiteSeralizer.java: exercise already exists "+exid);
+        System.out.println("SQLiteSeralizer.java: exercise already exists " + exid);
         return -1;
     }
 
@@ -231,7 +231,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         ContentValues   values  = new ContentValues();
         values.put(User_Name_column,strName);
         values.put(User_Email_column,strEmail);
-        values.put(User_Gender_column,intGender);
+        values.put(User_Gender_column, intGender);
         values.put(User_Avatar_column, avatar);
         values.put(User_Registration_column, Singletons.getStringFromDate(dateReg));
         return  (int)this.sqlGymDatabase.insert(User_USER_tablename,null,values);
@@ -427,7 +427,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         ContentValues   values  =   new ContentValues();
         values.put(Workout_label,name);
         values.put(Workout_kind,type);
-        values.put(Workout_Level,difficulty);
+        values.put(Workout_Level, difficulty);
         return  (int)this.sqlGymDatabase.insert(Workout_tablename,null,values);
     }
 
@@ -578,7 +578,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         ContentValues   values  =   new ContentValues();
         values.put(SessionMadeByExercises_WorkoutSessionID,intIDSession);
         values.put(SessionMadeByExercises_ExerciseID,intIDExercise);
-        this.sqlGymDatabase.insert(SessionMadeByExercises_tablename,null,values);
+        this.sqlGymDatabase.insert(SessionMadeByExercises_tablename, null, values);
     }
 
     @Override
@@ -605,7 +605,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
 
     @Override
     public void deleteSession(int intUserSessionID, int anUserID,Date sessionDate) {
-        ArrayList<UserExercise>    exercisesOfSession  =   this.getExercisesOfAUserSession(intUserSessionID,anUserID,sessionDate);
+        ArrayList<UserExercise>    exercisesOfSession  =   this.getExercisesOfAUserSession(intUserSessionID, anUserID, sessionDate);
         for(int i=0;i<exercisesOfSession.size();i++){
             this.deleteUserExercise(anUserID,exercisesOfSession.get(i).getId(),sessionDate);
         }
@@ -634,7 +634,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         values.put(UserMakesSession_UserID,intIDUser);
         values.put(UserMakesSession_Comment,strComment);
         values.put(UserMakesSession_rating,rating);
-        values.put(UserMakesSession_ExecutionD,Singletons.getStringFromDate(sessionDate));
+        values.put(UserMakesSession_ExecutionD, Singletons.getStringFromDate(sessionDate));
         return  (int)this.sqlGymDatabase.insert(UserMakesSession_tablename,null,values);
     }
 
@@ -675,8 +675,8 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         values.put(UserMakesExercise_done,Singletons.getIntFromBoolean(boolIsDone));
         values.put(UserMakesExercise_comment, strComment);
         values.put(UserMakesSession_UserID, userID);
-        values.put(UserMakesExercise_execution_date,Singletons.getStringFromDate(executionDate));
-        values.put(UserMakesExercise_rating,rating);
+        values.put(UserMakesExercise_execution_date, Singletons.getStringFromDate(executionDate));
+        values.put(UserMakesExercise_rating, rating);
         return (int) this.sqlGymDatabase.insert(UserMakesExercise_tablename, null, values);
     }
 
@@ -727,10 +727,10 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         values.put(UserMakesExercise_comment,strComment);
         values.put(UserMakesExercise_rating, rating);
         String field        =       UserMakesExercise_userID+"=? AND "+ UserMakesExercise_exID +"=? AND "+UserMakesExercise_execution_date+"=?";
-        String filter   []  =       {String.valueOf(intIDUser),String.valueOf(intIDExercise),Singletons.getStringFromDate(adate)};;
+        String filter   []  =       {String.valueOf(intIDUser),String.valueOf(intIDExercise),Singletons.getStringFromDate(adate)};
         int rows    =   this.sqlGymDatabase.update(UserMakesExercise_tablename, values, field, filter);
         System.out.println("updated rows: " + rows + " on field " + field);
-        System.out.println("UserExercise data user " + intIDUser + " idex " + intIDExercise + " date " + Singletons.getStringFromDate(adate)+" rating "+rating+" comment "+strComment);
+        System.out.println("UserExercise data user " + intIDUser + " idex " + intIDExercise + " date " + Singletons.getStringFromDate(adate)+" rating "+rating+" comment "+strComment+" done "+Singletons.getIntFromBoolean(boolIsDone));
     }
 
     @Override

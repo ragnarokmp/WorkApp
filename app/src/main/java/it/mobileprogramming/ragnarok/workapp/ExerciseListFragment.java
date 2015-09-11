@@ -18,6 +18,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
@@ -117,27 +119,46 @@ public class ExerciseListFragment extends ListFragment {
         dbSerializer.open();
 
         Intent intent = getActivity().getIntent();
-
+//        Set extrasset  =   intent.getExtras().keySet();
+//        Iterator test   =   extrasset.iterator();
+//        while(test.hasNext()){
+//            Object boh = test.next();
+//            System.out.println("ITERATORE "+boh.toString());
+//        }
         if (intent.hasExtra("workoutSession")) {
             userWorkoutSession =  intent.getExtras().getParcelable("workoutSession");
             User currentUser =   ((App) getActivity().getApplication()).getCurrentUser();
             assert userWorkoutSession != null;
-            userWorkoutSession = dbSerializer.loadSession(userWorkoutSession.getId(),currentUser,userWorkoutSession.getDateSessionDate());
+            userWorkoutSession = dbSerializer.loadSession(userWorkoutSession.getId(), currentUser, userWorkoutSession.getDateSessionDate());
             exercises = userWorkoutSession.getExercisesOfSession();
-            Log.i("andrea",exercises.toString());
             exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
+            ((App) getActivity().getApplication()).setCurrentWorkoutSession(userWorkoutSession);
 
         } else if (intent.hasExtra("readMode")) {
             ArrayList<WorkoutSession> workoutSessions = dbSerializer.loadAllWorkoutSessionsForWorkout(intent.getExtras().getInt("workoutID"));
             WorkoutSession currentSession = workoutSessions.get(intent.getExtras().getInt("sessionID"));
             exercises = currentSession.getExercisesOfSession();
-            exercisesListAdapter = new ExercisesListAdapter(exercises,getActivity());
+            exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
+            ((App) getActivity().getApplication()).setCurrentWorkoutSession(currentSession);
+
+
+        } else if (intent.hasExtra("back")) {
+            WorkoutSession workSession = ((App) getActivity().getApplication()).getCurrentWorkoutSession();
+            if (workSession == null) {
+                exercises = dbSerializer.loadAll();
+            } else {
+                exercises = workSession.getExercisesOfSession();
+            }
+            exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
+            setListAdapter(exercisesListAdapter);
+
         } else {
             exercises = dbSerializer.loadAll();
             exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
+            ((App) getActivity().getApplication()).setCurrentWorkoutSession(null);
 
         }
     }
@@ -179,8 +200,8 @@ public class ExerciseListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        Log.i("andrea","Item " + String.valueOf(position) + " selected");
-        mCallbacks.onItemSelected(userWorkoutSession,position);
+        Log.i("andrea", "Item " + String.valueOf(position) + " selected");
+        mCallbacks.onItemSelected(userWorkoutSession, position);
 
     }
 

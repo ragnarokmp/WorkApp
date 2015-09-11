@@ -187,9 +187,10 @@ public class WorkoutFragment extends BaseFragment {
             if(logged!=null){
                 userID  =   logged.getIntUserID();
             }
-
+            workoutListView.clear();
             setWorkoutSessions();
         }
+
     }
 
     @Override
