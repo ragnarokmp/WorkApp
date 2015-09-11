@@ -29,6 +29,16 @@ public interface UserExerciseSerializer {
     ArrayList<UserExercise> getExercisesOfAUserSession(int intIDUserWorkoutSession,int userID,Date executionDate);
 
     /**
+     * get a centrain exercise of a userworkoutsession
+     * @param intIDUserWorkoutSession   session id
+     * @param userID user id
+     * @param executionDate execution date
+     * @param exId exercise id
+     * @return
+     */
+    UserExercise getAnExerciseOfAUserSession(int intIDUserWorkoutSession,int userID,Date executionDate,int exId);
+
+    /**
      * update an user exercise on db
      * @param intIDUser user id
      * @param intIDExercise exercise id

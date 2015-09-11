@@ -681,6 +681,16 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
     }
 
     @Override
+    public UserExercise getAnExerciseOfAUserSession(int intIDUserWorkoutSession, int userID, Date executionDate, int exId) {
+        ArrayList<UserExercise> exercises   =   this.getExercisesOfAUserSession(intIDUserWorkoutSession,userID,executionDate);
+        for(int i=0;i<exercises.size();i++){
+            if(exercises.get(i).getId()==exId)
+                return exercises.get(i);
+        }
+        return null;
+    }
+
+    @Override
     public ArrayList<UserExercise> getExercisesOfAUserSession(int intIDUserWorkoutSession,int userID,Date executionDate) {//TODO controllare, non ho bisogno di id user???
         String  MY_QUERY    =   "SELECT * FROM "+UserMakesExercise_tablename+" JOIN "+Exercise_tablename+" ON "+UserMakesExercise_tablename+"."+UserMakesExercise_exID+"="+Exercise_tablename+"."+Exercise_ID+" NATURAL JOIN "+SessionMadeByExercises_tablename+" WHERE "+UserMakesExercise_tablename+"."+UserMakesSession_UserID+"=? AND "+UserMakesExercise_tablename+"."+UserMakesExercise_execution_date+"=\""+Singletons.getStringFromDate(executionDate)+"\" AND "+SessionMadeByExercises_tablename+"."+SessionMadeByExercises_WorkoutSessionID+"=? ORDER BY "+SessionMadeByExercises_Progressive;
         //System.out.println("Query: "+MY_QUERY);
