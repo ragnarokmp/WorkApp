@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Vi
         super.onCreate(savedInstanceState);
 
         // TODO DEVELOPMENT
-        SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
+        /*SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
         Workout newWorkout = new Workout("Workout di prova","custom","Difficile",dbSerializer);
 
         WorkoutSession testSession = new WorkoutSession("",dbSerializer);
@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Vi
         testSession.addExerciseToWorkoutSession(ex1, 0, true);
 
         Exercise ex2 = new Exercise(dbSerializer,2,"Esercizio n°2",15,10,3,"25","Quadricipiti");
-        testSession2.addExerciseToWorkoutSession(ex2, 0, true);
+        testSession2.addExerciseToWorkoutSession(ex2, 0, true);*/
 
         // Set the WorkoutFragment
         setFragment(TypeFragment.Workout);

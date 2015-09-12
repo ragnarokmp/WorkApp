@@ -131,9 +131,13 @@ public class WorkoutFragment extends BaseFragment {
                 frameLayout.setOnTouchListener(null);
             }
         });
+
         if(((App) getActivity().getApplication()).getCurrentUser()==null){
             fabMenu.setEnabled(false);
+            Intent intent = new Intent(getActivity(), SigInActivity.class);
+            startActivity(intent);
         }
+
         return view;
     }
 
