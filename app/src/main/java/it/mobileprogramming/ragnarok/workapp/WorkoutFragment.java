@@ -91,7 +91,7 @@ public class WorkoutFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WorkoutCreateActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -167,10 +167,11 @@ public class WorkoutFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        fabMenu.collapse();
+
         if (requestCode == 0) {
             Log.i(TAG, "tutto a posto");
             toBeRefreshed = true;
-            fabMenu.collapse();
         }
     }
 

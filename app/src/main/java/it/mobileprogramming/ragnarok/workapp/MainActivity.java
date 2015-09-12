@@ -37,7 +37,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Vi
         setTheme(R.style.WorkApp);
         super.onCreate(savedInstanceState);
 
-        // TODO DEVELOPMENT
+ /*       // TODO DEVELOPMENT
         SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
         Workout newWorkout = new Workout("Workout di prova","custom","Difficile",dbSerializer);
 
@@ -52,7 +52,7 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Vi
 
         Exercise ex2 = new Exercise(dbSerializer,2,"Esercizio n°2",15,10,3,"25","Quadricipiti");
         testSession2.addExerciseToWorkoutSession(ex2, 0, true);
-
+*/
         // Set the WorkoutFragment
         setFragment(TypeFragment.Workout);
 

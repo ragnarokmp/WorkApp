@@ -140,7 +140,7 @@
                     android:inputType="textMultiLine"
                     android:ems="10"
                     android:id="@+id/et_comment"
-                android:text="@string/feedback_commentForm"
+                    android:text="@string/feedback_commentForm"
                     android:gravity="start"
                     android:textColor="@color/secondary_text"
                     android:textColorHint="@color/secondary_text"

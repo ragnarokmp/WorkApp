@@ -116,7 +116,7 @@
                 android:value="it.mobileprogramming.ragnarok.workapp.MainActivity" />
         </activity>
         <activity
-            android:name=".ExeciseListActivityCheckbox"
+            android:name=".ExerciseListActivityCheckbox"
             android:label="@string/title_activity_execises_list_activity_checkbox"
             android:parentActivityName=".WorkoutCreateActivity" >
             <meta-data
