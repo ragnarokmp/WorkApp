@@ -80,7 +80,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
         setDuration();
         setExercises();
         setDivider(true, false);
-        setButtons(false, true, card);
+        setButtons(false, card);
     }
 
     /**
@@ -203,7 +203,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      * @param ButtonsVisible true if the buttons have to be visible, false otherwise.
      * @param card the card.
      */
-    private void setButtons(Boolean ButtonsVisible, Boolean FeedbackVisible, final Card card) {
+    private void setButtons(Boolean ButtonsVisible, final Card card) {
         final TextView startNowTextButton = (TextView) findViewById(R.id.start_now_text_button);
         startNowTextButton.setVisibility(ButtonsVisible ? VISIBLE : GONE);
         final TextView detailsTextButton = (TextView) findViewById(R.id.details_text_button);
