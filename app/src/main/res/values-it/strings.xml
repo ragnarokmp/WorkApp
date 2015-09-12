@@ -106,4 +106,7 @@
     <string name="development">Sei uno sviluppatore?</string>
     <string name="exercise_detail_skip">Prossimo esercizio</string>
     <string name="exercise_detail_skip_finish">Dacci un feedback</string>
+    <string name="feedback_submit_exercise">Grazie per aver lasciato un commento!</string>
+    <string name="feedback_submit_session">Grazie per aver lasciato un commento per questa sessione!</string>
+    <string name="feedback_submit_session_button">Lascia un feedback</string>
 </resources>

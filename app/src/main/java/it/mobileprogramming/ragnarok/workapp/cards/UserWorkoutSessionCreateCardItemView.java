@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import java.util.Random;
 
 import it.mobileprogramming.ragnarok.workapp.ExeciseListActivityCheckbox;
 import it.mobileprogramming.ragnarok.workapp.ExerciseListActivity;
+import it.mobileprogramming.ragnarok.workapp.FeedbackActivity;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.R;

@@ -1,11 +1,13 @@
 package it.mobileprogramming.ragnarok.workapp;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -81,6 +83,7 @@ public class FeedbackActivity extends BaseActivityWithToolbar {
             public void onClick(View v) {
                 commentableItem.setComment(et_comment.getText().toString());
                 System.out.println("COMMENTABLE object " + commentableItem.toString());
+                Toast.makeText(getApplicationContext(), getString(R.string.feedback_submit_exercise), Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

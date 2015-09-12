@@ -22,6 +22,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import it.mobileprogramming.ragnarok.workapp.cards.UserWorkoutSessionCard;
+import it.mobileprogramming.ragnarok.workapp.cards.UserWorkoutSessionCardItemView;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
 import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
@@ -159,10 +160,16 @@ public class WorkoutFragment extends BaseFragment {
             }
             for (int j = 0; j < firstWorkoutSessions.size(); j++) {
                 UserWorkoutSessionCard card = new UserWorkoutSessionCard(context, firstWorkoutSessions.get(j));
+
                 workoutListView.add(card);
             }
         }
         //toBeRefreshed = false;
+    }
+
+
+    public void sessioneFeedback(View v) {
+
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import it.mobileprogramming.ragnarok.workapp.ExerciseListActivity;
+import it.mobileprogramming.ragnarok.workapp.FeedbackActivity;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.R;
@@ -77,8 +79,8 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
         setTitles();
         setDuration();
         setExercises();
-        setDivider(false, false);
-        setButtons(false, card);
+        setDivider(true, false);
+        setButtons(false, true, card);
     }
 
     /**
@@ -201,7 +203,7 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
      * @param ButtonsVisible true if the buttons have to be visible, false otherwise.
      * @param card the card.
      */
-    private void setButtons(Boolean ButtonsVisible, final Card card) {
+    private void setButtons(Boolean ButtonsVisible, Boolean FeedbackVisible, final Card card) {
         final TextView startNowTextButton = (TextView) findViewById(R.id.start_now_text_button);
         startNowTextButton.setVisibility(ButtonsVisible ? VISIBLE : GONE);
         final TextView detailsTextButton = (TextView) findViewById(R.id.details_text_button);

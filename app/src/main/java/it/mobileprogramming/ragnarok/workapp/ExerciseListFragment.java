@@ -240,7 +240,7 @@ public class ExerciseListFragment extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         Intent intent = getActivity().getIntent();
         //TODO There must be a better way to control this
-        if (intent.getExtras() == null) {
+        if (!intent.hasExtra("readmode")) {
             inflater.inflate(R.menu.menu_refresh, menu);
         }
         super.onCreateOptionsMenu(menu, inflater);
