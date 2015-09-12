@@ -88,8 +88,8 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
         final SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
         dbSerializer.open();
 
-        Button addWorkout = (Button) findViewById(R.id.button);
-        addWorkout.setOnClickListener(new View.OnClickListener() {
+        Button addSession = (Button) findViewById(R.id.button);
+        addSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
