@@ -109,7 +109,7 @@ public class Workout {
      */
     public UserWorkout createFromThisWorkout(User anUser){
         SQLiteSerializer aSerializer    =   (SQLiteSerializer)this.woSerializer;
-        UserWorkout res =   new UserWorkout(this.name,anUser.getIntUserID(),this.getType(),this.difficulty,this.woSerializer,aSerializer);
+        UserWorkout res =   new UserWorkout(this.intWOID,this.name,anUser.getIntUserID(),this.getType(),this.difficulty,this.woSerializer);
         for(int i=0;i<this.woSessions.size();i++){
             WorkoutSession  aSession                =   woSessions.get(i);
             UserWorkoutSession userWorkoutSession   =   new UserWorkoutSession(aSession.getFilepath(),anUser.getIntUserID(),aSerializer,aSerializer,new Date(),aSession.getId(),"",false,0);
@@ -120,6 +120,8 @@ public class Workout {
             }
             res.addWorkoutSession(userWorkoutSession,true,i);
         }
+        UserSerializer userSerializer   =   aSerializer;
+        userSerializer.addWorkoutForUser(anUser.getIntUserID(),this.getIntWOID());
         return res;
     }
     @Override
