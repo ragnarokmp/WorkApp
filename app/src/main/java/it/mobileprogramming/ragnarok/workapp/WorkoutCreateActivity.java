@@ -1,33 +1,38 @@
 package it.mobileprogramming.ragnarok.workapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
+import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewAnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.RelativeLayout;
+import android.widget.EditText;
 
-import com.dexafree.materialList.controller.RecyclerItemClickListener;
-import com.dexafree.materialList.model.CardItemView;
-import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.dexafree.materialList.cards.OnButtonPressListener;
+import com.dexafree.materialList.model.Card;
 
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.List;
 
+import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
+import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
-import it.mobileprogramming.ragnarok.workapp.cards.UserWorkoutSessionCreateCard;
+import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCreateCard;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
 
 public class WorkoutCreateActivity extends BaseActivityWithToolbar {
+
+    private MyMaterialListView workoutListView;
+    private List<WorkoutSession> workoutSessionList = new ArrayList<>();
+    private int sessionNumber = 0;
+    private SQLiteSerializer dbSerializer;
+    private String difficulty;
 
     @Override
     protected int getLayoutResourceId() {
@@ -40,7 +45,7 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
         super.onCreate(savedInstanceState);
 
         // Get MaterialListView
-        final MyMaterialListView workoutListView = (MyMaterialListView) findViewById(R.id.session_list_view);
+        workoutListView = (MyMaterialListView) findViewById(R.id.session_list_view);
 
         // Get divider for MaterialListView
         Drawable drawable;
@@ -54,42 +59,32 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
         // Set divider to MaterialListView
         workoutListView.setDivider(drawable); //TODO doesn't work well in landscape mode..
 
-        // Set onItemTouchListener
-        workoutListView.addOnItemTouchListener(new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(CardItemView cardItemView, int i) {
+        dbSerializer = ((App) getApplication()).getDBSerializer();
+        dbSerializer.open();
 
-            }
+        final Activity activity = this;
 
-            @Override
-            public void onItemLongClick(CardItemView cardItemView, int i) {
+        final EditText workoutName = (EditText) findViewById(R.id.nameWorkoutEditText);
 
-            }
-        });
-
-        //UserWorkout newWorkout = new UserWorkout("Workout a runtime",1,"test","facile",dbSerializer,dbSerializer);
-        //newWorkout.addWorkoutSession(newSession,true,0);
-        //Exercise ex1  =   new Exercise(dbSerializer,2,"esercizio1",1,1,1,"nulla","bicipite");
-        //UserExercise anExercise =   new UserExercise(1,new Date(),ex1,false,"so sempre bone",dbSerializer,dbSerializer,2);
-        //newSession.addExerciseToWorkoutSession(anExercise, 0, true);
-        //Exercise ex2  =   new Exercise(dbSerializer,2,"esercizio2",1,1,1,"nulla","gambe");
-        //UserExercise anExercise2 =   new UserExercise(1,new Date(),ex2,false,"ce piace",dbSerializer,dbSerializer,3);
-        //newSession.addExerciseToWorkoutSession(anExercise2, 0, true);
-
-        /*FloatingActionButton addWorkout = (FloatingActionButton) findViewById(R.id.action_add);
+        FloatingActionButton addWorkout = (FloatingActionButton) findViewById(R.id.create_fab);
         addWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Intent intent = new Intent(this, WorkoutCreateActivity.class);
-                //startActivity(intent);
+
+                String name = workoutName.getText().toString();
+                Workout newWorkout = new Workout(name, "custom", difficulty, dbSerializer);
+
+                for (WorkoutSession session : workoutSessionList) {
+                    newWorkout.addWorkoutSession(session, true, (int) Double.POSITIVE_INFINITY);
+                }
+
+                setResult(1);
+                finish();
             }
-        });*/
+        });
 
-        final SQLiteSerializer dbSerializer = ((App) getApplication()).getDBSerializer();
-        dbSerializer.open();
-
-        Button addWorkout = (Button) findViewById(R.id.button);
-        addWorkout.setOnClickListener(new View.OnClickListener() {
+        Button addSession = (Button) findViewById(R.id.button);
+        addSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -97,13 +92,62 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
                 if (move.getVisibility() == View.VISIBLE)
                     move.setVisibility(View.GONE);
 
-                WorkoutSession testSession = new WorkoutSession("",dbSerializer);
-                UserWorkoutSession newSession = new UserWorkoutSession("",1,dbSerializer,dbSerializer,new Date(),testSession.getId(),"",true,0);
+                WorkoutSession session = new WorkoutSession("",dbSerializer);
+                workoutSessionList.add(session);
 
-                UserWorkoutSessionCreateCard card = new UserWorkoutSessionCreateCard(getApplicationContext(), newSession);
+                WorkoutSessionCreateCard card = new WorkoutSessionCreateCard(getApplicationContext(), session);
+
+                card.setOnExerciseButtonPressedListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        Intent intent = new Intent(activity, ExerciseListActivityCheckbox.class);
+                        activity.startActivityForResult(intent, sessionNumber);
+                    }
+                });
+
                 workoutListView.add(card);
+                sessionNumber = sessionNumber + 1;
             }
         });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+
+            ArrayList<Integer> exercisesSelected = data.getIntegerArrayListExtra("exercise_list");
+
+            for (int id : exercisesSelected) {
+                // Load exercise from id
+                Exercise exercise = dbSerializer.loadExercise(id);
+                Log.i(TAG, "requestCode: " + String.valueOf(requestCode - 1));
+                Log.i(TAG, "workoutSessionList.size(): " + String.valueOf(workoutSessionList.size()));
+                Log.i(TAG, "exercise: " + exercise.toString());
+
+                // Add exercise to session
+                workoutSessionList.get(requestCode - 1).addExerciseToWorkoutSession(exercise, (int) Double.POSITIVE_INFINITY, true);
+            }
+
+            workoutListView.onNotifyDataSetChanged(null);
+        }
+    }
+
+    public void setDifficulty(View view) {
+        switch (view.getId()) {
+
+            case R.id.radioButtonEasy:
+                difficulty = getString(R.string.difficulty_easy);
+                break;
+            case R.id.radioButtonMedium:
+                difficulty = getString(R.string.difficulty_medium);
+                break;
+            case R.id.radioButtonHard:
+                difficulty = getString(R.string.difficulty_hard);
+                break;
+            default:
+                break;
+        }
+    }
 }

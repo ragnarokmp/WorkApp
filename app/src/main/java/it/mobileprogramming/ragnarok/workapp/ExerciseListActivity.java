@@ -62,7 +62,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
         }
 
         // When arrive from workout detail in read mode, see WorkoutDetailFragment for info
-        if (!getIntent().hasExtra("readMode")){
+        if (getIntent().hasExtra("readMode")){
             workout_session = true;
         }
         // TODO: If exposing deep links into your app, handle intents here.
@@ -80,7 +80,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
             if (workout_session)
-                NavUtils.navigateUpTo(this, new Intent(this, WorkoutListActivity.class));
+                NavUtils.navigateUpTo(this, new Intent(this, WorkoutDetailActivity.class));
             else
                 NavUtils.navigateUpTo(this, new Intent(this, MainActivity.class));
             return true;

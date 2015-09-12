@@ -1,4 +1,4 @@
-<it.mobileprogramming.ragnarok.workapp.cards.UserWorkoutSessionCreateCardItemView
+<it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCreateCardItemView
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -44,7 +44,7 @@
 
                 <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.3">
 
@@ -70,111 +70,31 @@
                         android:textColor="@color/secondary_text" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="COMPLETION"
-                        android:id="@+id/completion_title_text_view"
-                        style="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@color/primary"
-                        android:textStyle="bold"
-                        android:singleLine="true" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="60%"
-                        android:id="@+id/completion_text_view"
-                        style="@style/Base.TextAppearance.AppCompat.Body1"
-                        android:layout_gravity="center_vertical"
-                        android:textStyle="italic"
-                        android:singleLine="true"
-                        android:textColor="@color/secondary_text" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.3">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="DURATION"
-                        android:id="@+id/duration_title_text_view"
-                        style="@style/Base.TextAppearance.AppCompat.Small"
-                        android:textColor="@color/primary"
-                        android:textStyle="bold"
-                        android:singleLine="true" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="40 min"
-                        android:id="@+id/duration_text_view"
-                        style="@style/Base.TextAppearance.AppCompat.Body1"
-                        android:layout_gravity="center_vertical"
-                        android:textStyle="italic"
-                        android:singleLine="true"
-                        android:textColor="@color/secondary_text" />
-                </LinearLayout>
-
             </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/description_text_view"
-                android:textColor="@color/description_color"
-                android:padding="@dimen/big_padding"
-                android:textSize="@dimen/description_size"
-                android:layout_below="@+id/session_image_view"
-                tools:text="In the session of 25 june we will work on muscle1, muscle2 and muscle3 with 4xexercise1, 10xexercise2 and 5xesercise3."/>
 
             <View
                 android:id="@+id/card_divider"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="@color/divider_grey"
-                android:layout_below="@+id/description_text_view"
-                android:visibility="visible"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/date_text_button"
-                android:layout_below="@+id/description_text_view"
-                android:layout_marginTop="@dimen/small_padding"
-                android:layout_marginBottom="@dimen/small_padding"
-                android:layout_marginLeft="@dimen/small_padding"
-                android:padding="@dimen/small_padding"
-                tools:text="SELECT DATE"
-                style="@style/LeftButtonBaseStyle"
-                tools:ignore="RtlSymmetry"
-                android:textColor="@color/secondary_text" />
+                android:visibility="visible"
+                android:layout_below="@+id/session_image_view" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/exercises_text_button"
-                android:layout_toRightOf="@+id/date_text_button"
-                android:layout_alignBottom="@+id/date_text_button"
-                android:layout_marginRight="@dimen/small_padding"
-                android:layout_marginLeft="@dimen/small_padding"
                 android:padding="@dimen/small_padding"
                 tools:text="SELECT EXERCISES"
                 style="@style/RightButtonBaseStyle"
-                android:textColor="@color/primary" />
+                android:textColor="@color/primary"
+                android:layout_below="@+id/card_divider"
+                android:layout_marginLeft="@dimen/small_padding"
+                android:layout_marginBottom="@dimen/small_padding"
+                android:layout_marginTop="@dimen/small_padding" />
 
         </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 
-</it.mobileprogramming.ragnarok.workapp.cards.UserWorkoutSessionCreateCardItemView>
+</it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCreateCardItemView>

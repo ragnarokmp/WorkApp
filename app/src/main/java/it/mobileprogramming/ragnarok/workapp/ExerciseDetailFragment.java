@@ -234,21 +234,6 @@ public class ExerciseDetailFragment extends Fragment {
             }
         });
 
-        rootView.setFocusableInTouchMode(true);
-        rootView.requestFocus();
-        rootView.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-
-                if (event.getAction() == KeyEvent.ACTION_UP &&
-                        keyCode == KeyEvent.KEYCODE_BACK && workout_session) {
-                    getActivity().getSupportFragmentManager().popBackStack();
-                    return true;
-                }
-                return false;
-            }
-        });
-
         return rootView;
     }
 

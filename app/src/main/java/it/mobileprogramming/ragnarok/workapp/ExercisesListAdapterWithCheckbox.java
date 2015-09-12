@@ -11,17 +11,18 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 
 public class ExercisesListAdapterWithCheckbox extends ArrayAdapter<Exercise> {
 
+    private ArrayList<Integer> exerciseListSelected;
     private List<Exercise> exerciseListFromDB;
-    private List<Exercise> exerciseListSelected;
     private Context context;
 
-    public ExercisesListAdapterWithCheckbox(List<Exercise> exerciseListFromDB, List<Exercise> exerciseListSelected, Context ctx) {
+    public ExercisesListAdapterWithCheckbox(List<Exercise> exerciseListFromDB, ArrayList<Integer> exerciseListSelected, Context ctx) {
         super(ctx, R.layout.exercise_checkbox_row, exerciseListFromDB);
         this.exerciseListFromDB = exerciseListFromDB;
         this.exerciseListSelected = exerciseListSelected;
@@ -75,6 +76,14 @@ public class ExercisesListAdapterWithCheckbox extends ArrayAdapter<Exercise> {
         Exercise exercise = exerciseListFromDB.get(position);
         holder.exerciseTitleTextView.setText(exercise.getName());
         holder.exerciseDescriptionTextView.setText(exercise.getSeries() + "x" + exercise.getRepetition() + " - " + exercise.getMuscles());
+        holder.checkboxExercise.setTag(exercise.getId());
+
+
+        if (exerciseListSelected.contains(exercise.getId())) {
+            holder.checkboxExercise.setChecked(true);
+        } else {
+            holder.checkboxExercise.setChecked(false);
+        }
 
         int resource_position = (position % 8 == 0) ? 1 : (position % 8);
         int resourceId = getContext().getResources().getIdentifier("exercise_" + String.valueOf(resource_position), "raw", getContext().getPackageName());

@@ -22,6 +22,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import it.mobileprogramming.ragnarok.workapp.cards.UserWorkoutSessionCard;
+import it.mobileprogramming.ragnarok.workapp.cards.UserWorkoutSessionCardItemView;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
 import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
@@ -93,7 +94,7 @@ public class WorkoutFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), WorkoutCreateActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
@@ -130,9 +131,13 @@ public class WorkoutFragment extends BaseFragment {
                 frameLayout.setOnTouchListener(null);
             }
         });
+
         if(((App) getActivity().getApplication()).getCurrentUser()==null){
             fabMenu.setEnabled(false);
+            Intent intent = new Intent(getActivity(), SigInActivity.class);
+            startActivity(intent);
         }
+
         return view;
     }
 
@@ -159,20 +164,27 @@ public class WorkoutFragment extends BaseFragment {
             }
             for (int j = 0; j < firstWorkoutSessions.size(); j++) {
                 UserWorkoutSessionCard card = new UserWorkoutSessionCard(context, firstWorkoutSessions.get(j));
+
                 workoutListView.add(card);
             }
         }
         //toBeRefreshed = false;
     }
 
+
+    public void sessioneFeedback(View v) {
+
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        fabMenu.collapse();
+
         if (requestCode == 0) {
             Log.i(TAG, "tutto a posto");
             toBeRefreshed = true;
-            fabMenu.collapse();
         }
     }
 

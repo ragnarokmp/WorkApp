@@ -48,7 +48,10 @@
                     android:inputType="text"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:id="@+id/editText" />
+                    android:id="@+id/nameWorkoutEditText"
+                    android:background="@null"
+                    android:maxLines="1"
+                    android:minLines="1" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -75,21 +78,24 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/difficulty_easy"
-                        android:id="@+id/radioButtonEasy" />
+                        android:id="@+id/radioButtonEasy"
+                        android:onClick="setDifficulty" />
 
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/difficulty_medium"
-                        android:id="@+id/radioButtonMedium" />
+                        android:id="@+id/radioButtonMedium"
+                        android:onClick="setDifficulty" />
 
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/difficulty_hard"
-                        android:id="@+id/radioButtonHard" />
+                        android:id="@+id/radioButtonHard"
+                        android:onClick="setDifficulty" />
 
                 </RadioGroup>
 
@@ -124,5 +130,14 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="0dp" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/create_fab"
+        android:src="@drawable/ic_check"
+        android:layout_gravity="bottom|end"
+        style="@style/FabStyle"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

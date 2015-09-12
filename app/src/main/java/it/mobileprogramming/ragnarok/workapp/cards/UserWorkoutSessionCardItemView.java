@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +26,7 @@ import java.util.Date;
 import java.util.Random;
 
 import it.mobileprogramming.ragnarok.workapp.ExerciseListActivity;
+import it.mobileprogramming.ragnarok.workapp.FeedbackActivity;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.R;
@@ -84,7 +86,7 @@ public class UserWorkoutSessionCardItemView extends CardItemView<UserWorkoutSess
         setExercises();
         setCompletion();
         setDivider(false, false);
-        setButtons(false, card);
+        setButtons(false, true, card);
     }
 
     /**
@@ -223,23 +225,28 @@ public class UserWorkoutSessionCardItemView extends CardItemView<UserWorkoutSess
      * @param ButtonsVisible true if the buttons have to be visible, false otherwise.
      * @param card the card.
      */
-    private void setButtons(Boolean ButtonsVisible, final Card card) {
+    private void setButtons(Boolean ButtonsVisible, Boolean FeedbackVisible, final Card card) {
         final TextView startNowTextButton = (TextView) findViewById(R.id.start_now_text_button);
         startNowTextButton.setVisibility(ButtonsVisible ? VISIBLE : GONE);
         final TextView detailsTextButton = (TextView) findViewById(R.id.details_text_button);
         detailsTextButton.setVisibility(ButtonsVisible ? VISIBLE : GONE);
+        final Button feedbackButton = (Button) findViewById(R.id.user_workout_feedback_button);
+        if (FeedbackVisible) {
+            feedbackButton.setVisibility(VISIBLE);
+            this.setDivider(true, true);
+        }
 
         startNowTextButton.setText(getResources().getString(R.string.start_now_button).toUpperCase());
         startNowTextButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                    new OnButtonPressListener() {
-                        @Override
-                        public void onButtonPressedListener(View view, Card card) {
-                            Intent intent = new Intent(getContext(), StartExerciseActivity.class);
-                            getContext().startActivity(intent);
-                        }
-                    }.onButtonPressedListener(startNowTextButton, card);
+                new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+                        Intent intent = new Intent(getContext(), StartExerciseActivity.class);
+                        getContext().startActivity(intent);
+                    }
+                }.onButtonPressedListener(startNowTextButton, card);
             }
         });
 
@@ -254,6 +261,15 @@ public class UserWorkoutSessionCardItemView extends CardItemView<UserWorkoutSess
                         getContext().startActivity(intent);
                     }
                 }.onButtonPressedListener(detailsTextButton, card);
+            }
+        });
+
+        feedbackButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FeedbackActivity.class);
+                intent.putExtra("item", workoutSession);
+                getContext().startActivity(intent);
             }
         });
     }

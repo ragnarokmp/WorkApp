@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="it.mobileprogramming.ragnarok.workapp.FeedbackActivity">
+    tools:context="it.mobileprogramming.ragnarok.workapp.FeedbackActivity"
+    android:id="@+id/feedbackview">
 
     <!-- Includes the toolbar -->
     <include layout="@layout/toolbar" />
@@ -140,7 +141,7 @@
                     android:inputType="textMultiLine"
                     android:ems="10"
                     android:id="@+id/et_comment"
-                android:text="@string/feedback_commentForm"
+                    android:text="@string/feedback_commentForm"
                     android:gravity="start"
                     android:textColor="@color/secondary_text"
                     android:textColorHint="@color/secondary_text"

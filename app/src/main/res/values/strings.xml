@@ -87,6 +87,8 @@
     <string name="feedback_commentForm">Write your comment here</string>
     <string name="feedback_submitButton">Submit</string>
     <string name="feedback_title">Leave feedback</string>
+    <string name="feedback_submit_exercise">Thanks for your feedback!</string>
+    <string name="feedback_submit_session_button">Leave a feedback</string>
 
     <!-- Start Exercise Activity -->
     <string name="pause">Pause</string>

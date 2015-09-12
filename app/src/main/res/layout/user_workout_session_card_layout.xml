@@ -140,7 +140,7 @@
                 android:id="@+id/card_divider"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/divider_grey"
+                android:background="@color/divider"
                 android:layout_below="@+id/description_text_view"
                 android:visibility="visible"/>
 
@@ -170,6 +170,17 @@
                 tools:text="START NOW"
                 style="@style/RightButtonBaseStyle"
                 android:textColor="@color/primary" />
+
+            <Button
+                android:id="@+id/user_workout_feedback_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/card_divider"
+                android:background="?android:attr/selectableItemBackground"
+                android:textColor="@color/grey_title"
+                android:text="@string/feedback_submit_session_button"
+                android:visibility="gone"
+                />
 
         </RelativeLayout>
 

@@ -118,7 +118,6 @@ public class WorkoutListActivity extends BaseActivityWithToolbar implements Work
                 detailIntent.putExtra("userID",userID);
             }
             startActivityForResult(detailIntent, 1);
-            finish();
         }
     }
 
