@@ -106,6 +106,7 @@ public class WorkoutDetailFragment extends BaseFragment {
                 } else {
                     Log.i("andrea","eccolo");
                     intent.putExtra("workoutSession", (UserWorkoutSession) cardItemView.getTag());
+                    intent.putExtra("readMode", 0);
                 }
                 getActivity().startActivity(intent);
             }

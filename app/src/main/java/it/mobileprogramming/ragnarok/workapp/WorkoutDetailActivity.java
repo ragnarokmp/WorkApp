@@ -62,7 +62,7 @@ public class WorkoutDetailActivity extends BaseActivityWithToolbar {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, WorkoutListActivity.class));
+            NavUtils.navigateUpFromSameTask(this);
             return true;
         }
         return super.onOptionsItemSelected(item);
