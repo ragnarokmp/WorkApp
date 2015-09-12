@@ -72,6 +72,7 @@ public class WorkoutListFragment extends ListFragment {
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
+
     public WorkoutListFragment() {
     }
 
@@ -82,8 +83,15 @@ public class WorkoutListFragment extends ListFragment {
 
         SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
-
-        workouts = dbSerializer.loadAllWorkouts(true);
+        if (getActivity().getIntent().hasExtra("userID")) {
+            Activity myActivity =   getActivity();
+            if(myActivity.getClass().equals(WorkoutListActivity.class))   {
+                ((WorkoutListActivity) myActivity).userID = getActivity().getIntent().getExtras().getInt("userID");
+                workouts = dbSerializer.loadUser(getActivity().getIntent().getExtras().getInt("userID")).getWorkoutHistory();
+            }
+        } else {
+            workouts = dbSerializer.loadAllWorkouts(true);
+        }
 
         Log.d("WORKOUT_LIST_FRAGMENT","Workouts: " + workouts);
 

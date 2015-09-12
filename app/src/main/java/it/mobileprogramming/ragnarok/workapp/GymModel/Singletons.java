@@ -1,7 +1,9 @@
 package it.mobileprogramming.ragnarok.workapp.GymModel;
 
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 
@@ -52,6 +54,20 @@ public class Singletons {
             return true;
         }
         else return false;
+    }
+
+    public static Date randomDate() {
+        int year = randBetween(1800,2100); // generate a year between 1900 and 2010;
+        int dayOfYear = randBetween(1,364);// generate a number between 1 and 365 (or 366 if you need to handle leap year);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.DAY_OF_YEAR, dayOfYear);
+        Date randomDoB = calendar.getTime();
+        return randomDoB;
+    }
+
+    public static int randBetween(int start, int end) {
+        return start + (int)Math.round(Math.random() * (end - start));
     }
 
 }

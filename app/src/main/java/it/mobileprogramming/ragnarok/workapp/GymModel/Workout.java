@@ -109,17 +109,20 @@ public class Workout {
      */
     public UserWorkout createFromThisWorkout(User anUser){
         SQLiteSerializer aSerializer    =   (SQLiteSerializer)this.woSerializer;
-        UserWorkout res =   new UserWorkout(this.name,anUser.getIntUserID(),this.getType(),this.difficulty,this.woSerializer,aSerializer);
+        UserWorkout res =   new UserWorkout(this.intWOID,this.name,anUser.getIntUserID(),this.getType(),this.difficulty,this.woSerializer);
         for(int i=0;i<this.woSessions.size();i++){
+            Date aDate  =   Singletons.randomDate();//TODO ok for testing purpose, replace with new Date() in case of deploy
             WorkoutSession  aSession                =   woSessions.get(i);
-            UserWorkoutSession userWorkoutSession   =   new UserWorkoutSession(aSession.getFilepath(),anUser.getIntUserID(),aSerializer,aSerializer,new Date(),aSession.getId(),"",false,0);
+            UserWorkoutSession userWorkoutSession   =   new UserWorkoutSession(aSession.getFilepath(),anUser.getIntUserID(),aSerializer,aSerializer,aDate,aSession.getId(),"",false,0);
             ArrayList<Exercise> exercises           =   aSession.exercisesOfSession;
             for(int j=0;j<exercises.size();j++){
-                UserExercise    userExercise        =   new UserExercise(anUser.getIntUserID(),new Date(),exercises.get(j),false,"",aSerializer,aSerializer,0);
+                UserExercise    userExercise        =   new UserExercise(anUser.getIntUserID(),aDate,exercises.get(j),false,"",aSerializer,aSerializer,0);
                 userWorkoutSession.addExerciseToWorkoutSession(userExercise,0,false);
             }
             res.addWorkoutSession(userWorkoutSession,true,i);
         }
+        UserSerializer userSerializer   =   aSerializer;
+        userSerializer.addWorkoutForUser(anUser.getIntUserID(),this.getIntWOID());
         return res;
     }
     @Override

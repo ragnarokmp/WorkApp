@@ -45,6 +45,7 @@ public class StartExerciseActivity extends BaseActivity {
     public int millis;
     public int repetitions;
     public int series;
+    public int frequency;
     public int currentRepetition;
     public int currentSerie;
     public boolean stopped;
@@ -106,6 +107,7 @@ public class StartExerciseActivity extends BaseActivity {
             millis      = (((cExercise.getRepetition() / cExercise.getFrequency()) * cExercise.getSeries()) + cExercise.getRecovery() * (cExercise.getSeries() - 1))*1000;
             repetitions = cExercise.getRepetition();
             series      = cExercise.getSeries();
+            frequency   = cExercise.getFrequency();
         } else {
             Toast.makeText(getApplicationContext(),
                            getResources().getString(R.string.internal_error),
@@ -302,7 +304,7 @@ public class StartExerciseActivity extends BaseActivity {
     private void startCountDownTimer(long milliseconds) {
         Log.i("andrea","start " + milliseconds);
         final long millisecondstotal    =   milliseconds;
-        countDownTimer = new CountDownTimer(milliseconds + 1000, 1000 / cExercise.getFrequency()) {
+        countDownTimer = new CountDownTimer(milliseconds + 1000, 1000 / frequency) {
 
             @Override
             public void onTick(long leftTimeInMilliseconds) {

@@ -22,6 +22,7 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import it.mobileprogramming.ragnarok.workapp.cards.UserWorkoutSessionCard;
+import it.mobileprogramming.ragnarok.workapp.cards.UserWorkoutSessionCardItemView;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
 import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
@@ -82,7 +83,9 @@ public class WorkoutFragment extends BaseFragment {
         chronology.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(getActivity(), WorkoutListActivity.class);
+                intent.putExtra("userID",userID);
+                startActivityForResult(intent, 0);
             }
         });
 
@@ -128,9 +131,13 @@ public class WorkoutFragment extends BaseFragment {
                 frameLayout.setOnTouchListener(null);
             }
         });
+
         if(((App) getActivity().getApplication()).getCurrentUser()==null){
             fabMenu.setEnabled(false);
+            Intent intent = new Intent(getActivity(), SigInActivity.class);
+            startActivity(intent);
         }
+
         return view;
     }
 
@@ -157,10 +164,16 @@ public class WorkoutFragment extends BaseFragment {
             }
             for (int j = 0; j < firstWorkoutSessions.size(); j++) {
                 UserWorkoutSessionCard card = new UserWorkoutSessionCard(context, firstWorkoutSessions.get(j));
+
                 workoutListView.add(card);
             }
         }
         //toBeRefreshed = false;
+    }
+
+
+    public void sessioneFeedback(View v) {
+
     }
 
     @Override
