@@ -49,7 +49,7 @@ public class ExerciseListFragment extends ListFragment {
     private UserWorkoutSession userWorkoutSession = null;
     public ExercisesListAdapter exercisesListAdapter;
 
-    private boolean workout_session = false;
+    private MenuItem refreshItem;
 
     /**
      * The serialization (saved instance state) Bundle key representing the
@@ -239,9 +239,10 @@ public class ExerciseListFragment extends ListFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         Intent intent = getActivity().getIntent();
-        //TODO There must be a better way to control this
+        Log.i("MENUUUUUUUUUU","");
         if (!intent.hasExtra("readMode")) {
             inflater.inflate(R.menu.menu_refresh, menu);
+            refreshItem = menu.findItem(R.id.action_refresh);
         }
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -256,6 +257,14 @@ public class ExerciseListFragment extends ListFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        Intent intent = getActivity().getIntent();
+        if (intent.hasExtra("back"))
+            if (refreshItem != null)
+                menu.findItem(R.id.action_refresh).setVisible(false);
+    }
 
     /**
      * AsyncTask to perform a connection on swipe to refresh to retrieve from the website
@@ -298,7 +307,7 @@ public class ExerciseListFragment extends ListFragment {
         @Override
         protected void onCancelled(String result) {
             if (result == null) {
-                Toast toast = Toast.makeText(getActivity().getApplicationContext(), "Cannot establish connection!", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getActivity().getApplicationContext(), getString(R.string.no_connection), Toast.LENGTH_SHORT);
                 toast.show();
             }
         }

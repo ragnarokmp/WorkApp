@@ -18,12 +18,14 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import it.mobileprogramming.ragnarok.workapp.GymModel.Commentable;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.GymModel.User;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserExercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
+import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 
 import static it.mobileprogramming.ragnarok.workapp.util.Util.boldTextBetweenTokens;
@@ -227,15 +229,41 @@ public class ExerciseDetailFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                    // the exercise has been completed
-                    intent = new Intent(getActivity(), FeedbackActivity.class);
-                    intent.putExtra("item", (UserExercise) currentExercise);
-                    startActivity(intent);
+                // the exercise has been completed
+                intent = new Intent(getActivity(), FeedbackActivity.class);
+                intent.putExtra("item", (UserExercise) currentExercise);
+                startActivityForResult(intent, 1);
             }
         });
 
         return rootView;
     }
 
-    //TODO implement the onResume
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UserExercise ue = data.getParcelableExtra("commented");
+        ((Commentable) currentExercise).setComment(ue.getComment());
+        ((Commentable) currentExercise).setRating(ue.getRating());
+
+        String description = "$";
+        description += String.valueOf(currentExercise.getSeries()) + "$ " +
+                getResources().getString(R.string.exercise_detail_description_series) + " $" +
+                String.valueOf(currentExercise.getRepetition()) + "$ " +
+                currentExercise.getName() + " " +
+                getResources().getString(R.string.exercise_detail_description_with) + " $" +
+                String.valueOf(currentExercise.getRecovery()) + "$ " +
+                getResources().getString(R.string.exercise_detail_description_recrate) + " $" +
+                String.valueOf(currentExercise.getFrequency()) + "/sec$";
+        if (workout_session) {
+            if (!((UserExercise) currentExercise).getComment().equals("")) {
+                description += "\nCommento: " + ((UserExercise) currentExercise).getComment();
+                description += "\nRating: " + ((UserExercise) currentExercise).getRating();
+            }
+        }
+
+
+        ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(boldTextBetweenTokens(description, "$"));
+        ((TextView) rootView.findViewById(R.id.exercises_text_view)).setText(String.valueOf(currentExercise.getSeries() * currentExercise.getRepetition()));
+    }
 }

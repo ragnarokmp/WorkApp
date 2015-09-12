@@ -35,6 +35,7 @@
     <string name="no_workouts">There are no workouts here for you, add or create one!</string>
     <string name="no_exercises">There are no exercises here for you, download from the web!</string>
     <string name="no_logged">Yor are not logged in yet</string>
+    <string name="no_connection">There is no connection to the web!</string>
 
     <!-- Exercise Row -->
     <string name="exercise">Exercise</string>

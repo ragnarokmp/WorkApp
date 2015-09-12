@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
@@ -35,6 +36,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
     private boolean mTwoPane;
 
     private boolean workout_session = false;
+    private Menu optmenu;
 
     @Override
     protected int getLayoutResourceId() {
@@ -66,6 +68,13 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             workout_session = true;
         }
         // TODO: If exposing deep links into your app, handle intents here.
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        optmenu = menu;
+        return true;
     }
 
     @Override

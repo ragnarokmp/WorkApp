@@ -1,5 +1,6 @@
 package it.mobileprogramming.ragnarok.workapp.cards;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -269,7 +270,7 @@ public class UserWorkoutSessionCardItemView extends CardItemView<UserWorkoutSess
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), FeedbackActivity.class);
                 intent.putExtra("item", workoutSession);
-                getContext().startActivity(intent);
+                ((Activity) getContext()).startActivityForResult(intent, 1);
             }
         });
     }

@@ -109,4 +109,5 @@
     <string name="feedback_submit_exercise">Grazie per aver lasciato un commento!</string>
     <string name="feedback_submit_session">Grazie per aver lasciato un commento per questa sessione!</string>
     <string name="feedback_submit_session_button">Lascia un feedback</string>
+    <string name="no_connection">Impossibile stabilire una connessione!</string>
 </resources>
