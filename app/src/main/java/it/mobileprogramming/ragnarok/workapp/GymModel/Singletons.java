@@ -1,6 +1,7 @@
 package it.mobileprogramming.ragnarok.workapp.GymModel;
 
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -70,4 +71,11 @@ public class Singletons {
         return start + (int)Math.round(Math.random() * (end - start));
     }
 
+    public boolean checkIfDateInArray(Date myDate,ArrayList<Date>dates){
+        for(int i=0;i<dates.size();i++){
+            if(dates.get(i).equals(myDate))
+                return true;
+        }
+        return false;
+    }
 }

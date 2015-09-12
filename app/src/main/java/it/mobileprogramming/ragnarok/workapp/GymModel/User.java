@@ -200,6 +200,33 @@ public class User {
         return serializer.getAllUsers();
     }
 
+    /**
+     * returns all the dates where the user has a UserWorkoutSession
+     * @return dates list
+     */
+    public ArrayList<Date> allSessionsDates(){
+        ArrayList<Date> returnlist                  =   new ArrayList<Date>();                  //returnlist
+        ArrayList<UserWorkoutSession> mysessions    =   new ArrayList<UserWorkoutSession>();    //all sessions in all workouts made by user
+        for(int i=0;i<this.workoutHistory.size();i++){                                          //getting all workouts
+            for(int j=0;j<this.workoutHistory.get(i).getWoSessions().size();j++){               //getting all workout's sessions
+                mysessions.add(this.workoutHistory.get(i).getWoSessions().get(j));
+            }
+        }
+
+        for (int i=0;i<mysessions.size();i++){
+            Date sessionDate    =   mysessions.get(i).getDateSessionDate();
+            boolean insert  =   true;
+            for(int j=0;j<returnlist.size();j++){
+                if(returnlist.get(j).equals(sessionDate))
+                    insert  =   false;
+            }
+            if(insert==true){
+                returnlist.add(sessionDate);
+            }
+        }
+        return returnlist;
+    }
+
     @Override
     public String toString() {
         return "User{" +
