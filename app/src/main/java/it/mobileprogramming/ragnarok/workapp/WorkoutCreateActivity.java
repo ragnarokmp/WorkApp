@@ -6,7 +6,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,10 +30,12 @@ import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
 public class WorkoutCreateActivity extends BaseActivityWithToolbar {
 
     private MyMaterialListView workoutListView;
-    private List<WorkoutSession> workoutSessionList = new ArrayList<>();
+    private static List<WorkoutSession> workoutSessionList = new ArrayList<>();
     private int sessionNumber = 0;
     private SQLiteSerializer dbSerializer;
     private String difficulty;
+    private String workoutName;
+    private FloatingActionButton addWorkout;
 
     @Override
     protected int getLayoutResourceId() {
@@ -64,15 +67,13 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
 
         final Activity activity = this;
 
-        final EditText workoutName = (EditText) findViewById(R.id.nameWorkoutEditText);
-
-        FloatingActionButton addWorkout = (FloatingActionButton) findViewById(R.id.create_fab);
+        addWorkout = (FloatingActionButton) findViewById(R.id.create_fab);
         addWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String name = workoutName.getText().toString();
-                Workout newWorkout = new Workout(name, "custom", difficulty, dbSerializer);
+                difficulty = difficulty != null ? difficulty : getString(R.string.difficulty_easy);
+                Workout newWorkout = new Workout(workoutName, "custom", difficulty, dbSerializer);
 
                 for (WorkoutSession session : workoutSessionList) {
                     newWorkout.addWorkoutSession(session, true, (int) Double.POSITIVE_INFINITY);
@@ -83,7 +84,7 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
             }
         });
 
-        Button addSession = (Button) findViewById(R.id.button);
+        final Button addSession = (Button) findViewById(R.id.button);
         addSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -92,7 +93,7 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
                 if (move.getVisibility() == View.VISIBLE)
                     move.setVisibility(View.GONE);
 
-                WorkoutSession session = new WorkoutSession("",dbSerializer);
+                WorkoutSession session = new WorkoutSession("", dbSerializer);
                 workoutSessionList.add(session);
 
                 WorkoutSessionCreateCard card = new WorkoutSessionCreateCard(getApplicationContext(), session);
@@ -109,6 +110,29 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
                 sessionNumber = sessionNumber + 1;
             }
         });
+
+        EditText workoutNameEditText = (EditText) findViewById(R.id.nameWorkoutEditText);
+        workoutNameEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                workoutName = s.toString();
+                if (count > 0) {
+                    addSession.setVisibility(View.VISIBLE);
+                } else {
+                    addSession.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override
@@ -122,15 +146,13 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
             for (int id : exercisesSelected) {
                 // Load exercise from id
                 Exercise exercise = dbSerializer.loadExercise(id);
-                Log.i(TAG, "requestCode: " + String.valueOf(requestCode - 1));
-                Log.i(TAG, "workoutSessionList.size(): " + String.valueOf(workoutSessionList.size()));
-                Log.i(TAG, "exercise: " + exercise.toString());
-
                 // Add exercise to session
                 workoutSessionList.get(requestCode - 1).addExerciseToWorkoutSession(exercise, (int) Double.POSITIVE_INFINITY, true);
             }
 
             workoutListView.onNotifyDataSetChanged(null);
+
+            addWorkout.setVisibility(View.VISIBLE);
         }
     }
 

@@ -1,9 +1,12 @@
 package it.mobileprogramming.ragnarok.workapp.GymModel;
 
+import android.util.Log;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class User {
@@ -204,9 +207,10 @@ public class User {
      * returns all the dates where the user has a UserWorkoutSession
      * @return dates list
      */
-    public ArrayList<Date> allSessionsDates(){
-        ArrayList<Date> returnlist                  =   new ArrayList<Date>();                  //returnlist
-        ArrayList<UserWorkoutSession> mysessions    =   new ArrayList<UserWorkoutSession>();    //all sessions in all workouts made by user
+    public ArrayList<Calendar> allSessionsDates(){
+
+        ArrayList<Calendar> returnlist = new ArrayList<Calendar>();                         //returnlist
+        ArrayList<UserWorkoutSession> mysessions  = new ArrayList<UserWorkoutSession>();    //all sessions in all workouts made by user
         for(int i=0;i<this.workoutHistory.size();i++){                                          //getting all workouts
             for(int j=0;j<this.workoutHistory.get(i).getWoSessions().size();j++){               //getting all workout's sessions
                 mysessions.add(this.workoutHistory.get(i).getWoSessions().get(j));
@@ -214,13 +218,16 @@ public class User {
         }
 
         for (int i=0;i<mysessions.size();i++){
-            Date sessionDate    =   mysessions.get(i).getDateSessionDate();
+
+            Calendar sessionDate = Calendar.getInstance();
+            sessionDate.setTime(mysessions.get(i).getDateSessionDate());
+
             boolean insert  =   true;
             for(int j=0;j<returnlist.size();j++){
                 if(returnlist.get(j).equals(sessionDate))
                     insert  =   false;
             }
-            if(insert==true){
+            if(insert){
                 returnlist.add(sessionDate);
             }
         }
