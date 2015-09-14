@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -20,14 +19,11 @@ import com.dexafree.materialList.model.Card;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
-import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
-import it.mobileprogramming.ragnarok.workapp.cards.UserWorkoutSessionCard;
 import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCreateCard;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
@@ -112,8 +108,6 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
                         for (Exercise exercise : ((WorkoutSession)card.getTag()).getExercisesOfSession()) {
                             exercisesSelected.add(exercise.getId());
                         }
-
-                        Log.i(TAG, exercisesSelected.toString());
 
                         Intent intent = new Intent(activity, ExerciseListActivityCheckbox.class);
                         intent.putIntegerArrayListExtra("exercises_selected", exercisesSelected);
