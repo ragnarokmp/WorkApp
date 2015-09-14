@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,11 +18,14 @@ import com.dexafree.materialList.model.Card;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
+import it.mobileprogramming.ragnarok.workapp.cards.UserWorkoutSessionCard;
 import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCreateCard;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
@@ -31,7 +35,6 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
 
     private MyMaterialListView workoutListView;
     private static List<WorkoutSession> workoutSessionList = new ArrayList<>();
-    private int sessionNumber = 0;
     private SQLiteSerializer dbSerializer;
     private String difficulty;
     private String workoutName;
@@ -76,7 +79,7 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
                 Workout newWorkout = new Workout(workoutName, "custom", difficulty, dbSerializer);
 
                 for (WorkoutSession session : workoutSessionList) {
-                    newWorkout.addWorkoutSession(session, true, (int) Double.POSITIVE_INFINITY);
+                    newWorkout.addWorkoutSession(session, true, Integer.MAX_VALUE);
                 }
 
                 setResult(1);
@@ -101,13 +104,22 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
                 card.setOnExerciseButtonPressedListener(new OnButtonPressListener() {
                     @Override
                     public void onButtonPressedListener(View view, Card card) {
+
+                        ArrayList<Integer> exercisesSelected = new ArrayList<>();
+
+                        for (Exercise exercise : ((WorkoutSession)card.getTag()).getExercisesOfSession()) {
+                            exercisesSelected.add(exercise.getId());
+                        }
+
+                        Log.i(TAG, exercisesSelected.toString());
+
                         Intent intent = new Intent(activity, ExerciseListActivityCheckbox.class);
-                        activity.startActivityForResult(intent, sessionNumber);
+                        intent.putIntegerArrayListExtra("exercises_selected", exercisesSelected);
+                        activity.startActivityForResult(intent, ((WorkoutSession) card.getTag()).getId());
                     }
                 });
 
                 workoutListView.add(card);
-                sessionNumber = sessionNumber + 1;
             }
         });
 
@@ -143,11 +155,29 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
 
             ArrayList<Integer> exercisesSelected = data.getIntegerArrayListExtra("exercise_list");
 
-            for (int id : exercisesSelected) {
-                // Load exercise from id
-                Exercise exercise = dbSerializer.loadExercise(id);
-                // Add exercise to session
-                workoutSessionList.get(requestCode - 1).addExerciseToWorkoutSession(exercise, (int) Double.POSITIVE_INFINITY, true);
+            WorkoutSession workoutSessionToUpdate = null;
+            for (WorkoutSession workoutSession: workoutSessionList) {
+                if (workoutSession.getId() == requestCode) {
+                    workoutSessionToUpdate = workoutSession;
+                    break;
+                }
+            }
+
+            if (workoutSessionToUpdate != null) {
+                ArrayList<Integer> exercises = new ArrayList<>();
+                for (Exercise exercise : workoutSessionToUpdate.getExercisesOfSession()) {
+                    exercises.add(exercise.getId());
+                }
+
+                for (int id : exercisesSelected) {
+
+                    if (!exercises.contains(id)) {
+                        // Load exercise from id
+                        Exercise exercise = dbSerializer.loadExercise(id);
+                        // Add exercise to session
+                        workoutSessionToUpdate.addExerciseToWorkoutSession(exercise, Integer.MAX_VALUE, true);
+                    }
+                }
             }
 
             workoutListView.onNotifyDataSetChanged(null);

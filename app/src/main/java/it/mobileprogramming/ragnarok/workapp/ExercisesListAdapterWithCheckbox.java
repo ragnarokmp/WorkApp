@@ -78,7 +78,6 @@ public class ExercisesListAdapterWithCheckbox extends ArrayAdapter<Exercise> {
         holder.exerciseDescriptionTextView.setText(exercise.getSeries() + "x" + exercise.getRepetition() + " - " + exercise.getMuscles());
         holder.checkboxExercise.setTag(exercise.getId());
 
-
         if (exerciseListSelected.contains(exercise.getId())) {
             holder.checkboxExercise.setChecked(true);
         } else {

@@ -3,8 +3,10 @@ package it.mobileprogramming.ragnarok.workapp;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ public class ExerciseListActivityCheckbox extends BaseActivityWithToolbar {
 
     // to visualize the exercises list
     public ArrayList<Exercise> exercisesFromDB;
-    public static ArrayList<Integer> exercisesSelected;
+    public ArrayList<Integer> exercisesSelected;
     public ExercisesListAdapterWithCheckbox exercisesListAdapter;
 
     @Override
@@ -37,18 +39,30 @@ public class ExerciseListActivityCheckbox extends BaseActivityWithToolbar {
 
         exercisesFromDB = dbSerializer.loadAll();
 
-        if (savedInstanceState != null && savedInstanceState.containsKey("selected_exercise")) {
-            exercisesSelected = savedInstanceState.getIntegerArrayList("selected_exercise");
-        } else {
-            exercisesSelected = new ArrayList<>();
+        if (getIntent() != null) {
+            exercisesSelected = getIntent().getIntegerArrayListExtra("exercises_selected");
         }
 
+        if (savedInstanceState != null && savedInstanceState.containsKey("selected_exercise")) {
+            exercisesSelected = savedInstanceState.getIntegerArrayList("selected_exercise");
+        }
+
+        Log.i(TAG, exercisesSelected.toString());
         exercisesListAdapter = new ExercisesListAdapterWithCheckbox(exercisesFromDB, exercisesSelected, this);
         myList.setAdapter(exercisesListAdapter);
     }
 
     public void onSelected(View view) {
-        exercisesSelected.add((Integer) view.getTag());
+        CheckBox checkBox = (CheckBox) view;
+        if (checkBox.isChecked()) {
+            Log.i(TAG, "ADD");
+            exercisesSelected.add((Integer) view.getTag());
+        } else {
+            Log.i(TAG, "REMOVE");
+            exercisesSelected.remove((Integer) view.getTag());
+        }
+
+        Log.i(TAG, "Now exercisesSelected: " + exercisesSelected.toString());
     }
 
     @Override
