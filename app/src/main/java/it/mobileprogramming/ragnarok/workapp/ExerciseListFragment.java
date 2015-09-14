@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -139,6 +140,7 @@ public class ExerciseListFragment extends ListFragment {
         } else if (intent.hasExtra("readMode")) {
             ArrayList<WorkoutSession> workoutSessions = dbSerializer.loadAllWorkoutSessionsForWorkout(intent.getExtras().getInt("workoutID"));
             WorkoutSession currentSession = workoutSessions.get(intent.getExtras().getInt("sessionID"));
+            userWorkoutSession =  (UserWorkoutSession) currentSession;
             exercises = currentSession.getExercisesOfSession();
             exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
@@ -146,6 +148,7 @@ public class ExerciseListFragment extends ListFragment {
 
         } else if (intent.hasExtra("back")) {
             WorkoutSession workSession = ((App) getActivity().getApplication()).getCurrentWorkoutSession();
+            userWorkoutSession =  (UserWorkoutSession) workSession;
             if (workSession == null) {
                 exercises = dbSerializer.loadAll();
             } else {
@@ -239,7 +242,6 @@ public class ExerciseListFragment extends ListFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         Intent intent = getActivity().getIntent();
-        Log.i("MENUUUUUUUUUU","");
         if (!intent.hasExtra("readMode")) {
             inflater.inflate(R.menu.menu_refresh, menu);
             refreshItem = menu.findItem(R.id.action_refresh);
@@ -261,7 +263,7 @@ public class ExerciseListFragment extends ListFragment {
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
         Intent intent = getActivity().getIntent();
-        if (intent.hasExtra("back"))
+        if (intent.hasExtra("readMode") || intent.hasExtra("back"))
             if (refreshItem != null)
                 menu.findItem(R.id.action_refresh).setVisible(false);
     }
@@ -302,6 +304,9 @@ public class ExerciseListFragment extends ListFragment {
             exercises = dbSerializer.loadAll();
             exercisesListAdapter = new ExercisesListAdapter(exercises, getActivity());
             setListAdapter(exercisesListAdapter);
+
+            // visualizing the snackbar
+            Snackbar.make(getView(), getString(R.string.snackbar_JSON_success), Snackbar.LENGTH_SHORT).show();
         }
 
         @Override

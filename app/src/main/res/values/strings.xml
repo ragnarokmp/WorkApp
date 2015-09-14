@@ -40,6 +40,9 @@
     <!-- Exercise Row -->
     <string name="exercise">Exercise</string>
 
+    <!-- Exercise List-->
+    <string name="snackbar_JSON_success">Exercises successfully updated!</string>
+
     <!-- Settings -->
     <string name="sound_preference_category">Sound</string>
 
