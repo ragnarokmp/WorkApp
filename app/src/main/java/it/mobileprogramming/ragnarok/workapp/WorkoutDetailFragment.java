@@ -206,17 +206,39 @@ public class WorkoutDetailFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                Log.i(TAG, "setto workout");
+                // controllo se tutte le date sono state impostate
+                boolean allset = true;
+                for (int i = 0; i < workoutSessions.size(); i++){
+                    if(workoutSessionDate[i] == null){
+                        allset = false;
+                        break;
+                    }
+                }
 
-                Workout wkr = dbSerializer.loadWorkout(Integer.parseInt(workoutID));
-                User currentUser    =   ((App) getActivity().getApplication()).getCurrentUser();
-                wkr.createFromThisWorkout(dbSerializer.loadUser(currentUser.getIntUserID()), workoutSessionDate);
-                dbSerializer.close();
-                dbSerializer.open();
+                if (allset){
 
-                getActivity().setResult(Activity.RESULT_OK);
-                Log.i(TAG, "tutto a posto workout detail fragment");
-                getActivity().finish();
+                    Workout wkr = dbSerializer.loadWorkout(Integer.parseInt(workoutID));
+                    User currentUser    =   ((App) getActivity().getApplication()).getCurrentUser();
+                    wkr.createFromThisWorkout(dbSerializer.loadUser(currentUser.getIntUserID()), workoutSessionDate);
+                    dbSerializer.close();
+                    dbSerializer.open();
+
+                    getActivity().setResult(Activity.RESULT_OK);
+                    getActivity().finish();
+
+                }else{
+
+                    new AlertDialog.Builder(context)
+                            .setTitle(getResources().getString(R.string.attention))
+                            .setMessage(getResources().getString(R.string.msg_date_2))
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // continue with delete
+                                }
+                            })
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                }
             }
         });
 
