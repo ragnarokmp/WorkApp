@@ -1,7 +1,11 @@
 package it.mobileprogramming.ragnarok.workapp.GymModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class Workout {
     private int intWOID;
@@ -107,11 +111,20 @@ public class Workout {
      * @param anUser user subject
      * @return userworkout
      */
-    public UserWorkout createFromThisWorkout(User anUser){
+    public UserWorkout createFromThisWorkout(User anUser, Calendar[] workoutSessionDate){
         SQLiteSerializer aSerializer    =   (SQLiteSerializer)this.woSerializer;
         UserWorkout res =   new UserWorkout(this.intWOID,this.name,anUser.getIntUserID(),this.getType(),this.difficulty,this.woSerializer);
         for(int i=0;i<this.woSessions.size();i++){
-            Date aDate  =   Singletons.randomDate();//TODO ok for testing purpose, replace with new Date() in case of deploy
+
+            Date aDate = null;
+            try {
+                aDate = new SimpleDateFormat("dd/mm/yyyy", Locale.ITALY).parse(String.format("%02d/%02d/%02d", workoutSessionDate[i].get(Calendar.DAY_OF_MONTH),
+                        workoutSessionDate[i].get(Calendar.MONTH) + 1,
+                        workoutSessionDate[i].get(Calendar.YEAR)));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
             WorkoutSession  aSession                =   woSessions.get(i);
             UserWorkoutSession userWorkoutSession   =   new UserWorkoutSession(aSession.getFilepath(),anUser.getIntUserID(),aSerializer,aSerializer,aDate,aSession.getId(),"",false,0);
             ArrayList<Exercise> exercises           =   aSession.exercisesOfSession;

@@ -1,20 +1,32 @@
 package it.mobileprogramming.ragnarok.workapp;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.controller.RecyclerItemClickListener;
+import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.model.CardItemView;
+import com.google.android.gms.games.GamesMetadata;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.Singletons;
 import it.mobileprogramming.ragnarok.workapp.GymModel.User;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
@@ -22,6 +34,7 @@ import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCard;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
+import it.mobileprogramming.ragnarok.workapp.util.DatePickerFragment;
 import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
 
 /**
@@ -31,6 +44,10 @@ import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
  * on handsets.
  */
 public class WorkoutDetailFragment extends BaseFragment {
+
+    MyMaterialListView workoutListView;
+    ArrayList<WorkoutSession> workoutSessions;
+
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -42,12 +59,20 @@ public class WorkoutDetailFragment extends BaseFragment {
      */
     private String workoutID;
     private int userID=-1;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public WorkoutDetailFragment() {
     }
+
+    /**
+     * Arrays used for save the date selected for each session
+     */
+
+    public ArrayList<Calendar> allSessionsDate;
+    public Calendar[] workoutSessionDate;
 
     @Override
     protected int getLayoutResourceId() {
@@ -79,7 +104,7 @@ public class WorkoutDetailFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         // Get MaterialListView
-        MyMaterialListView workoutListView = (MyMaterialListView) view.findViewById(R.id.workout_detail_container);
+        workoutListView = (MyMaterialListView) view.findViewById(R.id.workout_detail_container);
 
         // Get divider for MaterialListView
         Drawable drawable;
@@ -104,22 +129,20 @@ public class WorkoutDetailFragment extends BaseFragment {
                     intent.putExtra("sessionID", i);
                     intent.putExtra("readMode", 0);
                 } else {
-                    Log.i("andrea","eccolo");
                     intent.putExtra("workoutSession", (UserWorkoutSession) cardItemView.getTag());
-                    intent.putExtra("readMode", 0);
+                    getActivity().startActivity(intent);
                 }
-                getActivity().startActivity(intent);
             }
 
             @Override
             public void onItemLongClick(CardItemView cardItemView, int i) {
+
 
             }
         });
 
         final SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
-        ArrayList<WorkoutSession> workoutSessions;
         if (userID == -1) {
              workoutSessions = dbSerializer.loadAllWorkoutSessionsForWorkout(Integer.parseInt(workoutID));
         } else {
@@ -131,11 +154,53 @@ public class WorkoutDetailFragment extends BaseFragment {
         }
 
         for (int j = 0; j < workoutSessions.size(); j++) {
+
+            final int workout_id = j;
+
             WorkoutSessionCard card = new WorkoutSessionCard(getActivity().getApplicationContext(), workoutSessions.get(j));
+
+            // show detail button when arrive from create workout
+            if (userID == -1){
+
+                // get all session date
+                User currentUser = ((App) getActivity().getApplication()).getCurrentUser();
+                allSessionsDate = currentUser.allSessionsDates();
+
+                // actual date session, by default all null
+                workoutSessionDate = new Calendar[workoutSessions.size()];
+                for (int i = 0; i < workoutSessions.size(); i++){
+                    workoutSessionDate[i] = null;
+                }
+
+                // enable detail button for show date picker
+                card.setStatusDetailButton(true);
+
+                // passing date selected, if available
+                if (workoutSessionDate[j] != null)
+                    card.setTitleDetailButton(workoutSessionDate[j].toString());
+
+                card.setOnDataClickListener(new OnButtonPressListener() {
+                    @Override
+                    public void onButtonPressedListener(View view, Card card) {
+
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("WORKOUT_ID", workout_id);
+
+                        DialogFragment newFragment = new DatePickerFragment();
+                        newFragment.setArguments(bundle);
+                        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                    }
+                });
+
+            }else{
+
+                // in chronology disable detail button
+                card.setStatusDetailButton(false);
+            }
+
             workoutListView.add(card);
         }
 
-        // TODO: change fab icon to white color
         FloatingActionButton addWorkout = (FloatingActionButton) view.findViewById(R.id.add_fab);
         addWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,7 +210,7 @@ public class WorkoutDetailFragment extends BaseFragment {
 
                 Workout wkr = dbSerializer.loadWorkout(Integer.parseInt(workoutID));
                 User currentUser    =   ((App) getActivity().getApplication()).getCurrentUser();
-                wkr.createFromThisWorkout(dbSerializer.loadUser(currentUser.getIntUserID()));
+                wkr.createFromThisWorkout(dbSerializer.loadUser(currentUser.getIntUserID()), workoutSessionDate);
                 dbSerializer.close();
                 dbSerializer.open();
 
@@ -156,5 +221,67 @@ public class WorkoutDetailFragment extends BaseFragment {
         });
 
         return view;
+    }
+
+    public void dateFromActiivty(Calendar result, Integer workout_id) {
+
+        boolean checkInSessions =  Singletons.checkIfDateInArray(result, workoutSessionDate, workoutSessions.size());
+        boolean checkInAllSessions = Singletons.checkIfDateInArrayList(result, allSessionsDate);
+
+        if (checkInAllSessions || checkInSessions){
+
+            new AlertDialog.Builder(context)
+                    .setTitle(getResources().getString(R.string.attention))
+                    .setMessage(getResources().getString(R.string.msg_date))
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue with delete
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+            return;
+        }
+
+        workoutSessionDate[workout_id] = result;
+
+        workoutListView.clear();
+
+        for (int j = 0; j < workoutSessions.size(); j++) {
+
+            final int workout_id2 = j;
+
+            WorkoutSessionCard card = new WorkoutSessionCard(getActivity().getApplicationContext(), workoutSessions.get(j));
+
+            // enable detail button for show date picker
+            card.setStatusDetailButton(true);
+
+            // passing date selected, if available
+            if (workoutSessionDate[j] != null)
+
+                card.setTitleDetailButton(String.format("%02d/%02d/%02d", workoutSessionDate[j].get(Calendar.DAY_OF_MONTH),
+                                                                    workoutSessionDate[j].get(Calendar.MONTH) + 1,
+                                                                    workoutSessionDate[j].get(Calendar.YEAR)));
+
+            card.setOnDataClickListener(new OnButtonPressListener() {
+                @Override
+                public void onButtonPressedListener(View view, Card card) {
+
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("WORKOUT_ID", workout_id2);
+
+                    DialogFragment newFragment = new DatePickerFragment();
+                    newFragment.setArguments(bundle);
+                    newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+                }
+            });
+
+            workoutListView.add(card);
+        }
+
+        for (Calendar ignored : workoutSessionDate) {
+            Log.d("dateFromActiivty", "Workout: " + workout_id + " data: " + result.toString());
+        }
     }
 }

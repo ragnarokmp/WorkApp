@@ -1,6 +1,8 @@
 package it.mobileprogramming.ragnarok.workapp.GymModel;
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -71,11 +73,37 @@ public class Singletons {
         return start + (int)Math.round(Math.random() * (end - start));
     }
 
-    public boolean checkIfDateInArray(Date myDate,ArrayList<Date>dates){
+    public static boolean checkIfDateInArrayList(Calendar myDate,ArrayList<Calendar>dates){
+
+        boolean result = false;
+
         for(int i=0;i<dates.size();i++){
-            if(dates.get(i).equals(myDate))
-                return true;
+
+            Log.d("CONFRONTO1: ", myDate.toString() + "    CON     " + dates.get(i));
+
+            if (dates.get(i) == null)
+                continue;
+            if(!dates.get(i).after(myDate) && !dates.get(i).before(myDate))
+                result = true;
         }
-        return false;
+
+        return result;
+    }
+
+    public static boolean checkIfDateInArray(Calendar myDate,Calendar[] dates, int size){
+
+        boolean result = false;
+
+        for(int i=0;i<size;i++){
+            if (dates[i] == null)
+                continue;
+
+            Log.d("CONFRONTO2: ", myDate.toString() + "    CON     " + dates[i]);
+
+            if(!dates[i].after(myDate) && !dates[i].before(myDate))
+                result = true;
+        }
+
+        return result;
     }
 }

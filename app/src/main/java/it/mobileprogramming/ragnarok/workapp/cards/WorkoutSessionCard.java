@@ -2,6 +2,7 @@ package it.mobileprogramming.ragnarok.workapp.cards;
 
 import android.content.Context;
 
+import com.dexafree.materialList.cards.OnButtonPressListener;
 import com.dexafree.materialList.cards.SimpleCard;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
@@ -12,10 +13,9 @@ import it.mobileprogramming.ragnarok.workapp.R;
  */
 public class WorkoutSessionCard extends SimpleCard {
 
-    /**
-     * Indicates if the Session is complete or not.
-     */
-    private boolean complete;
+    private OnButtonPressListener buttonPressListener;
+    private String titleDetailButon;
+    private boolean statusDetailButton;
 
     public WorkoutSessionCard(Context context, WorkoutSession workoutSession) {
         super(context);
@@ -29,19 +29,29 @@ public class WorkoutSessionCard extends SimpleCard {
         return R.layout.workout_session_card_layout;
     }
 
-    /**
-     * Getter for complete attribute
-     * @return true if the session is complete, false otherwise.
-     */
-    public boolean isComplete() {
-        return complete;
+    public void setOnDataClickListener (OnButtonPressListener buttonPressListener){
+
+        this.buttonPressListener = buttonPressListener;
     }
 
-    /**
-     * Setter for complete attribute.
-     * @param complete true if the session is complete, false otherwise.
-     */
-    public void setComplete(boolean complete) {
-        this.complete = complete;
+    public OnButtonPressListener getOnDataClickListener (){
+
+        return this.buttonPressListener;
+    }
+
+    public boolean getStatusDetailButton(){
+        return this.statusDetailButton;
+    }
+
+    public void setStatusDetailButton(boolean status){
+        this.statusDetailButton = status;
+    }
+
+    public void setTitleDetailButton(String value){
+        this.titleDetailButon = value;
+    }
+
+    public String getTitleDetailButon(){
+        return titleDetailButon;
     }
 }

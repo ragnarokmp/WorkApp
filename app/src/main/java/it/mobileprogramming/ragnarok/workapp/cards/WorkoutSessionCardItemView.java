@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -79,8 +80,8 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
         setTitles();
         setDuration();
         setExercises();
-        setDivider(true, false);
-        setButtons(false, card);
+        setDivider(true, true);
+        setButtons(true, card);
     }
 
     /**
@@ -206,8 +207,6 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
     private void setButtons(Boolean ButtonsVisible, final Card card) {
         final TextView startNowTextButton = (TextView) findViewById(R.id.start_now_text_button);
         startNowTextButton.setVisibility(ButtonsVisible ? VISIBLE : GONE);
-        final TextView detailsTextButton = (TextView) findViewById(R.id.details_text_button);
-        detailsTextButton.setVisibility(ButtonsVisible ? VISIBLE : GONE);
 
         startNowTextButton.setText(getResources().getString(R.string.start_now_button).toUpperCase());
         startNowTextButton.setOnClickListener(new OnClickListener() {
@@ -216,24 +215,36 @@ public class WorkoutSessionCardItemView extends CardItemView<WorkoutSessionCard>
                 new OnButtonPressListener() {
                     @Override
                     public void onButtonPressedListener(View view, Card card) {
-                        Intent intent = new Intent(getContext(), StartExerciseActivity.class);
-                        getContext().startActivity(intent);
+                        // Nothing to be done
                     }
                 }.onButtonPressedListener(startNowTextButton, card);
             }
         });
 
-        detailsTextButton.setText(getResources().getString(R.string.details_button).toUpperCase());
+        //hide start button
+        startNowTextButton.setVisibility(GONE);
+
+        final TextView detailsTextButton = (TextView) findViewById(R.id.date_text_button);
+        detailsTextButton.setVisibility(ButtonsVisible ? VISIBLE : GONE);
+
+        if (((WorkoutSessionCard) card).getStatusDetailButton())
+            detailsTextButton.setVisibility(VISIBLE);
+        else
+            detailsTextButton.setVisibility(GONE);
+
+        if (((WorkoutSessionCard) card).getTitleDetailButon() == null)
+            detailsTextButton.setText(getResources().getString(R.string.date_text_button).toUpperCase());
+        else
+            detailsTextButton.setText(((WorkoutSessionCard) card).getTitleDetailButon());
+
         detailsTextButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                new OnButtonPressListener() {
-                    @Override
-                    public void onButtonPressedListener(View view, Card card) {
-                        Intent intent = new Intent(getContext(), ExerciseListActivity.class);
-                        getContext().startActivity(intent);
-                    }
-                }.onButtonPressedListener(detailsTextButton, card);
+                OnButtonPressListener listener = ((WorkoutSessionCard) card).getOnDataClickListener();
+
+                if (listener != null) {
+                    listener.onButtonPressedListener(detailsTextButton, card);
+                }
             }
         });
     }

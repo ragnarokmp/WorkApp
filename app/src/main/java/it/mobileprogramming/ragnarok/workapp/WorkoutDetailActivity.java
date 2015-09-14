@@ -2,11 +2,16 @@ package it.mobileprogramming.ragnarok.workapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
+import it.mobileprogramming.ragnarok.workapp.util.DatePickerFragment;
 
 /**
  * An activity representing a single Workout detail screen. This
@@ -17,7 +22,9 @@ import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link WorkoutDetailFragment}.
  */
-public class WorkoutDetailActivity extends BaseActivityWithToolbar {
+public class WorkoutDetailActivity extends BaseActivityWithToolbar implements DatePickerFragment.DatePickerCallback{
+
+    public WorkoutDetailFragment workoutDetailFragment = null;
 
     @Override
     protected int getLayoutResourceId() {
@@ -77,5 +84,20 @@ public class WorkoutDetailActivity extends BaseActivityWithToolbar {
             setResult(RESULT_OK);
             finish();
         }
+    }
+
+
+    @Override
+    public void pickerOnDateSet(Calendar result, Integer workout_id) {
+        if (workoutDetailFragment != null) {
+            workoutDetailFragment.dateFromActiivty(result, workout_id);
+        }
+    }
+
+    @Override
+    public void onAttachFragment(Fragment fragment) {
+        super.onAttachFragment(fragment);
+        if (fragment.getClass().equals(WorkoutDetailFragment.class))
+            workoutDetailFragment = (WorkoutDetailFragment)fragment;
     }
 }
