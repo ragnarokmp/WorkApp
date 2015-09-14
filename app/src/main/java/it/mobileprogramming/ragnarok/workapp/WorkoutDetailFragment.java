@@ -28,6 +28,7 @@ import java.util.Date;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Singletons;
 import it.mobileprogramming.ragnarok.workapp.GymModel.User;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
@@ -216,7 +217,8 @@ public class WorkoutDetailFragment extends BaseFragment {
 
                     Workout wkr = dbSerializer.loadWorkout(Integer.parseInt(workoutID));
                     User currentUser    =   ((App) getActivity().getApplication()).getCurrentUser();
-                    wkr.createFromThisWorkout(dbSerializer.loadUser(currentUser.getIntUserID()), workoutSessionDate);
+                    UserWorkout newWO   =   wkr.createFromThisWorkout(dbSerializer.loadUser(currentUser.getIntUserID()), workoutSessionDate);
+                    ((App) getActivity().getApplication()).setCurrentWO(newWO);
                     dbSerializer.close();
                     dbSerializer.open();
 

@@ -4,6 +4,7 @@ import android.app.Application;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.GymModel.User;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
 
 /**
@@ -15,6 +16,15 @@ public class App extends Application {
      */
     private SQLiteSerializer sqLiteSerializer;
     private User currentUser;                       //current user logged in the application
+    private UserWorkout currentWO   =   null;       //current userWorkout active
+
+    public UserWorkout getCurrentWO() {
+        return currentWO;
+    }
+
+    public void setCurrentWO(UserWorkout currentWO) {
+        this.currentWO = currentWO;
+    }
 
     public WorkoutSession getCurrentWorkoutSession() {
         return currentWorkoutSession;
