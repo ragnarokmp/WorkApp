@@ -145,24 +145,34 @@ public class WorkoutFragment extends BaseFragment {
     private void setWorkoutSessions() {
         SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
-
-        //TODO Federico: the userID will be used here in order to obtain the workouts
-        ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(userID);
-        System.out.println("WorkoutFragment loaded number of workouts "+usWorkouts.size());
+        UserWorkout currentWO   =   ((App) getActivity().getApplication()).getCurrentWO();
         ArrayList<UserWorkoutSession> firstWorkoutSessions = new ArrayList<>();
-        if (usWorkouts.size() > 0) {
-            //The first workout that is not finished will be used
-            for (int i = 0; i < usWorkouts.size(); i++) {
-                try {
-                    System.out.println("WorkoutFragment checking if all sessions done "+usWorkouts.get(i).allSessionDone());
-                    if (usWorkouts.get(i).allSessionDone() == false) {
-                        firstWorkoutSessions = usWorkouts.get(i).getWoSessions();
-                        break;
+        if(currentWO!=null){
+            System.out.println("WorkoutFragment.java found current UserWorkout " + currentWO.toString());
+            firstWorkoutSessions    =   currentWO.getWoSessions();
+        }
+        else {
+            System.out.println("WorkoutFragment.java found current UserWorkout null, LOADING");
+            //TODO Federico: the userID will be used here in order to obtain the workouts
+            ArrayList<UserWorkout> usWorkouts = dbSerializer.loadWorkoutsForUser(userID);
+            System.out.println("WorkoutFragment loaded number of workouts " + usWorkouts.size());
+            if (usWorkouts.size() > 0) {
+                //The first workout that is not finished will be used
+                for (int i = 0; i < usWorkouts.size(); i++) {
+                    try {
+                        System.out.println("WorkoutFragment checking if all sessions done " + usWorkouts.get(i).allSessionDone());
+                        if (usWorkouts.get(i).allSessionDone() == false) {
+                            firstWorkoutSessions = usWorkouts.get(i).getWoSessions();
+                            ((App) getActivity().getApplication()).setCurrentWO(usWorkouts.get(i));
+                            break;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
+        }
+        if(firstWorkoutSessions!=null){
             for (int j = 0; j < firstWorkoutSessions.size(); j++) {
                 UserWorkoutSessionCard card = new UserWorkoutSessionCard(context, firstWorkoutSessions.get(j));
 

@@ -67,7 +67,8 @@ public class ExerciseDetailFragment extends Fragment {
         SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
         if (!getArguments().containsKey("isTablet")) {
-            if (getActivity().getIntent().hasExtra("workoutSession")) {
+            if (getActivity().getIntent().hasExtra("workoutSession") ||
+                getActivity().getIntent().hasExtra("next")) {
                 Log.i("andrea","Vengo da un telefono Session");
                 workout_session = true;
                 userWorkoutSession = getActivity().getIntent().getExtras().getParcelable("workoutSession");
@@ -185,8 +186,7 @@ public class ExerciseDetailFragment extends Fragment {
         Button feedbackButton                          = (Button)
                 rootView.findViewById(R.id.feedback);
 
-        if (workout_session) {
-            Log.i("andrea", "E' di un utente|");
+        if (workout_session || getActivity().getIntent().hasExtra("next")) {
             if (!((UserExercise) currentExercise).isDone())
                 startFloatingActionButton.setVisibility(View.VISIBLE);
             else
@@ -215,11 +215,14 @@ public class ExerciseDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //((UserExercise) currentExercise).isDone();
-
                 Intent intent;
-                intent = new Intent(getActivity(), ExerciseDetailActivity.class);
+                intent = new Intent(getActivity().getApplicationContext(), ExerciseDetailActivity.class);
                 intent.putExtra("exercise", exercises.get(exerciseID++));
-                startActivity(intent);
+                intent.putExtra("workoutSession", userWorkoutSession);
+                intent.putExtra("exerciseID", exerciseID++);
+                intent.putExtra("next", true);
+                getActivity().startActivity(intent);
+                getActivity().finish();
             }
         });
 

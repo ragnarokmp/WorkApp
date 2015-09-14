@@ -109,5 +109,9 @@
     <string name="feedback_submit_exercise">Grazie per aver lasciato un commento!</string>
     <string name="feedback_submit_session">Grazie per aver lasciato un commento per questa sessione!</string>
     <string name="feedback_submit_session_button">Lascia un feedback</string>
+    <string name="attention">Attenzione</string>
+    <string name="msg_date">Esiste un\'altra sessione con la stessa data, per favore selezionane un\'altra!</string>
     <string name="no_connection">Impossibile stabilire una connessione!</string>
+    <string name="msg_date_2">Per favore imposta le date per tutte le sessioni.</string>
+    <string name="snackbar_JSON_success">Esercizi aggiornati con successo!</string>
 </resources>

@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -259,11 +261,13 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Vi
             Bitmap avatar_bitmap = BitmapFactory.decodeStream(result);
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
             SharedPreferences.Editor editor = pref.edit();
-
-            editor.putString("personAvatarBitmap", BitmapHelper.encodeToBase64(avatar_bitmap));
-            editor.apply();
-
-            ((ImageView) findViewById(R.id.avatar)).setImageBitmap(avatar_bitmap);
+            try {
+                editor.putString("personAvatarBitmap", BitmapHelper.encodeToBase64(avatar_bitmap));
+                editor.apply();
+                ((ImageView) findViewById(R.id.avatar)).setImageBitmap(avatar_bitmap);
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "AVATAR: " + getString(R.string.no_connection), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
