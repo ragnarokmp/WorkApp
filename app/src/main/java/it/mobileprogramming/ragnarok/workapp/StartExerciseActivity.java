@@ -1,10 +1,13 @@
 package it.mobileprogramming.ragnarok.workapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +23,7 @@ import com.hookedonplay.decoviewlib.charts.SeriesItem;
 import com.hookedonplay.decoviewlib.events.DecoEvent;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Exercise;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
@@ -29,7 +33,7 @@ import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivity;
 
-public class StartExerciseActivity extends BaseActivity {
+public class StartExerciseActivity extends BaseActivity implements TextToSpeech.OnInitListener {
 
     public static final String START_EXERCISE_FRAGMENT = "StartExerciseFragment";
 
@@ -57,6 +61,9 @@ public class StartExerciseActivity extends BaseActivity {
 
     private SeriesItem seriesItem;
     private SeriesItem seriesItemRec;
+    private TextToSpeech textToSpeech;
+    private int previous_value;
+
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_start_exercise;
@@ -175,8 +182,7 @@ public class StartExerciseActivity extends BaseActivity {
             }
 
         });
-        if (!stopped)
-            startCountDownTimer((int)leftTime);
+
         if (stopped) {
             decoView.setVisibility(View.VISIBLE);
             int series1Index = decoView.addSeries(seriesItem);
@@ -192,6 +198,19 @@ public class StartExerciseActivity extends BaseActivity {
             pauseImageView.setImageDrawable(drawable);
             pauseImageView.setContentDescription(getString(R.string.play));
             pauseImageView.setTag(getString(R.string.play));
+        }
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean audible = sharedPreferences.getBoolean(getResources().getString(R.string.switch_sound_preference_key), false);
+        boolean voiced = sharedPreferences.getBoolean(getResources().getString(R.string.voice_preference_key), false);
+        Log.i(TAG, String.valueOf(audible) + " " + String.valueOf(voiced));
+        if (audible && voiced) {
+            textToSpeech = new TextToSpeech(this, this);
+            Log.i(TAG, "specced");
+        } else {
+            if (!stopped) {
+                startCountDownTimer((int) leftTime);
+            }
         }
     }
 
@@ -311,11 +330,25 @@ public class StartExerciseActivity extends BaseActivity {
                 Log.i("andrea","tick " + leftTimeInMilliseconds);
                 leftTime = leftTimeInMilliseconds;
                 long seconds = leftTimeInMilliseconds / 1000;
+
                 int series1Index = 0;
 
                 if (!inRecovery) {
                     series1Index    = decoView.addSeries(seriesItem);
                     textViewPercentage.setText(String.valueOf(currentRepetition));
+
+                    if (textToSpeech != null && previous_value != currentRepetition) {
+                        textToSpeech.setSpeechRate((float) 3);
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                            textToSpeech.setSpeechRate(frequency);
+                            textToSpeech.speak(String.valueOf(currentRepetition), TextToSpeech.QUEUE_ADD, null);
+                            previous_value = currentRepetition;
+                        } else {
+                            textToSpeech.speak(String.valueOf(currentRepetition), TextToSpeech.QUEUE_ADD, null, "pippo");
+                            previous_value = currentRepetition;
+                        }
+                    }
+
                     currRepetition.setText(String.valueOf(currentRepetition));
                     decoView.addEvent(new DecoEvent.Builder(currentRepetition).setIndex(series1Index).setDelay(0).build());
                 }
@@ -358,7 +391,20 @@ public class StartExerciseActivity extends BaseActivity {
                     //restore decoview
                     long elapsed    =   System.currentTimeMillis()-startrecovery;
                     textViewPercentage.setTextColor(getResources().getColor(R.color.recovery));
-                    textViewPercentage.setText("" + (int) elapsed / 1000);
+
+                    int value = (int) elapsed / 1000;
+                    textViewPercentage.setText(String.valueOf(value));
+
+                    if (textToSpeech != null && previous_value != value) {
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                            textToSpeech.speak(String.valueOf(value), TextToSpeech.QUEUE_ADD, null);
+                            previous_value = value;
+                        } else {
+                            textToSpeech.speak(String.valueOf(value), TextToSpeech.QUEUE_ADD, null, "pippo");
+                            previous_value = value;
+                        }
+                    }
+
                     System.out.println("in recupero" + elapsed + " " + System.currentTimeMillis() + " " + startrecovery);
                     recoveryValue   =   (int)elapsed/1000;
                     series1Index = decoView.addSeries(seriesItemRec);
@@ -453,4 +499,20 @@ public class StartExerciseActivity extends BaseActivity {
         outState.putInt("recoveryvalue",this.recoveryValue);
     }
 
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            if (!stopped) {
+                startCountDownTimer((int) leftTime);
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (textToSpeech != null) {
+            textToSpeech.shutdown();
+        }
+    }
 }
