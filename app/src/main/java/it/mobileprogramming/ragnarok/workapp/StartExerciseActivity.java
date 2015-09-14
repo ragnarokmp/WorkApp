@@ -304,7 +304,7 @@ public class StartExerciseActivity extends BaseActivity {
     private void startCountDownTimer(long milliseconds) {
         Log.i("andrea","start " + milliseconds);
         final long millisecondstotal    =   milliseconds;
-        countDownTimer = new CountDownTimer(milliseconds + 1000, 1000 / frequency) {
+        countDownTimer = new CountDownTimer(milliseconds + 1000, frequency) {
 
             @Override
             public void onTick(long leftTimeInMilliseconds) {

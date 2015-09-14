@@ -35,7 +35,7 @@ public class WorkoutDetailFragment extends BaseFragment {
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static String WORKOUT_ID;
+    public static String WORKOUT_ID = "workoutID";
 
     /**
      * The workout id passing from list fragment
@@ -62,9 +62,6 @@ public class WorkoutDetailFragment extends BaseFragment {
             userID = getArguments().getInt("userID");
         }
         if (getArguments().containsKey(WORKOUT_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
             workoutID = getArguments().getString(WORKOUT_ID);
         }
         if (getActivity().getIntent().hasExtra("userID")) {
@@ -94,7 +91,7 @@ public class WorkoutDetailFragment extends BaseFragment {
         workoutListView.setDivider(drawable); //TODO doesn't work well in landscape mode..
 
         // Set emptyView and onItemTouchListener
-        workoutListView.addOnItemTouchListener(new RecyclerItemClickListener.OnItemClickListener() {
+        /*workoutListView.addOnItemTouchListener(new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(CardItemView cardItemView, int i) {
 
@@ -115,7 +112,7 @@ public class WorkoutDetailFragment extends BaseFragment {
             public void onItemLongClick(CardItemView cardItemView, int i) {
 
             }
-        });
+        });*/
 
         final SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();

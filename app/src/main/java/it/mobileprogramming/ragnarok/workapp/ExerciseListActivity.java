@@ -64,10 +64,17 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
         }
 
         // When arrive from workout detail in read mode, see WorkoutDetailFragment for info
-        if (getIntent().hasExtra("readMode")){
+        if (getIntent().hasExtra("readMode") || getIntent().hasExtra("back")){
             workout_session = true;
         }
-        // TODO: If exposing deep links into your app, handle intents here.
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (getIntent().hasExtra("readMode") || getIntent().hasExtra("back")){
+            workout_session = true;
+        }
     }
 
     @Override
@@ -88,10 +95,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            if (workout_session)
-                NavUtils.navigateUpTo(this, new Intent(this, WorkoutDetailActivity.class));
-            else
-                NavUtils.navigateUpTo(this, new Intent(this, MainActivity.class));
+            NavUtils.navigateUpTo(this, new Intent(this, MainActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -126,7 +130,7 @@ public class ExerciseListActivity extends BaseActivityWithToolbar implements Exe
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, ExerciseDetailActivity.class);
-            if (userWorkoutSession == null) {
+            if (!workout_session) {
                 detailIntent.putExtra("exercise", ExerciseListFragment.exercises.get(position));
             } else {
                 detailIntent.putExtra("workoutSession", userWorkoutSession);

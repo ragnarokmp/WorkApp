@@ -3,6 +3,7 @@ package it.mobileprogramming.ragnarok.workapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.MenuItem;
 
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
@@ -45,7 +46,6 @@ public class ExerciseDetailActivity extends BaseActivityWithToolbar {
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.exercise_detail_container, fragment)
-                    .addToBackStack(null)
                     .commit();
         }
     }
@@ -61,10 +61,21 @@ public class ExerciseDetailActivity extends BaseActivityWithToolbar {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            if (getIntent().hasExtra("exercise"))
-                NavUtils.navigateUpTo(this, new Intent(this, ExerciseListActivity.class));//.putExtra("readMode", 0));
-            else
-                NavUtils.navigateUpTo(this, new Intent(this, ExerciseListActivity.class).putExtra("back", 0));
+            if (getIntent().hasExtra("exercise") &&
+               !(getIntent().hasExtra("workoutSession") || getIntent().hasExtra("next"))) {
+                //NavUtils.navigateUpTo(this, new Intent(this, ExerciseListActivity.class));
+                startActivity(new Intent(this, ExerciseListActivity.class));
+                finish();
+            }
+            else if (getIntent().hasExtra("workoutSession")) {
+                //NavUtils.navigateUpTo(this, new Intent(this, ExerciseListActivity.class).putExtra("back", 0));
+                startActivity(new Intent(this, ExerciseListActivity.class).putExtra("back", 0));
+                finish();
+            }
+            else if (getIntent().hasExtra("next")) {
+                startActivity(new Intent(this, ExerciseListActivity.class).putExtra("back", 0));
+                finish();
+            }
             return true;
         }
         return super.onOptionsItemSelected(item);
