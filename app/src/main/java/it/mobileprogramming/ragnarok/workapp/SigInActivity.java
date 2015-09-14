@@ -45,6 +45,14 @@ public class SigInActivity extends BaseActivityWithToolbar implements GoogleApiC
 
     @Override
     public void onClick(View v) {
+
+        // check for network -> if there is not connectivity then the activity will be finished
+        if(!NetworkTest.Connectivity(getApplicationContext())) {
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.signin_error), Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+
         if (v.getId() == R.id.sign_in_button) {
             onSignInClicked();
         }
@@ -70,12 +78,6 @@ public class SigInActivity extends BaseActivityWithToolbar implements GoogleApiC
         SignInButton signin = (SignInButton) findViewById(R.id.sign_in_button);
         signin.setColorScheme(SignInButton.COLOR_LIGHT);
         signin.setSize(SignInButton.SIZE_WIDE);
-
-        // check for network -> if there is not connectivity then the activity will be finished
-        if(!NetworkTest.Connectivity(getApplicationContext())) {
-            Toast.makeText(getApplicationContext(), getResources().getString(R.string.signin_error), Toast.LENGTH_LONG).show();
-            finish();
-        }
 
         // StrictMode settings -> it is not necessary to use another thread to perform this few operations
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
