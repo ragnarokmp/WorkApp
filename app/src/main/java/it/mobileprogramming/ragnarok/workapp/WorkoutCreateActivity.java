@@ -1,6 +1,7 @@
 package it.mobileprogramming.ragnarok.workapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -9,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -108,6 +110,9 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
 
                 workoutListView.add(card);
                 sessionNumber = sessionNumber + 1;
+
+                hideKeyboard();
+
             }
         });
 
@@ -170,6 +175,19 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
                 break;
             default:
                 break;
+        }
+    }
+
+
+    /**
+     * utility to hide keyboard
+     */
+    private void hideKeyboard() {
+        // Check if no view has focus:
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 }

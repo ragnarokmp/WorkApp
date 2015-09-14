@@ -35,7 +35,6 @@
     <string name="no_workouts">There are no workouts here for you, add or create one!</string>
     <string name="no_exercises">There are no exercises here for you, download from the web!</string>
     <string name="no_logged">Yor are not logged in yet</string>
-    <string name="no_connection">There is no connection to the web!</string>
 
     <!-- Exercise Row -->
     <string name="exercise">Exercise</string>
@@ -119,6 +118,7 @@
     <string name="action_select">Select workout</string>
     <string name="title_activity_do_exercise">DoExerciseActivity</string>
     <string name="development">Are you a developer?</string>
+    <string name="no_connection">Error occurred while downloading, are you connected to the network?</string>
 
     <string name="workout_description_default_intro">In the session of $</string>
     <string name="workout_description_intro_1">$Tomorrow$ we will work on $</string>
