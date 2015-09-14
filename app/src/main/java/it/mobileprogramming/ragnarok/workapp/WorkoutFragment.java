@@ -70,6 +70,7 @@ public class WorkoutFragment extends BaseFragment {
             public void onItemClick(CardItemView cardItemView, int i) {
                 Intent intent = new Intent(getActivity(), ExerciseListActivity.class);
                 intent.putExtra("workoutSession", (UserWorkoutSession) cardItemView.getTag());
+                intent.putExtra("readMode", 0);
                 getActivity().startActivity(intent);
             }
 

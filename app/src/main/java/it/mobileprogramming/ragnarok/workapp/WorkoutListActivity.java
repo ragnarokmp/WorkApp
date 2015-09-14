@@ -128,6 +128,7 @@ public class WorkoutListActivity extends BaseActivityWithToolbar implements Work
         if (requestCode == 1) {
             Log.i(TAG, "tutto a posto workout list activity");
             super.setResult(RESULT_OK);
+            super.finish();
         }
     }
 }

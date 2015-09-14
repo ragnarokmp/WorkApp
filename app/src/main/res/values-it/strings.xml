@@ -111,4 +111,5 @@
     <string name="feedback_submit_session_button">Lascia un feedback</string>
     <string name="attention">Attenzione</string>
     <string name="msg_date">Esiste un\'altra sessione con la stessa data, per favore selezionane un\'altra!</string>
+    <string name="no_connection">Impossibile stabilire una connessione!</string>
 </resources>

@@ -1,7 +1,9 @@
 package it.mobileprogramming.ragnarok.workapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NavUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +17,8 @@ import java.util.HashMap;
 
 import it.mobileprogramming.ragnarok.workapp.GymModel.Commentable;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserExercise;
+import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
 
@@ -31,11 +35,13 @@ public class FeedbackActivity extends BaseActivityWithToolbar {
     ImageView   iw_star3;
     ImageView   iw_star4;
     ImageView   iw_star5;
+
     int[]       starsStringId;
     EditText    et_comment;
     TextView    tvStars;
     Commentable commentableItem;
     ArrayList<ImageView> stars  =   new ArrayList<ImageView>();
+
     HashMap<Integer,Integer> starMap  =   new HashMap<Integer,Integer>();
     public void setRating(int value){
         if(value>-1){
@@ -61,6 +67,7 @@ public class FeedbackActivity extends BaseActivityWithToolbar {
         super.onCreate(savedInstanceState);
         Bundle extras   =   getIntent().getExtras();
         this.commentableItem    =   (Commentable)extras.getParcelable("item");
+
         System.out.println("COMMENTABLE ITEM "+commentableItem.toString());
         SQLiteSerializer serializer = ((App) this.getApplication()).getDBSerializer();
         serializer.open();
@@ -84,6 +91,11 @@ public class FeedbackActivity extends BaseActivityWithToolbar {
                 commentableItem.setComment(et_comment.getText().toString());
                 System.out.println("COMMENTABLE object " + commentableItem.toString());
                 Toast.makeText(getApplicationContext(), getString(R.string.feedback_submit_exercise), Toast.LENGTH_SHORT).show();
+                if (commentableItem.getClass().equals(UserExercise.class)) {
+                    Intent result = new Intent();
+                    result.putExtra("commented", (UserExercise) commentableItem);
+                    setResult(1, result);
+                }
                 finish();
             }
         });
@@ -109,7 +121,8 @@ public class FeedbackActivity extends BaseActivityWithToolbar {
        }
         this.et_comment.setText(this.commentableItem.getComment());
         int rating  =   this.commentableItem.getRating();
-        if(0<=rating&&rating<=5){         setRating(this.commentableItem.getRating());
+        if(0<=rating&&rating<=5){
+            setRating(this.commentableItem.getRating());
             tvStars.setText(starsStringId[this.commentableItem.getRating()]);
         }
     }
