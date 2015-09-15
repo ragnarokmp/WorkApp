@@ -43,7 +43,7 @@ import it.mobileprogramming.ragnarok.workapp.util.JSONRoot;
 public class ExerciseListFragment extends ListFragment {
 
     // to retrieve exercises from the website
-    private String website = "http://46.101.165.167/index.php/exercise/getAllExercise";
+    public static final String website = "http://46.101.165.167/index.php/exercise/getAllExercise";
 
     // to visualize the exercises list
     public static ArrayList<Exercise> exercises;

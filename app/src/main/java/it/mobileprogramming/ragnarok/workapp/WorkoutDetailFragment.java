@@ -142,10 +142,12 @@ public class WorkoutDetailFragment extends BaseFragment {
         final SQLiteSerializer dbSerializer = ((App) getActivity().getApplication()).getDBSerializer();
         dbSerializer.open();
         if (userID == -1) {
+            Log.i(TAG, "if");
              workoutSessions = dbSerializer.loadAllWorkoutSessionsForWorkout(Integer.parseInt(workoutID));
         } else {
+            Log.i(TAG, "else");
             ArrayList<UserWorkoutSession> temp = dbSerializer.loadAllSessionsForUserWorkout(userID,Integer.parseInt(workoutID));
-            workoutSessions = new ArrayList<WorkoutSession>();
+            workoutSessions = new ArrayList<>();
             for (int i = 0; i < temp.size(); i++) {
                 workoutSessions.add(temp.get(i));
             }
@@ -155,7 +157,9 @@ public class WorkoutDetailFragment extends BaseFragment {
 
             final int workout_id = j;
 
-            WorkoutSessionCard card = new WorkoutSessionCard(getActivity().getApplicationContext(), workoutSessions.get(j));
+            WorkoutSession workoutSession = workoutSessions.get(j);
+            Log.i(TAG, "Sessione: " + workoutSession.toString());
+            WorkoutSessionCard card = new WorkoutSessionCard(getActivity().getApplicationContext(), workoutSession);
 
             // show detail button when arrive from create workout
             if (userID == -1){

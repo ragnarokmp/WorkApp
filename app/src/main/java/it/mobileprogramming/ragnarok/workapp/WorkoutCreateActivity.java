@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -32,7 +33,7 @@ import it.mobileprogramming.ragnarok.workapp.util.MyMaterialListView;
 public class WorkoutCreateActivity extends BaseActivityWithToolbar {
 
     private MyMaterialListView workoutListView;
-    private static List<WorkoutSession> workoutSessionList = new ArrayList<>();
+    private List<WorkoutSession> workoutSessionList = new ArrayList<>();
     private SQLiteSerializer dbSerializer;
     private String difficulty;
     private String workoutName;
@@ -77,6 +78,7 @@ public class WorkoutCreateActivity extends BaseActivityWithToolbar {
                 Workout newWorkout = new Workout(workoutName, "custom", difficulty, dbSerializer);
 
                 for (WorkoutSession session : workoutSessionList) {
+                    Log.i(TAG, "Sessione:" + session.toString());
                     newWorkout.addWorkoutSession(session, true, Integer.MAX_VALUE);
                 }
 
