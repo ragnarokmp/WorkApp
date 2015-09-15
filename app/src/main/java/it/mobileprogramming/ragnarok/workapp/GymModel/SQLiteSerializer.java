@@ -624,6 +624,7 @@ public class SQLiteSerializer implements ExerciseSerializer,UserExerciseSerializ
         String field        =   UserMakesSession_WorkoutSID+"=? AND "+UserMakesSession_UserID+"=? AND "+UserMakesSession_ExecutionD+"=?";
         String filter   []  =   {String.valueOf(intUserSessionID),String.valueOf(intIDUser),Singletons.getStringFromDate(sessionDate)};
         int rows            =   this.sqlGymDatabase.update(UserMakesSession_tablename, values, field, filter);
+        System.out.println("SQLiteSerializer updating UserWorkoutSession WOID: " + String.valueOf(intUserSessionID)+" USER ID "+String.valueOf(intIDUser)+" DATE "+Singletons.getStringFromDate(sessionDate));
         System.out.println("updated rows: " + rows);
     }
 

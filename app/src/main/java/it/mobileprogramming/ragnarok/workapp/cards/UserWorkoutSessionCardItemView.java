@@ -269,6 +269,7 @@ public class UserWorkoutSessionCardItemView extends CardItemView<UserWorkoutSess
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), FeedbackActivity.class);
+                System.out.println("CARD: setting feedback for "+workoutSession.toString());
                 intent.putExtra("item", workoutSession);
                 ((Activity) getContext()).startActivityForResult(intent, 1);
             }

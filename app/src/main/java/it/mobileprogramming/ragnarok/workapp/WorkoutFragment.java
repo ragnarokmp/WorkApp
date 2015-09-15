@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import java.util.ArrayList;
+
+import it.mobileprogramming.ragnarok.workapp.GymModel.DataException;
 import it.mobileprogramming.ragnarok.workapp.GymModel.SQLiteSerializer;
 import it.mobileprogramming.ragnarok.workapp.GymModel.User;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
@@ -149,6 +151,14 @@ public class WorkoutFragment extends BaseFragment {
         ArrayList<UserWorkoutSession> firstWorkoutSessions = new ArrayList<>();
         if(currentWO!=null){
             System.out.println("WorkoutFragment.java found current UserWorkout " + currentWO.toString());
+            //added code to manage fallback after feedback acticity to refresh status
+            try {
+                UserWorkout currentReloaded =   dbSerializer.loadUserWorkout(currentWO.getIntWOID(),currentWO.getUserID());
+                currentWO   =   currentReloaded;
+                ((App) getActivity().getApplication()).setCurrentWO(currentReloaded);
+            } catch (DataException e) {
+                e.printStackTrace();
+            }
             firstWorkoutSessions    =   currentWO.getWoSessions();
         }
         else {

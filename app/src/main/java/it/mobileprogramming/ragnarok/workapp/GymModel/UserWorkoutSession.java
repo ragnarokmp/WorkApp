@@ -73,7 +73,7 @@ public class UserWorkoutSession extends WorkoutSession implements Parcelable,Com
                 ", rating=" + rating +
                 ", workoutSessionSerializer=" + workoutSessionSerializer +
                 ", userWorkoutSessionSerializer=" + userWorkoutSessionSerializer +
-                '}';
+                super.toString()+'}';
     }
 
     /**
@@ -120,7 +120,7 @@ public class UserWorkoutSession extends WorkoutSession implements Parcelable,Com
     @Override
     public void setComment(String comment) {
         this.strComment =   comment;
-        this.userWorkoutSessionSerializer.updateSession(this.usrSessionUserId,this.dateSessionDate,this.strComment,this.usrSessionUserId,this.rating);
+        this.userWorkoutSessionSerializer.updateSession(this.getId(),this.dateSessionDate,comment,this.getUserId(),this.rating);
 
     }
 
@@ -133,7 +133,7 @@ public class UserWorkoutSession extends WorkoutSession implements Parcelable,Com
     public void setComment(String comment, int rating) {
         this.strComment =   comment;
         this.rating     =   rating;
-        this.userWorkoutSessionSerializer.updateSession(this.usrSessionUserId,this.dateSessionDate,this.strComment,this.usrSessionUserId,this.rating);
+        this.userWorkoutSessionSerializer.updateSession(this.getId(),this.dateSessionDate,comment,this.getUserId(),rating);
     }
 
     /**
@@ -142,7 +142,7 @@ public class UserWorkoutSession extends WorkoutSession implements Parcelable,Com
      */
     public void setRating(int rating) {
         this.rating = rating;
-        this.userWorkoutSessionSerializer.updateSession(this.usrSessionUserId,this.dateSessionDate,this.strComment,this.usrSessionUserId,this.rating);
+        this.userWorkoutSessionSerializer.updateSession(this.getId(),this.dateSessionDate,this.strComment,this.getUserId(),rating);
     }
 
     @Override
