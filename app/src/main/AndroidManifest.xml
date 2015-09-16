@@ -69,7 +69,7 @@
             android:name=".StartExerciseActivity"
             android:label="@string/start_exercise"
             android:keepScreenOn="true"
-            android:parentActivityName=".ExerciseListActivity"
+            android:parentActivityName=".ExerciseDetailActivity"
             android:theme="@style/WorkApp.FullScreen" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

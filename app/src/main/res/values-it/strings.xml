@@ -76,7 +76,7 @@
     <string name="exercise_detail_description_series">serie di</string>
     <string name="exercise_detail_description_with">con</string>
     <string name="action_new">Crea nuovo</string>
-    <string name="action_select">Seleziona workout</string>
+    <string name="action_select">Seleziona allenamento</string>
     <string name="internal_error">Oooops: internal error occurred!</string>
     <string name="workout_description_default_intro">Nella sessione di $</string>
     <string name="workout_description_intro_1">$Domani$ lavoreremo su $</string>
@@ -85,10 +85,10 @@
     <string name="workout_description_and">e</string>
     <string name="workout_description_indetails">In dettaglio:</string>
     <string name="action_chronology">Cronologia</string>
-    <string name="title_activity_workout_create">Crea workout</string>
-    <string name="title_workout_detail">Workout dettaglio</string>
-    <string name="title_workout_list">Workout</string>
-    <string name="text_insert_name">Inserisci il nome del workout</string>
+    <string name="title_activity_workout_create">Crea allenamento</string>
+    <string name="title_workout_detail">Dettaglio Allenamento</string>
+    <string name="title_workout_list">Allenamento</string>
+    <string name="text_insert_name">Inserisci il nome dell\'allenamento</string>
     <string name="text_insert_difficulty">Seleziona difficoltà</string>
     <string name="difficulty_easy">Facile</string>
     <string name="action_settings">Impostazioni</string>
@@ -108,7 +108,7 @@
     <string name="exercise_detail_skip_finish">Dacci un feedback</string>
     <string name="feedback_submit_exercise">Grazie per aver lasciato un commento!</string>
     <string name="feedback_submit_session">Grazie per aver lasciato un commento per questa sessione!</string>
-    <string name="feedback_submit_session_button">Lascia un feedback</string>
+    <string name="feedback_submit_session_button">Tieni premuto per lasciare un feedback</string>
     <string name="attention">Attenzione</string>
     <string name="msg_date">Esiste un\'altra sessione con la stessa data, per favore selezionane un\'altra!</string>
     <string name="no_connection">Impossibile stabilire una connessione!</string>

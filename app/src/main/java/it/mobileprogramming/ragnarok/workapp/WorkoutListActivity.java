@@ -113,7 +113,7 @@ public class WorkoutListActivity extends BaseActivityWithToolbar implements Work
             emptyWorkoutTextView.setVisibility(View.GONE);
 
         } else {
-            // In single-pane mode, simply start the detail activity
+            // In single-pane mode, simply start the detail activityd
             // for the selected item ID.
             Intent detailIntent = new Intent(this, WorkoutDetailActivity.class);
             detailIntent.putExtra(WorkoutDetailFragment.WORKOUT_ID, id);

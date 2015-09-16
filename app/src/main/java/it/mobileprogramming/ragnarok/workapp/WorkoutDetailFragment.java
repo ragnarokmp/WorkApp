@@ -32,6 +32,7 @@ import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.UserWorkoutSession;
 import it.mobileprogramming.ragnarok.workapp.GymModel.Workout;
 import it.mobileprogramming.ragnarok.workapp.GymModel.WorkoutSession;
+import it.mobileprogramming.ragnarok.workapp.cards.UserWorkoutSessionCard;
 import it.mobileprogramming.ragnarok.workapp.cards.WorkoutSessionCard;
 import it.mobileprogramming.ragnarok.workapp.util.App;
 import it.mobileprogramming.ragnarok.workapp.util.BaseFragment;
@@ -58,8 +59,8 @@ public class WorkoutDetailFragment extends BaseFragment {
     /**
      * The workout id passing from list fragment
      */
-    private String workoutID;
-    private int userID=-1;
+    private String workoutID = null;
+    private int userID = -1;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -158,8 +159,15 @@ public class WorkoutDetailFragment extends BaseFragment {
             final int workout_id = j;
 
             WorkoutSession workoutSession = workoutSessions.get(j);
-            Log.i(TAG, "Sessione: " + workoutSession.toString());
-            WorkoutSessionCard card = new WorkoutSessionCard(getActivity().getApplicationContext(), workoutSession);
+            UserWorkoutSession userWorkoutSession;
+            WorkoutSessionCard card = new WorkoutSessionCard(getActivity().getApplicationContext(),workoutSession);
+            UserWorkoutSessionCard usercard = null;
+           if (userID != -1) {
+                userWorkoutSession = (UserWorkoutSession) workoutSessions.get(j);
+                usercard = new UserWorkoutSessionCard(getActivity().getApplicationContext(), (UserWorkoutSession) userWorkoutSession);
+            }
+
+            //Log.i(TAG, "Sessione: " + workoutSession.toString());
 
             // show detail button when arrive from create workout
             if (userID == -1){
@@ -199,53 +207,67 @@ public class WorkoutDetailFragment extends BaseFragment {
                 // in chronology disable detail button
                 card.setStatusDetailButton(false);
             }
-
-            workoutListView.add(card);
+            if (userID == -1) {
+                workoutListView.add(card);
+            } else {
+                workoutListView.add(usercard);
+            }
         }
-
         FloatingActionButton addWorkout = (FloatingActionButton) view.findViewById(R.id.add_fab);
-        addWorkout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        addWorkout.setVisibility(View.GONE);
+        if (userID == -1) {
+            addWorkout.setVisibility(View.VISIBLE);
+            addWorkout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                // controllo se tutte le date sono state impostate
-                boolean allset = true;
-                for (int i = 0; i < workoutSessions.size(); i++){
-                    if(workoutSessionDate[i] == null){
-                        allset = false;
-                        break;
+                    // controllo se tutte le date sono state impostate
+                    boolean allset = true;
+                    for (int i = 0; i < workoutSessions.size(); i++) {
+                        if (workoutSessionDate[i] == null) {
+                            allset = false;
+                            break;
+                        }
+                    }
+
+                    if (allset) {
+
+                        Workout wkr = dbSerializer.loadWorkout(Integer.parseInt(workoutID));
+                        User currentUser = ((App) getActivity().getApplication()).getCurrentUser();
+                        UserWorkout newWO = wkr.createFromThisWorkout(dbSerializer.loadUser(currentUser.getIntUserID()), workoutSessionDate);
+                        ((App) getActivity().getApplication()).setCurrentWO(newWO);
+                        dbSerializer.close();
+                        dbSerializer.open();
+
+                        getActivity().setResult(Activity.RESULT_OK);
+                        getActivity().finish();
+
+                    } else {
+
+                        new AlertDialog.Builder(context)
+                                .setTitle(getResources().getString(R.string.attention))
+                                .setMessage(getResources().getString(R.string.msg_date_2))
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // continue with delete
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
                     }
                 }
-
-                if (allset){
-
-                    Workout wkr = dbSerializer.loadWorkout(Integer.parseInt(workoutID));
-                    User currentUser    =   ((App) getActivity().getApplication()).getCurrentUser();
-                    UserWorkout newWO   =   wkr.createFromThisWorkout(dbSerializer.loadUser(currentUser.getIntUserID()), workoutSessionDate);
-                    ((App) getActivity().getApplication()).setCurrentWO(newWO);
-                    dbSerializer.close();
-                    dbSerializer.open();
-
-                    getActivity().setResult(Activity.RESULT_OK);
-                    getActivity().finish();
-
-                }else{
-
-                    new AlertDialog.Builder(context)
-                            .setTitle(getResources().getString(R.string.attention))
-                            .setMessage(getResources().getString(R.string.msg_date_2))
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // continue with delete
-                                }
-                            })
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
-                }
-            }
-        });
-
+            });
+        }
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle toSave) {
+        super.onSaveInstanceState(toSave);
+        toSave.putInt("userID", userID);
+        if (workoutID != null) {
+            toSave.putString(WORKOUT_ID, workoutID);
+        }
     }
 
     public void dateFromActiivty(Calendar result, Integer workout_id) {

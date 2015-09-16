@@ -215,8 +215,17 @@ public class UserWorkoutSessionCardItemView extends CardItemView<UserWorkoutSess
                 description += "\n";
             }
         }
+        if (!workoutSession.getComment().equals("") && (workoutSession.getRating() != 0)) {
+            description += "\n\nComment: " + workoutSession.getComment() + "\nRating: " + workoutSession.getRating();
+            return description;
+        }
         if (!workoutSession.getComment().equals("")) {
-            description += "\nComment: " + workoutSession.getComment() + "\nRating: " + workoutSession.getRating();
+            description += "\n\nComment: " + workoutSession.getComment();
+            return description;
+        }
+        if (workoutSession.getRating() != 0) {
+            description += "\n\nRating: " + workoutSession.getRating();
+            return description;
         }
         return description;
     }
@@ -264,8 +273,7 @@ public class UserWorkoutSessionCardItemView extends CardItemView<UserWorkoutSess
                 }.onButtonPressedListener(detailsTextButton, card);
             }
         });
-
-        feedbackButton.setOnClickListener(new OnClickListener() {
+       feedbackButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), FeedbackActivity.class);

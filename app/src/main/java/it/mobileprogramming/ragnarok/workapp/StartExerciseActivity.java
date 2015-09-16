@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -341,7 +342,7 @@ public class StartExerciseActivity extends BaseActivity implements TextToSpeech.
                     series1Index = decoView.addSeries(seriesItem);
                     decoView.addEvent(new DecoEvent.Builder(currentRepetition).setIndex(series1Index).setDelay(0).build());
                     inRecovery = true;
-                    startRecovery =   System.currentTimeMillis();
+                    startRecovery = System.currentTimeMillis();
                     currRepetition.setText(String.valueOf(currentRepetition));
                     series1Index = decoView.addSeries(seriesItem);
                     decoView.addEvent(new DecoEvent.Builder(currentRepetition).setIndex(series1Index).setDelay(0).build());
@@ -350,7 +351,7 @@ public class StartExerciseActivity extends BaseActivity implements TextToSpeech.
                     decoView.executeReset();
                     decoView.deleteAll();
                     textViewPercentage.setTextColor(getResources().getColor(R.color.recovery));
-                    textViewPercentage.setText(0+"");
+                    textViewPercentage.setText(0 + "");
                     series1Index = decoView.addSeries(seriesItemRec);
                     decoView.addEvent(new DecoEvent.Builder(recoveryValue).setIndex(series1Index).setDelay(0).build());
                 }
@@ -404,9 +405,23 @@ public class StartExerciseActivity extends BaseActivity implements TextToSpeech.
                             .setDelay(0)
                             .setDuration(4000)
                             .setDisplayText(getString(R.string.complete))
+                            .setListener(new DecoEvent.ExecuteEventListener() {
+                                @Override
+                                public void onEventStart(DecoEvent decoEvent) {
+
+                                }
+
+                                @Override
+                                public void onEventEnd(DecoEvent event) {
+                                    currentExercise.setDone(true);
+                                    finish();
+                                }
+                            })
                             .build());
 
-                    currentExercise.setDone(true);
+                    //TODO dare più tempo all'animazione
+                    finish();
+
                 } else {
                     decoView.executeReset();
 
@@ -426,6 +441,7 @@ public class StartExerciseActivity extends BaseActivity implements TextToSpeech.
 
                     currRepetition.setText(String.valueOf(0));
                     currSeries.setText(String.valueOf(0));
+                    finish();
                 }
             }
         }.start();

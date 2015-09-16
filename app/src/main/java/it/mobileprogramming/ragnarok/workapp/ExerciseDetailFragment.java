@@ -37,6 +37,8 @@ import static it.mobileprogramming.ragnarok.workapp.util.Util.boldTextBetweenTok
  * on handsets.
  */
 public class ExerciseDetailFragment extends Fragment {
+
+
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -268,5 +270,17 @@ public class ExerciseDetailFragment extends Fragment {
 
         ((TextView) rootView.findViewById(R.id.exercise_detail)).setText(boldTextBetweenTokens(description, "$"));
         ((TextView) rootView.findViewById(R.id.exercises_text_view)).setText(String.valueOf(currentExercise.getSeries() * currentExercise.getRepetition()));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        //TODO federico: da implementare
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onResume() {
+        //TODO federico: da implementare
+        super.onResume();
     }
 }
