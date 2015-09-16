@@ -61,6 +61,10 @@ public class MainActivity extends BaseActivityWithNavigationDrawer implements Vi
         // Set checked always the only possible item, the Workout one
         navigationView.getMenu().getItem(0).setChecked(true);
 
+        //loading defaults if needed
+        DefaultsLoader loadDefaults =   new DefaultsLoader((App)getApplication());
+        loadDefaults.execute();
+
         // setting user signed in
         setUserSignedIn();
     }
