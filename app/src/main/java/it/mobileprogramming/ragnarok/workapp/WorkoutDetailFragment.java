@@ -272,6 +272,25 @@ public class WorkoutDetailFragment extends BaseFragment {
 
     public void dateFromActiivty(Calendar result, Integer workout_id) {
 
+        Calendar today = Calendar.getInstance();
+        today.add(Calendar.DATE, -1);
+
+        if (result.before(today)){
+
+            new AlertDialog.Builder(context)
+                    .setTitle(getResources().getString(R.string.attention))
+                    .setMessage(getResources().getString(R.string.msg_date3))
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue with delete
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+            return;
+        }
+
         boolean checkInSessions =  Singletons.checkIfDateInArray(result, workoutSessionDate, workoutSessions.size());
         boolean checkInAllSessions = Singletons.checkIfDateInArrayList(result, allSessionsDate);
 
