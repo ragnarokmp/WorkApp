@@ -9,52 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:id="@+id/linear_layout_repetition"
-        android:gravity="center_horizontal"
-        android:layout_above="@+id/linear_layout_image_pause"
-        android:layout_alignLeft="@+id/deco_view"
-        android:layout_alignStart="@+id/deco_view">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/repetition"
-            style="@style/Base.TextAppearance.AppCompat.Title.Inverse"
-            android:textColor="@android:color/white" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small_padding">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10 "
-                android:id="@+id/currentRepTV"
-                style="@style/TextAppearance.AppCompat"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="/ 20"
-                android:id="@+id/totalRepTV"
-                android:textStyle="bold"
-                style="@style/TextAppearance.AppCompat"
-                android:textColor="@android:color/white" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
     <com.hookedonplay.decoviewlib.DecoView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -66,51 +20,6 @@
         android:layout_above="@+id/remaining_text_view"
         android:layout_alignParentTop="true" />
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:id="@+id/linear_layout_series"
-        android:gravity="center_horizontal"
-        android:layout_above="@+id/linear_layout_image_stop"
-        android:layout_alignRight="@+id/deco_view"
-        android:layout_alignEnd="@+id/deco_view">
-
-        <TextView
-            style="@style/Base.TextAppearance.AppCompat.Title.Inverse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/series"
-            android:textColor="@android:color/white" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small_padding">
-
-            <TextView
-                style="@style/TextAppearance.AppCompat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10 "
-                android:id="@+id/currentSeriesTV"
-                android:textColor="@android:color/white" />
-
-            <TextView
-                style="@style/TextAppearance.AppCompat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="/ 20"
-                android:textStyle="bold"
-                android:id="@+id/totalSeriesTV"
-                android:textColor="@android:color/white" />
-        </LinearLayout>
-
-    </LinearLayout>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -118,53 +27,9 @@
         tools:text="00:30:123"
         android:id="@+id/remaining_text_view"
         android:textColor="@android:color/white"
-        android:layout_above="@+id/linear_layout_repetition"
-        android:layout_marginBottom="@dimen/big_padding"
-        android:layout_centerHorizontal="true" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/linear_layout_repetition"
-        android:layout_alignStart="@+id/linear_layout_repetition"
-        android:layout_alignRight="@+id/linear_layout_repetition"
-        android:layout_alignEnd="@+id/linear_layout_repetition"
-        android:id="@+id/linear_layout_image_pause"
-        android:layout_alignParentBottom="true"
-        android:gravity="center">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/pause_image_view"
-            android:src="@drawable/ic_action_pause"
-            android:tag="@string/pause"
-            android:contentDescription="@string/pause" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/linear_layout_image_stop"
-        android:gravity="center"
-        android:layout_alignRight="@+id/deco_view"
-        android:layout_alignEnd="@+id/deco_view"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/linear_layout_series"
-        android:layout_alignStart="@+id/linear_layout_series">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/stop_image_view"
-            android:src="@drawable/ic_action_stop"
-            android:tag="@string/stop"
-            android:contentDescription="@string/stop" />
-
-    </LinearLayout>
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/linearLayout"
+        android:layout_marginBottom="@dimen/big_padding" />
 
     <FrameLayout
         android:id="@+id/frame_layout"
@@ -182,5 +47,166 @@
             android:layout_gravity="center"/>
 
     </FrameLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/linearLayout">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:id="@+id/linear_layout_series"
+                android:gravity="center_horizontal"
+                android:layout_above="@+id/linear_layout_image_stop"
+                android:layout_alignRight="@+id/deco_view"
+                android:layout_alignEnd="@+id/deco_view">
+
+                <TextView
+                    style="@style/Base.TextAppearance.AppCompat.Title.Inverse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/series"
+                    android:textColor="@android:color/white" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small_padding">
+
+                    <TextView
+                        style="@style/TextAppearance.AppCompat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10 "
+                        android:id="@+id/currentSeriesTV"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        style="@style/TextAppearance.AppCompat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/ 20"
+                        android:textStyle="bold"
+                        android:id="@+id/totalSeriesTV"
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/linear_layout_image_stop"
+                android:gravity="center"
+                android:layout_alignRight="@+id/deco_view"
+                android:layout_alignEnd="@+id/deco_view"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@+id/linear_layout_series"
+                android:layout_alignStart="@+id/linear_layout_series">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/stop_image_view"
+                    android:src="@drawable/ic_action_stop"
+                    android:tag="@string/stop"
+                    android:contentDescription="@string/stop" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_horizontal">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:id="@+id/linear_layout_repetition"
+                android:gravity="center_horizontal"
+                android:layout_above="@+id/linear_layout_image_pause"
+                android:layout_alignLeft="@+id/deco_view"
+                android:layout_alignStart="@+id/deco_view">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/repetition"
+                    style="@style/Base.TextAppearance.AppCompat.Title.Inverse"
+                    android:textColor="@android:color/white" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small_padding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="10 "
+                        android:id="@+id/currentRepTV"
+                        style="@style/TextAppearance.AppCompat"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/ 20"
+                        android:id="@+id/totalRepTV"
+                        android:textStyle="bold"
+                        style="@style/TextAppearance.AppCompat"
+                        android:textColor="@android:color/white" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/linear_layout_repetition"
+                android:layout_alignStart="@+id/linear_layout_repetition"
+                android:layout_alignRight="@+id/linear_layout_repetition"
+                android:layout_alignEnd="@+id/linear_layout_repetition"
+                android:id="@+id/linear_layout_image_pause"
+                android:layout_alignParentBottom="true"
+                android:gravity="center">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pause_image_view"
+                    android:src="@drawable/ic_action_pause"
+                    android:tag="@string/pause"
+                    android:contentDescription="@string/pause" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>
