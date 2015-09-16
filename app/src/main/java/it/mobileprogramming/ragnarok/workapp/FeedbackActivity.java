@@ -137,4 +137,14 @@ public class FeedbackActivity extends BaseActivityWithToolbar {
         setRating(starMap.get(viewID));
         tvStars.setText(starsStringId[index]);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent result = new Intent();
+        result.putExtra("commented", (UserExercise) commentableItem);
+        setResult(1, result);
+        finish();
+    }
+
+
 }

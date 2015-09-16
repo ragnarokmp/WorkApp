@@ -247,23 +247,30 @@ public class ExerciseDetailFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        UserExercise ue = data.getParcelableExtra("commented");
-        ((Commentable) currentExercise).setComment(ue.getComment());
-        ((Commentable) currentExercise).setRating(ue.getRating());
 
         String description = "$";
-        description += String.valueOf(currentExercise.getSeries()) + "$ " +
-                getResources().getString(R.string.exercise_detail_description_series) + " $" +
-                String.valueOf(currentExercise.getRepetition()) + "$ " +
-                currentExercise.getName() + " " +
-                getResources().getString(R.string.exercise_detail_description_with) + " $" +
-                String.valueOf(currentExercise.getRecovery()) + "$ " +
-                getResources().getString(R.string.exercise_detail_description_recrate) + " $" +
-                String.valueOf(currentExercise.getFrequency()) + "/sec$";
-        if (workout_session) {
-            if (!((UserExercise) currentExercise).getComment().equals("")) {
-                description += "\nCommento: " + ((UserExercise) currentExercise).getComment();
-                description += "\nRating: " + ((UserExercise) currentExercise).getRating();
+
+        // check for intent presence on comment setted
+        if (data != null) {
+            if (data.hasExtra("commented")) {
+                UserExercise ue = data.getParcelableExtra("commented");
+                ((Commentable) currentExercise).setComment(ue.getComment());
+                ((Commentable) currentExercise).setRating(ue.getRating());
+
+                description += String.valueOf(currentExercise.getSeries()) + "$ " +
+                        getResources().getString(R.string.exercise_detail_description_series) + " $" +
+                        String.valueOf(currentExercise.getRepetition()) + "$ " +
+                        currentExercise.getName() + " " +
+                        getResources().getString(R.string.exercise_detail_description_with) + " $" +
+                        String.valueOf(currentExercise.getRecovery()) + "$ " +
+                        getResources().getString(R.string.exercise_detail_description_recrate) + " $" +
+                        String.valueOf(currentExercise.getFrequency()) + "/sec$";
+                if (workout_session) {
+                    if (!((UserExercise) currentExercise).getComment().equals("")) {
+                        description += "\nCommento: " + ((UserExercise) currentExercise).getComment();
+                        description += "\nRating: " + ((UserExercise) currentExercise).getRating();
+                    }
+                }
             }
         }
 
