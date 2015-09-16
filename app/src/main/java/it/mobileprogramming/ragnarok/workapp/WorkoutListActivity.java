@@ -9,7 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.Calendar;
+
 import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
+import it.mobileprogramming.ragnarok.workapp.util.DatePickerFragment;
 
 /**
  * An activity representing a list of Workout. This activity
@@ -27,7 +30,7 @@ import it.mobileprogramming.ragnarok.workapp.util.BaseActivityWithToolbar;
  * {@link WorkoutListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class WorkoutListActivity extends BaseActivityWithToolbar implements WorkoutListFragment.Callbacks {
+public class WorkoutListActivity extends BaseActivityWithToolbar implements WorkoutListFragment.Callbacks, DatePickerFragment.DatePickerCallback {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -129,6 +132,13 @@ public class WorkoutListActivity extends BaseActivityWithToolbar implements Work
             Log.i(TAG, "tutto a posto workout list activity");
             super.setResult(RESULT_OK);
             super.finish();
+        }
+    }
+
+    @Override
+    public void pickerOnDateSet(Calendar result, Integer workout_id) {
+        if (getSupportFragmentManager().getFragments().get(1) != null) {
+            ((WorkoutDetailFragment) getSupportFragmentManager().getFragments().get(1)).dateFromActiivty(result, workout_id);
         }
     }
 }
