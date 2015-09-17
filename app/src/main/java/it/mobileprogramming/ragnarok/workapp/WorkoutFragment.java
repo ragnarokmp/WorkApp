@@ -204,7 +204,6 @@ public class WorkoutFragment extends BaseFragment {
         fabMenu.collapse();
 
         if (requestCode == 0) {
-            Log.i(TAG, "tutto a posto");
             toBeRefreshed = true;
         }
     }

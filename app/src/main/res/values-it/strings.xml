@@ -114,4 +114,6 @@
     <string name="no_connection">Impossibile stabilire una connessione!</string>
     <string name="msg_date_2">Per favore imposta le date per tutte le sessioni.</string>
     <string name="snackbar_JSON_success">Esercizi aggiornati con successo!</string>
+    <string name="exercise_done">FATTO</string>
+    <string name="exercise_not_yet">NON ANCORA</string>
 </resources>

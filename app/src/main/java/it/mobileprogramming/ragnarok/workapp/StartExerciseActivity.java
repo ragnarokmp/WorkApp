@@ -1,5 +1,6 @@
 package it.mobileprogramming.ragnarok.workapp;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
@@ -405,21 +406,11 @@ public class StartExerciseActivity extends BaseActivity implements TextToSpeech.
                             .setDelay(0)
                             .setDuration(4000)
                             .setDisplayText(getString(R.string.complete))
-                            .setListener(new DecoEvent.ExecuteEventListener() {
-                                @Override
-                                public void onEventStart(DecoEvent decoEvent) {
-
-                                }
-
-                                @Override
-                                public void onEventEnd(DecoEvent event) {
-                                    currentExercise.setDone(true);
-                                    finish();
-                                }
-                            })
                             .build());
 
                     //TODO dare più tempo all'animazione
+                    currentExercise.setDone(true);
+                    setResult(Activity.RESULT_OK, getIntent().putExtra("exercise", currentExercise));
                     finish();
 
                 } else {

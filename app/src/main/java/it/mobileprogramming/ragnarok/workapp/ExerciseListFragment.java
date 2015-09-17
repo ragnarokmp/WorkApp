@@ -127,7 +127,6 @@ public class ExerciseListFragment extends ListFragment {
 //            System.out.println("ITERATORE "+boh.toString());
 //        }
         if (intent.hasExtra("workoutSession")) {
-            Log.i("andrea","Sono una sessioon");
             userWorkoutSession =  intent.getExtras().getParcelable("workoutSession");
             User currentUser =   ((App) getActivity().getApplication()).getCurrentUser();
             assert userWorkoutSession != null;

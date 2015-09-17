@@ -80,7 +80,6 @@ public class WorkoutDetailActivity extends BaseActivityWithToolbar implements Da
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 1) {
-            Log.i(TAG, "tutto a posto workout list activity");
             setResult(RESULT_OK);
             finish();
         }

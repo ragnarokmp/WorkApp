@@ -147,5 +147,7 @@
     <string name="feedback_submit_session">Thanks for your feedback!</string>
     <string name="hello_world">Hello World</string>
     <string name="msg_date_2">Please set date for all session</string>
+    <string name="exercise_done">DONE</string>
+    <string name="exercise_not_yet">NOT YET</string>
 
 </resources>
