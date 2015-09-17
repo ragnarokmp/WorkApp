@@ -181,10 +181,14 @@ public class StartExerciseActivity extends BaseActivity implements TextToSpeech.
 
         // Get boolean for sound and voice
         boolean audible = sharedPreferences.getBoolean(getResources().getString(R.string.switch_sound_preference_key), false);
-        boolean voiced = sharedPreferences.getBoolean(getResources().getString(R.string.voice_preference_key), false);
+        // it is not supported now
+        //FUTURE RELEASE:
+        // boolean voiced = sharedPreferences.getBoolean(getResources().getString(R.string.voice_preference_key), false);
 
         // Initialize TextToSpeech if is audible and voiced, else start timer
-        if (audible && voiced) {
+        // FUTURE RELEASE:
+        // if (audible && voiced) {
+        if (audible) {
             textToSpeech = new TextToSpeech(this, this);
         } else {
             if (!stopped) {

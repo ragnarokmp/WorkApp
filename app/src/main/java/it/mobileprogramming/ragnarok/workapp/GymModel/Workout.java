@@ -1,5 +1,7 @@
 package it.mobileprogramming.ragnarok.workapp.GymModel;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -112,18 +114,13 @@ public class Workout {
      * @return userworkout
      */
     public UserWorkout createFromThisWorkout(User anUser, Calendar[] workoutSessionDate){
+
         SQLiteSerializer aSerializer    =   (SQLiteSerializer)this.woSerializer;
         UserWorkout res =   new UserWorkout(this.intWOID,this.name,anUser.getIntUserID(),this.getType(),this.difficulty,this.woSerializer);
+
         for(int i=0;i<this.woSessions.size();i++){
 
-            Date aDate = null;
-            try {
-                aDate = new SimpleDateFormat("dd/mm/yyyy", Locale.ITALY).parse(String.format("%02d/%02d/%02d", workoutSessionDate[i].get(Calendar.DAY_OF_MONTH),
-                        workoutSessionDate[i].get(Calendar.MONTH) + 1,
-                        workoutSessionDate[i].get(Calendar.YEAR)));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            Date aDate = workoutSessionDate[i].getTime();
 
             WorkoutSession  aSession                =   woSessions.get(i);
             UserWorkoutSession userWorkoutSession   =   new UserWorkoutSession(aSession.getFilepath(),anUser.getIntUserID(),aSerializer,aSerializer,aDate,aSession.getId(),"",false,0);
@@ -134,8 +131,7 @@ public class Workout {
             }
             res.addWorkoutSession(userWorkoutSession,true,i);
         }
-        UserSerializer userSerializer   =   aSerializer;
-        userSerializer.addWorkoutForUser(anUser.getIntUserID(),this.getIntWOID());
+        aSerializer.addWorkoutForUser(anUser.getIntUserID(), this.getIntWOID());
         return res;
     }
     @Override

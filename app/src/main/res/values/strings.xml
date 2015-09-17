@@ -149,5 +149,6 @@
     <string name="msg_date_2">Please set date for all session</string>
     <string name="exercise_done">DONE</string>
     <string name="exercise_not_yet">NOT YET</string>
+    <string name="msg_date3">You cannot insert date that is previous to today.</string>
 
 </resources>

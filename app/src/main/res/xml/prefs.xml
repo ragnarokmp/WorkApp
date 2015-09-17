@@ -21,12 +21,12 @@
             android:summaryOff="@string/voice_preference_summary_off"
             android:dependency="@string/switch_sound_preference_key"/>
 
-        <CheckBoxPreference
+        <!-- <CheckBoxPreference
             android:key="@string/sound_preference_key"
             android:title="@string/sound_preference_checkbox"
             android:summaryOn="@string/sound_preference_summary_on"
             android:summaryOff="@string/sound_preference_summary_off"
-            android:dependency="@string/switch_sound_preference_key" />
+            android:dependency="@string/switch_sound_preference_key" /> -->
         <!--
                 <Preference
                     android:title="@string/material_preference"/>
