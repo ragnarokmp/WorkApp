@@ -40,6 +40,14 @@ public class ExerciseListActivityCheckbox extends BaseActivityWithToolbar {
     }
 
     @Override
+    public void onBackPressed() {
+        Intent resultIntent = new Intent();
+        resultIntent.putIntegerArrayListExtra("exercise_list", exercisesSelected);
+        setResult(Activity.RESULT_OK, resultIntent);
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

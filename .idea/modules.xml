@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/WorkApp.iml" filepath="$PROJECT_DIR$/WorkApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/WorkAppDefinitivo.iml" filepath="$PROJECT_DIR$/WorkAppDefinitivo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
