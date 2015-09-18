@@ -263,6 +263,10 @@ public class ExerciseDetailFragment extends BaseFragment {
                     getResources().getString(R.string.exercise_detail_description_recrate) + " $" +
                     String.valueOf(currentExercise.getFrequency()) + "/sec$";
             if (workout_session) {
+
+                if (data == null)
+                    return;
+
                 if (((UserExercise) data.getParcelableExtra("exercise")).isDone()) {
                     (view.findViewById(R.id.feedback)).setVisibility(View.VISIBLE);
                     (view.findViewById(R.id.start_fab)).setVisibility(View.GONE);
